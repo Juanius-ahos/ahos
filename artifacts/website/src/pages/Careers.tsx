@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -23,7 +23,39 @@ const testimonials = [
 ];
 
 export default function Careers() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const [message, setMessage] = useState("");
+  const [cv, setCv] = useState<File | null>(null);
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!cv) return;
+    setStatus("sending");
+    try {
+      const fd = new FormData();
+      fd.append("_subject", `Career application — ${name}`);
+      fd.append("Name", name);
+      fd.append("Email", email);
+      fd.append("Phone", phone);
+      fd.append("Role", role);
+      fd.append("Message", message);
+      fd.append("CV", cv);
+      const res = await fetch("https://formsubmit.co/ajax/daoujuan@gmail.com", {
+        method: "POST",
+        body: fd,
+      });
+      const json = await res.json();
+      setStatus(json && json.success === "true" ? "ok" : "err");
+    } catch {
+      setStatus("err");
+    }
+  }
 
   return (
     <>
@@ -120,9 +152,59 @@ export default function Careers() {
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="ed-h2">Don't see your role?</h2>
-        <p className="ed-lead" style={{ margin: "18px 0 30px" }}>If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template — show us what you've actually shipped.</p>
-        <a href="mailto:info@ahos.xyz?subject=Joining the studio" className="ed-btn ed-btn-lg">Pitch yourself<span>↗</span></a>
+        {status === "ok" ? (
+          <div className="cr-done">
+            <div className="cr-done-mark" aria-hidden="true">✓</div>
+            <h2 className="ed-h2">Application sent.</h2>
+            <p className="ed-lead">Thanks{name ? `, ${name.split(" ")[0]}` : ""} — we'll review your CV and get back to you if there's a fit.</p>
+          </div>
+        ) : (
+          <>
+            <h2 className="ed-h2">Don't see your role?</h2>
+            <p className="ed-lead" style={{ margin: "18px 0 30px" }}>If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template — show us what you've actually shipped.</p>
+            <form className="cr-form" onSubmit={submit}>
+              <div className="cr-row">
+                <div className="cr-field">
+                  <label htmlFor="cr-name">Full name *</label>
+                  <input id="cr-name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" />
+                </div>
+                <div className="cr-field">
+                  <label htmlFor="cr-email">Email *</label>
+                  <input id="cr-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@company.com" />
+                </div>
+              </div>
+              <div className="cr-row">
+                <div className="cr-field">
+                  <label htmlFor="cr-phone">Phone <span className="cr-opt-tag">optional</span></label>
+                  <input id="cr-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+961 …" />
+                </div>
+                <div className="cr-field">
+                  <label htmlFor="cr-role">Role interested in <span className="cr-opt-tag">optional</span></label>
+                  <input id="cr-role" value={role} onChange={(e) => setRole(e.target.value)} placeholder="Full-stack Developer, Designer, …" />
+                </div>
+              </div>
+              <div className="cr-field">
+                <label htmlFor="cr-msg">Cover letter <span className="cr-opt-tag">optional</span></label>
+                <textarea id="cr-msg" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Tell us about yourself and what you've shipped." />
+              </div>
+              <div className="cr-field cr-cv-field">
+                <label htmlFor="cr-cv">CV / Résumé *</label>
+                <div className={`cr-cv-area ${cv ? "cr-cv-has" : ""}`}>
+                  <input id="cr-cv" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" onChange={(e) => setCv(e.target.files?.[0] ?? null)} required />
+                  {cv ? (
+                    <span className="cr-cv-name">{cv.name} <span className="cr-opt-tag">({(cv.size / 1024).toFixed(0)} KB)</span></span>
+                  ) : (
+                    <span className="cr-cv-placeholder">Drop a file or click to browse (PDF, Word, or image)</span>
+                  )}
+                </div>
+              </div>
+              <button type="submit" className="ed-btn ed-btn-lg cr-submit" disabled={status === "sending" || !cv}>
+                {status === "sending" ? "Sending…" : <>Send application<span>↗</span></>}
+              </button>
+              {status === "err" && <p className="cr-err">Something went wrong — try emailing us at info@ahos.xyz.</p>}
+            </form>
+          </>
+        )}
       </motion.section>
 
       <Footer />
@@ -154,9 +236,32 @@ const css = `
 .cr-role-arrow { font-size: 20px; color: var(--text-faint); text-align: right; transition: color 0.25s, transform 0.25s; }
 .cr-role:hover .cr-role-arrow { color: var(--orange); transform: translate(3px, -3px); }
 
+.cr-form { max-width: 640px; display: flex; flex-direction: column; gap: 18px; }
+.cr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.cr-field { display: flex; flex-direction: column; gap: 7px; }
+.cr-field label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); }
+.cr-opt-tag { text-transform: none; letter-spacing: 0; color: var(--text-faint); font-weight: 500; }
+.cr-field input, .cr-field textarea { font-family: var(--font-sans); font-size: 15px; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; resize: vertical; }
+.cr-field input::placeholder, .cr-field textarea::placeholder { color: var(--text-faint); }
+.cr-field input:focus, .cr-field textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-soft); }
+.cr-cv-area { position: relative; border: 1px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+.cr-cv-area:hover { border-color: var(--border-hover); background: var(--bg-2); }
+.cr-cv-area.cr-cv-has { border-style: solid; border-color: var(--orange); background: var(--orange-soft); }
+.cr-cv-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.cr-cv-placeholder { font-size: 13px; color: var(--text-faint); }
+.cr-cv-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.cr-submit { align-self: flex-start; border: none; cursor: pointer; font-family: var(--font-sans); }
+.cr-submit:disabled { opacity: 0.6; cursor: default; }
+.cr-err { color: #ff7a7a; font-size: 13.5px; }
+.cr-done { text-align: center; padding: 30px 10px; }
+.cr-done-mark { width: 56px; height: 56px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--orange-soft); border: 1px solid var(--border-hover); color: var(--orange); font-size: 24px; }
+.cr-done h2 { font-family: var(--font-display); font-size: clamp(32px, 4.8vw, 52px); margin-bottom: 10px; }
+.cr-done p { color: var(--text-muted); line-height: 1.7; max-width: 48ch; margin: 0 auto; }
+
 @media (max-width: 760px) {
   .cr-values { grid-template-columns: 1fr; }
   .cr-role { grid-template-columns: 1fr auto; }
   .cr-role-stack { display: none; }
+  .cr-row { grid-template-columns: 1fr; }
 }
 `;
