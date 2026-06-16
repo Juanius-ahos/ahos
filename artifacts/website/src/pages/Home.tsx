@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Footer } from "../components/Footer";
+import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
@@ -354,6 +355,7 @@ export default function Home() {
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
+      <OverlayParticles />
 
       {/* ─── HERO ─── */}
       <header className="ed-hero">
