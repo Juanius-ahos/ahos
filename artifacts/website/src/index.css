@@ -452,4 +452,26 @@ html.lenis, html.lenis body { height: auto; }
   .ed-stats { grid-template-columns: 1fr 1fr; }
   .ed-stat-num { font-size: clamp(32px, 12vw, 48px); }
   .vlines { display: none; }
+  .ed-hero-scroll { display: none; }
+  .ed-hero { min-height: 92vh; padding-bottom: 40px; }
+}
+@media (max-width: 480px) {
+  .ed-hero-title { font-size: clamp(32px, 15vw, 42px); }
+  .ed-hero-line-accent { font-size: 0.5em; }
+  .ed-hero-badge { font-size: 10px; padding: 5px 12px; }
+  .ed-hero-meta { font-size: 10px; gap: 10px; }
+  .ed-hero-lead p { font-size: 14px; }
+  .ed-btn, .ed-btn-lg { padding: 14px 22px; font-size: 13px; min-height: 44px; }
+  .ed-link-arrow { font-size: 13px; min-height: 44px; display: inline-flex; align-items: center; }
+  .sc-card-inner { padding: clamp(24px, 5vw, 32px) clamp(20px, 4vw, 28px) clamp(48px, 8vw, 64px); }
+  .sc-card-title { font-size: clamp(22px, 7vw, 28px); }
+  .sc-card-desc { font-size: 14px; }
+  .ed-step-text { font-size: 14px; }
+  .ed-stats { gap: 0; }
+  .ed-stat { padding: 20px 16px; }
+  .ftx-social-txt em { white-space: normal; overflow: visible; text-overflow: unset; }
+  .ftx-social { padding: 10px 12px; gap: 10px; }
+  .ftx-social-ico { width: 32px; height: 32px; flex-shrink: 0; }
+  .scta-x { width: 36px; height: 36px; font-size: 18px; }
+  .ed-hero-actions { gap: 16px; }
 }

@@ -6,6 +6,7 @@ export function HeroCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (window.innerWidth < 768) return;
 
     let cleanup: (() => void) | undefined;
 
