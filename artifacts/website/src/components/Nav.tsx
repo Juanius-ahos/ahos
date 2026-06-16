@@ -21,6 +21,22 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [onLight, setOnLight] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") {
+      setTheme(stored);
+      document.documentElement.setAttribute("data-theme", stored);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -71,6 +87,13 @@ export function Nav() {
         </div>
 
         <div className="nv-right">
+          <button className="nv-theme" onClick={toggleTheme} aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
+            {theme === "dark" ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            )}
+          </button>
           <Link href="/contact" className="nv-cta">Start a project <span aria-hidden="true">↗</span></Link>
           <button
             className={`nv-burger ${open ? "is-open" : ""}`}
@@ -101,10 +124,19 @@ export function Nav() {
 
           <div className="nv-sheet-foot">
             <Link href="/contact" className="nv-cta nv-cta-lg">Start a project <span aria-hidden="true">↗</span></Link>
-            <div className="nv-sheet-socials">
-              {socials.map((s) => (
-                <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
-              ))}
+            <div className="nv-sheet-extras">
+              <button className="nv-sheet-theme" onClick={toggleTheme}>
+                {theme === "dark" ? (
+                  <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> Light mode</>
+                ) : (
+                  <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Dark mode</>
+                )}
+              </button>
+              <div className="nv-sheet-socials">
+                {socials.map((s) => (
+                  <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
+                ))}
+              </div>
             </div>
             <a className="nv-sheet-mail" href="mailto:info@ahos.xyz">info@ahos.xyz</a>
           </div>
@@ -166,6 +198,12 @@ const css = `
 .nv-link.is-active::after { transform: scaleX(1); }
 
 .nv-right { display: flex; align-items: center; gap: 12px; }
+/* Theme toggle */
+.nv-theme { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: all 0.2s; flex-shrink: 0; }
+.nv-theme:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange); }
+.nv-light .nv-theme { border-color: rgba(10,10,11,0.12); color: rgba(10,10,11,0.5); }
+.nv-light .nv-theme:hover { color: var(--orange); border-color: var(--border-hover); }
+
 .nv-cta {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 9px 20px; border-radius: 999px;
@@ -188,9 +226,11 @@ const css = `
 .nv-burger.is-open span:nth-child(2) { transform: translateY(-5px) rotate(-45deg); }
 
 /* Full-screen mobile sheet */
+[data-theme="light"] .nv-sheet { background: rgba(237,232,224,0.96); }
+
 .nv-sheet {
   position: fixed; inset: 0; z-index: 999;
-  background: rgba(8,8,9,0.92); backdrop-filter: blur(28px) saturate(140%); -webkit-backdrop-filter: blur(28px) saturate(140%);
+  background: rgba(8,8,9,0.96);
   opacity: 0; pointer-events: none; transition: opacity 0.45s ease;
   display: flex; align-items: stretch;
 }
@@ -209,11 +249,21 @@ const css = `
 .nv-sheet-n { font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--orange); letter-spacing: 0.05em; }
 .nv-sheet-foot { display: flex; flex-direction: column; gap: 24px; }
 .nv-cta-lg { align-self: flex-start; padding: 14px 28px; font-size: 14px; }
+.nv-sheet-extras { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.nv-sheet-theme { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3); background: none; border: none; cursor: pointer; transition: color 0.2s; font-family: var(--font-sans); padding: 0; }
+.nv-sheet-theme:hover { color: var(--orange); }
 .nv-sheet-socials { display: flex; gap: 24px; flex-wrap: wrap; }
 .nv-sheet-socials a { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3); transition: color 0.2s; letter-spacing: 0.03em; }
 .nv-sheet-socials a:hover { color: var(--orange); }
+[data-theme="light"] .nv-sheet-socials a { color: rgba(10,10,11,0.4); }
+[data-theme="light"] .nv-sheet-socials a:hover { color: var(--orange); }
 .nv-sheet-mail { font-size: 13px; color: rgba(255,255,255,0.2); transition: color 0.2s; }
 .nv-sheet-mail:hover { color: var(--orange); }
+[data-theme="light"] .nv-sheet-mail { color: rgba(10,10,11,0.3); }
+[data-theme="light"] .nv-sheet-mail:hover { color: var(--orange); }
+[data-theme="light"] .nv-sheet-link { color: var(--text); border-bottom-color: var(--border-soft); }
+[data-theme="light"] .nv-sheet-theme { color: rgba(10,10,11,0.4); }
+[data-theme="light"] .nv-sheet-theme:hover { color: var(--orange); }
 
 @media (max-width: 900px) {
   .nv-links, .nv-cta:not(.nv-cta-lg) { display: none; }

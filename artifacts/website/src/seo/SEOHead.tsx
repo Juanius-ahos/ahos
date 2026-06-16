@@ -14,6 +14,8 @@ import {
   LOGO_URL,
 } from "./config";
 
+const { latitude, longitude } = GEO;
+
 interface SEOProps {
   title: string;
   description: string;
@@ -87,9 +89,22 @@ export function SEOHead({ title, description, path, ogImage, noindex }: SEOProps
     upsertMeta("twitter:image", og);
     upsertMeta("twitter:image:alt", `${SHORT_NAME} — ${title}`);
 
+    // Hreflang
+    upsertLink("alternate", url);
+    document.head.querySelector('link[rel="alternate"]')?.setAttribute("hreflang", "en");
+
     // Geographic targeting (local SEO)
     upsertMeta("geo.region", GEO.region);
     upsertMeta("geo.placename", GEO.placename);
+    upsertMeta("geo.position", `${GEO.latitude};${GEO.longitude}`);
+    upsertMeta("ICBM", `${GEO.latitude}, ${GEO.longitude}`);
+
+    // Business contact data (Open Graph)
+    upsertMeta("business:contact_data:street_address", "");
+    upsertMeta("business:contact_data:locality", "Beirut");
+    upsertMeta("business:contact_data:country_name", GEO.country);
+    upsertMeta("business:contact_data:email", EMAIL);
+    upsertMeta("business:contact_data:website", SITE_URL);
   }, [fullTitle, description, url, og, noindex]);
 
   return null;
@@ -120,6 +135,11 @@ export function OrganizationSchema() {
           "@type": "PostalAddress",
           addressCountry: GEO.countryCode,
           addressRegion: GEO.country,
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude,
+          longitude,
         },
         areaServed: [
           { "@type": "Country", name: GEO.country },

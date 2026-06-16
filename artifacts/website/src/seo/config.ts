@@ -30,6 +30,8 @@ export const GEO = {
   country: "Lebanon",
   countryCode: "LB",
   placename: "Lebanon",
+  latitude: 33.8938,
+  longitude: 35.5018,
 };
 
 // Things AHOS is an authority on — strengthens entity recognition for AI engines.

@@ -42,7 +42,7 @@ export default function Contact() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch("https://formsubmit.co/ajax/info@ahos.xyz", {
+      const res = await fetch("https://formsubmit.co/ajax/daoujuan@gmail.com", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({

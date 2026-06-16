@@ -77,7 +77,7 @@ function fireLead(d: Record<string, string>, history: Message[]) {
   const tr = history.slice(-14).map((h) => `${h.role === "user" ? "Visitor" : "Aria"}: ${h.content}`).join("\n\n");
   const payload = { _captcha: "false", _subject: `New AHOS Lead - ${d.name || "Unknown"}`, ...d, Transcript: tr };
   try { localStorage.setItem("ahos_lead_" + Date.now(), JSON.stringify(payload)); } catch {}
-  fetch("https://formsubmit.co/ajax/info@ahos.xyz", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
+  fetch("https://formsubmit.co/ajax/daoujuan@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
 }
 
 export default function AriaAI() {
