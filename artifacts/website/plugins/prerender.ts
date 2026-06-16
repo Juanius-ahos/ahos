@@ -24,7 +24,7 @@ const ORG_JSON_LD = `{
       "url": "${SITE_URL}",
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
-      "description": "AHOS is a digital product studio building premium websites, custom software, Web3 platforms, AI tools, and brand identities.",
+      "description": "AHOS is a web development and digital design agency building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
       "address": { "@type": "PostalAddress", "addressCountry": "LB" },
       "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
@@ -33,7 +33,8 @@ const ORG_JSON_LD = `{
       "@type": "WebSite",
       "@id": "${SITE_URL}/#website",
       "url": "${SITE_URL}",
-      "name": "AHOS — Digital Product Studio",
+      "name": "AHOS — Web Development, AI & Digital Design Agency",
+      "description": "AHOS is a web development and digital design agency building premium websites, custom software, AI tools, and Web3 platforms.",
       "publisher": { "@id": "${SITE_URL}/#organization" }
     }
   ]
@@ -110,9 +111,9 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS — Digital Product Studio",
+    title: "AHOS — Web Development, AI & Digital Design Agency | Custom Software Studio",
     description:
-      "AHOS is a digital product studio that builds premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
+      "AHOS is a web development and digital design agency that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
     jsonLd: ORG_JSON_LD,
     bodyHtml: `<h1>We build digital experiences.</h1>
 <p>AHOS is a boutique digital product studio. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
@@ -130,9 +131,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees — fixed quotes.</p></section>`,
   },
   "/services": {
-    title: "Services — Web, AI, Web3 & Design | AHOS",
+    title: "Web Development, AI, Web3 & Design Services | AHOS Digital Agency",
     description:
-      "From headless websites to smart contracts — AHOS delivers custom web development, AI automation, Web3 engineering, and brand design under one roof.",
+      "AHOS is a web design and development agency delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Three things, done properly.</h1>
 <p>Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
@@ -148,9 +149,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call. We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>`,
   },
   "/web3": {
-    title: "Web3 & Blockchain Development | AHOS",
+    title: "Web3 & Blockchain Development Agency | Smart Contracts, Dapps & DeFi | AHOS",
     description:
-      "Smart contracts, dapps, DeFi, NFT infrastructure, and token launches. AHOS builds audited Web3 solutions on EVM chains for startups and enterprises.",
+      "AHOS is a Web3 development agency building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -162,9 +163,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call and we'll map your full build — contracts, frontend, art, and go-to-market.</p>`,
   },
   "/careers": {
-    title: "Careers — Join the Studio | AHOS",
+    title: "Careers — Web Developer, Designer & Web3 Engineer Jobs | AHOS Studio",
     description:
-      "AHOS hires rarely and well. Developers, designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket. Apply with your CV.",
+      "AHOS hires rarely and well. Full-stack web developers, product designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket. Apply with your CV.",
     bodyHtml: `<h1>We hire rarely. And well.</h1>
 <p>We stay small on purpose. When we do bring someone in, it's someone who'd rather own a hard problem than be handed an easy one.</p>
 <section><h2>No ladders to climb. Just good work to do.</h2>
@@ -177,9 +178,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Don't see your role? If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template.</p>`,
   },
   "/contact": {
-    title: "Start a Project — Build Your Plan | AHOS",
+    title: "Start a Web Design or Development Project | Get a Free Quote | AHOS",
     description:
-      "Tell AHOS what you're building with our quick project planner. A few steps and we'll come back with a clear plan within 24 hours.",
+      "Tell AHOS what you're building — website, web app, AI tool, or Web3 project — with our quick project planner. A few steps and we'll come back with a free quote and clear plan within 24 hours.",
     bodyHtml: `<h1>Let's plan your build.</h1>
 <p>Four quick steps — no essay required. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p>
 <section><h2>Step 1 — What are you building?</h2><p>Website, Web app/SaaS, Mobile app, Web3/DeFi, AI/Automation, Branding — and what industry you're in.</p></section>
@@ -189,9 +190,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Email: info@ahos.xyz · Based in Beirut — worldwide · Reply within 24 hours.</p>`,
   },
   "/aria-ai": {
-    title: "ARIA — Your AI Project Advisor | AHOS",
+    title: "ARIA AI — Free Project Advisor for Web Development & Design | AHOS",
     description:
-      "Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps.",
+      "Chat with ARIA, the AHOS AI project advisor. Describe your website, app, or software idea and get instant, honest guidance on scope, timeline, tech stack, and next steps.",
     bodyHtml: `<h1>Meet ARIA.</h1>
 <p>Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
 <p>ARIA is a senior project advisor at AHOS — a boutique digital studio building websites, mobile apps, SaaS, Web3/DeFi, and AI tools. She helps visitors understand what is possible, gives honest advice, and has real conversations about your project.</p>
@@ -200,9 +201,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support.</p>`,
   },
   "/faq": {
-    title: "FAQ — Answers About Working with AHOS",
+    title: "FAQ — Web Development Pricing, Process & Timeline | AHOS Digital Agency",
     description:
-      "Everything you want to know about working with AHOS: process, pricing, timeline, ownership, support, and more. Straight answers, no sales speak.",
+      "Everything you want to know about working with AHOS web development agency: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
     jsonLd: FAQ_JSON_LD,
     bodyHtml: `<h1>No fluff. Straight answers.</h1>
 <p>Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p>
@@ -239,7 +240,7 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${og}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="AHOS — Digital Product Studio" />
+    <meta property="og:site_name" content="AHOS — Web Development, AI & Digital Design Agency" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${meta.title}" />

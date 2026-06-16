@@ -7,6 +7,16 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
+const srcset = (p: string) => {
+  const base = p.replace(/\.\w+$/, "");
+  const u = (s: string) => asset(s);
+  return `${u(base + "-480w.jpg")} 480w, ${u(base + "-880w.jpg")} 880w`;
+};
+const srcsetWebp = (p: string) => {
+  const base = p.replace(/\.\w+$/, "");
+  const u = (s: string) => asset(s);
+  return `${u(base + "-480w.webp")} 480w, ${u(base + "-880w.webp")} 880w`;
+};
 
 const work = [
   { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
@@ -129,8 +139,8 @@ function WorkRail() {
               p.url.startsWith("/") ? (
                 <Link key={p.name} href={p.url} className="hs-card">
                   <picture>
-                    {p.img.endsWith(".jpg") && <source srcSet={asset(webpSrc(p.img))} type="image/webp" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                    {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} srcSet={srcset(p.img)} sizes="(max-width: 600px) 480px, 880px" width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
@@ -148,8 +158,8 @@ function WorkRail() {
               ) : (
                 <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
                   <picture>
-                    {p.img.endsWith(".jpg") && <source srcSet={asset(webpSrc(p.img))} type="image/webp" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                    {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} srcSet={srcset(p.img)} sizes="(max-width: 600px) 480px, 880px" width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
