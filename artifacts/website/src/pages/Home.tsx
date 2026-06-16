@@ -123,13 +123,11 @@ function WorkRail() {
           <motion.div className="hs-track" style={{ x }}>
             {work.map((p) => (
               <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
+                <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
                 <div className="hs-card-bar">
                   <span className="hs-card-dot" />
                   <span className="hs-card-dot" />
                   <span className="hs-card-dot" />
-                </div>
-                <div className="hs-card-img-wrap">
-                  <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
                 </div>
                 <div className="hs-cap">
                   <div className="hs-cap-tx">
