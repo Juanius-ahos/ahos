@@ -7,12 +7,12 @@
 // All absolute SEO URLs (canonical, OG image, sitemap) derive from this.
 export const SITE_URL = "https://ahos.xyz";
 
-export const SITE_NAME = "AHOS — Digital Product Studio";
+export const SITE_NAME = "AHOS — Digital Product Studio in Beirut, Lebanon";
 export const LEGAL_NAME = "Advanced Hybrid Online Systems";
 export const SHORT_NAME = "AHOS";
 
 export const DEFAULT_DESC =
-  "AHOS is a digital product studio building premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide — from strategy to launch, under one roof.";
+  "AHOS is a digital product studio in Beirut, Lebanon building premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide — from strategy to launch, under one roof.";
 
 export const EMAIL = "info@ahos.xyz";
 export const LOCALE = "en_US";

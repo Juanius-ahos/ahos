@@ -24,7 +24,7 @@ const ORG_JSON_LD = `{
       "url": "${SITE_URL}",
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
-      "description": "AHOS is a web development and digital design studio building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
+      "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
       "address": { "@type": "PostalAddress", "addressCountry": "LB" },
       "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
@@ -33,8 +33,8 @@ const ORG_JSON_LD = `{
       "@type": "WebSite",
       "@id": "${SITE_URL}/#website",
       "url": "${SITE_URL}",
-      "name": "AHOS — Web Development, AI & Digital Design Studio",
-      "description": "AHOS is a web development and digital design studio building premium websites, custom software, AI tools, and Web3 platforms.",
+      "name": "AHOS — Web Development Agency in Lebanon | AI & Digital Design Studio",
+      "description": "AHOS is a web development and digital design studio in Beirut, Lebanon building premium websites, custom software, AI tools, and Web3 platforms.",
       "publisher": { "@id": "${SITE_URL}/#organization" }
     }
   ]
@@ -111,12 +111,12 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS — Web Development, AI & Digital Design Studio | Custom Software Studio",
+    title: "AHOS — Web Development Agency in Beirut, Lebanon | Custom Software & AI Studio",
     description:
-      "AHOS is a web development and digital design studio that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
+      "AHOS is a web development and digital design studio in Beirut, Lebanon that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
     jsonLd: ORG_JSON_LD,
     bodyHtml: `<h1>We build digital experiences.</h1>
-<p>AHOS is a boutique digital product studio. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
+<p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
 <section><h2>Five capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale — from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation — software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
@@ -133,7 +133,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/services": {
     title: "Web Development, AI, Web3 & Design Services | AHOS Digital Studio",
     description:
-      "AHOS is a web design and development studio delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
+      "AHOS is a web design and development studio in Beirut, Lebanon delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Three things, done properly.</h1>
 <p>Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
@@ -151,7 +151,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/web3": {
     title: "Web3 & Blockchain Development Studio | Smart Contracts, Dapps & DeFi | AHOS",
     description:
-      "AHOS is a Web3 development studio building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
+      "AHOS is a Web3 development studio in Beirut, Lebanon building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -178,9 +178,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Don't see your role? If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template.</p>`,
   },
   "/contact": {
-    title: "Start a Web Design or Development Project | Get a Free Quote | AHOS",
+    title: "Start a Web Design or Development Project — Get a Free Quote | AHOS",
     description:
-      "Tell AHOS what you're building — website, web app, AI tool, or Web3 project — with our quick project planner. A few steps and we'll come back with a free quote and clear plan within 24 hours.",
+      "Tell AHOS what you're building — website, web app, AI tool, or Web3 project. Based in Beirut, Lebanon. We'll come back with a free quote and clear plan within 24 hours.",
     bodyHtml: `<h1>Let's plan your build.</h1>
 <p>Four quick steps — no essay required. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p>
 <section><h2>Step 1 — What are you building?</h2><p>Website, Web app/SaaS, Mobile app, Web3/DeFi, AI/Automation, Branding — and what industry you're in.</p></section>
@@ -201,9 +201,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support.</p>`,
   },
   "/faq": {
-    title: "FAQ — Web Development Pricing, Process & Timeline | AHOS Digital Studio",
+    title: "FAQ — Web Design & Development Pricing in Lebanon | AHOS Digital Studio",
     description:
-      "Everything you want to know about working with AHOS web development studio: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
+      "Everything you want to know about working with AHOS web development studio in Beirut, Lebanon: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
     jsonLd: FAQ_JSON_LD,
     bodyHtml: `<h1>No fluff. Straight answers.</h1>
 <p>Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p>
@@ -240,7 +240,7 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${og}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="AHOS — Web Development, AI & Digital Design Studio" />
+    <meta property="og:site_name" content="AHOS — Web Development Agency in Lebanon | AI & Digital Design Studio" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${meta.title}" />
