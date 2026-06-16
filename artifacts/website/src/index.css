@@ -424,49 +424,46 @@ html.lenis, html.lenis body { height: auto; }
 .ps-section + .ftx { border-top-color: rgba(10,10,11,0.1); }
 
 /* ── ARIA AI chat page ── */
-.ar-page { padding-top: 64px; min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg); }
-.ar-header { flex-shrink: 0; padding: 0; border-bottom: 1px solid var(--border-soft); background: var(--bg-2); position: sticky; top: 64px; z-index: 10; }
+.ar-page { padding-top: 64px; min-height: 100dvh; display: flex; flex-direction: column; }
+.ar-header { flex-shrink: 0; border-bottom: 1px solid var(--border-soft); background: var(--bg-2); position: sticky; top: 64px; z-index: 10; }
 .ar-header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px var(--gutter); }
 .ar-brand { display: flex; align-items: center; gap: 12px; }
 .ar-logo-ring { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
-.ar-logo-ring svg { display: block; }
 .ar-live-dot { position: absolute; bottom: 1px; right: 1px; width: 9px; height: 9px; border-radius: 50%; background: #46d27e; border: 2px solid var(--bg-2); box-shadow: 0 0 7px rgba(70,210,126,0.7); animation: ar-pulse 2.8s ease-in-out infinite; }
 @keyframes ar-pulse { 0%,100%{box-shadow:0 0 7px rgba(70,210,126,0.7);} 50%{box-shadow:0 0 13px rgba(70,210,126,0.4),0 0 4px rgba(70,210,126,1);} }
-.ar-brand-text { }
 .ar-name { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; line-height: 1.2; }
 .ar-by { font-family: var(--font-sans); font-size: 10px; font-weight: 400; color: var(--orange); letter-spacing: 0.06em; margin-left: 4px; }
 .ar-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-faint); margin-top: 1px; }
 .ar-status-dot { width: 5px; height: 5px; border-radius: 50%; background: #46d27e; flex-shrink: 0; }
-.ar-new-btn { width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--border) !important; background: rgba(255,255,255,0.02) !important; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: all 0.2s; appearance: none; -webkit-appearance: none; }
-.ar-new-btn:hover { background: var(--orange-soft) !important; border-color: var(--border-hover) !important; color: var(--orange); }
+.ar-new-btn { width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); background: transparent; transition: all 0.2s; }
+.ar-new-btn:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange); }
 .ar-chat { flex: 1; display: flex; flex-direction: column; max-width: 800px; width: 100%; margin: 0 auto; padding: 0 var(--gutter); overflow: hidden; }
 .ar-msgs { flex: 1; overflow-y: auto; padding: 16px 0; display: flex; flex-direction: column; gap: 6px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .ar-msgs::-webkit-scrollbar { width: 4px; }
 .ar-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
-.ar-row { display: flex; gap: 10px; align-items: flex-start; animation: ar-msg-in 0.25s cubic-bezier(0.16,1,0.3,1) both; }
-@keyframes ar-msg-in { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+.ar-row { display: flex; gap: 10px; align-items: flex-start; }
 .ar-row.ar-user { flex-direction: row-reverse; }
 .ar-av { width: 28px; height: 28px; flex-shrink: 0; margin-top: 4px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border: 1px solid rgba(255,106,26,0.15); border-radius: 50%; }
-.ar-bub { max-width: 82%; padding: 2px 0; font-size: 14px; line-height: 1.7; word-break: break-word; color: var(--text-muted); }
-.ar-row.ar-assistant .ar-bub { color: rgba(237,232,224,0.85); }
-.ar-row.ar-user .ar-bub { color: rgba(255,210,170,0.7); text-align: right; }
+.ar-bub { max-width: 82%; padding: 10px 16px; font-size: 14px; line-height: 1.6; word-break: break-word; border-radius: var(--radius-lg); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); }
+.ar-row.ar-assistant .ar-bub { color: var(--text); border-color: var(--border-soft); }
+.ar-row.ar-user .ar-bub { color: var(--text); background: var(--bg-2); border-color: rgba(255,106,26,0.12); text-align: left; }
 .ar-typing { display: flex; align-items: center; gap: 5px; padding: 3px 0; }
 .ar-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); opacity: 0.4; animation: ar-dot 1.5s ease-in-out infinite; }
 .ar-typing-dot:nth-child(2) { animation-delay: 0.17s; }
 .ar-typing-dot:nth-child(3) { animation-delay: 0.34s; }
 @keyframes ar-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-5px);opacity:1;} }
 .ar-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 12px; flex-shrink: 0; }
-.ar-chip { padding: 7px 18px; border-radius: 999px; background: rgba(255,255,255,0.03) !important; border: 1px solid var(--border) !important; color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; appearance: none; -webkit-appearance: none; }
-.ar-chip:hover { background: var(--orange-soft) !important; border-color: var(--border-hover) !important; color: var(--orange-light); transform: translateY(-1px); }
-.ar-bar { display: flex; align-items: flex-end; gap: 8px; padding: 8px 0 12px; padding-bottom: max(12px,env(safe-area-inset-bottom,12px)); flex-shrink: 0; border-top: 1px solid var(--border-soft); background: var(--bg); }
-.ar-inp { flex: 1; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 15px; font-family: var(--font-sans); padding: 10px 14px; resize: none; outline: none; line-height: 1.5; min-height: 44px; max-height: 120px; overflow-y: auto; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+.ar-chip { padding: 7px 18px; border-radius: 999px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.ar-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
+.ar-bar { display: flex; align-items: flex-end; gap: 8px; padding: 8px 0 12px; padding-bottom: max(12px,env(safe-area-inset-bottom,12px)); flex-shrink: 0; border-top: 1px solid var(--border-soft); background: var(--bg-2); }
+.ar-inp { flex: 1; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 15px; font-family: var(--font-sans); padding: 10px 14px; resize: none; outline: none; line-height: 1.5; min-height: 44px; max-height: 120px; overflow-y: auto; transition: border-color 0.2s; }
 .ar-inp::placeholder { color: var(--text-faint); }
-.ar-inp:focus { border-color: var(--border-hover); background: var(--bg-3); box-shadow: 0 0 0 3px var(--orange-soft); }
-.ar-send { width: 44px; height: 44px; border-radius: var(--radius); flex-shrink: 0; background: linear-gradient(145deg, #ff8533, #cc4700) !important; border: none !important; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 4px 16px rgba(255,100,20,0.25); transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; appearance: none; -webkit-appearance: none; }
-.ar-send:not([disabled]):hover { transform: translateY(-1px); box-shadow: 0 7px 22px rgba(255,100,20,0.35); }
+.ar-inp:focus { border-color: var(--border-hover); }
+.ar-send { width: 44px; height: 44px; border-radius: var(--radius); flex-shrink: 0; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0a0a0b; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; }
+.ar-send:not([disabled]):hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,106,26,0.25); }
 .ar-send:not([disabled]):active { transform: scale(0.95); }
 .ar-send[disabled] { opacity: 0.15; cursor: default; pointer-events: none; }
-.ar-foot { text-align: center; padding: 6px 0 10px; font-size: 9px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; border-top: 1px solid var(--border-soft); flex-shrink: 0; }
+.ar-foot { text-align: center; padding: 8px 0 12px; font-size: 10px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; border-top: 1px solid var(--border-soft); background: var(--bg-2); flex-shrink: 0; }
 
 @media (max-width: 900px) {
   .hs-card { flex: 0 0 92vw; }
