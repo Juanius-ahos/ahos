@@ -19,16 +19,17 @@ export function OverlayParticles() {
     window.addEventListener("resize", resize);
 
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 40 : 90;
+    const count = isMobile ? 50 : 110;
 
     const colors = [
       { r: 255, g: 106, b: 26 },
       { r: 255, g: 106, b: 26 },
       { r: 255, g: 140, b: 74 },
-      { r: 160, g: 160, b: 170 },
-      { r: 120, g: 120, b: 130 },
-      { r: 200, g: 200, b: 210 },
-      { r: 90, g: 90, b: 100 },
+      { r: 255, g: 180, b: 120 },
+      { r: 180, g: 180, b: 190 },
+      { r: 220, g: 220, b: 230 },
+      { r: 140, g: 140, b: 150 },
+      { r: 100, g: 100, b: 110 },
     ];
 
     interface Particle {
@@ -37,27 +38,33 @@ export function OverlayParticles() {
       y: number;
       size: number;
       color: { r: number; g: number; b: number };
-      alpha: number;
+      baseAlpha: number;
       parallax: number;
       phase: number;
+      speed: number;
+      glow: boolean;
     }
 
     const particles: Particle[] = [];
     for (let i = 0; i < count; i++) {
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const size = Math.random() < 0.15
-        ? 1.5 + Math.random() * 2.5
-        : 0.4 + Math.random() * 1.2;
-      const baseY = Math.random() * h;
+      const isLarge = Math.random() < 0.12;
+      const isMedium = !isLarge && Math.random() < 0.25;
+      const size = isLarge ? 2.5 + Math.random() * 3.5
+        : isMedium ? 1.2 + Math.random() * 1.5
+        : 0.5 + Math.random() * 0.9;
+      const baseY = Math.random() * (h + 200);
       particles.push({
         baseY,
         x: Math.random() * w,
         y: baseY,
         size,
         color,
-        alpha: 0.08 + Math.random() * 0.25,
-        parallax: 0.2 + Math.random() * 0.8,
+        baseAlpha: isLarge ? 0.5 + Math.random() * 0.35 : isMedium ? 0.3 + Math.random() * 0.3 : 0.15 + Math.random() * 0.25,
+        parallax: 0.15 + Math.random() * 0.9,
         phase: Math.random() * Math.PI * 2,
+        speed: 0.5 + Math.random() * 1.5,
+        glow: isLarge && color.r > 200,
       });
     }
 
@@ -76,32 +83,36 @@ export function OverlayParticles() {
       ctx.clearRect(0, 0, w, h);
 
       const absDelta = Math.abs(scrollDelta);
-      const intensity = Math.min(absDelta * 0.02, 1);
+      const intensity = Math.min(absDelta * 0.015, 1);
 
       for (const p of particles) {
-        // move with scroll
         p.y = p.baseY - lastScroll * p.parallax;
 
-        // drift sideways proportional to scroll speed
-        p.x += scrollDelta * 0.08 * (p.parallax + 0.3) * Math.sin(p.phase);
+        p.x += scrollDelta * 0.06 * (p.parallax + 0.2) * Math.sin(p.phase);
 
-        // wrap
-        if (p.y < -20) p.baseY += h + 40;
-        if (p.y > h + 20) p.baseY -= h + 40;
-        if (p.x < -20) p.x = w + 20;
-        if (p.x > w + 20) p.x = -20;
+        if (p.y < -30) p.baseY += h + 60;
+        if (p.y > h + 30) p.baseY -= h + 60;
+        if (p.x < -30) p.x = w + 30;
+        if (p.x > w + 30) p.x = -30;
 
-        // alpha tied to scroll activity — dim when still, bright when scrolling
-        const targetAlpha = p.alpha * (0.15 + intensity * 0.85);
-        const drawAlpha = targetAlpha;
+        const alpha = p.baseAlpha * (0.5 + intensity * 0.5);
+
+        if (p.glow) {
+          ctx.save();
+          ctx.globalAlpha = alpha * 0.25;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgb(${p.color.r},${p.color.g},${p.color.b})`;
+          ctx.fill();
+          ctx.restore();
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${drawAlpha})`;
+        ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha})`;
         ctx.fill();
       }
 
-      // decay scroll delta when not scrolling
       scrollDelta *= 0.92;
 
       raf = requestAnimationFrame(draw);
@@ -123,7 +134,7 @@ export function OverlayParticles() {
         inset: 0,
         width: "100%",
         height: "100%",
-        zIndex: 1,
+        zIndex: 9999,
         pointerEvents: "none",
       }}
       aria-hidden="true"
