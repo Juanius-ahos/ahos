@@ -274,7 +274,7 @@ function stripDefaultMeta(html: string, headEnd: number): string {
 function buildPageHtml(bareHtml: string, meta: RouteMeta): string {
   const metaTags = buildMetaTags("/", meta);
   const withMeta = bareHtml.replace("</head>", metaTags + "\n</head>");
-  const bodyContent = `<div id="root">${meta.bodyHtml}</div>`;
+  const bodyContent = `<div id="root"></div><div id="prerender" style="display:none">${meta.bodyHtml}</div><noscript><style>#prerender{display:block}</style></noscript>`;
   return withMeta.replace('<div id="root"></div>', bodyContent);
 }
 
