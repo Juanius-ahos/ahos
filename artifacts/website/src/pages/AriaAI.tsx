@@ -2,8 +2,9 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { Reveal } from "../components/motion";
 
-const GROQ_KEY = "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";
+const GROQ_KEY = import.meta.env.VITE_GROQ_KEY || "";
 const GROQ_MODEL = "llama-3.3-70b-versatile";
 
 const SYSTEM_PROMPT = [
@@ -72,63 +73,11 @@ interface Message {
   content: string;
 }
 
-function Avatar() {
-  return (
-    <div className="ar-av">
-      <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-        <defs>
-          <linearGradient id="avRing" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#ff9d4e" />
-            <stop offset="1" stopColor="#e05000" />
-          </linearGradient>
-        </defs>
-        <circle cx="10" cy="10" r="6.5" stroke="url(#avRing)" strokeWidth="2" />
-        <circle cx="10" cy="10" r="6.5" stroke="url(#avRing)" strokeWidth="2" opacity="0.25" />
-      </svg>
-    </div>
-  );
-}
-
-function TypingDots() {
-  return (
-    <div className="ar-typing">
-      <div className="ar-typing-dot" />
-      <div className="ar-typing-dot" />
-      <div className="ar-typing-dot" />
-    </div>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-      <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-      <path d="M11 4v14M4 11h14" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function fireLead(d: Record<string, string>, history: Message[]) {
   const tr = history.slice(-14).map((h) => `${h.role === "user" ? "Visitor" : "Aria"}: ${h.content}`).join("\n\n");
-  const payload = {
-    _captcha: "false",
-    _subject: `New AHOS Lead - ${d.name || "Unknown"}`,
-    ...d,
-    Transcript: tr,
-  };
+  const payload = { _captcha: "false", _subject: `New AHOS Lead - ${d.name || "Unknown"}`, ...d, Transcript: tr };
   try { localStorage.setItem("ahos_lead_" + Date.now(), JSON.stringify(payload)); } catch {}
-  fetch("https://formsubmit.co/ajax/info@ahos.xyz", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(payload),
-  }).catch(() => {});
+  fetch("https://formsubmit.co/ajax/info@ahos.xyz", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
 }
 
 export default function AriaAI() {
@@ -136,7 +85,6 @@ export default function AriaAI() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
-  const [stage, setStage] = useState<"welcome" | "chat">("welcome");
   const msgsRef = useRef<HTMLDivElement>(null);
   const inpRef = useRef<HTMLTextAreaElement>(null);
   const historyRef = useRef<Message[]>([{ role: "assistant", content: WELCOME }]);
@@ -144,15 +92,11 @@ export default function AriaAI() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   useEffect(() => {
-    if (msgsRef.current) {
-      msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
-    }
+    if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
   }, [messages]);
 
   const scrollToBottom = useCallback(() => {
-    requestAnimationFrame(() => {
-      if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
-    });
+    requestAnimationFrame(() => { if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight; });
   }, []);
 
   const handleLead = useCallback((raw: string): string => {
@@ -164,10 +108,7 @@ export default function AriaAI() {
         const hasName = (d.name || "").trim().length > 1;
         const validEmail = EMAIL_RE.test(d.email || "");
         const validPhone = /\d{5,}/.test((d.phone || "").replace(/[\s\-()]/g, ""));
-        if (hasName && (validEmail || validPhone)) {
-          fireLead(d, historyRef.current);
-          setLeadSent(true);
-        }
+        if (hasName && (validEmail || validPhone)) { fireLead(d, historyRef.current); setLeadSent(true); }
       } catch {}
     }
     return clean;
@@ -176,7 +117,6 @@ export default function AriaAI() {
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || busy) return;
-    setStage("chat");
     setBusy(true);
 
     const userMsg: Message = { role: "user", content: trimmed };
@@ -188,16 +128,8 @@ export default function AriaAI() {
     try {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + GROQ_KEY,
-        },
-        body: JSON.stringify({
-          model: GROQ_MODEL,
-          messages: [{ role: "system", content: SYSTEM_PROMPT }, ...updated.slice(-14)],
-          max_tokens: 700,
-          temperature: 0.72,
-        }),
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + GROQ_KEY },
+        body: JSON.stringify({ model: GROQ_MODEL, messages: [{ role: "system", content: SYSTEM_PROMPT }, ...updated.slice(-14)], max_tokens: 700, temperature: 0.72 }),
       });
 
       if (!res.ok) {
@@ -225,135 +157,152 @@ export default function AriaAI() {
   }, [busy, handleLead, scrollToBottom]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(input);
-    }
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
   };
 
-  const handleChip = (chip: string) => {
-    sendMessage(chip);
-  };
+  const handleChip = (chip: string) => sendMessage(chip);
 
   const newChat = () => {
     historyRef.current = [{ role: "assistant", content: WELCOME }];
     setMessages(historyRef.current);
     setLeadSent(false);
     setBusy(false);
-    setStage("welcome");
     setInput("");
     if (inpRef.current) inpRef.current.style.height = "auto";
   };
 
   return (
     <>
-      <SEOHead
-        title="ARIA — Your AI Project Advisor"
-        description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps."
-        path="/aria-ai"
-      />
+      <SEOHead title="ARIA — Your AI Project Advisor" description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps." path="/aria-ai" />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "ARIA AI", url: "/aria-ai" }]} />
 
-      <div className="ar-page">
-        <header className="ed ar-header">
-          <div className="ar-header-inner">
-            <div className="ar-brand">
-              <div className="ar-logo-ring">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <defs>
-                    <linearGradient id="arLogo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#ff9d4e" />
-                      <stop offset="1" stopColor="#e05000" />
-                    </linearGradient>
-                    <filter id="arLogoGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-                  </defs>
-                  <circle cx="20" cy="20" r="14" stroke="url(#arLogo)" strokeWidth="3" filter="url(#arLogoGlow)" />
-                  <circle cx="20" cy="20" r="14" stroke="url(#arLogo)" strokeWidth="3" opacity="0.25" />
-                </svg>
-                <span className="ar-live-dot" />
-              </div>
-              <div className="ar-brand-text">
-                <h1 className="ar-name">ARIA <span className="ar-by">by AHOS</span></h1>
-                <span className="ar-status">
-                  <span className="ar-status-dot" />
-                  Online — AI Project Advisor
-                </span>
-              </div>
-            </div>
-            <button className="ar-new-btn" onClick={newChat} title="New conversation">
-              <PlusIcon />
-            </button>
-          </div>
-        </header>
+      <style>{css}</style>
 
+      <header className="ed ed-page-hero ar-hero">
+        <Reveal className="ed-label" y={12}>
+          <span className="ed-label-n">05</span><span className="ed-label-line" /><span className="ed-label-text">AHOS AI</span>
+        </Reveal>
+        <Reveal delay={80}><h1 className="ed-h1">Meet <em>ARIA.</em></h1></Reveal>
+        <Reveal delay={160}>
+          <p className="ed-lead">Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
+        </Reveal>
+        <Reveal delay={220} className="ar-note">
+          <span className="ar-live"><span className="ar-live-dot" /> Online now</span>
+          <span>answers in seconds</span>
+        </Reveal>
+      </header>
+
+      <section className="ar-chat-wrap">
         <div className="ar-chat">
+          <div className="ar-hdr">
+            <div className="ar-hdr-brand">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <defs><linearGradient id="arR" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#ff9d4e" /><stop offset="1" stopColor="#e05000" /></linearGradient></defs>
+                <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
+                <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" opacity="0.25" />
+              </svg>
+              <span>ARIA <em>by AHOS</em></span>
+            </div>
+            <button className="ar-new" onClick={newChat} title="New conversation">New</button>
+          </div>
+
           <div className="ar-msgs" ref={msgsRef}>
             {messages.map((msg, i) => (
-              <motion.div
-                key={i}
-                className={"ar-row ar-" + msg.role}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {msg.role === "assistant" && <Avatar />}
+              <div key={i} className={"ar-row ar-" + msg.role + (i === messages.length - 1 && !busy ? " ar-last" : "")}>
+                {msg.role === "assistant" && (
+                  <div className="ar-av">
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
+                    </svg>
+                  </div>
+                )}
                 <div className="ar-bub">{msg.content}</div>
-              </motion.div>
+              </div>
             ))}
             {busy && (
               <div className="ar-row ar-assistant">
-                <Avatar />
-                <div className="ar-bub"><TypingDots /></div>
+                <div className="ar-av">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
+                  </svg>
+                </div>
+                <div className="ar-bub">
+                  <span className="ar-dot" /><span className="ar-dot" /><span className="ar-dot" />
+                </div>
               </div>
             )}
           </div>
 
-          {stage === "welcome" && messages.length === 1 && (
-            <motion.div
-              className="ar-chips"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.3 }}
-            >
+          {messages.length === 1 && !busy && (
+            <div className="ar-chips">
               {CHIPS.map((chip) => (
-                <button key={chip} className="ar-chip" onClick={() => handleChip(chip)}>
-                  {chip}
-                </button>
+                <button key={chip} className="ar-chip" onClick={() => handleChip(chip)}>{chip}</button>
               ))}
-            </motion.div>
+            </div>
           )}
 
           <div className="ar-bar">
-            <textarea
-              ref={inpRef}
-              className="ar-inp"
-              placeholder="Message ARIA..."
-              rows={1}
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                e.target.style.height = "auto";
-                e.target.style.height = Math.min(120, e.target.scrollHeight) + "px";
-              }}
-              onKeyDown={handleKeyDown}
-              disabled={busy}
+            <textarea ref={inpRef} className="ar-inp" placeholder="Message ARIA..." rows={1} value={input}
+              onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(120, e.target.scrollHeight) + "px"; }}
+              onKeyDown={handleKeyDown} disabled={busy}
             />
-            <button
-              className="ar-send"
-              disabled={busy || !input.trim()}
-              onClick={() => sendMessage(input)}
-            >
-              <ArrowIcon />
+            <button className="ar-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </div>
-
-          <div className="ar-foot">
-            AHOS Studio &middot; ahos.xyz
-          </div>
         </div>
-      </div>
+      </section>
 
       <Footer />
     </>
   );
 }
+
+const css = `
+.ar-hero { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.ar-hero .ed-lead { margin: 0 auto; }
+.ar-note { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center; margin-top: 28px; font-size: 13px; color: var(--text-dim); }
+.ar-live { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); }
+.ar-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: ar-pulse 2.2s infinite; }
+@keyframes ar-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.5);} 70%{box-shadow:0 0 0 8px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
+
+.ar-chat-wrap { padding: 0 var(--gutter) var(--section-pad); }
+.ar-chat { max-width: 680px; margin: 0 auto; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--bg-card); overflow: hidden; }
+.ar-hdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-soft); background: var(--bg-2); }
+.ar-hdr-brand { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text); }
+.ar-hdr-brand em { font-style: normal; color: var(--text-dim); font-weight: 400; font-size: 12px; }
+.ar-new { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.ar-new:hover { color: var(--orange); border-color: var(--border-hover); }
+
+.ar-msgs { height: 400px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.ar-msgs::-webkit-scrollbar { width: 4px; }
+.ar-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
+.ar-row { display: flex; gap: 10px; align-items: flex-start; opacity: 0; animation: ar-in 0.3s ease forwards; }
+@keyframes ar-in { to { opacity: 1; } }
+.ar-row.ar-user { flex-direction: row-reverse; }
+.ar-av { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border-radius: 50%; }
+.ar-bub { max-width: 80%; padding: 10px 15px; font-size: 14px; line-height: 1.6; word-break: break-word; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--border-soft); color: var(--text-muted); }
+.ar-row.ar-user .ar-bub { color: var(--text); background: rgba(255,106,26,0.04); border-color: rgba(255,106,26,0.1); }
+.ar-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); opacity: 0.4; animation: ar-dot 1.5s ease-in-out infinite; margin-right: 3px; }
+.ar-dot:nth-child(2) { animation-delay: 0.17s; }
+.ar-dot:nth-child(3) { animation-delay: 0.34s; margin-right: 0; }
+@keyframes ar-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-4px);opacity:1;} }
+
+.ar-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
+.ar-chip { padding: 6px 16px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.ar-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
+
+.ar-bar { display: flex; align-items: flex-end; gap: 8px; padding: 8px 16px 12px; border-top: 1px solid var(--border-soft); background: var(--bg-2); }
+.ar-inp { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 14px; font-family: var(--font-sans); padding: 9px 13px; resize: none; outline: none; line-height: 1.5; min-height: 40px; max-height: 100px; overflow-y: auto; transition: border-color 0.2s; }
+.ar-inp::placeholder { color: var(--text-faint); }
+.ar-inp:focus { border-color: var(--border-hover); }
+.ar-send { width: 40px; height: 40px; border-radius: var(--radius); flex-shrink: 0; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0a0a0b; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; }
+.ar-send:not([disabled]):hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,106,26,0.25); }
+.ar-send:not([disabled]):active { transform: scale(0.95); }
+.ar-send[disabled] { opacity: 0.12; cursor: default; pointer-events: none; }
+
+@media (max-width: 600px) {
+  .ar-msgs { height: 55vh; padding: 12px; }
+  .ar-bub { max-width: 88%; font-size: 13px; padding: 8px 12px; }
+}
+`;
