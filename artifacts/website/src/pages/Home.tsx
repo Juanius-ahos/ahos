@@ -11,7 +11,8 @@ const work = [
   { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
   { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
   { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
-  { name: "Ido Taxi", cat: "Web · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "Ido Taxi", cat: "Mobile App · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "ARIA AI", cat: "AI · Chat", year: "2026", img: "work/aria-ai.svg", url: "/aria-ai" },
 ];
 
 const capabilities = [
@@ -107,13 +108,6 @@ function WorkRail() {
     setIdx(Math.min(total, Math.floor(v * total) + 1));
   });
 
-  const ampOpacity = useTransform(scrollYProgress, [0.76, 0.84], [0, 0.25]);
-  const ampScale = useTransform(scrollYProgress, [0.76, 0.84], [0.6, 1]);
-  const titleOpacity = useTransform(scrollYProgress, [0.80, 0.88], [0, 1]);
-  const titleY = useTransform(scrollYProgress, [0.80, 0.88], [40, 0]);
-  const subOpacity = useTransform(scrollYProgress, [0.84, 0.92], [0, 1]);
-  const subY = useTransform(scrollYProgress, [0.84, 0.92], [24, 0]);
-
   return (
     <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref}>
       <div className="hs-sticky">
@@ -153,9 +147,9 @@ function WorkRail() {
                 <span className="hs-card-dot" />
               </div>
               <div className="hs-end-inner">
-                <motion.span className="hs-end-amp" style={{ opacity: ampOpacity, scale: ampScale }}>&</motion.span>
-                <motion.h3 className="hs-end-title" style={{ opacity: titleOpacity, y: titleY }}>many more to come.</motion.h3>
-                <motion.p className="hs-end-sub" style={{ opacity: subOpacity, y: subY }}>We're just getting started.</motion.p>
+                <span className="hs-end-amp">&</span>
+                <h3 className="hs-end-title">many more to come.</h3>
+                <p className="hs-end-sub">We're just getting started.</p>
               </div>
             </div>
           </motion.div>
