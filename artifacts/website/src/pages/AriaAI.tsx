@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
-const API_KEY = import.meta.env.VITE_OPENROUTER_KEY || "";
+const API_KEY = import.meta.env.VITE_OPENROUTER_KEY || "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";
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 const MODEL = "meta-llama/llama-3.2-3b-instruct:free";
 
