@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { Reveal } from "../components/motion";
 
 const GROQ_KEY = "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";
 const GROQ_MODEL = "llama-3.3-70b-versatile";
@@ -178,41 +177,48 @@ export default function AriaAI() {
 
       <style>{css}</style>
 
-      <header className="ed ed-page-hero ar-hero">
-        <Reveal className="ed-label" y={12}>
+      <motion.header
+        className="ed ed-page-hero ar-hero"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <div className="ed-label">
           <span className="ed-label-n">05</span><span className="ed-label-line" /><span className="ed-label-text">AHOS AI</span>
-        </Reveal>
-        <Reveal delay={80}><h1 className="ed-h1">Meet <em>ARIA.</em></h1></Reveal>
-        <Reveal delay={160}>
-          <p className="ed-lead">Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
-        </Reveal>
-        <Reveal delay={220} className="ar-note">
+        </div>
+        <h1 className="ed-h1">Meet <em>ARIA.</em></h1>
+        <p className="ed-lead">Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
+        <div className="ar-meta">
           <span className="ar-live"><span className="ar-live-dot" /> Online now</span>
           <span>answers in seconds</span>
-        </Reveal>
-      </header>
+        </div>
+      </motion.header>
 
-      <section className="ar-chat-wrap">
-        <div className="ar-chat">
+      <section className="ed ar-section">
+        <div className="ar-card">
           <div className="ar-hdr">
-            <div className="ar-hdr-brand">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <defs><linearGradient id="arR" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#ff9d4e" /><stop offset="1" stopColor="#e05000" /></linearGradient></defs>
-                <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
-                <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" opacity="0.25" />
-              </svg>
-              <span>ARIA <em>by AHOS</em></span>
+            <div className="ar-hdr-left">
+              <span className="ar-hdr-icon">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                  <defs><linearGradient id="arR" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#ff9d4e" /><stop offset="1" stopColor="#e05000" /></linearGradient></defs>
+                  <circle cx="10" cy="10" r="7" stroke="url(#arR)" strokeWidth="2" />
+                </svg>
+              </span>
+              <span className="ar-hdr-name">ARIA <em>by AHOS</em></span>
             </div>
-            <button className="ar-new" onClick={newChat} title="New conversation">New</button>
+            <button className="ar-new" onClick={newChat} title="New conversation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              New chat
+            </button>
           </div>
 
           <div className="ar-msgs" ref={msgsRef}>
             {messages.map((msg, i) => (
-              <div key={i} className={"ar-row ar-" + msg.role + (i === messages.length - 1 && !busy ? " ar-last" : "")}>
+              <div key={i} className={"ar-msg " + (msg.role === "user" ? "ar-msg-user" : "ar-msg-aria")}>
                 {msg.role === "assistant" && (
                   <div className="ar-av">
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
+                    <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="7" stroke="url(#arR)" strokeWidth="2" />
                     </svg>
                   </div>
                 )}
@@ -220,10 +226,10 @@ export default function AriaAI() {
               </div>
             ))}
             {busy && (
-              <div className="ar-row ar-assistant">
+              <div className="ar-msg ar-msg-aria">
                 <div className="ar-av">
-                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="6.5" stroke="url(#arR)" strokeWidth="2" />
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="7" stroke="url(#arR)" strokeWidth="2" />
                   </svg>
                 </div>
                 <div className="ar-bub">
@@ -246,8 +252,8 @@ export default function AriaAI() {
               onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(120, e.target.scrollHeight) + "px"; }}
               onKeyDown={handleKeyDown} disabled={busy}
             />
-            <button className="ar-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <button className="ar-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)} aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </div>
         </div>
@@ -260,39 +266,41 @@ export default function AriaAI() {
 
 const css = `
 .ar-hero { text-align: center; display: flex; flex-direction: column; align-items: center; }
-.ar-hero .ed-lead { margin: 0 auto; }
-.ar-note { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center; margin-top: 28px; font-size: 13px; color: var(--text-dim); }
+.ar-hero .ed-lead { max-width: 620px; }
+.ar-meta { display: flex; align-items: center; gap: 18px; margin-top: 28px; font-size: 13px; color: var(--text-dim); }
 .ar-live { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); }
 .ar-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: ar-pulse 2.2s infinite; }
 @keyframes ar-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.5);} 70%{box-shadow:0 0 0 8px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
 
-.ar-chat-wrap { padding: 0 var(--gutter) var(--section-pad); }
-.ar-chat { max-width: 680px; margin: 0 auto; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--bg-card); overflow: hidden; display: flex; flex-direction: column; max-height: 600px; }
-.ar-hdr { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-soft); background: var(--bg-2); }
-.ar-hdr-brand { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text); }
-.ar-hdr-brand em { font-style: normal; color: var(--text-dim); font-weight: 400; font-size: 12px; }
-.ar-new { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.ar-section { padding-bottom: var(--section-pad); }
+.ar-card { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--bg-card); overflow: hidden; display: flex; flex-direction: column; max-height: 620px; }
+
+.ar-hdr { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-soft); }
+.ar-hdr-left { display: flex; align-items: center; gap: 10px; }
+.ar-hdr-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border-radius: 50%; }
+.ar-hdr-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.ar-hdr-name em { font-style: normal; color: var(--text-dim); font-weight: 400; font-size: 12px; }
+.ar-new { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--text-dim); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
 .ar-new:hover { color: var(--orange); border-color: var(--border-hover); }
 
-.ar-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.ar-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .ar-msgs::-webkit-scrollbar { width: 4px; }
 .ar-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
-.ar-row { display: flex; gap: 10px; align-items: flex-start; opacity: 0; animation: ar-in 0.3s ease forwards; }
-@keyframes ar-in { to { opacity: 1; } }
-.ar-row.ar-user { flex-direction: row-reverse; }
-.ar-av { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border-radius: 50%; }
-.ar-bub { max-width: 80%; padding: 10px 15px; font-size: 14px; line-height: 1.6; word-break: break-word; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--border-soft); color: var(--text-muted); }
-.ar-row.ar-user .ar-bub { color: var(--text); background: rgba(255,106,26,0.04); border-color: rgba(255,106,26,0.1); }
+.ar-msg { display: flex; gap: 10px; align-items: flex-start; }
+.ar-msg-user { flex-direction: row-reverse; }
+.ar-av { width: 26px; height: 26px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border-radius: 50%; }
+.ar-bub { max-width: 75%; padding: 10px 16px; font-size: 14px; line-height: 1.65; word-break: break-word; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--border-soft); color: var(--text-muted); }
+.ar-msg-user .ar-bub { color: var(--text); background: rgba(255,106,26,0.04); border-color: rgba(255,106,26,0.1); }
 .ar-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); opacity: 0.4; animation: ar-dot 1.5s ease-in-out infinite; margin-right: 3px; }
 .ar-dot:nth-child(2) { animation-delay: 0.17s; }
 .ar-dot:nth-child(3) { animation-delay: 0.34s; margin-right: 0; }
 @keyframes ar-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-4px);opacity:1;} }
 
-.ar-chips { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
-.ar-chip { padding: 6px 16px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.ar-chips { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 14px; }
+.ar-chip { padding: 7px 18px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
 .ar-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
 
-.ar-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 8px 16px 12px; border-top: 1px solid var(--border-soft); background: var(--bg-2); }
+.ar-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 10px 20px 14px; border-top: 1px solid var(--border-soft); }
 .ar-inp { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 14px; font-family: var(--font-sans); padding: 9px 13px; resize: none; outline: none; line-height: 1.5; min-height: 40px; max-height: 100px; overflow-y: auto; transition: border-color 0.2s; }
 .ar-inp::placeholder { color: var(--text-faint); }
 .ar-inp:focus { border-color: var(--border-hover); }
@@ -302,8 +310,10 @@ const css = `
 .ar-send[disabled] { opacity: 0.12; cursor: default; pointer-events: none; }
 
 @media (max-width: 600px) {
-  .ar-chat { max-height: 85vh; }
-  .ar-msgs { padding: 12px; }
-  .ar-bub { max-width: 88%; font-size: 13px; padding: 8px 12px; }
+  .ar-card { max-height: 85vh; border-radius: var(--radius-lg); }
+  .ar-msgs { padding: 14px; gap: 12px; }
+  .ar-bub { max-width: 88%; font-size: 13px; padding: 8px 13px; }
+  .ar-chips { padding-left: 14px; padding-right: 14px; }
+  .ar-bar { padding-left: 14px; padding-right: 14px; }
 }
 `;
