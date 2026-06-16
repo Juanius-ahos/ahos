@@ -4,7 +4,7 @@ import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
 
-const GROQ_KEY = import.meta.env.VITE_GROQ_KEY || "";
+const GROQ_KEY = "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";
 const GROQ_MODEL = "llama-3.3-70b-versatile";
 
 const SYSTEM_PROMPT = [
