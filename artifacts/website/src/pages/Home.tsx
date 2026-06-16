@@ -100,14 +100,15 @@ function WorkRail() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const n = work.length;
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${(n - 1) * 88 + (n - 1) * 3}vw`]);
+  const total = n + 1;
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
   const [idx, setIdx] = useState(1);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setIdx(Math.min(n, Math.floor(v * n) + 1));
+    setIdx(Math.min(total, Math.floor(v * total) + 1));
   });
 
   return (
-    <section className="hs-section" style={{ height: `${n * 100}vh` }} ref={ref}>
+    <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref}>
       <div className="hs-sticky">
         <div className="hs-heading">
           <Label n="02" text="Selected work" />
@@ -115,7 +116,7 @@ function WorkRail() {
             <h2 className="ed-h2" style={{ margin: 0 }}>Projects we've shipped.</h2>
             <div className="hs-counter">
               <span className="hs-counter-cur">{String(idx).padStart(2, "0")}</span>
-              <span className="hs-counter-total">{String(n).padStart(2, "0")}</span>
+              <span className="hs-counter-total">{String(total).padStart(2, "0")}</span>
             </div>
           </div>
         </div>
@@ -138,6 +139,13 @@ function WorkRail() {
                 </div>
               </a>
             ))}
+            <div className="hs-end-card">
+              <div className="hs-end-inner">
+                <span className="hs-end-amp">&</span>
+                <h3 className="hs-end-title">many more to come.</h3>
+                <p className="hs-end-sub">We're just getting started.</p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
