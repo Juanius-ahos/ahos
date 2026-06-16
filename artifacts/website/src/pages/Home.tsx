@@ -123,7 +123,14 @@ function WorkRail() {
           <motion.div className="hs-track" style={{ x }}>
             {work.map((p) => (
               <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
-                <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                <div className="hs-card-bar">
+                  <span className="hs-card-dot" />
+                  <span className="hs-card-dot" />
+                  <span className="hs-card-dot" />
+                </div>
+                <div className="hs-card-img-wrap">
+                  <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                </div>
                 <div className="hs-cap">
                   <div className="hs-cap-tx">
                     <h3 className="hs-name">{p.name}</h3>
@@ -367,7 +374,8 @@ export default function Home() {
             <span className="ed-hero-line ed-hero-line-accent">experiences.</span>
           </h1>
           <div className="ed-hero-lead">
-            <p>We don't follow templates. We architect custom digital solutions — from strategy to launch — for businesses that are built to stand out.</p>
+            <p>We don't follow templates. We architect custom digital solutions from strategy to launch.</p>
+            <p className="ed-hero-lead-sm">For businesses that are built to stand out.</p>
             <div className="ed-hero-actions">
               <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
               <Link href="/services" className="ed-link-arrow">Explore services</Link>
