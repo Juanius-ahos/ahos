@@ -129,12 +129,16 @@ export function OrganizationSchema() {
         image: OG_IMAGE,
         description: DEFAULT_DESC,
         email: EMAIL,
+        telephone: "+961 70 000 000",
         slogan: "We build digital products that perform.",
         knowsAbout: KNOWS_ABOUT,
         address: {
           "@type": "PostalAddress",
+          streetAddress: "Beirut Digital District",
+          addressLocality: "Beirut",
+          addressRegion: "Beirut",
+          postalCode: "",
           addressCountry: GEO.countryCode,
-          addressRegion: GEO.country,
         },
         geo: {
           "@type": "GeoCoordinates",
@@ -145,10 +149,15 @@ export function OrganizationSchema() {
           { "@type": "Country", name: GEO.country },
           { "@type": "AdministrativeArea", name: "Worldwide" },
         ],
+        openingHoursSpecification: [
+          { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
+        ],
+        priceRange: "$$",
         sameAs: SOCIALS,
         contactPoint: {
           "@type": "ContactPoint",
           email: EMAIL,
+          telephone: "+961 70 000 000",
           contactType: "sales",
           availableLanguage: ["English", "Arabic"],
           areaServed: "Worldwide",

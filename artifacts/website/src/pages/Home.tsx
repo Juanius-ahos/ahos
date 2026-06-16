@@ -141,7 +141,7 @@ function WorkRail() {
                 <Link key={p.name} href={p.url} className="hs-card">
                   <picture>
                     {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                    <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
@@ -160,7 +160,7 @@ function WorkRail() {
                 <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
                   <picture>
                     {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                    <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
@@ -461,7 +461,7 @@ export default function Home() {
       {/* ─── HERO ─── */}
       <header className="ed-hero">
         <div className="ed ed-hero-inner">
-          <div className="ed-hero-badge">Available for new projects</div>
+          <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
           <div className="ed-hero-meta">
             <span>AHOS</span><span className="ed-dot" /><span>Digital Studio</span>
           </div>

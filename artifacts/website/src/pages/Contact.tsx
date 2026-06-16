@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
@@ -92,6 +93,7 @@ export default function Contact() {
             <a href="mailto:info@ahos.xyz" className="ct-meta-item"><span className="ed-cap">Email</span>info@ahos.xyz</a>
             <div className="ct-meta-item"><span className="ed-cap">Reply time</span>Within 24 hours</div>
             <div className="ct-meta-item"><span className="ed-cap">Based</span>Beirut — worldwide</div>
+            <Link href="/services" className="ct-meta-item"><span className="ed-cap">Services</span>See what we build →</Link>
           </Reveal>
         </div>
 

@@ -93,6 +93,7 @@ export default function Services() {
                   ))}
                 </div>
                 <Link href="/contact" className="ed-btn" style={{ marginTop: 24 }}>Start a project<span>↗</span></Link>
+                {s.name === "Web Development" && <Link href="/faq" className="ed-link-arrow" style={{ marginTop: 12, display: "inline-block" }}>Process & pricing →</Link>}
               </div>
             </div>
           </section>

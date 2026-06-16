@@ -17,15 +17,18 @@ const ORG_JSON_LD = `{
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": ["Organization", "LocalBusiness"],
       "@id": "${SITE_URL}/#organization",
       "name": "Advanced Hybrid Online Systems",
       "alternateName": "AHOS",
       "url": "${SITE_URL}",
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
+      "telephone": "+961 70 000 000",
       "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
-      "address": { "@type": "PostalAddress", "addressCountry": "LB" },
+      "address": { "@type": "PostalAddress", "streetAddress": "Beirut Digital District", "addressLocality": "Beirut", "addressRegion": "Beirut", "addressCountry": "LB" },
+      "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" }],
+      "priceRange": "$$",
       "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
     },
