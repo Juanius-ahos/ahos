@@ -26,6 +26,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(DIR, "dist"),
     emptyOutDir: true,
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {

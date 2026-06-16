@@ -6,6 +6,7 @@ import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
 
 const work = [
   { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
@@ -127,7 +128,10 @@ function WorkRail() {
             {work.map((p) =>
               p.url.startsWith("/") ? (
                 <Link key={p.name} href={p.url} className="hs-card">
-                  <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  <picture>
+                    {p.img.endsWith(".jpg") && <source srcSet={asset(webpSrc(p.img))} type="image/webp" />}
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
                     <span className="hs-card-dot" />
@@ -143,7 +147,10 @@ function WorkRail() {
                 </Link>
               ) : (
                 <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
-                  <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  <picture>
+                    {p.img.endsWith(".jpg") && <source srcSet={asset(webpSrc(p.img))} type="image/webp" />}
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
                     <span className="hs-card-dot" />

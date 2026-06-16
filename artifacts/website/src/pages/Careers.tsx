@@ -17,11 +17,6 @@ const roles = [
   { role: "Motion & Video Artist", stack: "After Effects · 3D · Editing" },
 ];
 
-const testimonials = [
-  { text: "\"The best code is the code you never have to explain twice.\"", author: "Engineering Lead" },
-  { text: "\"We don't do meetings about meetings. We do the work.\"", author: "Studio mantra" },
-];
-
 export default function Careers() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
