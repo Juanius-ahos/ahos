@@ -89,9 +89,9 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
         }
         .ld-col-inner {
           width: 100%; height: 100%;
-          background: #141416;
+          background: var(--bg-3);
           transform-origin: center center;
-          border-right: 1px solid rgba(255,255,255,0.03);
+          border-right: 1px solid var(--border-soft);
         }
       `}</style>
       <div ref={ref} className="ld-overlay">

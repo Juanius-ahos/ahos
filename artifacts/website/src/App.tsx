@@ -19,7 +19,7 @@ import FAQ from "@/pages/FAQ";
 
 function NotFound() {
   return (
-    <div style={{ color: "rgba(255,255,255,0.6)", textAlign: "center", padding: "120px 24px", fontFamily: "var(--font-sans)" }}>
+    <div style={{ color: "var(--text-muted)", textAlign: "center", padding: "120px 24px", fontFamily: "var(--font-sans)" }}>
       <h1 style={{ fontSize: 48, color: "var(--orange)", marginBottom: 12 }}>404</h1>
       <p style={{ marginBottom: 24 }}>Page not found</p>
       <a href="/" style={{ color: "var(--orange)", fontWeight: 600 }}>Go home →</a>

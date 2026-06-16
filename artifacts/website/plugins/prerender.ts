@@ -24,7 +24,7 @@ const ORG_JSON_LD = `{
       "url": "${SITE_URL}",
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
-      "description": "AHOS is a web development and digital design agency building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
+      "description": "AHOS is a web development and digital design studio building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
       "address": { "@type": "PostalAddress", "addressCountry": "LB" },
       "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
@@ -33,8 +33,8 @@ const ORG_JSON_LD = `{
       "@type": "WebSite",
       "@id": "${SITE_URL}/#website",
       "url": "${SITE_URL}",
-      "name": "AHOS — Web Development, AI & Digital Design Agency",
-      "description": "AHOS is a web development and digital design agency building premium websites, custom software, AI tools, and Web3 platforms.",
+      "name": "AHOS — Web Development, AI & Digital Design Studio",
+      "description": "AHOS is a web development and digital design studio building premium websites, custom software, AI tools, and Web3 platforms.",
       "publisher": { "@id": "${SITE_URL}/#organization" }
     }
   ]
@@ -111,9 +111,9 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS — Web Development, AI & Digital Design Agency | Custom Software Studio",
+    title: "AHOS — Web Development, AI & Digital Design Studio | Custom Software Studio",
     description:
-      "AHOS is a web development and digital design agency that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
+      "AHOS is a web development and digital design studio that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
     jsonLd: ORG_JSON_LD,
     bodyHtml: `<h1>We build digital experiences.</h1>
 <p>AHOS is a boutique digital product studio. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
@@ -131,9 +131,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees — fixed quotes.</p></section>`,
   },
   "/services": {
-    title: "Web Development, AI, Web3 & Design Services | AHOS Digital Agency",
+    title: "Web Development, AI, Web3 & Design Services | AHOS Digital Studio",
     description:
-      "AHOS is a web design and development agency delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
+      "AHOS is a web design and development studio delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Three things, done properly.</h1>
 <p>Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
@@ -149,9 +149,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call. We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>`,
   },
   "/web3": {
-    title: "Web3 & Blockchain Development Agency | Smart Contracts, Dapps & DeFi | AHOS",
+    title: "Web3 & Blockchain Development Studio | Smart Contracts, Dapps & DeFi | AHOS",
     description:
-      "AHOS is a Web3 development agency building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
+      "AHOS is a Web3 development studio building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -201,9 +201,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support.</p>`,
   },
   "/faq": {
-    title: "FAQ — Web Development Pricing, Process & Timeline | AHOS Digital Agency",
+    title: "FAQ — Web Development Pricing, Process & Timeline | AHOS Digital Studio",
     description:
-      "Everything you want to know about working with AHOS web development agency: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
+      "Everything you want to know about working with AHOS web development studio: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
     jsonLd: FAQ_JSON_LD,
     bodyHtml: `<h1>No fluff. Straight answers.</h1>
 <p>Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p>
@@ -240,7 +240,7 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${og}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="AHOS — Web Development, AI & Digital Design Agency" />
+    <meta property="og:site_name" content="AHOS — Web Development, AI & Digital Design Studio" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${meta.title}" />

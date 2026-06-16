@@ -131,7 +131,7 @@ const css = `
 .w3-hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
 
 .w3-terminal { background: #0d0d10; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; font-family: var(--font-mono); font-size: 13px; line-height: 1.8; }
-.w3-term-head { display: flex; gap: 8px; padding: 12px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
+.w3-term-head { display: flex; gap: 8px; padding: 12px 16px; background: var(--bg-3); border-bottom: 1px solid var(--border); }
 .w3-term-dot { width: 12px; height: 12px; border-radius: 50%; }
 .w3-term-body { padding: 16px 20px; color: var(--text-dim); }
 .w3-term-prompt { color: #27c93f; }

@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-mot
 import { Footer } from "../components/Footer";
 import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { Reveal } from "../components/motion";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
@@ -278,7 +279,7 @@ function ProcessSection() {
     <section className="ps-section" ref={ref}>
       <div className="ps-sticky section-light">
         <div className="ed ps-inner">
-          <div ref={labelRef}><Label n="04" text="How we work" /></div>
+          <div ref={labelRef}><Label n="05" text="How we work" /></div>
           <h2 ref={titleRef} className="ed-h2 ps-title">Three steps to a<br />live product.</h2>
           <div ref={stepsRef} className="ed-steps">
             {steps.map((s) => (
@@ -336,7 +337,7 @@ function StatsGrid() {
     <section className="sg-section" ref={ref}>
       <div className="sg-sticky">
         <div className="ed sg-inner">
-          <div ref={labelRef}><Label n="05" text="The fine print, up front" /></div>
+          <div ref={labelRef}><Label n="06" text="The fine print, up front" /></div>
           <h2 ref={titleRef} className="ed-h2 sg-title">No surprises.<br />In writing.</h2>
           <div ref={gridRef} className="ed-stats">
             {stats.map((s) => (
@@ -399,6 +400,51 @@ function Marquee() {
   );
 }
 
+function Testimonials() {
+  const t = [
+    {
+      text: "I'm grateful for the team at AHOS — they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
+      name: "Yorgo",
+      role: "SpeeAligner.com, Lebanon",
+      link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
+    },
+    {
+      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments — they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
+      name: "Khalil",
+      role: "Ido Taxi, Lebanon",
+    },
+    {
+      text: "We brought AHOS in to shape our content strategy, and they exceeded every expectation. They took complex DeFi concepts and turned them into clear, engaging material that actually connects with our audience. Engagement is up, our community is growing, and we finally have a voice that matches our product.",
+      name: "Doran",
+      role: "Marketing Lead, defi.app",
+    },
+  ];
+  return (
+    <section className="ed ed-sec">
+      <Label n="04" text="What clients say" />
+      <h2 className="ed-h2">Kind words from people we've worked with.</h2>
+      <div className="tm-grid">
+        {t.map((tc, i) => (
+          <Reveal key={tc.name} delay={i * 100} className="tm-card">
+            <div className="tm-stars">
+              {[1,2,3,4,5].map(s => (
+                <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)">
+                  <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
+                </svg>
+              ))}
+            </div>
+            <p className="tm-text">"{tc.text}"</p>
+            <div className="tm-meta">
+              <span className="tm-name">{tc.name}</span>
+              <span className="tm-role">{tc.role}</span>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -444,6 +490,9 @@ export default function Home() {
       {/* ─── SERVICES STACK ─── */}
       <ServicesStack />
 
+      {/* ─── TESTIMONIALS ─── */}
+      <Testimonials />
+
       {/* ─── PROCESS (light) ─── */}
       <ProcessSection />
 
@@ -456,7 +505,7 @@ export default function Home() {
       {/* ─── CTA ─── */}
       <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }}>
         <div className="ed">
-          <Label n="06" text="Start here" />
+          <Label n="07" text="Start here" />
           <h2 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(80px, 22vw, 360px)",
