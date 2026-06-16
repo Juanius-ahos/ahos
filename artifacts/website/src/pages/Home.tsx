@@ -12,7 +12,7 @@ const work = [
   { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
   { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
   { name: "Ido Taxi", cat: "Web · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
-  { name: "Ido Taxi", cat: "Mobile App · iOS", year: "2025", img: "work/ido-taxi-app.png", url: "https://apps.apple.com/us/app/ido-taxi/id1347542411" },
+  { name: "Ido Taxi", cat: "Mobile App · iOS", year: "2025", img: "work/idotaxi.jpg", url: "https://apps.apple.com/us/app/ido-taxi/id1347542411" },
   { name: "ARIA AI", cat: "AI · Chat", year: "2026", img: "work/aria-ai.svg", url: "/aria-ai" },
 ];
 
