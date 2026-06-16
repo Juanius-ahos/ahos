@@ -5,7 +5,7 @@
 
 // Canonical brand domain (root, no trailing slash, no base path).
 // All absolute SEO URLs (canonical, OG image, sitemap) derive from this.
-export const SITE_URL = "https://www.ahos.xyz";
+export const SITE_URL = "https://ahos.xyz";
 
 export const SITE_NAME = "AHOS — Digital Product Studio";
 export const LEGAL_NAME = "Advanced Hybrid Online Systems";

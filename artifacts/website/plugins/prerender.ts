@@ -10,7 +10,7 @@ interface RouteMeta {
   jsonLd?: string;
 }
 
-const SITE_URL = "https://www.ahos.xyz";
+const SITE_URL = "https://ahos.xyz";
 const OG_IMAGE = `${SITE_URL}/opengraph.jpg`;
 
 const ORG_JSON_LD = `{

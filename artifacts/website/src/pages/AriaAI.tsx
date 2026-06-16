@@ -135,7 +135,7 @@ export default function AriaAI() {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + API_KEY,
-          "HTTP-Referer": "https://www.ahos.xyz",
+          "HTTP-Referer": "https://ahos.xyz",
           "X-Title": "AHOS ARIA",
         },
         body: JSON.stringify({
