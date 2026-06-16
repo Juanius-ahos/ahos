@@ -8,10 +8,10 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 const work = [
-  { name: "SpeeAligner", cat: "Web · Healthcare", ghost: "SA", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
-  { name: "YourProvider", cat: "Web · Services", ghost: "YP", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
-  { name: "Aleph", cat: "Web · Print & Packaging", ghost: "AL", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
-  { name: "Ido Taxi", cat: "Web · Transport", ghost: "IT", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
+  { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
+  { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
+  { name: "Ido Taxi", cat: "Web · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
 ];
 
 const capabilities = [
@@ -124,8 +124,6 @@ function WorkRail() {
             {work.map((p) => (
               <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
                 <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
-                <span className="hs-scrim" />
-                <span className="hs-ghost">{p.ghost}</span>
                 <div className="hs-cap">
                   <div className="hs-cap-tx">
                     <h3 className="hs-name">{p.name}</h3>
