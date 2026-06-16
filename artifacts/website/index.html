@@ -77,21 +77,13 @@
       />
     </noscript>
 
-    <!-- Google Analytics (set VITE_GA_ID in .env to enable) -->
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8BRM1PM0V8"></script>
     <script>
-      (function() {
-        var id = "%VITE_GA_ID%";
-        if (id && id !== "G-XXXXXXXXXX") {
-          var s = document.createElement("script");
-          s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
-          s.async = true;
-          document.head.appendChild(s);
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag("js", new Date());
-          gtag("config", id);
-        }
-      })();
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8BRM1PM0V8');
     </script>
 
     <!-- SPA route restore for GitHub Pages 404 fallback -->
