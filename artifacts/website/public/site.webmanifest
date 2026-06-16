@@ -1,0 +1,29 @@
+{
+  "name": "AHOS — Digital Product Studio",
+  "short_name": "AHOS",
+  "description": "Premium websites, custom software, Web3 platforms, AI tools, and brand identities — built to perform.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#07070f",
+  "theme_color": "#ff751f",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

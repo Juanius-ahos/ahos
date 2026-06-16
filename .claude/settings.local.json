@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm install *)",
+      "Bash(pnpm --version)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(node_modules/.bin/vite --host 0.0.0.0 --port 5173)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(curl -s http://localhost:5173/AHOS-site/)",
+      "mcp__Claude_in_Chrome__navigate",
+      "Bash(node_modules/.bin/vite --host 0.0.0.0 --port 5174)",
+      "PowerShell(Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; \\(Get-NetTCPConnection -LocalPort 5173 -ErrorAction SilentlyContinue | Measure-Object\\).Count)",
+      "Bash(node ../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc -p tsconfig.json --noEmit)",
+      "Bash(echo \"EXIT: $?\")"
+    ]
+  }
+}

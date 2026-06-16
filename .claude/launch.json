@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "autoPort": true,
+  "configurations": [
+    {
+      "name": "website",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../../node_modules/.pnpm/vite@7.3.3_@types+node@25.6_ae3e33f3fe335111b5390f6db5b643d9/node_modules/vite/bin/vite.js", "--host", "0.0.0.0"],
+      "cwd": "artifacts/website",
+      "port": 5173
+    }
+  ]
+}
