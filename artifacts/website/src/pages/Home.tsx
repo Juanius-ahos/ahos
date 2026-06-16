@@ -107,6 +107,13 @@ function WorkRail() {
     setIdx(Math.min(total, Math.floor(v * total) + 1));
   });
 
+  const ampOpacity = useTransform(scrollYProgress, [0.76, 0.84], [0, 0.25]);
+  const ampScale = useTransform(scrollYProgress, [0.76, 0.84], [0.6, 1]);
+  const titleOpacity = useTransform(scrollYProgress, [0.80, 0.88], [0, 1]);
+  const titleY = useTransform(scrollYProgress, [0.80, 0.88], [40, 0]);
+  const subOpacity = useTransform(scrollYProgress, [0.84, 0.92], [0, 1]);
+  const subY = useTransform(scrollYProgress, [0.84, 0.92], [24, 0]);
+
   return (
     <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref}>
       <div className="hs-sticky">
@@ -140,10 +147,15 @@ function WorkRail() {
               </a>
             ))}
             <div className="hs-end-card">
+              <div className="hs-card-bar">
+                <span className="hs-card-dot" />
+                <span className="hs-card-dot" />
+                <span className="hs-card-dot" />
+              </div>
               <div className="hs-end-inner">
-                <span className="hs-end-amp">&</span>
-                <h3 className="hs-end-title">many more to come.</h3>
-                <p className="hs-end-sub">We're just getting started.</p>
+                <motion.span className="hs-end-amp" style={{ opacity: ampOpacity, scale: ampScale }}>&</motion.span>
+                <motion.h3 className="hs-end-title" style={{ opacity: titleOpacity, y: titleY }}>many more to come.</motion.h3>
+                <motion.p className="hs-end-sub" style={{ opacity: subOpacity, y: subY }}>We're just getting started.</motion.p>
               </div>
             </div>
           </motion.div>
