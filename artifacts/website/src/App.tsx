@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
 import { HeroCanvas } from "@/components/HeroCanvas";
 import { SmartCTA } from "@/components/SmartCTA";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
@@ -39,13 +40,13 @@ function Router() {
     >
       <main id="main-content" style={{ paddingTop: 64 }}>
         <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/services" component={Services} />
-          <Route path="/web3" component={Web3} />
-          <Route path="/careers" component={Careers} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/aria-ai" component={AriaAI} />
-          <Route path="/faq" component={FAQ} />
+          <Route path="/"><ErrorBoundary><Home /></ErrorBoundary></Route>
+          <Route path="/services"><ErrorBoundary><Services /></ErrorBoundary></Route>
+          <Route path="/web3"><ErrorBoundary><Web3 /></ErrorBoundary></Route>
+          <Route path="/careers"><ErrorBoundary><Careers /></ErrorBoundary></Route>
+          <Route path="/contact"><ErrorBoundary><Contact /></ErrorBoundary></Route>
+          <Route path="/aria-ai"><ErrorBoundary><AriaAI /></ErrorBoundary></Route>
+          <Route path="/faq"><ErrorBoundary><FAQ /></ErrorBoundary></Route>
           <Route component={NotFound} />
         </Switch>
       </main>
