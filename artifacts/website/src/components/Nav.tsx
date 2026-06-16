@@ -20,7 +20,6 @@ export function Nav() {
   const [location] = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [onLight, setOnLight] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
@@ -39,14 +38,7 @@ export function Nav() {
   };
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 16);
-      const light = document.querySelector(".section-light");
-      if (light) {
-        const rect = light.getBoundingClientRect();
-        setOnLight(rect.top <= 80 && rect.bottom >= 80);
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -68,7 +60,7 @@ export function Nav() {
     <>
       <style>{css}</style>
 
-      <nav className={`nv ${scrolled ? "is-scrolled" : ""} ${onLight ? "nv-light" : ""}`}>
+      <nav className={`nv ${scrolled ? "is-scrolled" : ""}`}>
         <Link href="/" className="nv-logo" aria-label="AHOS home">
           <img src={`${import.meta.env.BASE_URL}logo.png`} alt="AHOS" />
         </Link>
@@ -159,21 +151,6 @@ const css = `
   padding-top: 12px; padding-bottom: 12px;
   border-bottom-color: rgba(255,255,255,0.08);
 }
-.nv-light {
-  background: #ede8e0;
-  border-bottom-color: rgba(10,10,11,0.08);
-}
-.nv-light.is-scrolled {
-  background: #ede8e0;
-}
-.nv-light .nv-link { color: rgba(10,10,11,0.55); }
-.nv-light .nv-link:hover { color: #0a0a0b; }
-.nv-light .nv-link.is-active { color: #0a0a0b; }
-.nv-light .nv-link::after { background: var(--orange); }
-.nv-light .nv-burger { border-color: rgba(10,10,11,0.12); background: transparent; }
-.nv-light .nv-burger span { background: #0a0a0b; }
-.nv-light .nv-logo img { filter: none; }
-
 .nv-logo {
   flex-shrink: 0;
   position: relative; z-index: 1;
@@ -201,8 +178,6 @@ const css = `
 /* Theme toggle */
 .nv-theme { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: all 0.2s; flex-shrink: 0; }
 .nv-theme:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange); }
-.nv-light .nv-theme { border-color: rgba(10,10,11,0.12); color: rgba(10,10,11,0.5); }
-.nv-light .nv-theme:hover { color: var(--orange); border-color: var(--border-hover); }
 
 .nv-cta {
   display: inline-flex; align-items: center; gap: 8px;

@@ -20,7 +20,6 @@
   --border: rgba(255, 255, 255, 0.09);
   --border-soft: rgba(255, 255, 255, 0.055);
   --border-hover: rgba(255, 106, 26, 0.35);
-  --border-light: rgba(10, 10, 11, 0.1);
 
   --radius: 12px;
   --radius-lg: 18px;
@@ -360,16 +359,9 @@ html.lenis, html.lenis body { height: auto; }
   .ed-step { padding: 24px 0; }
 }
 
-/* ── Light section (cream background for Process) ── */
-.section-light { background: #ede8e0; color: var(--text); }
-[data-theme="light"] .section-light { background: var(--bg-2); color: var(--text); }
-.section-light .ed-label-n,
-.section-light .ed-label-text { color: var(--text); }
-.section-light .ed-label-line { background: var(--border-light); }
-.section-light .ed-h2,
-.section-light .ed-step-title { color: var(--text); }
-.section-light .ed-step-text { color: var(--text-muted); }
-.section-light .ed-step { border-top-color: var(--border-light); }
+/* ── Process section ── */
+.section-light { background: var(--bg-2); color: var(--text); }
+.section-light .ed-step { border-top-color: var(--border-soft); }
 
 /* ── Zoom text section ── */
 .zoom-section { position: relative; height: 300vh; perspective: 800px; }
@@ -445,9 +437,9 @@ html.lenis, html.lenis body { height: auto; }
 .ps-inner { padding: clamp(40px, 5vw, 80px) 0; }
 .ps-title { color: var(--text); margin-bottom: clamp(32px, 4vw, 56px); will-change: transform, opacity; }
 
-/* ── Footer on light sections ── */
+/* ── Footer after process section ── */
 .section-light + .ftx,
-.ps-section + .ftx { border-top-color: var(--border-light); }
+.ps-section + .ftx { border-top-color: var(--border); }
 
 
 @media (max-width: 900px) {
