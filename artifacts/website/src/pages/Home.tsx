@@ -141,7 +141,7 @@ function WorkRail() {
                 <Link key={p.name} href={p.url} className="hs-card">
                   <picture>
                     {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} srcSet={srcset(p.img)} sizes="(max-width: 600px) 480px, 880px" width={1280} height={860} loading="lazy" decoding="async" />
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
@@ -160,7 +160,7 @@ function WorkRail() {
                 <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
                   <picture>
                     {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} screenshot`} srcSet={srcset(p.img)} sizes="(max-width: 600px) 480px, 880px" width={1280} height={860} loading="lazy" decoding="async" />
+                    <img src={asset(p.img)} alt={`${p.name} screenshot`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                   </picture>
                   <div className="hs-card-bar">
                     <span className="hs-card-dot" />
