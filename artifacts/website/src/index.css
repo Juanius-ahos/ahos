@@ -413,6 +413,7 @@ html.lenis, html.lenis body { height: auto; }
 .sc-card-intro .ed-h2 { margin-top: 8px; }
 .sc-card { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--gutter); box-sizing: border-box; }
 .sc-card-inner { position: relative; width: 100%; max-width: var(--max-width); border-radius: var(--radius-xl); background: var(--card-bg, var(--bg-card)); border: 1px solid var(--border-soft); padding: clamp(48px, 5vw, 80px) clamp(40px, 5vw, 72px) clamp(100px, 10vw, 160px); box-shadow: 0 25px 80px rgba(0,0,0,0.45); }
+[data-theme="light"] .sc-card-inner { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .sc-card-intro { background: transparent; border: none; box-shadow: none; border-radius: 0; }
 .sc-card-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--card-accent, var(--orange)); border-radius: 0 4px 4px 0; }
 .sc-card-num { position: absolute; right: clamp(24px, 4vw, 48px); top: clamp(24px, 4vw, 48px); font-family: var(--font-display); font-size: clamp(60px, 10vw, 140px); font-weight: 700; color: var(--card-accent, var(--orange)); opacity: 0.08; line-height: 0.8; letter-spacing: -0.05em; pointer-events: none; }

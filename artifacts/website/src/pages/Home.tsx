@@ -15,11 +15,11 @@ const work = [
 ];
 
 const capabilities = [
-  { n: "01", title: "Web Development", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/services", accent: "#ff6a1a", bg: "#0a0a0b" },
-  { n: "02", title: "Custom Software", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/services", accent: "#e0560a", bg: "#1a1a20" },
-  { n: "03", title: "Web3 & Blockchain", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ff8c4a", bg: "#1a0e08" },
-  { n: "04", title: "AI & Automation", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/aria-ai", accent: "#cc5500", bg: "#100e1a" },
-  { n: "05", title: "Media & Branding", desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand.", href: "/services", accent: "#ffb074", bg: "#14100d" },
+  { n: "01", title: "Web Development", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/services", accent: "#ff6a1a", bg: "var(--bg)" },
+  { n: "02", title: "Custom Software", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/services", accent: "#e0560a", bg: "var(--bg-3)" },
+  { n: "03", title: "Web3 & Blockchain", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ff8c4a", bg: "var(--bg-3)" },
+  { n: "04", title: "AI & Automation", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/aria-ai", accent: "#cc5500", bg: "var(--bg-3)" },
+  { n: "05", title: "Media & Branding", desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand.", href: "/services", accent: "#ffb074", bg: "var(--bg-3)" },
 ];
 
 const steps = [
@@ -169,7 +169,7 @@ function ServicesStack() {
   return (
     <section className="sc-section">
       <div className="sc-stack">
-        <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': '#0a0a0b' } as React.CSSProperties}>
+        <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': 'var(--bg)' } as React.CSSProperties}>
           <div className="sc-card-inner sc-card-intro">
             <div className="sc-card-accent" />
             <Label n="03" text="Capabilities" />
