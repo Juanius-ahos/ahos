@@ -8,7 +8,7 @@
       // app root, preserving the path so the client router can restore it.
       // Keeps the first path segment (the /AHOS-site/ project base).
       (function (l) {
-        var pathSegmentsToKeep = 1;
+        var pathSegmentsToKeep = 0;
         l.replace(
           l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
           l.pathname.split("/").slice(0, 1 + pathSegmentsToKeep).join("/") + "/?/" +
