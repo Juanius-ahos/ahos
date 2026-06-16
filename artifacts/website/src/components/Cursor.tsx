@@ -50,6 +50,8 @@ export function Cursor() {
         .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); transition: opacity 0.3s ease; }
         .cursor-ring { width: 34px; height: 34px; margin-left: -17px; margin-top: -17px; border-radius: 50%; border: 1px solid rgba(255,106,26,0.5); transition: opacity 0.3s ease, width 0.25s ease, height 0.25s ease, margin 0.25s ease, background 0.25s ease, border-color 0.25s ease; }
         .cursor-ring.is-active { width: 52px; height: 52px; margin-left: -26px; margin-top: -26px; background: rgba(255,106,26,0.08); border-color: var(--orange); }
+        @media (pointer: fine) { *, *::before, *::after { cursor: none !important; } a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible { cursor: auto !important; } }
+        @media (pointer: fine) and (prefers-reduced-motion: reduce) { *, *::before, *::after { cursor: auto !important; } }
         @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
       `}</style>
       <div ref={dot} className="cursor-dot" aria-hidden="true" />
