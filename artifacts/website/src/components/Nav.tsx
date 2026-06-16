@@ -149,7 +149,7 @@ const css = `
 }
 .nv.is-scrolled {
   padding-top: 12px; padding-bottom: 12px;
-  border-bottom-color: rgba(255,255,255,0.08);
+  border-bottom-color: var(--border);
 }
 .nv-logo {
   flex-shrink: 0;
@@ -162,7 +162,7 @@ const css = `
 .nv-link {
   position: relative; padding: 7px 16px; border-radius: 999px;
   font-size: 13.5px; font-weight: 500; letter-spacing: 0.02em;
-  color: rgba(255,255,255,0.5); transition: color 0.25s ease, background 0.25s ease;
+  color: var(--text-dim); transition: color 0.25s ease, background 0.25s ease;
 }
 .nv-link::after {
   content: ""; position: absolute; left: 16px; right: 16px; bottom: 2px; height: 1.5px;
@@ -192,8 +192,8 @@ const css = `
 .nv-cta:hover span { transform: translate(3px,-2px); }
 
 /* Hamburger */
-.nv-burger { display: none; position: relative; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; background: transparent; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
-.nv-burger:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+.nv-burger { display: none; position: relative; width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 999px; background: transparent; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
+.nv-burger:hover { border-color: var(--text-faint); background: var(--bg-3); }
 .nv-burger span { position: absolute; left: 10px; right: 10px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease; }
 .nv-burger span:nth-child(1) { top: 15px; }
 .nv-burger span:nth-child(2) { bottom: 15px; }
@@ -214,7 +214,7 @@ const css = `
 .nv-sheet-links { display: flex; flex-direction: column; }
 .nv-sheet-link {
   display: flex; align-items: baseline; gap: 16px;
-  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 14px 0; border-bottom: 1px solid var(--border);
   font-family: var(--font-display); font-size: clamp(28px, 8vw, 44px); font-weight: 600; letter-spacing: -0.03em;
   color: var(--text);
   opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25,0.1,0.25,1), color 0.2s;
@@ -225,20 +225,15 @@ const css = `
 .nv-sheet-foot { display: flex; flex-direction: column; gap: 24px; }
 .nv-cta-lg { align-self: flex-start; padding: 14px 28px; font-size: 14px; }
 .nv-sheet-extras { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.nv-sheet-theme { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3); background: none; border: none; cursor: pointer; transition: color 0.2s; font-family: var(--font-sans); padding: 0; }
+.nv-sheet-theme { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-dim); background: none; border: none; cursor: pointer; transition: color 0.2s; font-family: var(--font-sans); padding: 0; }
 .nv-sheet-theme:hover { color: var(--orange); }
 .nv-sheet-socials { display: flex; gap: 24px; flex-wrap: wrap; }
-.nv-sheet-socials a { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.3); transition: color 0.2s; letter-spacing: 0.03em; }
+.nv-sheet-socials a { font-size: 13px; font-weight: 600; color: var(--text-dim); transition: color 0.2s; letter-spacing: 0.03em; }
 .nv-sheet-socials a:hover { color: var(--orange); }
-[data-theme="light"] .nv-sheet-socials a { color: rgba(10,10,11,0.4); }
-[data-theme="light"] .nv-sheet-socials a:hover { color: var(--orange); }
-.nv-sheet-mail { font-size: 13px; color: rgba(255,255,255,0.2); transition: color 0.2s; }
+/* light-mode overrides handled by CSS variables */
+.nv-sheet-mail { font-size: 13px; color: var(--text-faint); transition: color 0.2s; }
 .nv-sheet-mail:hover { color: var(--orange); }
-[data-theme="light"] .nv-sheet-mail { color: rgba(10,10,11,0.3); }
-[data-theme="light"] .nv-sheet-mail:hover { color: var(--orange); }
-[data-theme="light"] .nv-sheet-link { color: var(--text); border-bottom-color: var(--border-soft); }
-[data-theme="light"] .nv-sheet-theme { color: rgba(10,10,11,0.4); }
-[data-theme="light"] .nv-sheet-theme:hover { color: var(--orange); }
+/* light-mode hover handled by CSS variables */
 
 @media (max-width: 900px) {
   .nv-links, .nv-cta:not(.nv-cta-lg) { display: none; }

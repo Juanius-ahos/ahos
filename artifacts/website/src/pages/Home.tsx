@@ -252,7 +252,7 @@ function ProcessSection() {
           if (stepEls?.length) {
             tl.from(stepEls, { x: (i) => (i % 2 === 0 ? -60 : 60), opacity: 0, ease: "none" }, 0.15);
           }
-        }, ref.current);
+        }, ref.current ?? undefined);
 
         cleanup = () => ctx.revert();
       } catch {
@@ -261,6 +261,8 @@ function ProcessSection() {
     })();
     return () => cleanup?.();
   }, []);
+
+
 
   return (
     <section className="ps-section" ref={ref}>
@@ -312,7 +314,7 @@ function StatsGrid() {
           if (labelRef.current) tl.from(labelRef.current, { y: 40, opacity: 0, ease: "none" }, 0);
           if (titleRef.current) tl.from(titleRef.current, { y: 40, opacity: 0, ease: "none" }, 0.1);
           if (gridRef.current) tl.from(gridRef.current, { y: 60, opacity: 0, ease: "none" }, 0.2);
-        }, ref.current);
+        }, ref.current ?? undefined);
 
         cleanup = () => ctx.revert();
       } catch { /* fallback */ }

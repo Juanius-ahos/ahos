@@ -115,6 +115,9 @@ importers:
       gsap:
         specifier: ^3.12.7
         version: 3.15.0
+      lenis:
+        specifier: 1.1.18
+        version: 1.1.18(react@19.1.0)
       three:
         specifier: ^0.175.0
         version: 0.175.0
@@ -472,6 +475,17 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  lenis@1.1.18:
+    resolution: {integrity: sha512-hBJVN0o7ZWt6DqyLoCkYKLffgCqywX0Gf/ZWhWC8Ths1zN/lZHoAMC3faFjaTxnOEKokeV0q1Mlyu1aUr18xFQ==}
+    peerDependencies:
+      react: '>=17.0.0'
+      vue: '>=3.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vue:
+        optional: true
 
   lightningcss-linux-x64-gnu@1.32.0:
     resolution: {integrity: sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==}
@@ -957,6 +971,10 @@ snapshots:
   jsesc@3.1.0: {}
 
   json5@2.2.3: {}
+
+  lenis@1.1.18(react@19.1.0):
+    optionalDependencies:
+      react: 19.1.0
 
   lightningcss-linux-x64-gnu@1.32.0:
     optional: true

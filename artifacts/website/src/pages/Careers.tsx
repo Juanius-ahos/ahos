@@ -34,6 +34,7 @@ export default function Careers() {
     setStatus("sending");
     try {
       const fd = new FormData();
+      fd.append("_captcha", "false");
       fd.append("_subject", `Career application — ${name}`);
       fd.append("Name", name);
       fd.append("Email", email);

@@ -1,13 +1,12 @@
 import { useEffect } from "react";
+import Lenis from "lenis";
 
-/* Initializes Lenis (loaded via CDN in index.html) for buttery, inertia
-   smooth-scroll. Framer-motion's useScroll listens to the scroll events
-   Lenis emits, so scroll-scrubbed animations stay in sync. Disabled under
-   reduced-motion. */
+/* Initializes Lenis for buttery, inertia smooth-scroll. Framer-motion's
+   useScroll listens to the scroll events Lenis emits, so scroll-scrubbed
+   animations stay in sync. Disabled under reduced-motion. */
 export function SmoothScroll() {
   useEffect(() => {
-    const Lenis = (window as any).Lenis;
-    if (!Lenis) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });

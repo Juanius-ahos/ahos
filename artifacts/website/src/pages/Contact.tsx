@@ -46,6 +46,7 @@ export default function Contact() {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
+          _captcha: "false",
           _subject: `New project plan — ${data.name || "Unknown"}`,
           Name: data.name, Email: data.email, Phone: data.phone, Company: data.company,
           "Project type": data.projectType, Industry: data.industry, Goal: data.goal,
