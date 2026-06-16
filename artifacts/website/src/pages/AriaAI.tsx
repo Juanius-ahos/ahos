@@ -177,25 +177,26 @@ export default function AriaAI() {
 
       <style>{css}</style>
 
-      <motion.header
-        className="ed ed-page-hero ar-hero"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className="ed-label">
-          <span className="ed-label-n">05</span><span className="ed-label-line" /><span className="ed-label-text">AHOS AI</span>
-        </div>
-        <h1 className="ed-h1">Meet <em>ARIA.</em></h1>
-        <p className="ed-lead">Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
-        <div className="ar-meta">
-          <span className="ar-live"><span className="ar-live-dot" /> Online now</span>
-          <span>answers in seconds</span>
-        </div>
-      </motion.header>
+      <div className="ar-page">
+        <motion.header
+          className="ed ed-page-hero ar-hero"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <div className="ed-label">
+            <span className="ed-label-n">05</span><span className="ed-label-line" /><span className="ed-label-text">AHOS AI</span>
+          </div>
+          <h1 className="ed-h1">Meet <em>ARIA.</em></h1>
+          <p className="ed-lead">Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
+          <div className="ar-meta">
+            <span className="ar-live"><span className="ar-live-dot" /> Online now</span>
+            <span>answers in seconds</span>
+          </div>
+        </motion.header>
 
-      <section className="ed ar-section">
-        <div className="ar-card">
+        <section className="ed ar-section">
+          <div className="ar-card">
           <div className="ar-hdr">
             <div className="ar-hdr-left">
               <span className="ar-hdr-icon">
@@ -259,6 +260,8 @@ export default function AriaAI() {
         </div>
       </section>
 
+      </div>
+
       <Footer />
     </>
   );
@@ -272,8 +275,9 @@ const css = `
 .ar-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: ar-pulse 2.2s infinite; }
 @keyframes ar-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.5);} 70%{box-shadow:0 0 0 8px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
 
-.ar-section { padding-bottom: var(--section-pad); }
-.ar-card { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--bg-card); overflow: hidden; display: flex; flex-direction: column; max-height: 620px; }
+.ar-page { display: flex; flex-direction: column; min-height: calc(100vh - 64px); }
+.ar-section { flex: 1; display: flex; padding-bottom: var(--section-pad); }
+.ar-card { flex: 1; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--bg-card); overflow: hidden; display: flex; flex-direction: column; }
 
 .ar-hdr { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-soft); }
 .ar-hdr-left { display: flex; align-items: center; gap: 10px; }
@@ -310,7 +314,8 @@ const css = `
 .ar-send[disabled] { opacity: 0.12; cursor: default; pointer-events: none; }
 
 @media (max-width: 600px) {
-  .ar-card { max-height: 85vh; border-radius: var(--radius-lg); }
+  .ar-page { min-height: calc(100vh - 64px); }
+  .ar-card { border-radius: var(--radius-lg); }
   .ar-msgs { padding: 14px; gap: 12px; }
   .ar-bub { max-width: 88%; font-size: 13px; padding: 8px 13px; }
   .ar-chips { padding-left: 14px; padding-right: 14px; }
