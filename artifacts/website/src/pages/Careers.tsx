@@ -11,10 +11,10 @@ const values = [
 ];
 
 const roles = [
-  { role: "Full-stack Developer", stack: "React \u00B7 TypeScript \u00B7 Node \u00B7 Postgres" },
-  { role: "Product & Brand Designer", stack: "UI/UX \u00B7 Identity \u00B7 Motion" },
-  { role: "Web3 Engineer", stack: "Solidity \u00B7 EVM \u00B7 Dapps" },
-  { role: "Motion & Video Artist", stack: "After Effects \u00B7 3D \u00B7 Editing" },
+  { role: "Full-stack Developer", stack: "React · TypeScript · Node · Postgres" },
+  { role: "Product & Brand Designer", stack: "UI/UX · Identity · Motion" },
+  { role: "Web3 Engineer", stack: "Solidity · EVM · Dapps" },
+  { role: "Motion & Video Artist", stack: "After Effects · 3D · Editing" },
 ];
 
 const testimonials = [
@@ -28,7 +28,7 @@ export default function Careers() {
   return (
     <>
       <SEOHead
-        title="Careers \u2014 Join the Studio"
+        title="Careers — Join the Studio"
         description="AHOS hires rarely and well. Developers, designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket."
         path="/careers"
       />
@@ -91,7 +91,7 @@ export default function Careers() {
         </div>
         <div className="cr-roles">
           {roles.map((r) => (
-            <a key={r.role} className="cr-role" href={`mailto:info@ahos.xyz?subject=${encodeURIComponent(`Joining the studio \u2014 ${r.role}`)}`}>
+            <a key={r.role} className="cr-role" href={`mailto:info@ahos.xyz?subject=${encodeURIComponent(`Joining the studio — ${r.role}`)}`}>
               <span className="cr-role-name">{r.role}</span>
               <span className="cr-role-stack">{r.stack}</span>
               <span className="cr-role-arrow" aria-hidden="true">↗</span>

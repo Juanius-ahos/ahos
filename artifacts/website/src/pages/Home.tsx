@@ -7,18 +7,18 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 const work = [
-  { name: "SpeeAligner", cat: "Web \u00B7 Healthcare", ghost: "SA", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
-  { name: "YourProvider", cat: "Web \u00B7 Services", ghost: "YP", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
-  { name: "Aleph", cat: "Web \u00B7 Print & Packaging", ghost: "AL", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
-  { name: "Ido Taxi", cat: "Web \u00B7 Transport", ghost: "IT", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "SpeeAligner", cat: "Web · Healthcare", ghost: "SA", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
+  { name: "YourProvider", cat: "Web · Services", ghost: "YP", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
+  { name: "Aleph", cat: "Web · Print & Packaging", ghost: "AL", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
+  { name: "Ido Taxi", cat: "Web · Transport", ghost: "IT", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
 ];
 
 const capabilities = [
-  { n: "01", title: "Web Development", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to \u2014 from a single landing page to full e-commerce.", href: "/services", accent: "#ff6a1a", bg: "#0a0a0b" },
+  { n: "01", title: "Web Development", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/services", accent: "#ff6a1a", bg: "#0a0a0b" },
   { n: "02", title: "Custom Software", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/services", accent: "#e0560a", bg: "#1a1a20" },
-  { n: "03", title: "Web3 & Blockchain", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative \u2014 every layer of your Web3 project under one roof.", href: "/web3", accent: "#ff8c4a", bg: "#1a0e08" },
-  { n: "04", title: "AI & Automation", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines \u2014 built to save you hours every week.", href: "/aria-ai", accent: "#cc5500", bg: "#100e1a" },
-  { n: "05", title: "Media & Branding", desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs \u2014 so everything you put out looks like it came from one confident brand.", href: "/services", accent: "#ffb074", bg: "#14100d" },
+  { n: "03", title: "Web3 & Blockchain", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ff8c4a", bg: "#1a0e08" },
+  { n: "04", title: "AI & Automation", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/aria-ai", accent: "#cc5500", bg: "#100e1a" },
+  { n: "05", title: "Media & Branding", desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand.", href: "/services", accent: "#ffb074", bg: "#14100d" },
 ];
 
 const steps = [
@@ -320,22 +320,22 @@ function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: bo
 }
 
 function Marquee() {
-  const row1 = ["BUILD", "\u00B7", "SHIP", "\u00B7", "SCALE", "\u00B7", "REPEAT"];
-  const row2 = ["strategy", "\u00B7", "design", "\u00B7", "code", "\u00B7", "launch"];
+  const row1 = ["BUILD", "·", "SHIP", "·", "SCALE", "·", "REPEAT"];
+  const row2 = ["strategy", "·", "design", "·", "code", "·", "launch"];
 
   return (
     <section className="mq-section">
       <div className="mq-row">
         <div className="mq-row-inner">
           {[...row1, ...row1].map((w, i) =>
-            w === "\u00B7" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word">{w}</span>
+            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word">{w}</span>
           )}
         </div>
       </div>
       <div className="mq-row">
         <div className="mq-row-inner mq-row-inner-reverse">
           {[...row2, ...row2].map((w, i) =>
-            w === "\u00B7" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word-dim">{w}</span>
+            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word-dim">{w}</span>
           )}
         </div>
       </div>
@@ -349,8 +349,8 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS \u2014 Digital Product Studio"
-        description="AHOS builds premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide. From strategy to launch \u2014 under one roof."
+        title="AHOS — Digital Product Studio"
+        description="AHOS builds premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide. From strategy to launch — under one roof."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />

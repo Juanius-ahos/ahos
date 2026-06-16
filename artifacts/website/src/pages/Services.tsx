@@ -9,7 +9,7 @@ const services = [
   {
     n: "01",
     name: "Custom Software",
-    tag: "Built around your workflow \u2014 not the other way around.",
+    tag: "Built around your workflow — not the other way around.",
     desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed, scalable product you fully own.",
     chips: ["SaaS Platforms", "Web Apps", "Dashboards", "Automation", "API Integration"],
     gets: ["Full source-code ownership", "Architecture that scales with you", "Optional hosting & long-term support"],
@@ -18,7 +18,7 @@ const services = [
     n: "02",
     name: "Web Development",
     tag: "Sites that turn visitors into clients.",
-    desc: "Every site we ship is fast, pixel-tight, and built to earn its keep \u2014 responsive on every screen, tuned for search, and ready to scale the day you need it to. From a single landing page to full e-commerce.",
+    desc: "Every site we ship is fast, pixel-tight, and built to earn its keep — responsive on every screen, tuned for search, and ready to scale the day you need it to. From a single landing page to full e-commerce.",
     chips: ["Landing Pages", "Corporate Sites", "E-Commerce", "Maintenance", "Hosting"],
     gets: ["Responsive on every device", "Speed & conversion optimised", "Scalable foundation from day one"],
     popular: true,
@@ -27,7 +27,7 @@ const services = [
     n: "03",
     name: "Media & Branding",
     tag: "Make your brand impossible to scroll past.",
-    desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs \u2014 so everything you put out looks like it came from one confident brand, not five different freelancers.",
+    desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand, not five different freelancers.",
     chips: ["Video Editing", "2D Animation", "Brand Identity", "Style Guides", "Social Packs"],
     gets: ["Polished, professional visuals", "Consistent identity everywhere", "Every source file handed over"],
   },
@@ -39,7 +39,7 @@ export default function Services() {
   return (
     <>
       <SEOHead
-        title="Services \u2014 Software, Web & Brand, Built to Perform"
+        title="Services — Software, Web & Brand, Built to Perform"
         description="Custom software, web development, and media & branding from AHOS. One team, strategy to launch, full code ownership."
         path="/services"
       />
@@ -59,7 +59,7 @@ export default function Services() {
             <span className="ed-label-n">01</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
           </div>
           <h1 className="ed-h1">Three things,<br />done <em>properly.</em></h1>
-          <p className="ed-lead">Software, web, and brand \u2014 handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
+          <p className="ed-lead">Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
         </div>
         <div className="sv-hero-strip">
           <div className="sv-strip-inner">
@@ -109,7 +109,7 @@ export default function Services() {
         <div className="ed-sec-head">
           <div className="ed-label"><span className="ed-label-n">+</span><span className="ed-label-line" /><span className="ed-label-text">Not sure where to start?</span></div>
           <h2 className="ed-h2">Book a free 30-minute call.</h2>
-          <p className="ed-lead" style={{ marginTop: 18 }}>We'll listen, point you at the right move, and hand you a clear plan \u2014 no pressure, no commitment.</p>
+          <p className="ed-lead" style={{ marginTop: 18 }}>We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap", justifyContent: "center" }}>
           <Link href="/contact" className="ed-btn ed-btn-lg">Book a call<span>↗</span></Link>

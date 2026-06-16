@@ -9,20 +9,20 @@ const services = [
     n: "01",
     name: "Smart Contracts",
     tag: "Secure, audited, built to last.",
-    desc: "Tokens, NFTs, DAOs, DeFi \u2014 designed, gas-optimised, and audited before a single wei moves. Your community trusts the code because we tested it like their money depends on it. It does.",
+    desc: "Tokens, NFTs, DAOs, DeFi — designed, gas-optimised, and audited before a single wei moves. Your community trusts the code because we tested it like their money depends on it. It does.",
     chips: ["ERC-20", "ERC-721 / 1155", "DAO Governance", "DeFi Protocols", "Multi-sig"],
   },
   {
     n: "02",
     name: "Web3 Frontend & Dapps",
     tag: "Wallets and chains, wrapped in interfaces people actually enjoy.",
-    desc: "MetaMask, WalletConnect, Coinbase, on-chain data, marketplace flows \u2014 all behind a Web2-quality interface. Real-time, responsive, and no page refresh to see your balance.",
+    desc: "MetaMask, WalletConnect, Coinbase, on-chain data, marketplace flows — all behind a Web2-quality interface. Real-time, responsive, and no page refresh to see your balance.",
     chips: ["Wallet Integration", "Dapp UIs", "Marketplaces", "Chain APIs", "Responsive"],
   },
   {
     n: "03",
     name: "NFT & Token Launches",
-    tag: "Zero to mint \u2014 without the launch-day panic.",
+    tag: "Zero to mint — without the launch-day panic.",
     desc: "Minting platforms, staking dashboards, allowlists, reveals, marketplace listings. Whether it's a genesis drop or a token-gated community, we've shipped it before and we'll ship yours clean.",
     chips: ["Minting", "Staking", "Allowlists", "Reveals", "Listings"],
     popular: true,
@@ -31,14 +31,14 @@ const services = [
     n: "04",
     name: "Creative & Media",
     tag: "Make your project impossible to scroll past.",
-    desc: "Trailers, motion, art direction, and a brand system that holds from Discord to OpenSea. In Web3, attention is the whole game \u2014 we make sure you win it.",
+    desc: "Trailers, motion, art direction, and a brand system that holds from Discord to OpenSea. In Web3, attention is the whole game — we make sure you win it.",
     chips: ["Trailers", "2D / 3D", "Art Direction", "Brand System", "Social Packs"],
   },
   {
     n: "05",
     name: "Strategy & Advisory",
     tag: "Get the foundations right before you write a line of code.",
-    desc: "Tokenomics, whitepaper structure, go-to-market, community, and a technical roadmap with real milestones \u2014 so you launch with clarity and momentum instead of vibes.",
+    desc: "Tokenomics, whitepaper structure, go-to-market, community, and a technical roadmap with real milestones — so you launch with clarity and momentum instead of vibes.",
     chips: ["Tokenomics", "Whitepaper", "GTM", "Community", "Roadmap"],
   },
 ];
@@ -49,8 +49,8 @@ export default function Web3() {
   return (
     <>
       <SEOHead
-        title="Web3 & Blockchain \u2014 Contracts, Dapps & Launches"
-        description="Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy \u2014 designed and deployed by AHOS."
+        title="Web3 & Blockchain — Contracts, Dapps & Launches"
+        description="Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy — designed and deployed by AHOS."
         path="/web3"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Web3", url: "/web3" }]} />
@@ -69,7 +69,7 @@ export default function Web3() {
               <span className="ed-label-n">02</span><span className="ed-label-line" /><span className="ed-label-text">Web3 & Blockchain</span>
             </div>
             <h1 className="ed-h1">Your chain.<br /><em>Our build.</em></h1>
-            <p className="ed-lead">From contracts to creative \u2014 every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
+            <p className="ed-lead">From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
           </div>
           <div className="w3-terminal" aria-hidden="true">
             <div className="w3-term-head">
@@ -115,7 +115,7 @@ export default function Web3() {
         transition={{ duration: 0.5 }}
       >
         <h2 className="ed-h2" style={{ textAlign: "center" }}>Ready to launch?</h2>
-        <p className="ed-lead" style={{ textAlign: "center", margin: "18px auto 30px" }}>Book a free 30-minute call and we'll map your full build \u2014 contracts, frontend, art, and go-to-market.</p>
+        <p className="ed-lead" style={{ textAlign: "center", margin: "18px auto 30px" }}>Book a free 30-minute call and we'll map your full build — contracts, frontend, art, and go-to-market.</p>
         <div style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap", justifyContent: "center" }}>
           <Link href="/contact" className="ed-btn ed-btn-lg">Book a call<span>↗</span></Link>
           <Link href="/services" className="ed-link-arrow">See all services →</Link>
