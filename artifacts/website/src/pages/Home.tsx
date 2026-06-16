@@ -11,7 +11,8 @@ const work = [
   { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "https://www.speealigner.com" },
   { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
   { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
-  { name: "Ido Taxi", cat: "Mobile App · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "Ido Taxi", cat: "Web · Transport", year: "2025", img: "work/idotaxi.jpg", url: "https://www.idotaxi.net" },
+  { name: "Ido Taxi", cat: "Mobile App · iOS", year: "2025", img: "work/idotaxi.jpg", url: "https://apps.apple.com/us/app/ido-taxi/id1347542411" },
   { name: "ARIA AI", cat: "AI · Chat", year: "2026", img: "work/aria-ai.svg", url: "/aria-ai" },
 ];
 
@@ -123,23 +124,41 @@ function WorkRail() {
         </div>
         <div className="hs-track-wrap">
           <motion.div className="hs-track" style={{ x }}>
-            {work.map((p) => (
-              <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
-                <img src={asset(p.img)} alt={`${p.name} website screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
-                <div className="hs-card-bar">
-                  <span className="hs-card-dot" />
-                  <span className="hs-card-dot" />
-                  <span className="hs-card-dot" />
-                </div>
-                <div className="hs-cap">
-                  <div className="hs-cap-tx">
-                    <h3 className="hs-name">{p.name}</h3>
-                    <span className="hs-cat">{p.cat}</span>
+            {work.map((p) =>
+              p.url.startsWith("/") ? (
+                <Link key={p.name} href={p.url} className="hs-card">
+                  <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  <div className="hs-card-bar">
+                    <span className="hs-card-dot" />
+                    <span className="hs-card-dot" />
+                    <span className="hs-card-dot" />
                   </div>
-                  <span className="hs-go" aria-hidden="true">Visit ↗</span>
-                </div>
-              </a>
-            ))}
+                  <div className="hs-cap">
+                    <div className="hs-cap-tx">
+                      <h3 className="hs-name">{p.name}</h3>
+                      <span className="hs-cat">{p.cat}</span>
+                    </div>
+                    <span className="hs-go" aria-hidden="true">Visit ↗</span>
+                  </div>
+                </Link>
+              ) : (
+                <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
+                  <img src={asset(p.img)} alt={`${p.name} screenshot`} width={1280} height={860} loading="lazy" decoding="async" />
+                  <div className="hs-card-bar">
+                    <span className="hs-card-dot" />
+                    <span className="hs-card-dot" />
+                    <span className="hs-card-dot" />
+                  </div>
+                  <div className="hs-cap">
+                    <div className="hs-cap-tx">
+                      <h3 className="hs-name">{p.name}</h3>
+                      <span className="hs-cat">{p.cat}</span>
+                    </div>
+                    <span className="hs-go" aria-hidden="true">Visit ↗</span>
+                  </div>
+                </a>
+              )
+            )}
             <div className="hs-end-card">
               <div className="hs-card-bar">
                 <span className="hs-card-dot" />
