@@ -19,40 +19,53 @@ export function OverlayParticles() {
     window.addEventListener("resize", resize);
 
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 50 : 110;
-
-    const colors = [
-      { r: 255, g: 106, b: 26 },
-      { r: 255, g: 106, b: 26 },
-      { r: 255, g: 140, b: 74 },
-      { r: 255, g: 180, b: 120 },
-      { r: 180, g: 180, b: 190 },
-      { r: 220, g: 220, b: 230 },
-      { r: 140, g: 140, b: 150 },
-      { r: 100, g: 100, b: 110 },
-    ];
+    const count = isMobile ? 45 : 100;
 
     interface Particle {
       baseY: number;
       x: number;
       y: number;
       size: number;
-      color: { r: number; g: number; b: number };
+      color: string;
       baseAlpha: number;
       parallax: number;
       phase: number;
-      speed: number;
-      glow: boolean;
+      rot: number;
+      rotSpeed: number;
     }
 
     const particles: Particle[] = [];
     for (let i = 0; i < count; i++) {
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const isLarge = Math.random() < 0.12;
-      const isMedium = !isLarge && Math.random() < 0.25;
-      const size = isLarge ? 2.5 + Math.random() * 3.5
-        : isMedium ? 1.2 + Math.random() * 1.5
-        : 0.5 + Math.random() * 0.9;
+      const roll = Math.random();
+      let color: string, alpha: number, size: number;
+
+      if (roll < 0.3) {
+        // orange — main accent
+        color = "#ff6a1a";
+        alpha = 0.25 + Math.random() * 0.4;
+        size = 2 + Math.random() * 3;
+      } else if (roll < 0.5) {
+        // dim orange
+        color = "#ff8c4a";
+        alpha = 0.12 + Math.random() * 0.2;
+        size = 1.5 + Math.random() * 2;
+      } else if (roll < 0.7) {
+        // light gray
+        color = "#e0dfe6";
+        alpha = 0.08 + Math.random() * 0.15;
+        size = 1 + Math.random() * 1.5;
+      } else if (roll < 0.88) {
+        // mid gray
+        color = "#706f78";
+        alpha = 0.06 + Math.random() * 0.12;
+        size = 1 + Math.random() * 1.2;
+      } else {
+        // faint white
+        color = "#ffffff";
+        alpha = 0.04 + Math.random() * 0.08;
+        size = 0.8 + Math.random() * 1;
+      }
+
       const baseY = Math.random() * (h + 200);
       particles.push({
         baseY,
@@ -60,11 +73,11 @@ export function OverlayParticles() {
         y: baseY,
         size,
         color,
-        baseAlpha: isLarge ? 0.5 + Math.random() * 0.35 : isMedium ? 0.3 + Math.random() * 0.3 : 0.15 + Math.random() * 0.25,
-        parallax: 0.15 + Math.random() * 0.9,
+        baseAlpha: alpha,
+        parallax: 0.12 + Math.random() * 0.85,
         phase: Math.random() * Math.PI * 2,
-        speed: 0.5 + Math.random() * 1.5,
-        glow: isLarge && color.r > 200,
+        rot: Math.random() * Math.PI,
+        rotSpeed: (Math.random() - 0.5) * 0.003,
       });
     }
 
@@ -82,39 +95,30 @@ export function OverlayParticles() {
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
 
-      const absDelta = Math.abs(scrollDelta);
-      const intensity = Math.min(absDelta * 0.015, 1);
+      const intensity = Math.min(Math.abs(scrollDelta) * 0.015, 1);
 
       for (const p of particles) {
         p.y = p.baseY - lastScroll * p.parallax;
+        p.x += scrollDelta * 0.05 * (p.parallax + 0.15) * Math.sin(p.phase);
+        p.rot += p.rotSpeed + scrollDelta * 0.001;
 
-        p.x += scrollDelta * 0.06 * (p.parallax + 0.2) * Math.sin(p.phase);
+        if (p.y < -20) p.baseY += h + 40;
+        if (p.y > h + 20) p.baseY -= h + 40;
+        if (p.x < -20) p.x = w + 20;
+        if (p.x > w + 20) p.x = -20;
 
-        if (p.y < -30) p.baseY += h + 60;
-        if (p.y > h + 30) p.baseY -= h + 60;
-        if (p.x < -30) p.x = w + 30;
-        if (p.x > w + 30) p.x = -30;
+        const alpha = p.baseAlpha * (0.45 + intensity * 0.55);
 
-        const alpha = p.baseAlpha * (0.5 + intensity * 0.5);
-
-        if (p.glow) {
-          ctx.save();
-          ctx.globalAlpha = alpha * 0.25;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgb(${p.color.r},${p.color.g},${p.color.b})`;
-          ctx.fill();
-          ctx.restore();
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha})`;
-        ctx.fill();
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
       }
 
-      scrollDelta *= 0.92;
-
+      scrollDelta *= 0.9;
       raf = requestAnimationFrame(draw);
     };
     raf = requestAnimationFrame(draw);
