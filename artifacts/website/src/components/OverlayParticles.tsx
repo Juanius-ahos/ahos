@@ -84,11 +84,22 @@ export function OverlayParticles() {
     let lastScroll = window.scrollY;
     let scrollDelta = 0;
     let raf = 0;
+    let particleAlphaMult = 1;
 
     const onScroll = () => {
       const cur = window.scrollY;
       scrollDelta = cur - lastScroll;
       lastScroll = cur;
+
+      // Theme-aware: reduce particle intensity near light section (#14)
+      const lightEl = document.querySelector('.section-light');
+      if (lightEl) {
+        const rect = lightEl.getBoundingClientRect();
+        const proximity = 1 - Math.min(Math.abs(rect.top) / window.innerHeight, 1);
+        particleAlphaMult = 1 - proximity * 0.6;
+      } else {
+        particleAlphaMult = 1;
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -107,7 +118,7 @@ export function OverlayParticles() {
         if (p.x < -20) p.x = w + 20;
         if (p.x > w + 20) p.x = -20;
 
-        const alpha = p.baseAlpha * (0.45 + intensity * 0.55);
+        const alpha = p.baseAlpha * (0.45 + intensity * 0.55) * particleAlphaMult;
 
         ctx.save();
         ctx.translate(p.x, p.y);

@@ -8,6 +8,8 @@ export function HeroCanvas() {
     if (!canvas) return;
 
     const isMobile = window.innerWidth < 768;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
 
     let cleanup: (() => void) | undefined;
 
@@ -38,7 +40,12 @@ export function HeroCanvas() {
         pts[i * 3 + 2] = r * Math.sin(theta) * Math.sin(phi);
       }
 
+      // Store original positions for vertex pulse (#4)
+      const origDotPos = reducedMotion ? null : new Float32Array(pts);
+
+      // Build wireframe edges with distance-based opacity (#6)
       const linePositions: number[] = [];
+      const lineColors: number[] = [];
       const threshold = r * 0.22;
       for (let i = 0; i < count; i++) {
         for (let j = i + 1; j < count; j++) {
@@ -48,24 +55,40 @@ export function HeroCanvas() {
           if (Math.sqrt(dx * dx + dy * dy + dz * dz) < threshold) {
             linePositions.push(pts[i * 3], pts[i * 3 + 1], pts[i * 3 + 2]);
             linePositions.push(pts[j * 3], pts[j * 3 + 1], pts[j * 3 + 2]);
+            // Distance-based fade: closer edges brighter
+            const avgZ = (Math.abs(pts[i * 3 + 2]) + Math.abs(pts[j * 3 + 2])) / (2 * r);
+            const edgeAlpha = 1 - avgZ * 0.5;
+            // Orange color with per-edge alpha encoded as RGB intensity
+            const ci = edgeAlpha;
+            lineColors.push(ci, ci * 0.42, ci * 0.1); // orange tint
+            lineColors.push(ci, ci * 0.42, ci * 0.1);
           }
         }
       }
 
       const lineGeo = new THREE.BufferGeometry();
       lineGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(linePositions), 3));
-      globe.add(new THREE.LineSegments(
-        lineGeo,
-        new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.06 : 0.1 })
-      ));
+      lineGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(lineColors), 3));
+      const lineMat = new THREE.LineBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: isMobile ? 0.06 : 0.1,
+      });
+      globe.add(new THREE.LineSegments(lineGeo, lineMat));
 
+      // Dots
       const dotGeo = new THREE.BufferGeometry();
       dotGeo.setAttribute("position", new THREE.BufferAttribute(pts, 3));
-      globe.add(new THREE.Points(
-        dotGeo,
-        new THREE.PointsMaterial({ color: 0xff6a1a, size: isMobile ? 0.05 : 0.065, transparent: true, opacity: 0.7, sizeAttenuation: true })
-      ));
+      const dotMat = new THREE.PointsMaterial({
+        color: 0xff6a1a,
+        size: isMobile ? 0.05 : 0.065,
+        transparent: true,
+        opacity: 0.7,
+        sizeAttenuation: true,
+      });
+      globe.add(new THREE.Points(dotGeo, dotMat));
 
+      // Latitude rings (desktop only)
       if (!isMobile) {
         for (let lat = -60; lat <= 60; lat += 30) {
           const theta = (90 - lat) * Math.PI / 180;
@@ -80,6 +103,7 @@ export function HeroCanvas() {
         }
       }
 
+      // Equator
       const eqPts: number[] = [];
       for (let i = 0; i <= 48; i++) {
         const phi = (i / 48) * Math.PI * 2;
@@ -89,6 +113,7 @@ export function HeroCanvas() {
       eqGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(eqPts), 3));
       globe.add(new THREE.Line(eqGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.05 : 0.08 })));
 
+      // Orbital rings (desktop only)
       if (!isMobile) {
         const or1Pts: number[] = [];
         for (let i = 0; i <= 64; i++) {
@@ -115,7 +140,7 @@ export function HeroCanvas() {
         globe.add(or2);
       }
 
-      // mid particles
+      // Mid particles
       const mdCount = isMobile ? 200 : 500;
       const mdPos = new Float32Array(mdCount * 3);
       for (let i = 0; i < mdCount; i++) {
@@ -130,7 +155,7 @@ export function HeroCanvas() {
       mdParticles.geometry.setAttribute("position", new THREE.BufferAttribute(mdPos, 3));
       scene.add(mdParticles);
 
-      // near particles
+      // Near particles
       const nrCount = isMobile ? 150 : 400;
       const nrPos = new Float32Array(nrCount * 3);
       for (let i = 0; i < nrCount; i++) {
@@ -145,7 +170,7 @@ export function HeroCanvas() {
       nrParticles.geometry.setAttribute("position", new THREE.BufferAttribute(nrPos, 3));
       scene.add(nrParticles);
 
-      // accent particles
+      // Accent particles
       const clCount = isMobile ? 80 : 200;
       const clPos = new Float32Array(clCount * 3);
       for (let i = 0; i < clCount; i++) {
@@ -160,7 +185,7 @@ export function HeroCanvas() {
       clParticles.geometry.setAttribute("position", new THREE.BufferAttribute(clPos, 3));
       scene.add(clParticles);
 
-      // background particles
+      // Background particles
       const bgCount = isMobile ? 150 : 400;
       const bgPos = new Float32Array(bgCount * 3);
       for (let i = 0; i < bgCount; i++) {
@@ -175,23 +200,25 @@ export function HeroCanvas() {
       bgParticles.geometry.setAttribute("position", new THREE.BufferAttribute(bgPos, 3));
       scene.add(bgParticles);
 
+      // Scroll path config with intensity per keyframe (#5)
       const cfg = isMobile
         ? { startX: 1.8, startY: 0, startScale: 0.7, path: [
-            { rot: Math.PI * 1.5, scale: 0.6, posX: 1.2, posY: -0.3, d: 0.35 },
-            { rot: Math.PI * 2.5, scale: 0.5, posX: 0.5, posY: -0.6, d: 0.25 },
-            { rot: Math.PI * 3.5, scale: 0.4, posX: -0.3, posY: 0.8, d: 0.2 },
-            { rot: Math.PI * 4, scale: 0.3, posX: -0.8, posY: -0.2, d: 0.2 },
+            { rot: Math.PI * 1.5, scale: 0.6, posX: 1.2, posY: -0.3, d: 0.35, intensity: 1.0 },
+            { rot: Math.PI * 2.5, scale: 0.5, posX: 0.5, posY: -0.6, d: 0.25, intensity: 1.3 },
+            { rot: Math.PI * 3.5, scale: 0.4, posX: -0.3, posY: 0.8, d: 0.2, intensity: 1.1 },
+            { rot: Math.PI * 4, scale: 0.3, posX: -0.8, posY: -0.2, d: 0.2, intensity: 0.7 },
           ] }
         : { startX: 8, startY: -0.3, startScale: 1, path: [
-            { rot: Math.PI * 2, scale: 0.85, posX: 4, posY: -0.8, d: 0.35 },
-            { rot: Math.PI * 4, scale: 0.65, posX: 0, posY: -1.2, d: 0.25 },
-            { rot: Math.PI * 5.5, scale: 0.45, posX: -4, posY: 1.5, d: 0.2 },
-            { rot: Math.PI * 6.5, scale: 0.3, posX: -7, posY: -0.5, d: 0.2 },
+            { rot: Math.PI * 2, scale: 0.85, posX: 4, posY: -0.8, d: 0.35, intensity: 1.0 },
+            { rot: Math.PI * 4, scale: 0.65, posX: 0, posY: -1.2, d: 0.25, intensity: 1.4 },
+            { rot: Math.PI * 5.5, scale: 0.45, posX: -4, posY: 1.5, d: 0.2, intensity: 1.1 },
+            { rot: Math.PI * 6.5, scale: 0.3, posX: -7, posY: -0.5, d: 0.2, intensity: 0.7 },
           ] };
 
       globe.position.set(cfg.startX, cfg.startY, 0);
 
-      const state = { rot: 0, scale: cfg.startScale, posX: cfg.startX, posY: cfg.startY };
+      // Add intensity to scroll state (#5)
+      const state = { rot: 0, scale: cfg.startScale, posX: cfg.startX, posY: cfg.startY, intensity: 1.0 };
 
       const gsap = (await import("gsap")).default;
       const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
@@ -207,16 +234,76 @@ export function HeroCanvas() {
         },
       });
       cfg.path.forEach((p) => {
-        tl.to(state, { rot: p.rot, scale: p.scale, posX: p.posX, posY: p.posY, ease: "power1.out", duration: p.d });
+        tl.to(state, { rot: p.rot, scale: p.scale, posX: p.posX, posY: p.posY, intensity: p.intensity, ease: "power1.out", duration: p.d });
       });
+
+      // Mouse parallax tilt (#2) — desktop only
+      let mouseX = 0, mouseY = 0;
+      let tiltX = 0, tiltY = 0;
+      const onMouseMove = (e: MouseEvent) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      if (finePointer && !reducedMotion) {
+        window.addEventListener("mousemove", onMouseMove);
+      }
+
+      // Scroll velocity tracking (#3)
+      let lastScrollY = window.scrollY;
+      let scrollVel = 0;
+      const onScroll = () => {
+        scrollVel = Math.abs(window.scrollY - lastScrollY);
+        lastScrollY = window.scrollY;
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      // Base opacities
+      const baseLineOpacity = isMobile ? 0.06 : 0.1;
+      const baseDotOpacity = 0.7;
 
       let frame = 0;
       const animate = () => {
+        const t = reducedMotion ? 0 : performance.now() * 0.001;
+
+        // Breathing pulse (#1)
+        const breathe = reducedMotion ? 0 : Math.sin(t * 0.8) * 0.15;
+
+        // Scroll velocity boost (#3)
+        const velBoost = Math.min(scrollVel * 0.003, 0.6);
+
+        // Theme-aware intensity from keyframes (#5)
+        const intBoost = state.intensity;
+
+        // Apply breathing + velocity + intensity to materials
+        lineMat.opacity = baseLineOpacity * (1 + breathe + velBoost) * intBoost;
+        dotMat.opacity = baseDotOpacity * (0.85 + breathe * 0.5) * intBoost;
+
+        // Globe transforms
         globe.rotation.y = state.rot;
         globe.rotation.x = Math.sin(state.rot * 0.2) * 0.06;
         globe.position.x = state.posX;
         globe.position.y = state.posY;
         globe.scale.setScalar(state.scale);
+
+        // Mouse tilt (#2)
+        if (finePointer && !reducedMotion) {
+          tiltX += (mouseY * 0.03 - tiltX) * 0.06;
+          tiltY += (mouseX * 0.05 - tiltY) * 0.06;
+          globe.rotation.x += tiltX;
+          globe.rotation.z = tiltY;
+        }
+
+        // Vertex pulse (#4) — animate Y of each dot
+        if (!reducedMotion && origDotPos) {
+          const posAttr = dotGeo.getAttribute("position");
+          for (let i = 0; i < count; i++) {
+            const wave = Math.sin(t * 0.6 + i * 0.15) * 0.04;
+            posAttr.array[i * 3 + 1] = origDotPos[i * 3 + 1] + wave;
+          }
+          posAttr.needsUpdate = true;
+        }
+
+        // Particle rotations
         mdParticles.rotation.y = state.rot * 0.25;
         mdParticles.rotation.x = Math.sin(state.rot * 0.25) * 0.04;
         nrParticles.rotation.y = state.rot * 0.35;
@@ -224,7 +311,9 @@ export function HeroCanvas() {
         clParticles.rotation.y = state.rot * 0.2;
         clParticles.rotation.x = Math.sin(state.rot * 0.2) * 0.03;
         bgParticles.rotation.y = state.rot * 0.08;
+
         renderer.render(scene, camera);
+        scrollVel *= 0.85; // decay
         frame = requestAnimationFrame(animate);
       };
       frame = requestAnimationFrame(animate);
@@ -240,6 +329,8 @@ export function HeroCanvas() {
       cleanup = () => {
         cancelAnimationFrame(frame);
         window.removeEventListener("resize", onResize);
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("scroll", onScroll);
         const st = tl.scrollTrigger;
         if (st) st.kill();
         tl.kill();

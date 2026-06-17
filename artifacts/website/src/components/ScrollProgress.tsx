@@ -34,6 +34,9 @@ export function ScrollProgress() {
           background: linear-gradient(90deg, var(--orange), var(--orange-light));
           transform: scaleX(0); transform-origin: 0 50%; will-change: transform;
           box-shadow: 0 0 12px rgba(255,106,26,0.5); }
+        .scrollprog::after { content: ""; position: absolute; right: -4px; top: -3px;
+          width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+          box-shadow: 0 0 10px var(--orange), 0 0 20px rgba(255,106,26,0.35); }
       `}</style>
       <div ref={ref} className="scrollprog" aria-hidden="true" />
     </>

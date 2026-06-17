@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { Reveal } from "../components/motion";
+import { Reveal, Parallax } from "../components/motion";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
@@ -115,7 +115,8 @@ function WorkRail() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const n = work.length;
   const total = n + 1;
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
+  const rawX = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
+  const x = useSpring(rawX, { stiffness: 300, damping: 30, bounce: 0.1 });
   const [idx, setIdx] = useState(1);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setIdx(Math.min(total, Math.floor(v * total) + 1));
@@ -215,12 +216,14 @@ function ServicesStack() {
           >
             <div className="sc-card-inner">
               <div className="sc-card-accent" />
-              <span className="sc-card-num">{c.n}</span>
-              <h3 className="sc-card-title">{c.title}</h3>
-              <p className="sc-card-desc">{c.desc}</p>
-              <div className="sc-card-link">
-                <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
-              </div>
+              <Parallax amount={-12} style={{ width: '100%' }}>
+                <span className="sc-card-num">{c.n}</span>
+                <h3 className="sc-card-title">{c.title}</h3>
+                <p className="sc-card-desc">{c.desc}</p>
+                <div className="sc-card-link">
+                  <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
+                </div>
+              </Parallax>
             </div>
           </div>
         ))}
@@ -357,6 +360,7 @@ function StatsGrid() {
 
 function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: boolean }) {
   const [val, setVal] = useState(0);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     if (!play) return;
     if (to === 0) { setVal(0); return; }
@@ -369,11 +373,12 @@ function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: bo
       const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
       setVal(Math.round(eased * to));
       if (p < 1) raf = requestAnimationFrame(step);
+      else setDone(true);
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [play, to]);
-  return <>{val}{suffix}</>;
+  return <span className={done ? "stat-bounce" : ""}>{val}{suffix}</span>;
 }
 
 function Marquee() {
