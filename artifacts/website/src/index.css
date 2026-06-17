@@ -525,3 +525,50 @@ html.lenis, html.lenis body { height: auto; }
 .tm-role { font-size: 12.5px; color: var(--text-dim); }
 @media (max-width: 800px) { .tm-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .tm-grid { grid-template-columns: 1fr; } }
+
+/* ─── CORNER GLOW ─── */
+.corner-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--cg-a, 1);
+  transition: opacity 0.4s ease;
+}
+
+.corner-glow::before,
+.corner-glow::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Orange — bleeds from bottom-left edge */
+.corner-glow::before {
+  width: var(--cg-s, 42vw);
+  height: calc(var(--cg-s, 42vw) * 1.3);
+  left: var(--cg-ox, -15vw);
+  bottom: var(--cg-oy, 15vh);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 118, 30, 0.09) 0%,
+    rgba(255, 118, 30, 0.035) 35%,
+    transparent 65%
+  );
+  transform: rotate(-12deg);
+}
+
+/* Gray — atmospheric haze from top-right edge */
+.corner-glow::after {
+  width: calc(var(--cg-s, 42vw) * 0.7);
+  height: calc(var(--cg-s, 42vw) * 0.85);
+  right: var(--cg-gx, -15vw);
+  top: var(--cg-gy, 10vh);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(84, 84, 84, 0.06) 0%,
+    rgba(84, 84, 84, 0.02) 40%,
+    transparent 65%
+  );
+  transform: rotate(10deg);
+}

@@ -8,6 +8,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
+import { CornerGlow } from "@/components/CornerGlow";
 import { Loader } from "@/components/Loader";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import Home from "@/pages/Home";
@@ -63,6 +64,7 @@ export default function App() {
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
         <Loader onComplete={() => setLoaded(true)} />
         <HeroCanvas />
+        <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
           <rect width="100%" height="100%" filter="url(#grain)"/>

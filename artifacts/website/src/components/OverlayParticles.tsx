@@ -108,37 +108,6 @@ export function OverlayParticles() {
 
       const intensity = Math.min(Math.abs(scrollDelta) * 0.015, 1);
 
-      // ── Corner glow — opposite to globe, cinematic depth ──
-      const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPct = scrollMax > 0 ? lastScroll / scrollMax : 0;
-      const isLight = document.documentElement.dataset.theme === "light";
-
-      // Globe goes right (x:8) → left (x:-7). Glow starts bottom-left, drifts right.
-      const glowX = w * (0.08 + scrollPct * 0.25);
-      const glowY = h * 0.88;
-      const glowRadius = Math.min(w, h) * 0.55;
-
-      let glowAlpha = isLight ? 0.03 : 0.09;
-      // Dim near light section
-      const lightEl = document.querySelector('.section-light');
-      if (lightEl) {
-        const rect = lightEl.getBoundingClientRect();
-        const dist = Math.abs(rect.top) / window.innerHeight;
-        if (dist < 1.2) glowAlpha *= Math.max(0.15, dist / 1.2);
-      }
-      // Subtle brighten on fast scroll
-      glowAlpha += intensity * 0.03;
-      glowAlpha = Math.min(glowAlpha, isLight ? 0.05 : 0.12);
-
-      // Soft corner gradient — anchored bottom-left, fading toward center
-      const glow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowRadius);
-      glow.addColorStop(0, `rgba(255, 106, 26, ${glowAlpha})`);
-      glow.addColorStop(0.35, `rgba(255, 106, 26, ${glowAlpha * 0.4})`);
-      glow.addColorStop(0.7, `rgba(255, 106, 26, ${glowAlpha * 0.08})`);
-      glow.addColorStop(1, "rgba(255, 106, 26, 0)");
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, w, h);
-
       // ── Overlay particles ──
       for (const p of particles) {
         p.y = p.baseY - lastScroll * p.parallax;
