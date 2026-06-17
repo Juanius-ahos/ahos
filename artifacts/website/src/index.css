@@ -301,6 +301,11 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
+/* ── Scroll snap — Home page only via data-page ── */
+html.lenis.lenis-smooth[data-page="/"] { scroll-snap-type: y proximity; scroll-padding-top: 64px; }
+html.lenis.lenis-smooth[data-page="/"].lenis-stopped { scroll-snap-type: none; }
+@media (prefers-reduced-motion: reduce) { html.lenis.lenis-smooth[data-page="/"] { scroll-snap-type: none; } }
+
 /* ── SplitText (character-mask reveal) ── */
 .split-word { display: inline-block; white-space: nowrap; }
 .split-char { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
@@ -366,12 +371,12 @@ html.lenis, html.lenis body { height: auto; }
 .section-light .ed-step { border-top-color: var(--border-soft); }
 
 /* ── Section overlaps — cinematic bleed between sections (#7) ── */
-.zoom-section { margin-bottom: -8vh; }
-.hs-section { margin-top: -4vh; z-index: 2; }
-.sc-section { margin-top: -6vh; z-index: 3; }
-.ps-section { margin-top: -4vh; z-index: 4; }
-.sg-section { margin-top: -4vh; z-index: 5; }
-.mq-section { margin-top: -2vh; }
+.zoom-section { margin-bottom: -8vh; scroll-snap-align: start; }
+.hs-section { margin-top: -4vh; z-index: 2; scroll-snap-align: start; }
+.sc-section { margin-top: -6vh; z-index: 3; scroll-snap-align: start; }
+.ps-section { margin-top: -4vh; z-index: 4; scroll-snap-align: start; }
+.sg-section { margin-top: -4vh; z-index: 5; scroll-snap-align: start; }
+.mq-section { margin-top: -2vh; scroll-snap-align: start; }
 
 /* ── Zoom text section ── */
 .zoom-section { position: relative; height: 300vh; perspective: 800px; }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
@@ -31,6 +31,10 @@ function NotFound() {
 
 function Router() {
   const [location] = useLocation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-page", location);
+  }, [location]);
 
   return (
     <motion.div
