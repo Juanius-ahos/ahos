@@ -453,38 +453,17 @@ function Testimonials() {
     },
   ];
   return (
-    <section className="ed ed-sec" style={{ scrollSnapAlign: "start" }}>
+    <section className="ed ed-sec">
       <Label n="04" text="What clients say" />
       <h2 className="ed-h2">Kind words from people we've worked with.</h2>
       <div className="tm-grid">
         {t.map((tc, i) => (
-          <motion.div
-            key={tc.name}
-            className="tm-card"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true, margin: "-10%" }}
-          >
+          <Reveal key={tc.name} delay={i * 100} className="tm-card">
             <div className="tm-stars">
-              {[1,2,3,4,5].map((s) => (
-                <motion.svg
-                  key={s}
-                  width="16"
-                  height="16"
-                  viewBox="0 0 20 20"
-                  fill="var(--orange)"
-                  initial={{ opacity: 0, x: 80 + s * 18, y: -30 - s * 12, rotate: 90 + s * 25, scale: 0 }}
-                  whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: [0, 1.2, 1] }}
-                  transition={{
-                    duration: 0.7,
-                    delay: i * 0.12 + s * 0.08,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  viewport={{ once: true, margin: "-10%" }}
-                >
+              {[1,2,3,4,5].map(s => (
+                <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)">
                   <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
-                </motion.svg>
+                </svg>
               ))}
             </div>
             <p className="tm-text">"{tc.text}"</p>
@@ -492,7 +471,7 @@ function Testimonials() {
               <span className="tm-name">{tc.name}</span>
               <span className="tm-role">{tc.role}</span>
             </div>
-          </motion.div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -513,7 +492,7 @@ export default function Home() {
       <OverlayParticles />
 
       {/* ─── HERO ─── */}
-      <header className="ed-hero" style={{ scrollSnapAlign: "start" }}>
+      <header className="ed-hero">
         <div className="ed ed-hero-inner">
           <Parallax amount={35}>
             <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
@@ -567,7 +546,7 @@ export default function Home() {
       <Marquee />
 
       {/* ─── CTA ─── */}
-      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)", scrollSnapAlign: "start" }}>
+      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }}>
         <div className="ed">
           <Reveal dir="left"><Label n="07" text="Start here" /></Reveal>
           <h2 style={{

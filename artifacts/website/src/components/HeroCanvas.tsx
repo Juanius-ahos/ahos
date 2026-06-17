@@ -95,8 +95,6 @@ export function HeroCanvas() {
       eqGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(eqPts), 3));
       globe.add(new THREE.Line(eqGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.05 : 0.08 })));
 
-      let or1: THREE.Line | null = null;
-      let or2: THREE.Line | null = null;
       if (!isMobile) {
         const or1Pts: number[] = [];
         for (let i = 0; i <= 64; i++) {
@@ -106,7 +104,7 @@ export function HeroCanvas() {
         }
         const or1Geo = new THREE.BufferGeometry();
         or1Geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(or1Pts), 3));
-        or1 = new THREE.Line(or1Geo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.035 }));
+        const or1 = new THREE.Line(or1Geo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.035 }));
         or1.rotation.x = 0.3;
         globe.add(or1);
 
@@ -118,7 +116,7 @@ export function HeroCanvas() {
         }
         const or2Geo = new THREE.BufferGeometry();
         or2Geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(or2Pts), 3));
-        or2 = new THREE.Line(or2Geo, new THREE.LineBasicMaterial({ color: 0x4455cc, transparent: true, opacity: 0.03 }));
+        const or2 = new THREE.Line(or2Geo, new THREE.LineBasicMaterial({ color: 0x4455cc, transparent: true, opacity: 0.03 }));
         or2.rotation.y = 0.5;
         globe.add(or2);
       }
@@ -218,39 +216,6 @@ export function HeroCanvas() {
         tl.to(state, { rot: p.rot, scale: p.scale, posX: p.posX, posY: p.posY, ease: "power1.out", duration: p.d });
       });
 
-      // ── Velocity tracking ──
-      let lastScrollY = window.scrollY;
-      let scrollVelocity = 0;
-
-      // ── Section-aware rest poses ──
-      const sectionPoses = [
-        { tiltX: 0, tiltZ: 0 },       // Hero
-        { tiltX: 0.02, tiltZ: 0.01 }, // Zoom
-        { tiltX: 0.03, tiltZ: -0.01 },// Work
-        { tiltX: 0.01, tiltZ: 0.02 }, // Services
-        { tiltX: 0.02, tiltZ: -0.02 },// Testimonials
-        { tiltX: -0.01, tiltZ: 0.01 },// Process
-        { tiltX: 0.01, tiltZ: 0 },    // Stats
-        { tiltX: 0, tiltZ: -0.01 },   // Marquee/CTA
-      ];
-      let activeSectionIdx = 0;
-      let currentTiltX = 0, currentTiltZ = 0;
-
-      const sectionEls = document.querySelectorAll(
-        ".ed-hero, .zoom-section, .hs-section, .sc-section, .ed-sec, .ps-section, .sg-section, .mq-section"
-      );
-      if (sectionEls.length && !reducedMotion) {
-        const observer = new IntersectionObserver((entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              const idx = Array.from(sectionEls).indexOf(e.target);
-              if (idx >= 0) activeSectionIdx = idx;
-            }
-          }
-        }, { threshold: 0.25 });
-        sectionEls.forEach((el) => observer.observe(el));
-      }
-
       // Mouse parallax tilt — desktop only
       let mouseX = 0, mouseY = 0;
       let tiltX = 0, tiltY = 0;
@@ -264,55 +229,23 @@ export function HeroCanvas() {
 
       let frame = 0;
       const animate = () => {
-        // ── Velocity tracking ──
-        const raw = window.scrollY - lastScrollY;
-        scrollVelocity = raw * 0.15;
-        lastScrollY = window.scrollY;
-        scrollVelocity *= 0.95;
-        const isIdle = Math.abs(scrollVelocity) < 0.001;
-        const t = performance.now() * 0.001;
-
-        // ── Idle breathing ──
-        if (isIdle && !reducedMotion) {
-          state.rot += 0.001;
-        }
-
-        // ── Base rotation: scrub path + velocity boost ──
-        globe.rotation.y = state.rot + (reducedMotion ? 0 : scrollVelocity);
-
-        // ── Directional tilt (scroll direction) ──
-        const dirTilt = reducedMotion ? 0
-          : Math.min(Math.abs(scrollVelocity) * 0.01, 0.02) * (scrollVelocity > 0 ? 1 : -1);
-        globe.rotation.x = Math.sin(state.rot * 0.2) * 0.06 + dirTilt;
-
-        // ── Section-aware rest pose (lerp when idle) ──
-        if (!reducedMotion) {
-          const target = sectionPoses[activeSectionIdx] || sectionPoses[0];
-          const lerpFactor = isIdle ? 0.03 : 0.01;
-          currentTiltX += (target.tiltX - currentTiltX) * lerpFactor;
-          currentTiltZ += (target.tiltZ - currentTiltZ) * lerpFactor;
-          globe.rotation.x += currentTiltX;
-          globe.rotation.z = currentTiltZ;
-        }
-
-        // ── Position + scale ──
+        globe.rotation.y = state.rot;
+        globe.rotation.x = Math.sin(state.rot * 0.2) * 0.06;
         globe.position.x = state.posX;
         globe.position.y = state.posY;
+        globe.scale.setScalar(state.scale);
 
-        // ── Idle scale breathe ──
-        const breathe = isIdle && !reducedMotion ? Math.sin(t * 0.5) * 0.005 : 0;
-        globe.scale.setScalar(state.scale + breathe);
-
-        // ── Mouse tilt ──
+        // Mouse tilt
         if (finePointer && !reducedMotion) {
           tiltX += (mouseY * 0.03 - tiltX) * 0.06;
           tiltY += (mouseX * 0.05 - tiltY) * 0.06;
           globe.rotation.x += tiltX;
-          globe.rotation.z += tiltY;
+          globe.rotation.z = tiltY;
         }
 
-        // ── Vertex pulse ──
+        // Vertex pulse — animate Y of each dot
         if (!reducedMotion && origDotPos) {
+          const t = performance.now() * 0.001;
           const posAttr = dotGeo.getAttribute("position");
           for (let i = 0; i < count; i++) {
             const wave = Math.sin(t * 0.6 + i * 0.15) * 0.04;
@@ -321,11 +254,6 @@ export function HeroCanvas() {
           posAttr.needsUpdate = true;
         }
 
-        // ── Orbital ring animation ──
-        if (or1) or1.rotation.x += 0.0008;
-        if (or2) or2.rotation.y += 0.0006;
-
-        // ── Particle layers ──
         mdParticles.rotation.y = state.rot * 0.25;
         mdParticles.rotation.x = Math.sin(state.rot * 0.25) * 0.04;
         nrParticles.rotation.y = state.rot * 0.35;
