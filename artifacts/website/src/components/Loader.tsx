@@ -29,17 +29,7 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
         },
       });
 
-      tl.fromTo(cols, { scaleY: 1 }, {
-          scaleY: 0,
-          x: (i) => (i % 2 === 0 ? -180 : 180) + (Math.random() - 0.5) * 120,
-          y: (i) => (Math.random() - 0.5) * 250,
-          rotation: (i) => (Math.random() - 0.5) * 35,
-          opacity: 0,
-          duration: 0.7,
-          stagger: 0.03,
-          ease: "power3.in",
-          delay: 2.8,
-        })
+      tl.fromTo(cols, { scaleY: 1 }, { scaleY: 0, duration: 0.55, stagger: 0.05, ease: "power3.inOut", delay: 2.8 })
         .to(brand, { opacity: 0, duration: 0.45, ease: "power2.out" }, "-=0.5")
         .to(sub, { opacity: 0, duration: 0.35, ease: "power2.out" }, "-=0.3")
         .to(els, { opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.2");

@@ -386,8 +386,9 @@ html.lenis, html.lenis body { height: auto; }
 .hs-heading-row { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
 .hs-track-wrap { flex: 1; display: flex; align-items: center; overflow: hidden; }
 .hs-track { display: flex; gap: 3vw; align-items: center; will-change: transform; padding-left: var(--gutter); }
-.hs-card { position: relative; flex: 0 0 min(88vw, 880px); aspect-ratio: 16 / 10; border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-card); border: 1px solid var(--border); display: flex; flex-direction: column; transition: border-color 0.35s, box-shadow 0.35s; }
+.hs-card { position: relative; flex: 0 0 min(88vw, 880px); aspect-ratio: 16 / 10; border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-card); border: 1px solid var(--border); transition: border-color 0.35s, box-shadow 0.35s; }
 .hs-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 40px rgba(255,106,26,0.08); }
+.hs-card-inner-link { display: flex; flex-direction: column; width: 100%; height: 100%; color: inherit; text-decoration: none; }
 .hs-card-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: linear-gradient(180deg, rgba(14,14,16,0.7) 0%, transparent 100%); }
 .hs-card-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
 .hs-card img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }

@@ -91,7 +91,7 @@ export function OverlayParticles() {
       scrollDelta = cur - lastScroll;
       lastScroll = cur;
 
-      // Theme-aware: reduce particle intensity near light section (#14)
+      // Reduce particle intensity near light section
       const lightEl = document.querySelector('.section-light');
       if (lightEl) {
         const rect = lightEl.getBoundingClientRect();
@@ -108,6 +108,36 @@ export function OverlayParticles() {
 
       const intensity = Math.min(Math.abs(scrollDelta) * 0.015, 1);
 
+      // ── Ambient glow orb ──
+      const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPct = scrollMax > 0 ? lastScroll / scrollMax : 0;
+      const isLight = document.documentElement.dataset.theme === "light";
+
+      // Glow drifts from right to left across the page
+      const glowX = w * (0.7 - scrollPct * 0.4);
+      // Slight vertical parallax
+      const glowY = h * 0.45 + Math.sin(scrollPct * Math.PI) * h * 0.08;
+      const glowRadius = Math.min(w, h) * 0.38;
+
+      // Detect proximity to light section for glow dimming
+      const lightEl = document.querySelector('.section-light');
+      let glowAlpha = isLight ? 0.05 : 0.14;
+      if (lightEl) {
+        const rect = lightEl.getBoundingClientRect();
+        const dist = Math.abs(rect.top) / window.innerHeight;
+        if (dist < 1) glowAlpha *= 0.3 + dist * 0.7;
+      }
+      // Scroll velocity brightens the glow
+      glowAlpha += intensity * 0.06;
+
+      const glow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowRadius);
+      glow.addColorStop(0, `rgba(255, 106, 26, ${glowAlpha})`);
+      glow.addColorStop(0.5, `rgba(255, 106, 26, ${glowAlpha * 0.35})`);
+      glow.addColorStop(1, "rgba(255, 106, 26, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+
+      // ── Overlay particles ──
       for (const p of particles) {
         p.y = p.baseY - lastScroll * p.parallax;
         p.x += scrollDelta * 0.05 * (p.parallax + 0.15) * Math.sin(p.phase);

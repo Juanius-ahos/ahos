@@ -110,6 +110,28 @@ function ZoomReveal() {
   );
 }
 
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const active = () =>
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el || !active()) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) scale(1.015)`;
+  };
+  const reset = () => { if (ref.current) ref.current.style.transform = ""; };
+  return (
+    <div ref={ref} className={className} onMouseMove={onMove} onMouseLeave={reset}
+      style={{ transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)", willChange: "transform" }}>
+      {children}
+    </div>
+  );
+}
+
 function WorkRail() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
@@ -126,7 +148,7 @@ function WorkRail() {
     <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref}>
       <div className="hs-sticky">
         <div className="hs-heading">
-          <Label n="02" text="Selected work" />
+          <Reveal dir="left"><Label n="02" text="Selected work" /></Reveal>
           <div className="hs-heading-row">
             <h2 className="ed-h2" style={{ margin: 0 }}>Projects we've shipped.</h2>
             <div className="hs-counter">
@@ -139,43 +161,47 @@ function WorkRail() {
           <motion.div className="hs-track" style={{ x }}>
             {work.map((p) =>
               p.url.startsWith("/") ? (
-                <Link key={p.name} href={p.url} className="hs-card">
-                  <picture>
-                    {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
-                  </picture>
-                  <div className="hs-card-bar">
-                    <span className="hs-card-dot" />
-                    <span className="hs-card-dot" />
-                    <span className="hs-card-dot" />
-                  </div>
-                  <div className="hs-cap">
-                    <div className="hs-cap-tx">
-                      <h3 className="hs-name">{p.name}</h3>
-                      <span className="hs-cat">{p.cat}</span>
+                <TiltCard key={p.name} className="hs-card">
+                  <Link href={p.url} className="hs-card-inner-link">
+                    <picture>
+                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
+                      <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                    </picture>
+                    <div className="hs-card-bar">
+                      <span className="hs-card-dot" />
+                      <span className="hs-card-dot" />
+                      <span className="hs-card-dot" />
                     </div>
-                    <span className="hs-go" aria-hidden="true">Visit ↗</span>
-                  </div>
-                </Link>
+                    <div className="hs-cap">
+                      <div className="hs-cap-tx">
+                        <h3 className="hs-name">{p.name}</h3>
+                        <span className="hs-cat">{p.cat}</span>
+                      </div>
+                      <span className="hs-go" aria-hidden="true">Visit ↗</span>
+                    </div>
+                  </Link>
+                </TiltCard>
               ) : (
-                <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card">
-                  <picture>
-                    {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                    <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
-                  </picture>
-                  <div className="hs-card-bar">
-                    <span className="hs-card-dot" />
-                    <span className="hs-card-dot" />
-                    <span className="hs-card-dot" />
-                  </div>
-                  <div className="hs-cap">
-                    <div className="hs-cap-tx">
-                      <h3 className="hs-name">{p.name}</h3>
-                      <span className="hs-cat">{p.cat}</span>
+                <TiltCard key={p.name} className="hs-card">
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card-inner-link">
+                    <picture>
+                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
+                      <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                    </picture>
+                    <div className="hs-card-bar">
+                      <span className="hs-card-dot" />
+                      <span className="hs-card-dot" />
+                      <span className="hs-card-dot" />
                     </div>
-                    <span className="hs-go" aria-hidden="true">Visit ↗</span>
-                  </div>
-                </a>
+                    <div className="hs-cap">
+                      <div className="hs-cap-tx">
+                        <h3 className="hs-name">{p.name}</h3>
+                        <span className="hs-cat">{p.cat}</span>
+                      </div>
+                      <span className="hs-go" aria-hidden="true">Visit ↗</span>
+                    </div>
+                  </a>
+                </TiltCard>
               )
             )}
             <div className="hs-end-card">
@@ -217,12 +243,14 @@ function ServicesStack() {
             <div className="sc-card-inner">
               <div className="sc-card-accent" />
               <Parallax amount={-12} style={{ width: '100%' }}>
-                <span className="sc-card-num">{c.n}</span>
-                <h3 className="sc-card-title">{c.title}</h3>
-                <p className="sc-card-desc">{c.desc}</p>
-                <div className="sc-card-link">
-                  <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
-                </div>
+                <Reveal><span className="sc-card-num">{c.n}</span></Reveal>
+                <Reveal delay={80}><h3 className="sc-card-title">{c.title}</h3></Reveal>
+                <Reveal delay={160}><p className="sc-card-desc">{c.desc}</p></Reveal>
+                <Reveal delay={240}>
+                  <div className="sc-card-link">
+                    <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
+                  </div>
+                </Reveal>
               </Parallax>
             </div>
           </div>
@@ -466,17 +494,27 @@ export default function Home() {
       {/* ─── HERO ─── */}
       <header className="ed-hero">
         <div className="ed ed-hero-inner">
-          <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
-          <div className="ed-hero-meta">
-            <span>AHOS</span><span className="ed-dot" /><span>Digital Studio</span>
-          </div>
+          <Parallax amount={35}>
+            <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
+          </Parallax>
+          <Parallax amount={25}>
+            <div className="ed-hero-meta">
+              <span>AHOS</span><span className="ed-dot" /><span>Digital Studio</span>
+            </div>
+          </Parallax>
           <h1 className="ed-hero-title">
-            <span className="ed-hero-line">We build digital</span>
-            <span className="ed-hero-line ed-hero-line-accent">experiences.</span>
+            <Parallax amount={12}>
+              <span className="ed-hero-line">We build digital</span>
+            </Parallax>
+            <Parallax amount={5}>
+              <span className="ed-hero-line ed-hero-line-accent">experiences.</span>
+            </Parallax>
           </h1>
           <div className="ed-hero-lead">
-            <p>We don't follow templates. We architect custom digital solutions from strategy to launch.</p>
-            <p className="ed-hero-lead-sm">For businesses that are built to stand out.</p>
+            <Parallax amount={-8}>
+              <p>We don't follow templates. We architect custom digital solutions from strategy to launch.</p>
+              <p className="ed-hero-lead-sm">For businesses that are built to stand out.</p>
+            </Parallax>
             <div className="ed-hero-actions">
               <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
               <Link href="/services" className="ed-link-arrow">Explore services</Link>
@@ -510,7 +548,7 @@ export default function Home() {
       {/* ─── CTA ─── */}
       <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }}>
         <div className="ed">
-          <Label n="07" text="Start here" />
+          <Reveal dir="left"><Label n="07" text="Start here" /></Reveal>
           <h2 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(80px, 22vw, 360px)",
