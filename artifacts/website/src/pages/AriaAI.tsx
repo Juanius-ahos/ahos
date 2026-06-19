@@ -49,6 +49,24 @@ const SYSTEM_PROMPT = [
   "Process: fixed-price quotes, milestone payments, 100% code ownership, 30-day post-launch support.",
   "Contact: info@ahos.xyz | Telegram: @ahos_studio",
   "",
+  "# LIVE PREVIEW",
+  "You have a live preview panel. When you understand enough about the project (after 2-3 exchanges), generate a mini website mockup.",
+  "Format: output the HTML between these exact markers:",
+  "##PREVIEW##",
+  "<!DOCTYPE html><html><head><style>/* inline CSS only */</style></head><body>...</body></html>",
+  "##END##",
+  "Rules for the preview HTML:",
+  "- Use ONLY inline style tags — no external CSS, no JavaScript, no links, no images from external URLs",
+  "- Use colored divs with text as placeholders (e.g. background:#222 with 'Your Logo' text)",
+  "- Keep total HTML under 1800 characters",
+  "- Include: header/nav, hero section, 1-2 content blocks, a CTA section, footer",
+  "- Use the visitor's industry, colors, and project type for context",
+  "- Make it responsive using percentages, vw, vh units",
+  "- Use modern, clean design — rounded corners, good spacing, dark or light theme that matches AHOS style",
+  "- When you get new info that changes the design, generate an updated ##PREVIEW## block",
+  "- Only generate a preview when you have something meaningful to show (not on the very first reply)",
+  "- Do NOT mention the preview in your chat text — just output the ##PREVIEW## block silently at the end of your message",
+  "",
   "# RULES",
   "- Never ask for contact info before Phase 3",
   "- One question per reply",
@@ -65,6 +83,7 @@ const WELCOME = "Hey there! I'm ARIA, your AI project advisor from AHOS Studio. 
 const CHIPS = ["Website", "Mobile App", "SaaS Platform", "Web3 / DeFi", "AI Tool", "Something else"];
 
 const LEAD_RE = /##LEAD##([\s\S]*?)##END##/;
+const PREVIEW_RE = /##PREVIEW##([\s\S]*?)##END##/;
 const EMAIL_RE = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/;
 
 interface Message {
@@ -85,6 +104,9 @@ export default function AriaAI() {
   const [busy, setBusy] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
   const [apiReady, setApiReady] = useState(true);
+  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<"chat" | "preview">("chat");
+  const [deviceWidth, setDeviceWidth] = useState<"full" | "tablet" | "mobile">("full");
   const msgsRef = useRef<HTMLDivElement>(null);
   const inpRef = useRef<HTMLTextAreaElement>(null);
   const historyRef = useRef<Message[]>([{ role: "assistant", content: WELCOME }]);
@@ -117,6 +139,15 @@ export default function AriaAI() {
     }
     return clean;
   }, [leadSent]);
+
+  const handlePreview = useCallback((raw: string): string => {
+    const clean = raw.replace(PREVIEW_RE, "").trim();
+    const m = raw.match(PREVIEW_RE);
+    if (m && m[1].trim().length > 50) {
+      setPreviewHtml(m[1].trim());
+    }
+    return clean;
+  }, []);
 
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim();
@@ -153,7 +184,8 @@ export default function AriaAI() {
 
       const data = await res.json();
       const raw = data?.choices?.[0]?.message?.content || "";
-      const clean = handleLead(raw.trim());
+      const afterPreview = handlePreview(raw.trim());
+      const clean = handleLead(afterPreview);
       if (clean) {
         const ariaMsg: Message = { role: "assistant", content: clean };
         historyRef.current = [...historyRef.current, ariaMsg];
@@ -168,7 +200,7 @@ export default function AriaAI() {
 
     setBusy(false);
     scrollToBottom();
-  }, [busy, handleLead, scrollToBottom]);
+  }, [busy, handleLead, handlePreview, scrollToBottom]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
@@ -182,8 +214,11 @@ export default function AriaAI() {
     setLeadSent(false);
     setBusy(false);
     setInput("");
+    setPreviewHtml(null);
     if (inpRef.current) inpRef.current.style.height = "auto";
   };
+
+  const iframeW = deviceWidth === "tablet" ? 768 : deviceWidth === "mobile" ? 375 : "100%";
 
   return (
     <>
@@ -193,78 +228,128 @@ export default function AriaAI() {
       <style>{css}</style>
 
       <div className="ar-page">
-        <header className="ar-top">
-          <div className="ar-top-l">
-            <span className="ar-top-ico">
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" />
-              </svg>
-            </span>
-            <span className="ar-top-name">ARIA</span>
-            <span className="ar-top-by">by AHOS</span>
-          </div>
-          <div className="ar-top-c">
-            <span className="ar-live-dot" />
-            <span>{apiReady ? "Online" : "No API key"}</span>
-          </div>
-          <button className="ar-top-new" onClick={newChat} title="New conversation">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            New chat
-          </button>
-        </header>
-
-        <div className="ar-msgs" ref={msgsRef}>
-          {messages.length === 1 && !busy && (
-            <div className="ar-welcome">
-              <div className="ar-welcome-ico">
-                <svg width="40" height="40" viewBox="0 0 20 20" fill="none">
+        {/* ─── CHAT PANEL ─── */}
+        <div className="ar-chat">
+          <header className="ar-top">
+            <div className="ar-top-l">
+              <span className="ar-top-ico">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                   <circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" />
                 </svg>
-              </div>
-              <h1 className="ar-welcome-h1">Hi, I'm ARIA.</h1>
-              <p className="ar-welcome-p">Your AI project advisor. Tell me what you're building — a website, app, AI tool, or Web3 project — and I'll help you scope it out.</p>
-              <div className="ar-chips">
-                {CHIPS.map((chip) => (
-                  <button key={chip} className="ar-chip" onClick={() => handleChip(chip)}>{chip}</button>
-                ))}
-              </div>
+              </span>
+              <span className="ar-top-name">ARIA</span>
+              <span className="ar-top-by">by AHOS</span>
             </div>
-          )}
-          {messages.slice(1).map((msg, i) => (
-            <div key={i} className={"ar-msg " + (msg.role === "user" ? "ar-msg-user" : "ar-msg-aria")} style={{ animationDelay: "0s" }}>
-              {msg.role === "assistant" && (
+            <div className="ar-top-c">
+              <span className="ar-live-dot" />
+              <span>{apiReady ? "Online" : "No API key"}</span>
+            </div>
+            <button className="ar-top-new" onClick={newChat} title="New conversation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              New chat
+            </button>
+          </header>
+
+          <div className="ar-msgs" ref={msgsRef}>
+            {messages.length === 1 && !busy && (
+              <div className="ar-welcome">
+                <div className="ar-welcome-ico">
+                  <svg width="40" height="40" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" />
+                  </svg>
+                </div>
+                <h1 className="ar-welcome-h1">Hi, I'm ARIA.</h1>
+                <p className="ar-welcome-p">Your AI project advisor. Tell me what you're building — a website, app, AI tool, or Web3 project — and I'll help you scope it out.</p>
+                <div className="ar-chips">
+                  {CHIPS.map((chip) => (
+                    <button key={chip} className="ar-chip" onClick={() => handleChip(chip)}>{chip}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {messages.slice(1).map((msg, i) => (
+              <div key={i} className={"ar-msg " + (msg.role === "user" ? "ar-msg-user" : "ar-msg-aria")} style={{ animationDelay: "0s" }}>
+                {msg.role === "assistant" && (
+                  <div className="ar-av">
+                    <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" /></svg>
+                  </div>
+                )}
+                <div className="ar-bub">{msg.content}</div>
+              </div>
+            ))}
+            {busy && (
+              <div className="ar-msg ar-msg-aria">
                 <div className="ar-av">
                   <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" /></svg>
                 </div>
-              )}
-              <div className="ar-bub">{msg.content}</div>
-            </div>
-          ))}
-          {busy && (
-            <div className="ar-msg ar-msg-aria">
-              <div className="ar-av">
-                <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" /></svg>
+                <div className="ar-bub"><span className="ar-dot" /><span className="ar-dot" /><span className="ar-dot" /></div>
               </div>
-              <div className="ar-bub"><span className="ar-dot" /><span className="ar-dot" /><span className="ar-dot" /></div>
-            </div>
-          )}
+            )}
+          </div>
+
+          <div className="ar-bar">
+            <textarea
+              ref={inpRef}
+              className="ar-inp"
+              placeholder="Message ARIA..."
+              rows={1}
+              value={input}
+              onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(120, e.target.scrollHeight) + "px"; }}
+              onKeyDown={handleKeyDown}
+              disabled={busy}
+            />
+            <button className="ar-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)} aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          </div>
         </div>
 
-        <div className="ar-bar">
-          <textarea
-            ref={inpRef}
-            className="ar-inp"
-            placeholder="Message ARIA..."
-            rows={1}
-            value={input}
-            onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(120, e.target.scrollHeight) + "px"; }}
-            onKeyDown={handleKeyDown}
-            disabled={busy}
-          />
-          <button className="ar-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)} aria-label="Send">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </button>
+        {/* ─── PREVIEW PANEL (desktop only) ─── */}
+        <div className="ar-preview">
+          <div className="ar-preview-top">
+            <span className="ar-preview-label">Live Preview</span>
+            <div className="ar-device-btns">
+              <button className={`ar-device-btn ${deviceWidth === "full" ? "active" : ""}`} onClick={() => setDeviceWidth("full")} title="Desktop">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              </button>
+              <button className={`ar-device-btn ${deviceWidth === "tablet" ? "active" : ""}`} onClick={() => setDeviceWidth("tablet")} title="Tablet">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              </button>
+              <button className={`ar-device-btn ${deviceWidth === "mobile" ? "active" : ""}`} onClick={() => setDeviceWidth("mobile")} title="Mobile">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              </button>
+            </div>
+          </div>
+          <div className="ar-preview-chrome">
+            <div className="ar-chrome-dots"><span /><span /><span /></div>
+            <div className="ar-chrome-bar">ahos.xyz/preview</div>
+          </div>
+          <div className="ar-preview-viewport">
+            {previewHtml ? (
+              <iframe
+                className="ar-preview-iframe"
+                srcDoc={previewHtml}
+                sandbox="allow-same-origin"
+                title="Live Preview"
+                style={{ width: typeof iframeW === "number" ? iframeW : "100%" }}
+              />
+            ) : (
+              <div className="ar-preview-empty">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <p>ARIA will show a preview of your project here as the conversation progresses.</p>
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* ─── MOBILE TOGGLE ─── */}
+        <button className="ar-toggle" onClick={() => setActiveView(v => v === "chat" ? "preview" : "chat")} aria-label="Toggle preview">
+          {activeView === "chat" ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          )}
+        </button>
       </div>
 
       <svg aria-hidden="true" style={{ position: "absolute", width: 0, height: 0 }}>
@@ -281,7 +366,11 @@ export default function AriaAI() {
 }
 
 const css = `
-.ar-page { display: flex; flex-direction: column; height: calc(100vh - 64px); background: var(--bg); }
+/* ── Layout ── */
+.ar-page { display: flex; flex-direction: column; height: calc(100vh - 64px); background: var(--bg); position: relative; }
+.ar-chat { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+
+/* ── Top bar ── */
 .ar-top { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px clamp(16px, 4vw, 28px); border-bottom: 1px solid var(--border-soft); background: var(--bg-2); }
 .ar-top-l { display: flex; align-items: center; gap: 8px; }
 .ar-top-ico { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--orange-soft); border-radius: 50%; }
@@ -293,6 +382,7 @@ const css = `
 .ar-top-new { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--text-dim); background: none; border: 1px solid var(--border); border-radius: 7px; padding: 5px 11px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
 .ar-top-new:hover { color: var(--orange); border-color: var(--border-hover); }
 
+/* ── Messages ── */
 .ar-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(16px, 3vw, 28px) clamp(16px, 4vw, 36px); display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .ar-msgs::-webkit-scrollbar { width: 4px; }
 .ar-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
@@ -317,6 +407,7 @@ const css = `
 .ar-dot:nth-child(3) { animation-delay: 0.34s; margin-right: 0; }
 @keyframes ar-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-4px);opacity:1;} }
 
+/* ── Input bar ── */
 .ar-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 10px clamp(16px, 4vw, 28px) 14px; border-top: 1px solid var(--border-soft); background: var(--bg-2); }
 .ar-inp { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 14px; font-family: var(--font-sans); padding: 9px 14px; resize: none; outline: none; line-height: 1.5; min-height: 40px; max-height: 100px; overflow-y: auto; transition: border-color 0.2s; }
 .ar-inp::placeholder { color: var(--text-faint); }
@@ -326,8 +417,48 @@ const css = `
 .ar-send:not([disabled]):active { transform: scale(0.95); }
 .ar-send[disabled] { opacity: 0.12; cursor: default; pointer-events: none; }
 
+/* ── Preview panel (desktop) ── */
+.ar-preview { display: none; flex-direction: column; border-left: 1px solid var(--border-soft); background: var(--bg-2); }
+.ar-preview-top { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border-soft); }
+.ar-preview-label { font-size: 12px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.03em; text-transform: uppercase; }
+.ar-device-btns { display: flex; gap: 4px; }
+.ar-device-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: none; color: var(--text-faint); cursor: pointer; transition: all 0.15s; }
+.ar-device-btn:hover { color: var(--text-dim); border-color: var(--border-hover); }
+.ar-device-btn.active { color: var(--orange); border-color: var(--orange); background: var(--orange-soft); }
+
+.ar-preview-chrome { flex-shrink: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border-soft); background: var(--bg-3); }
+.ar-chrome-dots { display: flex; gap: 5px; }
+.ar-chrome-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.ar-chrome-bar { flex: 1; text-align: center; font-size: 11px; font-family: var(--font-mono); color: var(--text-faint); background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 4px 10px; }
+
+.ar-preview-viewport { flex: 1; min-height: 0; overflow: auto; display: flex; justify-content: center; background: var(--bg); }
+.ar-preview-iframe { border: none; height: 100%; min-height: 100%; transition: width 0.3s ease; transform-origin: top center; }
+.ar-preview-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 40px 24px; text-align: center; flex: 1; }
+.ar-preview-empty p { font-size: 13px; color: var(--text-faint); max-width: 240px; line-height: 1.6; }
+
+/* ── Mobile toggle ── */
+.ar-toggle { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 100; width: 48px; height: 48px; border-radius: 50%; background: var(--orange); border: none; color: #0a0a0b; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(255,106,26,0.35); transition: transform 0.2s, box-shadow 0.2s; }
+.ar-toggle:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(255,106,26,0.45); }
+
+/* ── Desktop split layout ── */
+@media (min-width: 900px) {
+  .ar-page { flex-direction: row; }
+  .ar-chat { flex: 0 0 55%; max-width: 55%; }
+  .ar-preview { display: flex; flex: 1; min-width: 0; }
+  .ar-toggle { display: none !important; }
+}
+
+/* ── Mobile: show/hide panels based on activeView ── */
+@media (max-width: 899px) {
+  .ar-toggle { display: flex; }
+  .ar-chat { display: flex; }
+  .ar-preview { display: none; position: fixed; inset: 64px 0 0 0; z-index: 50; border-left: none; }
+  .ar-page.view-preview .ar-chat { display: none; }
+  .ar-page.view-preview .ar-preview { display: flex; }
+}
+
+/* ── Mobile tweaks ── */
 @media (max-width: 600px) {
-  .ar-page { height: calc(100vh - 64px); }
   .ar-msgs { padding: 14px; gap: 8px; }
   .ar-bub { max-width: 85%; font-size: 13px; padding: 8px 13px; border-radius: 14px; }
   .ar-chips { gap: 6px; }
