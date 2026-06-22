@@ -154,6 +154,10 @@ export default function AriaAI() {
     setMessages(updated);
     setInput("");
 
+    // Placeholder assistant message — filled by streaming
+    historyRef.current = [...historyRef.current, { role: "assistant", content: "" }];
+    setMessages(historyRef.current);
+
     try {
       const res = await fetch(API_URL, {
         method: "POST",
@@ -163,6 +167,7 @@ export default function AriaAI() {
           messages: [{ role: "system", content: SYSTEM_PROMPT }, ...updated.slice(-14)],
           max_tokens: 700,
           temperature: 0.72,
+          stream: true,
         }),
       });
 
@@ -171,14 +176,50 @@ export default function AriaAI() {
         throw new Error((errData?.error?.message) || "HTTP " + res.status);
       }
 
-      const data = await res.json();
-      const raw = data?.choices?.[0]?.message?.content || "";
-      const afterPreview = handlePreview(raw.trim());
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      const decoder = new TextDecoder();
+      let fullContent = "";
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        let idx;
+        while ((idx = buffer.indexOf("\n")) !== -1) {
+          const line = buffer.slice(0, idx).trim();
+          buffer = buffer.slice(idx + 1);
+
+          if (!line || !line.startsWith("data: ")) continue;
+          const payload = line.slice(6);
+          if (payload === "[DONE]") { buffer = ""; break; }
+
+          try {
+            const parsed = JSON.parse(payload);
+            const delta = parsed?.choices?.[0]?.delta?.content;
+            if (delta) {
+              fullContent += delta;
+              const msgs = [...historyRef.current];
+              msgs[msgs.length - 1] = { role: "assistant", content: fullContent };
+              historyRef.current = msgs;
+              setMessages(msgs);
+            }
+          } catch {}
+        }
+      }
+
+      // Stream complete — process markers
+      const afterPreview = handlePreview(fullContent.trim());
       const clean = handleLead(afterPreview);
       if (clean) {
-        const ariaMsg: Message = { role: "assistant", content: clean };
-        historyRef.current = [...historyRef.current, ariaMsg];
-        setMessages(historyRef.current);
+        const msgs = [...historyRef.current];
+        msgs[msgs.length - 1] = { role: "assistant", content: clean };
+        historyRef.current = msgs;
+        setMessages(msgs);
       }
     } catch (e: unknown) {
       const errMsg = e instanceof Error ? e.message : "Connection issue";
