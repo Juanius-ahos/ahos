@@ -2,9 +2,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
-const API_KEY = import.meta.env.VITE_OPENROUTER_KEY || "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";
-const API_URL = "https://openrouter.ai/api/v1/chat/completions";
-const MODEL = "meta-llama/llama-3.2-3b-instruct:free";
+const API_URL = "https://text.pollinations.ai/openai";
+const MODEL = "openai";
 
 const SYSTEM_PROMPT = [
   "You are Aria, senior project advisor at AHOS — a boutique digital studio building websites, mobile apps, SaaS, Web3/DeFi, and AI tools.",
@@ -103,17 +102,12 @@ export default function AriaAI() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
-  const [apiReady, setApiReady] = useState(true);
   const [previewHtml, setPreviewHtml] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<"chat" | "preview">("chat");
   const [deviceWidth, setDeviceWidth] = useState<"full" | "tablet" | "mobile">("full");
   const msgsRef = useRef<HTMLDivElement>(null);
   const inpRef = useRef<HTMLTextAreaElement>(null);
   const historyRef = useRef<Message[]>([{ role: "assistant", content: WELCOME }]);
-
-  useEffect(() => {
-    if (!API_KEY) setApiReady(false);
-  }, []);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -163,12 +157,7 @@ export default function AriaAI() {
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
-          "HTTP-Referer": "https://ahos.xyz",
-          "X-Title": "AHOS ARIA",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: MODEL,
           messages: [{ role: "system", content: SYSTEM_PROMPT }, ...updated.slice(-14)],
@@ -242,7 +231,7 @@ export default function AriaAI() {
             </div>
             <div className="ar-top-c">
               <span className="ar-live-dot" />
-              <span>{apiReady ? "Online" : "No API key"}</span>
+              <span>Online</span>
             </div>
             <button className="ar-top-new" onClick={newChat} title="New conversation">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
