@@ -13,6 +13,7 @@ const services = [
     desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed, scalable product you fully own.",
     chips: ["SaaS Platforms", "Web Apps", "Dashboards", "Automation", "API Integration"],
     gets: ["Full source-code ownership", "Architecture that scales with you", "Optional hosting & long-term support"],
+    href: "/custom-software",
   },
   {
     n: "02",
@@ -22,14 +23,43 @@ const services = [
     chips: ["Landing Pages", "Corporate Sites", "E-Commerce", "Maintenance", "Hosting"],
     gets: ["Responsive on every device", "Speed & conversion optimised", "Scalable foundation from day one"],
     popular: true,
+    href: "/web-development",
   },
   {
     n: "03",
-    name: "Media & Branding",
-    tag: "Make your brand impossible to scroll past.",
-    desc: "Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand, not five different freelancers.",
-    chips: ["Video Editing", "2D Animation", "Brand Identity", "Style Guides", "Social Packs"],
-    gets: ["Polished, professional visuals", "Consistent identity everywhere", "Every source file handed over"],
+    name: "Mobile Apps",
+    tag: "iOS, Android, cross-platform — built to ship.",
+    desc: "Native or cross-platform mobile applications from concept to App Store. Swift, Kotlin, Flutter, or React Native — we pick the right stack for your product and ship it with confidence.",
+    chips: ["iOS / Swift", "Android / Kotlin", "Flutter", "React Native", "Cross-Platform"],
+    gets: ["App Store & Play Store deployment", "Push notifications & real-time", "Ongoing support & updates"],
+    href: "/mobile-app-development",
+  },
+  {
+    n: "04",
+    name: "AI & Automation",
+    tag: "AI that actually does real work.",
+    desc: "Custom AI tools, chatbots, workflow automations, and LLM-powered systems that save your team hours every week. From strategy through deployment — AI built to compound, not just demo.",
+    chips: ["AI Tools", "Chatbots", "Automation", "LLM Integration", "Fine-Tuning"],
+    gets: ["Custom AI built for your workflow", "Seamless integration with existing tools", "Measurable time & cost savings"],
+    href: "/ai-development",
+  },
+  {
+    n: "05",
+    name: "E-Commerce",
+    tag: "Stores that actually sell.",
+    desc: "Shopify, WooCommerce, or fully custom — we build e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.",
+    chips: ["Shopify", "WooCommerce", "Custom Stores", "Payment Gateways", "Multi-Currency"],
+    gets: ["High-conversion checkout flow", "Multi-currency & local payments", "Migration without downtime"],
+    href: "/ecommerce-development",
+  },
+  {
+    n: "06",
+    name: "UI/UX & Brand Design",
+    tag: "Impossible to scroll past.",
+    desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research and wireframes to pixel-perfect UI — design that scales across every touchpoint.",
+    chips: ["UI/UX Design", "Brand Identity", "Design Systems", "Prototyping", "Motion Design"],
+    gets: ["Cohesive brand across all channels", "Design system for consistent output", "Production-ready Figma files"],
+    href: "/ui-ux-design",
   },
 ];
 
@@ -56,14 +86,14 @@ export default function Services() {
       >
         <div className="sv-hero-inner">
           <div className="ed-label">
-            <span className="ed-label-n">01</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
+            <span className="ed-label-n">01 / 07</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
           </div>
-          <h1 className="ed-h1">Three things,<br />done <em>properly.</em></h1>
-          <p className="ed-lead">Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
+          <h1 className="ed-h1">Everything you need,<br />done <em>properly.</em></h1>
+          <p className="ed-lead">Web development, mobile apps, custom software, AI & automation, e-commerce, and design — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
         </div>
         <div className="sv-hero-strip">
           <div className="sv-strip-inner">
-            {["Custom Software", "Web Development", "Media & Branding", "Custom Software", "Web Development"].map((s, i) => (
+            {["Custom Software", "Web Development", "Mobile Apps", "AI & Automation", "E-Commerce", "UI/UX Design", "Custom Software", "Web Development"].map((s, i) => (
               <span key={i} className="sv-strip-word">{s}<span className="sv-strip-dot" /></span>
             ))}
           </div>
@@ -92,8 +122,10 @@ export default function Services() {
                     <div key={g} className="sv-get">{g}</div>
                   ))}
                 </div>
-                <Link href="/contact" className="ed-btn" style={{ marginTop: 24 }}>Start a project<span>↗</span></Link>
-                {s.name === "Web Development" && <Link href="/faq" className="ed-link-arrow" style={{ marginTop: 12, display: "inline-block" }}>Process & pricing →</Link>}
+                <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
+                  {s.href && <Link href={s.href} className="ed-link-arrow" style={{ alignSelf: "center" }}>Learn more →</Link>}
+                  <Link href="/contact" className="ed-btn">Start a project<span>↗</span></Link>
+                </div>
               </div>
             </div>
           </section>

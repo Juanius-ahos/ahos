@@ -138,17 +138,22 @@ const ROUTES: Record<string, RouteMeta> = {
     description:
       "AHOS is a web design and development studio in Beirut, Lebanon delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
     jsonLd: SERVICE_JSON_LD,
-    bodyHtml: `<h1>Three things, done properly.</h1>
-<p>Software, web, and brand — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
+    bodyHtml: `<h1>Everything you need, done properly.</h1>
+<p>Web development, mobile apps, custom software, AI & automation, e-commerce, and design — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
 <section><h2>Custom Software</h2>
 <p>Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed, scalable product you fully own.</p>
 <p>SaaS Platforms · Web Apps · Dashboards · Automation · API Integration — full source-code ownership, architecture that scales with you, optional hosting and long-term support.</p></section>
 <section><h2>Web Development</h2>
 <p>Every site we ship is fast, pixel-tight, and built to earn its keep — responsive on every screen, tuned for search, and ready to scale. From a single landing page to full e-commerce.</p>
 <p>Landing Pages · Corporate Sites · E-Commerce · Maintenance · Hosting — responsive on every device, speed and conversion optimised, scalable foundation from day one.</p></section>
-<section><h2>Media & Branding</h2>
-<p>Visuals that tell your story and hold a room. Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand.</p>
-<p>Video Editing · 2D Animation · Brand Identity · Style Guides · Social Packs — polished, professional visuals, consistent identity everywhere, every source file handed over.</p></section>
+<section><h2>Mobile Apps</h2>
+<p>iOS, Android, or cross-platform mobile applications from concept to App Store. Swift, Kotlin, Flutter, React Native — the right stack for your product.</p></section>
+<section><h2>AI & Automation</h2>
+<p>Custom AI tools, chatbots, workflow automations, and LLM-powered systems that save your team hours every week. From strategy through deployment.</p></section>
+<section><h2>E-Commerce</h2>
+<p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed and conversion. Payment gateways, multi-currency, and migration support.</p></section>
+<section><h2>UI/UX & Brand Design</h2>
+<p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI.</p></section>
 <p>Book a free 30-minute call. We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>`,
   },
   "/web3": {
@@ -224,6 +229,72 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>How does your process work?</h3><p>Three phases: Discovery (free 30-min call), Design & Build, Launch & Support. Fixed-price quotes with milestone-based payments.</p>
 <h3>How do I get started?</h3><p>Contact us through the website form. Free 30-min discovery call within 24 hours.</p></section>
 <p>Still wondering? Skip the form. Email us what you're building and we'll tell you straight whether we're the right team for it.</p>`,
+  },
+  "/web-development": {
+    title: "Web Development Agency — Custom Websites & Web Applications | AHOS",
+    description: "AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. From landing pages to full-scale web apps.",
+    bodyHtml: `<h1>Websites that earn their keep.</h1>
+<p>Pixel-tight, fast, and built to convert — from a single landing page to a full-scale web application. Every site we ship is responsive, accessible, and tuned to perform.</p>
+<section><h2>Custom Websites & Landing Pages</h2><p>High-impact landing pages, corporate sites, portfolio sites, startup MVPs — with CMS integration if you need it. Responsive on every screen, accessible by default.</p></section>
+<section><h2>E-Commerce Development</h2><p>Shopify, WooCommerce, or headless commerce stores built for speed and conversion. Product filtering, payment gateways, order management, and analytics.</p></section>
+<section><h2>Web Application Development</h2><p>Full-stack web applications — dashboards, client portals, booking systems, SaaS backends. Built with React, Next.js, Node.js with CI/CD and monitoring.</p></section>
+<section><h2>SEO & Performance Optimization</h2><p>Technical SEO audits, Core Web Vitals optimization, structured data, and performance tuning to push your site to the top of search results.</p></section>
+<section><h2>Maintenance & Hosting</h2><p>Security patches, backups, updates, and performance monitoring — all handled. Optional retainer or per-task basis.</p></section>`,
+  },
+  "/mobile-app-development": {
+    title: "Mobile App Development — iOS, Android & Cross-Platform Apps | AHOS",
+    description: "AHOS builds native iOS, Android, and cross-platform mobile applications. Swift, Kotlin, Flutter, React Native — from concept to App Store deployment.",
+    bodyHtml: `<h1>Apps people keep using.</h1>
+<p>From concept to app store — iOS, Android, or cross-platform. We design, develop, and ship mobile applications that users genuinely enjoy opening every day.</p>
+<section><h2>iOS App Development</h2><p>Native Swift and SwiftUI applications with in-app purchases, push notifications, Apple Pay — full App Store compliance and metadata.</p></section>
+<section><h2>Android App Development</h2><p>Kotlin and Jetpack Compose apps with Material Design, deep linking, background services, Google Pay, and Play Store integration.</p></section>
+<section><h2>Cross-Platform Apps</h2><p>Flutter or React Native for iOS and Android with a single codebase. Near-native performance, shared business logic, platform-specific UI where it counts.</p></section>
+<section><h2>App UI/UX & Prototyping</h2><p>Wireframes, interactive prototypes, user flows, and pixel-perfect mobile UI. We test navigation and usability before writing platform code.</p></section>
+<section><h2>Backend & API for Mobile</h2><p>RESTful and GraphQL APIs, real-time WebSockets, auth systems, push notification infrastructure, and cloud storage built to scale with your app.</p></section>`,
+  },
+  "/custom-software": {
+    title: "Custom Software Development — SaaS, Dashboards & APIs | AHOS",
+    description: "AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs.",
+    bodyHtml: `<h1>Software that fits your workflow.</h1>
+<p>Off-the-shelf tools make you bend to their logic. We build custom platforms, dashboards, and systems shaped to how your business actually runs.</p>
+<section><h2>SaaS Platform Development</h2><p>Multi-tenant SaaS platforms with subscription billing, team management, role-based access, and usage analytics. Deployed with CI/CD and 99.9% uptime SLAs.</p></section>
+<section><h2>Custom Dashboards & Internal Tools</h2><p>Admin panels, analytics dashboards, CRM integrations, and internal systems built around how your team works. Connected to your existing databases and APIs.</p></section>
+<section><h2>API & Backend Development</h2><p>REST and GraphQL APIs, microservices, event-driven systems, and real-time data pipelines. Clean to consume, boringly reliable in production.</p></section>
+<section><h2>Legacy System Modernization</h2><p>Replace aging systems without downtime. Phased migration — extract services, rebuild modules, cut over when each piece is proven stable.</p></section>
+<section><h2>Integration & Automation</h2><p>Connect CRM, ERP, marketing tools, and payment gateways into single workflows. Automated data syncs, webhooks, custom automation infrastructure.</p></section>`,
+  },
+  "/ai-development": {
+    title: "AI Development Agency — Custom AI Tools, Chatbots & Automation | AHOS",
+    description: "AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business.",
+    bodyHtml: `<h1>AI that actually does the work.</h1>
+<p>Not another chatbot wrapper. Custom AI tools, automations, and intelligent systems built to save your team hours every week.</p>
+<section><h2>Custom AI Tools & Agents</h2><p>Document processing, data extraction, content generation, classification, decision support. We pick the right model — OpenAI, open-source, or fine-tuned — and deploy it where it saves time.</p></section>
+<section><h2>Workflow Automation with AI</h2><p>AI-powered pipelines that replace repetitive tasks. Email triage, lead scoring, invoice processing, report generation, and customer support routing.</p></section>
+<section><h2>AI Chatbots & Virtual Assistants</h2><p>Custom chatbots trained on your business knowledge. FAQ bots, lead qualification, document Q&A, multi-step conversations, and human escalation when needed.</p></section>
+<section><h2>LLM Integration & Fine-Tuning</h2><p>Integrate GPT, Claude, Llama, or open-source models into your product. Fine-tuning, RAG pipelines, and prompt engineering for reliable outputs at scale.</p></section>
+<section><h2>AI Strategy & Consulting</h2><p>Feasibility studies, proof-of-concept builds, model selection, and clear roadmap from experiment to production. We help you identify where AI actually adds value.</p></section>`,
+  },
+  "/ecommerce-development": {
+    title: "E-Commerce Development — Shopify, WooCommerce & Custom Stores | AHOS",
+    description: "AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms. Payment optimization, multi-currency, subscriptions, and migration support.",
+    bodyHtml: `<h1>Stores built to sell.</h1>
+<p>Shopify, WooCommerce, or fully custom — e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity.</p>
+<section><h2>Shopify Store Development</h2><p>Custom storefronts with Liquid, Shopify Plus architecture, and headless Commerce Components. Custom themes, multi-currency, subscriptions, and third-party integrations.</p></section>
+<section><h2>WooCommerce & WordPress Stores</h2><p>Self-hosted e-commerce with full code ownership. Custom product types, dynamic pricing, membership systems, and complete checkout control.</p></section>
+<section><h2>Custom E-Commerce Platforms</h2><p>Multi-vendor marketplaces, digital delivery, auction systems, rental platforms — for businesses with unique requirements Shopify and WooCommerce can't handle.</p></section>
+<section><h2>Payment & Checkout Optimization</h2><p>One-click checkout, local payment gateways, multi-currency support, abandoned cart recovery. We audit your funnel and fix every leak.</p></section>
+<section><h2>Migration & Maintenance</h2><p>Migrate from Magento, BigCommerce, or custom platforms without downtime. Product data migration, SEO redirect mapping, and ongoing maintenance.</p></section>`,
+  },
+  "/ui-ux-design": {
+    title: "UI/UX Design & Brand Identity — Web, Mobile & Product Design | AHOS",
+    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts and scales.",
+    bodyHtml: `<h1>Designed to be impossible to ignore.</h1>
+<p>Interfaces, brand identities, and design systems that communicate clearly, convert consistently, and scale effortlessly — from first sketch to shipped product.</p>
+<section><h2>UI/UX Design for Web & Mobile</h2><p>User research, wireframes, high-fidelity mockups, and interactive prototypes. Designed in Figma with production-ready specs and handoff.</p></section>
+<section><h2>Brand Identity & Design Systems</h2><p>Logo design, color systems, typography, iconography, and comprehensive design systems. Style guides and component libraries that scale across every touchpoint.</p></section>
+<section><h2>Product Design & Strategy</h2><p>End-to-end product design from concept validation and user testing to pixel-perfect UI. Research-backed, outcome-focused, and iterative.</p></section>
+<section><h2>Motion Design & Animation</h2><p>Micro-interactions, page transitions, scroll-triggered effects, and explainer videos. Motion that guides attention and provides feedback without overwhelming.</p></section>
+<section><h2>Web & Mobile Redesign</h2><p>UX audit, content restructuring, modern visual design, and responsive front end for sites and apps that have outgrown their original design.</p></section>`,
   },
 };
 

@@ -18,6 +18,12 @@ import Careers from "@/pages/Careers";
 import Contact from "@/pages/Contact";
 import AriaAI from "@/pages/AriaAI";
 import FAQ from "@/pages/FAQ";
+import WebDevelopment from "@/pages/WebDevelopment";
+import MobileDev from "@/pages/MobileDev";
+import CustomSoftware from "@/pages/CustomSoftware";
+import AIDevelopment from "@/pages/AIDevelopment";
+import Ecommerce from "@/pages/Ecommerce";
+import UIDesign from "@/pages/UIDesign";
 
 function NotFound() {
   return (
@@ -49,6 +55,12 @@ function Router() {
           <Route path="/contact"><ErrorBoundary><Contact /></ErrorBoundary></Route>
           <Route path="/aria-ai"><ErrorBoundary><AriaAI /></ErrorBoundary></Route>
           <Route path="/faq"><ErrorBoundary><FAQ /></ErrorBoundary></Route>
+          <Route path="/web-development"><ErrorBoundary><WebDevelopment /></ErrorBoundary></Route>
+          <Route path="/mobile-app-development"><ErrorBoundary><MobileDev /></ErrorBoundary></Route>
+          <Route path="/custom-software"><ErrorBoundary><CustomSoftware /></ErrorBoundary></Route>
+          <Route path="/ai-development"><ErrorBoundary><AIDevelopment /></ErrorBoundary></Route>
+          <Route path="/ecommerce-development"><ErrorBoundary><Ecommerce /></ErrorBoundary></Route>
+          <Route path="/ui-ux-design"><ErrorBoundary><UIDesign /></ErrorBoundary></Route>
           <Route component={NotFound} />
         </Switch>
       </main>
