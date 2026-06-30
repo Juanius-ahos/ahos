@@ -62,8 +62,6 @@
 }
 
 *,
-
-*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -435,6 +433,10 @@ html.lenis, html.lenis body { height: auto; }
 .mq-row:hover .mq-row-inner { animation-play-state: paused; }
 .mq-word:hover, .mq-word-dim:hover { color: var(--orange); transition: color 0.3s; }
 @keyframes mq-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@media (max-width: 600px) {
+  .mq-row-inner { animation-duration: 50s; }
+  .mq-row-inner-reverse { animation-duration: 60s; }
+}
 
 /* ── Grain overlay ── */
 .grain { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1500; opacity: 0.35; mix-blend-mode: overlay; }

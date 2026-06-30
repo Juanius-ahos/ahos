@@ -389,11 +389,11 @@ function StatsGrid() {
 }
 
 function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: boolean }) {
-  const [val, setVal] = useState(0);
-  const [done, setDone] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+  const doneRef = useRef(false);
   useEffect(() => {
     if (!play) return;
-    if (to === 0) { setVal(0); return; }
+    if (to === 0) { if (ref.current) ref.current.textContent = "0" + suffix; return; }
     let raf = 0;
     let start = 0;
     const duration = 1600;
@@ -401,14 +401,15 @@ function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: bo
       if (!start) start = ts;
       const p = Math.min((ts - start) / duration, 1);
       const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-      setVal(Math.round(eased * to));
+      const v = Math.round(eased * to);
+      if (ref.current) ref.current.textContent = v + suffix;
       if (p < 1) raf = requestAnimationFrame(step);
-      else setDone(true);
+      else { doneRef.current = true; if (ref.current) ref.current.classList.add("stat-bounce"); }
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [play, to]);
-  return <span className={done ? "stat-bounce" : ""}>{val}{suffix}</span>;
+  }, [play, to, suffix]);
+  return <span ref={ref}>0{suffix}</span>;
 }
 
 function Marquee() {

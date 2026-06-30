@@ -270,13 +270,16 @@ export function HeroCanvas() {
         const w = canvas.clientWidth, h = canvas.clientHeight;
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        renderer.setPixelRatio(Math.min(devicePixelRatio, w < 768 ? 1.5 : 2));
         renderer.setSize(w, h);
       };
       window.addEventListener("resize", onResize);
+      window.addEventListener("orientationchange", onResize);
 
       cleanup = () => {
         cancelAnimationFrame(frame);
         window.removeEventListener("resize", onResize);
+        window.removeEventListener("orientationchange", onResize);
         window.removeEventListener("mousemove", onMouseMove);
         const st = tl.scrollTrigger;
         if (st) st.kill();

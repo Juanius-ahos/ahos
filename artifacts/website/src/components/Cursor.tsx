@@ -37,9 +37,18 @@ export function Cursor() {
     };
     raf = requestAnimationFrame(loop);
     window.addEventListener("mousemove", onMove, { passive: true });
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        visible = true;
+        dot.current?.style.setProperty("opacity", "1");
+        ring.current?.style.setProperty("opacity", "1");
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, []);
 

@@ -236,8 +236,21 @@ const css = `
 /* light-mode hover handled by CSS variables */
 
 @media (max-width: 900px) {
-  .nv-links, .nv-cta:not(.nv-cta-lg) { display: none; }
+  .nv-links { display: none; }
   .nv-burger { display: block; }
+  .nv-right { gap: 8px; }
+  .nv-cta:not(.nv-cta-lg) { padding: 9px 14px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .nv-cta:not(.nv-cta-lg) span { display: none; }
+  .nv-cta:not(.nv-cta-lg) { padding: 9px 12px; gap: 0; }
+  .nv-logo img { height: 26px; }
+}
+@media (max-width: 360px) {
+  .nv { padding: 14px 12px; }
+  .nv-logo img { height: 22px; }
+  .nv-theme { width: 32px; height: 32px; }
+  .nv-burger { width: 34px; height: 34px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .nv-sheet-link { transition: opacity 0.2s ease; transform: none; }

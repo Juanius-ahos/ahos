@@ -246,5 +246,10 @@ a.ct-meta-item { transition: color 0.2s; } a.ct-meta-item:hover { color: var(--o
 .pl-done p { color: var(--text-muted); line-height: 1.7; }
 
 @media (max-width: 860px) { .ct-hero { grid-template-columns: 1fr; } }
-@media (max-width: 480px) { .pl-row { grid-template-columns: 1fr; } .pl-prog-label { display: none; } }
+@media (max-width: 480px) {
+  .pl-row { grid-template-columns: 1fr; }
+  .pl-prog-label { display: none; }
+  .pl-submit { width: 100%; justify-content: center; white-space: normal; word-break: break-word; }
+  .pl-nextbtn { white-space: nowrap; }
+}
 `;

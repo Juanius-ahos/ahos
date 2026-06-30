@@ -257,7 +257,7 @@ export default function AriaAI() {
 
       <style>{css}</style>
 
-      <div className="ar-page">
+      <div className={"ar-page" + (activeView === "preview" ? " view-preview" : " view-chat")}>
         {/* ─── CHAT PANEL ─── */}
         <div className="ar-chat">
           <header className="ar-top">
