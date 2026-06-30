@@ -120,12 +120,14 @@ const ROUTES: Record<string, RouteMeta> = {
     jsonLd: ORG_JSON_LD,
     bodyHtml: `<h1>We build digital experiences.</h1>
 <p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
-<section><h2>Five capabilities, one studio.</h2>
+<section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale — from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation — software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
+<h3>Mobile Apps</h3><p>Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native — the right stack for your product.</p>
 <h3>Web3 & Blockchain</h3><p>Audited smart contracts, dapps, token launches, and DeFi interfaces. Every layer of your Web3 project under one roof.</p>
 <h3>AI & Automation</h3><p>Custom AI tools, chatbots, and workflow automations. From a simple chat interface to full agent pipelines — built to save you hours every week.</p>
-<h3>Media & Branding</h3><p>Video, motion, identity systems, and social packs — so everything you put out looks like it came from one confident brand.</p></section>
+<h3>E-Commerce</h3><p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.</p>
+<h3>UI/UX & Brand Design</h3><p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI — design that scales across every touchpoint.</p></section>
 <section><h2>Selected work</h2><p>SpeeAligner, YourProvider, Aleph, Ido Taxi, ARIA AI — websites, mobile apps, and AI tools we've shipped.</p></section>
 <section><h2>Three steps to a live product.</h2>
 <h3>Discovery</h3><p>A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote.</p>

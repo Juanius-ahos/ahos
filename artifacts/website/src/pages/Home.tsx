@@ -226,14 +226,15 @@ function WorkRail() {
 }
 
 function ServicesStack() {
+  const cardCount = 1 + capabilities.length;
   return (
     <section className="sc-section">
-      <div className="sc-stack">
+      <div className="sc-stack" style={{ height: `${cardCount * 100}vh` } as React.CSSProperties}>
         <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': 'var(--bg)' } as React.CSSProperties}>
           <div className="sc-card-inner sc-card-intro">
             <div className="sc-card-accent" />
             <Label n="03" text="Capabilities" />
-            <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Five capabilities,<br />one studio.</h2>
+            <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Seven capabilities,<br />one studio.</h2>
           </div>
         </div>
         {capabilities.map((c) => (
