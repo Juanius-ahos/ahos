@@ -301,7 +301,7 @@ const ROUTES: Record<string, RouteMeta> = {
 };
 
 function buildMetaTags(path: string, meta: RouteMeta): string {
-  const url = `${SITE_URL}${path}`;
+  const url = `${SITE_URL}${path === "/" ? "/" : path + "/"}`;
   const og = meta.ogImage || OG_IMAGE;
   const robots = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
@@ -347,8 +347,8 @@ function stripDefaultMeta(html: string, headEnd: number): string {
   return clean + rest;
 }
 
-function buildPageHtml(bareHtml: string, meta: RouteMeta): string {
-  const metaTags = buildMetaTags("/", meta);
+function buildPageHtml(path: string, bareHtml: string, meta: RouteMeta): string {
+  const metaTags = buildMetaTags(path, meta);
   const withMeta = bareHtml.replace("</head>", metaTags + "\n</head>");
   const bodyContent = `<div id="root"></div><div id="prerender" style="display:none">${meta.bodyHtml}</div><noscript><style>#prerender{display:block}</style></noscript>`;
   return withMeta.replace('<div id="root"></div>', bodyContent);
@@ -365,7 +365,7 @@ export function prerender(): Plugin {
       const bareHtml = stripDefaultMeta(indexHtml, headEnd);
 
       for (const [route, meta] of Object.entries(ROUTES)) {
-        const html = buildPageHtml(bareHtml, meta);
+        const html = buildPageHtml(route, bareHtml, meta);
 
         if (route === "/") {
           writeFileSync(join(outDir, "index.html"), html, "utf-8");
