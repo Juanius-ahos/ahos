@@ -117,7 +117,6 @@ const ROUTES: Record<string, RouteMeta> = {
     title: "AHOS — Web Development Agency in Beirut, Lebanon | Custom Software & AI Studio",
     description:
       "AHOS is a web development and digital design studio in Beirut, Lebanon that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
-    jsonLd: ORG_JSON_LD,
     bodyHtml: `<h1>We build digital experiences.</h1>
 <p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
 <section><h2>Seven capabilities, one studio.</h2>
@@ -235,6 +234,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/web-development": {
     title: "Web Development Agency — Custom Websites & Web Applications | AHOS",
     description: "AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. From landing pages to full-scale web apps.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Websites that earn their keep.</h1>
 <p>Pixel-tight, fast, and built to convert — from a single landing page to a full-scale web application. Every site we ship is responsive, accessible, and tuned to perform.</p>
 <section><h2>Custom Websites & Landing Pages</h2><p>High-impact landing pages, corporate sites, portfolio sites, startup MVPs — with CMS integration if you need it. Responsive on every screen, accessible by default.</p></section>
@@ -246,6 +246,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/mobile-app-development": {
     title: "Mobile App Development — iOS, Android & Cross-Platform Apps | AHOS",
     description: "AHOS builds native iOS, Android, and cross-platform mobile applications. Swift, Kotlin, Flutter, React Native — from concept to App Store deployment.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Apps people keep using.</h1>
 <p>From concept to app store — iOS, Android, or cross-platform. We design, develop, and ship mobile applications that users genuinely enjoy opening every day.</p>
 <section><h2>iOS App Development</h2><p>Native Swift and SwiftUI applications with in-app purchases, push notifications, Apple Pay — full App Store compliance and metadata.</p></section>
@@ -257,6 +258,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/custom-software": {
     title: "Custom Software Development — SaaS, Dashboards & APIs | AHOS",
     description: "AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Software that fits your workflow.</h1>
 <p>Off-the-shelf tools make you bend to their logic. We build custom platforms, dashboards, and systems shaped to how your business actually runs.</p>
 <section><h2>SaaS Platform Development</h2><p>Multi-tenant SaaS platforms with subscription billing, team management, role-based access, and usage analytics. Deployed with CI/CD and 99.9% uptime SLAs.</p></section>
@@ -268,6 +270,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/ai-development": {
     title: "AI Development Agency — Custom AI Tools, Chatbots & Automation | AHOS",
     description: "AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>AI that actually does the work.</h1>
 <p>Not another chatbot wrapper. Custom AI tools, automations, and intelligent systems built to save your team hours every week.</p>
 <section><h2>Custom AI Tools & Agents</h2><p>Document processing, data extraction, content generation, classification, decision support. We pick the right model — OpenAI, open-source, or fine-tuned — and deploy it where it saves time.</p></section>
@@ -279,6 +282,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/ecommerce-development": {
     title: "E-Commerce Development — Shopify, WooCommerce & Custom Stores | AHOS",
     description: "AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms. Payment optimization, multi-currency, subscriptions, and migration support.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Stores built to sell.</h1>
 <p>Shopify, WooCommerce, or fully custom — e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity.</p>
 <section><h2>Shopify Store Development</h2><p>Custom storefronts with Liquid, Shopify Plus architecture, and headless Commerce Components. Custom themes, multi-currency, subscriptions, and third-party integrations.</p></section>
@@ -290,6 +294,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/ui-ux-design": {
     title: "UI/UX Design & Brand Identity — Web, Mobile & Product Design | AHOS",
     description: "AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts and scales.",
+    jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Designed to be impossible to ignore.</h1>
 <p>Interfaces, brand identities, and design systems that communicate clearly, convert consistently, and scale effortlessly — from first sketch to shipped product.</p>
 <section><h2>UI/UX Design for Web & Mobile</h2><p>User research, wireframes, high-fidelity mockups, and interactive prototypes. Designed in Figma with production-ready specs and handoff.</p></section>
@@ -323,6 +328,9 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta name="twitter:description" content="${meta.description}" />
     <meta name="twitter:image" content="${og}" />
   `.trim();
+
+  // Organization + WebSite schema on every page
+  tags += `\n<script type="application/ld+json">${ORG_JSON_LD}</script>`;
 
   if (meta.jsonLd) {
     tags += `\n<script type="application/ld+json">${meta.jsonLd}</script>`;

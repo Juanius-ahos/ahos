@@ -267,7 +267,7 @@ export default function AriaAI() {
                   <circle cx="10" cy="10" r="7" stroke="url(#arG)" strokeWidth="2.5" />
                 </svg>
               </span>
-              <span className="ar-top-name">ARIA</span>
+              <h1 className="ar-top-name">ARIA</h1>
               <span className="ar-top-by">by AHOS</span>
             </div>
             <div className="ar-top-c">
