@@ -87,7 +87,7 @@ const FAQ_JSON_LD = `{
     {
       "@type": "Question",
       "name": "How much does a website or app cost?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Fixed-price quotes after a free discovery call. Budget ranges typically start from $1,000 depending on scope, complexity, and timeline." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Fixed-price quotes after a free discovery call. Starting points: design from $200, websites from $300, AI tools and e-commerce from $500, mobile apps from $1,000, custom software from $1,500, and Web3 projects from $2,500, scaling with scope." }
     },
     {
       "@type": "Question",
@@ -118,7 +118,7 @@ const ROUTES: Record<string, RouteMeta> = {
     description:
       "AHOS is a web development and digital design studio in Beirut, Lebanon that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
     bodyHtml: `<h1>We build digital experiences.</h1>
-<p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We architect custom digital solutions from strategy to launch — for businesses that are built to stand out. Websites, custom software, Web3 platforms, AI tools, and brand identities — under one roof, no handoffs.</p>
+<p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We don't follow templates — we build the whole product, website, software, or app, from first sketch to launch, under one roof. For businesses that are built to stand out.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale — from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation — software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
@@ -218,7 +218,7 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p>
 <section><h2>General</h2>
 <h3>What is AHOS?</h3><p>AHOS (Advanced Hybrid Online Systems) is a boutique digital product studio that builds websites, custom software, mobile apps, Web3/DeFi platforms, AI tools, and brand identities. We handle everything from strategy to launch under one roof.</p>
-<h3>How much does a website or app cost?</h3><p>Fixed-price quotes after a free discovery call. Budget ranges typically start from $1,000 depending on scope, complexity, and timeline.</p>
+<h3>How much does a website or app cost?</h3><p>Fixed-price quotes after a free discovery call. Starting points: design from $200, websites from $300, AI tools and e-commerce from $500, mobile apps from $1,000, custom software from $1,500, and Web3 projects from $2,500, scaling with scope.</p>
 <h3>How long does it take to build a website?</h3><p>Landing pages 1—2 weeks, business sites 2—4 weeks, e-commerce 3—6 weeks. Custom software and Web3 projects vary.</p>
 <h3>Will I own the source code?</h3><p>Yes. Full ownership of all source code, assets, and IP on final delivery — no lock-in, no licensing tricks.</p>
 <h3>Do you offer ongoing support after launch?</h3><p>Every project includes 30 days of post-launch support at no extra cost. Ongoing maintenance, hosting, and support packages available.</p></section>
@@ -302,6 +302,22 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Product Design & Strategy</h2><p>End-to-end product design from concept validation and user testing to pixel-perfect UI. Research-backed, outcome-focused, and iterative.</p></section>
 <section><h2>Motion Design & Animation</h2><p>Micro-interactions, page transitions, scroll-triggered effects, and explainer videos. Motion that guides attention and provides feedback without overwhelming.</p></section>
 <section><h2>Web & Mobile Redesign</h2><p>UX audit, content restructuring, modern visual design, and responsive front end for sites and apps that have outgrown their original design.</p></section>`,
+  },
+  "/work/speealigner": {
+    title: "SpeeAligner — Case Study | AHOS",
+    description: "How AHOS built SpeeAligner: a web · healthcare project, in the client's own words.",
+    bodyHtml: `<h1>SpeeAligner</h1>
+<p>Web · Healthcare — 2026</p>
+<section><h2>What we built</h2><p>Web Development</p></section>
+<blockquote><p>"I'm grateful for the team at AHOS — they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!"</p><footer>Yorgo, SpeeAligner.com, Lebanon</footer></blockquote>`,
+  },
+  "/work/ido-taxi": {
+    title: "Ido Taxi — Case Study | AHOS",
+    description: "How AHOS built Ido Taxi: a web · mobile app · transport project, in the client's own words.",
+    bodyHtml: `<h1>Ido Taxi</h1>
+<p>Web · Mobile App · Transport — 2025</p>
+<section><h2>What we built</h2><p>Web Development, Mobile Apps</p></section>
+<blockquote><p>"AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments — they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed."</p><footer>Khalil, Ido Taxi, Lebanon</footer></blockquote>`,
   },
 };
 

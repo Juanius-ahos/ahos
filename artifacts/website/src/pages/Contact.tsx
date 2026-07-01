@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
+import { trackEvent } from "../lib/analytics";
 
 const projectTypes = ["Website", "Web app / SaaS", "Mobile app", "Web3 / DeFi", "AI / Automation", "Branding", "Not sure yet"];
 const industries = ["Restaurant & Food", "Retail & E-commerce", "Real Estate", "Fitness & Wellness", "Finance & Crypto", "Tech & SaaS", "Creative & Media", "Other"];
@@ -55,7 +56,9 @@ export default function Contact() {
         }),
       });
       const json = await res.json();
-      setStatus(json && json.success === "true" ? "ok" : "err");
+      const ok = json && json.success === "true";
+      setStatus(ok ? "ok" : "err");
+      if (ok) trackEvent("generate_lead", { method: "contact_form", project_type: data.projectType, budget: data.budget });
     } catch {
       setStatus("err");
     }

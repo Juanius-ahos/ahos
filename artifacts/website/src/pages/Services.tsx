@@ -9,6 +9,7 @@ const services = [
   {
     n: "01",
     name: "Custom Software",
+    from: "$1,500",
     tag: "Built around your workflow — not the other way around.",
     desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed, scalable product you fully own.",
     chips: ["SaaS Platforms", "Web Apps", "Dashboards", "Automation", "API Integration"],
@@ -18,6 +19,7 @@ const services = [
   {
     n: "02",
     name: "Web Development",
+    from: "$300",
     tag: "Sites that turn visitors into clients.",
     desc: "Every site we ship is fast, pixel-tight, and built to earn its keep — responsive on every screen, tuned for search, and ready to scale the day you need it to. From a single landing page to full e-commerce.",
     chips: ["Landing Pages", "Corporate Sites", "E-Commerce", "Maintenance", "Hosting"],
@@ -28,6 +30,7 @@ const services = [
   {
     n: "03",
     name: "Mobile Apps",
+    from: "$1,000",
     tag: "iOS, Android, cross-platform — built to ship.",
     desc: "Native or cross-platform mobile applications from concept to App Store. Swift, Kotlin, Flutter, or React Native — we pick the right stack for your product and ship it with confidence.",
     chips: ["iOS / Swift", "Android / Kotlin", "Flutter", "React Native", "Cross-Platform"],
@@ -37,6 +40,7 @@ const services = [
   {
     n: "04",
     name: "AI & Automation",
+    from: "$500",
     tag: "AI that actually does real work.",
     desc: "Custom AI tools, chatbots, workflow automations, and LLM-powered systems that save your team hours every week. From strategy through deployment — AI built to compound, not just demo.",
     chips: ["AI Tools", "Chatbots", "Automation", "LLM Integration", "Fine-Tuning"],
@@ -46,6 +50,7 @@ const services = [
   {
     n: "05",
     name: "E-Commerce",
+    from: "$500",
     tag: "Stores that actually sell.",
     desc: "Shopify, WooCommerce, or fully custom — we build e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.",
     chips: ["Shopify", "WooCommerce", "Custom Stores", "Payment Gateways", "Multi-Currency"],
@@ -55,6 +60,7 @@ const services = [
   {
     n: "06",
     name: "UI/UX & Brand Design",
+    from: "$200",
     tag: "Impossible to scroll past.",
     desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research and wireframes to pixel-perfect UI — design that scales across every touchpoint.",
     chips: ["UI/UX Design", "Brand Identity", "Design Systems", "Prototyping", "Motion Design"],
@@ -86,7 +92,7 @@ export default function Services() {
       >
         <div className="sv-hero-inner">
           <div className="ed-label">
-            <span className="ed-label-n">01 / 07</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
+            <span className="ed-label-n">01 / 06</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
           </div>
           <h1 className="ed-h1">Everything you need,<br />done <em>properly.</em></h1>
           <p className="ed-lead">Web development, mobile apps, custom software, AI & automation, e-commerce, and design — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
@@ -110,6 +116,7 @@ export default function Services() {
             <div className="sv-grid">
               <div className="sv-left">
                 <h2 className="sv-name">{s.name}</h2>
+                <span className="sv-price">From {s.from}</span>
                 <p className="sv-tag">{s.tag}</p>
               </div>
               <div className="sv-right">
@@ -173,6 +180,7 @@ const css = `
 .sv-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(32px, 6vw, 90px); align-items: start; }
 .sv-left { position: sticky; top: 110px; }
 .sv-name { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 58px); font-weight: 600; line-height: 1; letter-spacing: -0.035em; margin: 16px 0 14px; }
+.sv-price { display: inline-block; margin-bottom: 14px; padding: 6px 14px; border-radius: 999px; background: var(--orange-soft); border: 1px solid var(--border-hover); color: var(--orange); font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em; width: fit-content; }
 .sv-tag { font-size: 17px; line-height: 1.5; color: var(--orange); font-weight: 500; max-width: 22ch; }
 .sv-desc { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.75; color: var(--text-muted); margin-bottom: 26px; max-width: 56ch; }
 .sv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }

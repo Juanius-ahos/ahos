@@ -419,6 +419,7 @@ html.lenis, html.lenis body { height: auto; }
 .sc-card-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--card-accent, var(--orange)); border-radius: 0 4px 4px 0; }
 .sc-card-num { position: absolute; right: clamp(24px, 4vw, 48px); top: clamp(24px, 4vw, 48px); font-family: var(--font-display); font-size: clamp(60px, 10vw, 140px); font-weight: 700; color: var(--card-accent, var(--orange)); opacity: 0.08; line-height: 0.8; letter-spacing: -0.05em; pointer-events: none; }
 .sc-card-title { font-family: var(--font-display); font-size: clamp(32px, 5vw, 72px); font-weight: 600; letter-spacing: -0.035em; margin-bottom: 16px; }
+.sc-card-price { display: inline-block; margin-bottom: 20px; padding: 6px 14px; border-radius: 999px; background: var(--orange-soft); border: 1px solid var(--border-hover); color: var(--card-accent, var(--orange)); font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em; }
 .sc-card-desc { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.7; color: var(--text-muted); max-width: 50ch; }
 .sc-card-link { margin-top: 24px; }
 

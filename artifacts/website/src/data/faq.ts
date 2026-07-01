@@ -105,7 +105,7 @@ export const faqCategories = [
       },
       {
         question: "How much does a website or app cost?",
-        answer: "Pricing depends on scope and complexity. We provide fixed-price quotes after our free discovery call, so there are no surprises. Budget ranges typically start from $1,000 for simple projects and scale based on features, pages, integrations, and timeline. Contact us for a tailored quote.",
+        answer: "Pricing depends on scope and complexity. We provide fixed-price quotes after our free discovery call, so there are no surprises. Starting points: design from $200, websites from $300, AI tools and e-commerce from $500, mobile apps from $1,000, custom software from $1,500, and Web3 projects from $2,500 — all scaling based on features, pages, integrations, and timeline. Contact us for a tailored quote.",
       },
       {
         question: "Do you offer fixed-price quotes?",

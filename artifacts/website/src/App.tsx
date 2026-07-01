@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
 import { HeroCanvas } from "@/components/HeroCanvas";
 import { SmartCTA } from "@/components/SmartCTA";
+import { AriaWidget } from "@/components/AriaWidget";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -12,6 +13,7 @@ import { CornerGlow } from "@/components/CornerGlow";
 import { Loader } from "@/components/Loader";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import Home from "@/pages/Home";
+import CaseStudy from "@/pages/CaseStudy";
 import Services from "@/pages/Services";
 import Web3 from "@/pages/Web3";
 import Careers from "@/pages/Careers";
@@ -49,6 +51,7 @@ function Router() {
       <main id="main-content" style={{ paddingTop: 64 }}>
         <Switch>
           <Route path="/"><ErrorBoundary><Home /></ErrorBoundary></Route>
+          <Route path="/work/:slug"><ErrorBoundary><CaseStudy /></ErrorBoundary></Route>
           <Route path="/services"><ErrorBoundary><Services /></ErrorBoundary></Route>
           <Route path="/web3"><ErrorBoundary><Web3 /></ErrorBoundary></Route>
           <Route path="/careers"><ErrorBoundary><Careers /></ErrorBoundary></Route>
@@ -93,6 +96,7 @@ export default function App() {
           <Nav />
           <Router />
           <SmartCTA />
+          <AriaWidget />
         </div>
       </WouterRouter>
     </MotionConfig>
