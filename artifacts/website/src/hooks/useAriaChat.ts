@@ -1,9 +1,10 @@
 import { useCallback, useRef, useState } from "react";
 import { API_URL, EMAIL_RE, LEAD_RE, MODEL, PREVIEW_RE, WELCOME, fireLead, type Message } from "../lib/aria";
 
-export function useAriaChat(options?: { systemPrompt: string; source: string; onPreview?: (html: string) => void }) {
+export function useAriaChat(options?: { systemPrompt: string; source: string; maxTokens?: number; onPreview?: (html: string) => void }) {
   const systemPrompt = options?.systemPrompt;
   const source = options?.source ?? "aria_chat";
+  const maxTokens = options?.maxTokens ?? 700;
   const [messages, setMessages] = useState<Message[]>([{ role: "assistant", content: WELCOME }]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -56,7 +57,7 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; on
         body: JSON.stringify({
           model: MODEL,
           messages: [{ role: "system", content: systemPrompt }, ...updated.slice(-14)],
-          max_tokens: 700,
+          max_tokens: maxTokens,
           temperature: 0.72,
           stream: true,
         }),
@@ -120,7 +121,7 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; on
     }
 
     setBusy(false);
-  }, [busy, handleLead, handlePreview, systemPrompt]);
+  }, [busy, handleLead, handlePreview, systemPrompt, maxTokens]);
 
   const newChat = useCallback(() => {
     historyRef.current = [{ role: "assistant", content: WELCOME }];

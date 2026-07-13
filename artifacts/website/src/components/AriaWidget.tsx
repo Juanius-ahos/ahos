@@ -17,6 +17,7 @@ export function AriaWidget() {
   const { messages, input, setInput, busy, sendMessage } = useAriaChat({
     systemPrompt: WIDGET_SYSTEM_PROMPT,
     source: "aria_widget",
+    maxTokens: 220,
   });
 
   useEffect(() => {

@@ -129,7 +129,7 @@ export function OrganizationSchema() {
         image: OG_IMAGE,
         description: DEFAULT_DESC,
         email: EMAIL,
-        telephone: "+961 70 000 000",
+        telephone: "+961 70 165 601",
         slogan: "We build digital products that perform.",
         knowsAbout: KNOWS_ABOUT,
         address: {
@@ -157,7 +157,7 @@ export function OrganizationSchema() {
         contactPoint: {
           "@type": "ContactPoint",
           email: EMAIL,
-          telephone: "+961 70 000 000",
+          telephone: "+961 70 165 601",
           contactType: "sales",
           availableLanguage: ["English", "Arabic"],
           areaServed: "Worldwide",

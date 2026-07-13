@@ -94,6 +94,7 @@ export default function Contact() {
           <Reveal delay={160}><p className="ed-lead">Four quick steps — no essay required. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p></Reveal>
           <Reveal delay={240} className="ct-meta">
             <a href="mailto:info@ahos.xyz" className="ct-meta-item"><span className="ed-cap">Email</span>info@ahos.xyz</a>
+            <a href="https://wa.me/96170165601" className="ct-meta-item" target="_blank" rel="noopener noreferrer"><span className="ed-cap">WhatsApp</span>+961 70 165 601</a>
             <div className="ct-meta-item"><span className="ed-cap">Reply time</span>Within 24 hours</div>
             <div className="ct-meta-item"><span className="ed-cap">Based</span>Beirut — worldwide</div>
             <Link href="/services" className="ct-meta-item"><span className="ed-cap">Services</span>See what we build →</Link>

@@ -24,7 +24,7 @@ const ORG_JSON_LD = `{
       "url": "${SITE_URL}",
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
-      "telephone": "+961 70 000 000",
+      "telephone": "+961 70 165 601",
       "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
       "address": { "@type": "PostalAddress", "streetAddress": "Beirut Digital District", "addressLocality": "Beirut", "addressRegion": "Beirut", "addressCountry": "LB" },
       "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" }],
