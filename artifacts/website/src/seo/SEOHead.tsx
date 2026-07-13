@@ -12,6 +12,7 @@ import {
   KNOWS_ABOUT,
   OG_IMAGE,
   LOGO_URL,
+  SERVED_AREAS,
 } from "./config";
 
 const { latitude, longitude } = GEO;
@@ -142,10 +143,7 @@ export function OrganizationSchema() {
           latitude,
           longitude,
         },
-        areaServed: [
-          { "@type": "Country", name: GEO.country },
-          { "@type": "AdministrativeArea", name: "Worldwide" },
-        ],
+        areaServed: SERVED_AREAS,
         openingHoursSpecification: [
           { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
         ],

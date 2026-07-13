@@ -12,7 +12,7 @@ export const LEGAL_NAME = "Advanced Hybrid Online Systems";
 export const SHORT_NAME = "AHOS";
 
 export const DEFAULT_DESC =
-  "AHOS is a digital product studio in Beirut, Lebanon building premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide — from strategy to launch, under one roof.";
+  "AHOS is a digital product studio in Beirut, Lebanon building premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses in the US and worldwide — from strategy to launch, under one roof.";
 
 export const EMAIL = "info@ahos.xyz";
 export const LOCALE = "en_US";
@@ -33,6 +33,13 @@ export const GEO = {
   latitude: 33.8938,
   longitude: 35.5018,
 };
+
+// Service areas — countries AHOS serves. Physical address stays Beirut.
+export const SERVED_AREAS = [
+  { "@type": "Country", name: "Lebanon" },
+  { "@type": "Country", name: "United States" },
+  { "@type": "AdministrativeArea", name: "Worldwide" },
+];
 
 // Things AHOS is an authority on — strengthens entity recognition for AI engines.
 export const KNOWS_ABOUT = [

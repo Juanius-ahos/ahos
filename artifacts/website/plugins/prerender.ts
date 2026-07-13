@@ -25,10 +25,11 @@ const ORG_JSON_LD = `{
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
       "telephone": "+961 70 165 601",
-      "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities.",
+      "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities for clients in the US and worldwide.",
       "address": { "@type": "PostalAddress", "streetAddress": "Beirut Digital District", "addressLocality": "Beirut", "addressRegion": "Beirut", "addressCountry": "LB" },
       "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" }],
       "priceRange": "$$",
+      "areaServed": [{"@type":"Country","name":"Lebanon"},{"@type":"Country","name":"United States"},{"@type":"AdministrativeArea","name":"Worldwide"}],
       "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
     },
@@ -37,7 +38,7 @@ const ORG_JSON_LD = `{
       "@id": "${SITE_URL}/#website",
       "url": "${SITE_URL}",
       "name": "AHOS — Web Development Agency in Lebanon | AI & Digital Design Studio",
-      "description": "AHOS is a web development and digital design studio in Beirut, Lebanon building premium websites, custom software, AI tools, and Web3 platforms.",
+      "description": "AHOS is a web development and digital design studio in Beirut, Lebanon building premium websites, custom software, AI tools, and Web3 platforms for clients in the US and worldwide.",
       "publisher": { "@id": "${SITE_URL}/#organization" }
     }
   ]
@@ -119,7 +120,7 @@ const ROUTES: Record<string, RouteMeta> = {
       "AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide.",
     bodyHtml: `<h1>Custom websites from $300.</h1>
 <p>Landing pages, e-commerce stores, and full corporate sites — designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
-<p>Web development agency in Beirut, Lebanon — trusted worldwide.</p>
+<p>Web development agency in Beirut, Lebanon — trusted in the US and worldwide.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale — from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation — software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>

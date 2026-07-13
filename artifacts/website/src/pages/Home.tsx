@@ -497,7 +497,7 @@ export default function Home() {
     <>
       <SEOHead
         title="Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS"
-        description="AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide."
+        description="AHOS is a web development agency in Beirut serving clients in the US and worldwide — custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
@@ -525,7 +525,7 @@ export default function Home() {
           <div className="ed-hero-lead">
             <Parallax amount={-8}>
               <p>Landing pages, e-commerce stores, and full corporate sites — designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
-              <p className="ed-hero-lead-sm">Web development agency in Beirut, Lebanon — trusted worldwide.</p>
+              <p className="ed-hero-lead-sm">Web development agency in Beirut, Lebanon — trusted in the US and worldwide.</p>
             </Parallax>
             <div className="ed-hero-actions">
               <Link href="/contact" className="ed-btn ed-btn-lg">Get your website <span>↗</span></Link>
