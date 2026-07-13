@@ -495,8 +495,8 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS — Any Website, $500, 3 Days"
-        description="Any website for $500, delivered in 2-3 days. Landing pages, e-commerce, corporate sites — no templates, no hidden fees. Founded in Lebanon, trusted worldwide."
+        title="AHOS — Digital Product Studio"
+        description="AHOS builds premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide. From strategy to launch — under one roof."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
@@ -506,7 +506,7 @@ export default function Home() {
       <header className="ed-hero">
         <div className="ed ed-hero-inner">
           <Parallax amount={35}>
-            <Link href="/contact" className="ed-hero-badge">Any website · $500 · 3 days</Link>
+            <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
           </Parallax>
           <Parallax amount={25}>
             <div className="ed-hero-meta">
@@ -515,20 +515,20 @@ export default function Home() {
           </Parallax>
           <h1 className="ed-hero-title">
             <Parallax amount={12}>
-              <span className="ed-hero-line">Any website.</span>
+              <span className="ed-hero-line">We build digital</span>
             </Parallax>
             <Parallax amount={5}>
-              <span className="ed-hero-line ed-hero-line-accent">$500. 3 days.</span>
+              <span className="ed-hero-line ed-hero-line-accent">experiences.</span>
             </Parallax>
           </h1>
           <div className="ed-hero-lead">
             <Parallax amount={-8}>
-              <p>Landing page, e-commerce, corporate site, or custom web app — we design, build, and launch in 2–3 days flat. No templates, no hidden fees, full ownership.</p>
-              <p className="ed-hero-lead-sm">Founded in Lebanon. Trusted worldwide.</p>
+              <p>We don't follow templates. We build the whole product — website, software, or app — from first sketch to launch, under one roof.</p>
+              <p className="ed-hero-lead-sm">For businesses that are built to stand out.</p>
             </Parallax>
             <div className="ed-hero-actions">
-              <Link href="/contact" className="ed-btn ed-btn-lg">Get your $500 website<span>↗</span></Link>
-              <Link href="/services" className="ed-link-arrow">See all services</Link>
+              <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
+              <Link href="/services" className="ed-link-arrow">Explore services</Link>
             </div>
           </div>
         </div>
