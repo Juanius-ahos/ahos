@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function AIDevelopment() {
   return (
     <>
       <SEOHead
-        title="AI Development Agency — Custom AI Tools & Automation"
+        title="AI Development Agency | Custom AI Tools & Automation | AHOS"
         description="AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business."
         path="/ai-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "AI Development", url: "/ai-development" }]} />
+      <ServiceSchema name="AI Development" description="Custom AI tools, chatbots, workflow automation, and LLM-powered systems from strategy to deployment." />
 
       <style>{css}</style>
 

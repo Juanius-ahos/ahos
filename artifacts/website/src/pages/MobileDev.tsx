@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function MobileDev() {
   return (
     <>
       <SEOHead
-        title="Mobile App Development Agency — iOS & Android Apps"
+        title="Mobile App Development | iOS & Android Apps | AHOS Beirut"
         description="AHOS builds native iOS, Android, and cross-platform mobile applications. From concept to App Store deployment — designed, developed, and shipped by one team in Beirut."
         path="/mobile-app-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Mobile App Development", url: "/mobile-app-development" }]} />
+      <ServiceSchema name="Mobile App Development" description="Native iOS, Android, and cross-platform mobile applications from concept to App Store deployment." />
 
       <style>{css}</style>
 

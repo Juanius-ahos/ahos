@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { ServiceSchema } from "../seo/ServiceSchema";
+import { AllServicesSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -72,12 +72,12 @@ export default function Services() {
   return (
     <>
       <SEOHead
-        title="Services — Software, Web & Brand, Built to Perform"
+        title="Websites, Apps & AI | Full-Stack Digital Studio | AHOS"
         description="Custom software, web development, and media & branding from AHOS. One team, strategy to launch, full code ownership."
         path="/services"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Services", url: "/services" }]} />
-      <ServiceSchema />
+      <AllServicesSchema />
 
       <style>{css}</style>
 

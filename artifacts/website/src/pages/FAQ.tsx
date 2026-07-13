@@ -15,7 +15,7 @@ export default function FAQ() {
   return (
     <>
       <SEOHead
-        title="FAQ — Answers on Process, Pricing & Timelines"
+        title="FAQ — Pricing, Process & Timelines | Web Development | AHOS"
         description="Straight answers about how AHOS works — services, timelines, pricing, code ownership, Web3, AI, and support. No jargon."
         path="/faq"
       />

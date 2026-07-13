@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function Web3() {
   return (
     <>
       <SEOHead
-        title="Web3 & Blockchain — Contracts, Dapps & Launches"
+        title="Web3 & Blockchain Development | Dapps & DeFi | AHOS Beirut"
         description="Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy — designed and deployed by AHOS."
         path="/web3"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Web3", url: "/web3" }]} />
+      <ServiceSchema name="Web3 & Blockchain Development" description="Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy." />
 
       <style>{css}</style>
 

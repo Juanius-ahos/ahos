@@ -483,6 +483,7 @@ function Testimonials() {
             <div className="tm-meta">
               <cite className="tm-name">{tc.name}</cite>
               <span className="tm-role">{tc.role}</span>
+              {tc.link && <a className="tm-trustpilot" href={tc.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
             </div>
           </Reveal>
         ))}
@@ -495,8 +496,8 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS — Digital Product Studio"
-        description="AHOS builds premium websites, custom software, Web3 platforms, AI tools, and brand identities for businesses worldwide. From strategy to launch — under one roof."
+        title="Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS"
+        description="AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
@@ -506,29 +507,29 @@ export default function Home() {
       <header className="ed-hero">
         <div className="ed ed-hero-inner">
           <Parallax amount={35}>
-            <Link href="/contact" className="ed-hero-badge">Available for new projects</Link>
+            <Link href="/contact" className="ed-hero-badge">Websites from $300 · Launch in 2-3 days</Link>
           </Parallax>
           <Parallax amount={25}>
             <div className="ed-hero-meta">
-              <span>AHOS</span><span className="ed-dot" /><span>Digital Studio</span>
+              <span>AHOS</span><span className="ed-dot" /><span>Web Dev Agency</span>
             </div>
           </Parallax>
           <h1 className="ed-hero-title">
             <Parallax amount={12}>
-              <span className="ed-hero-line">We build digital</span>
+              <span className="ed-hero-line">Custom websites</span>
             </Parallax>
             <Parallax amount={5}>
-              <span className="ed-hero-line ed-hero-line-accent">experiences.</span>
+              <span className="ed-hero-line ed-hero-line-accent">from $300.</span>
             </Parallax>
           </h1>
           <div className="ed-hero-lead">
             <Parallax amount={-8}>
-              <p>We don't follow templates. We build the whole product — website, software, or app — from first sketch to launch, under one roof.</p>
-              <p className="ed-hero-lead-sm">For businesses that are built to stand out.</p>
+              <p>Landing pages, e-commerce stores, and full corporate sites — designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
+              <p className="ed-hero-lead-sm">Web development agency in Beirut, Lebanon — trusted worldwide.</p>
             </Parallax>
             <div className="ed-hero-actions">
-              <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
-              <Link href="/services" className="ed-link-arrow">Explore services</Link>
+              <Link href="/contact" className="ed-btn ed-btn-lg">Get your website <span>↗</span></Link>
+              <Link href="/pricing" className="ed-link-arrow">See pricing</Link>
             </div>
           </div>
         </div>

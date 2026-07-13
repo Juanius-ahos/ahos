@@ -26,7 +26,7 @@ export default function CaseStudy() {
   return (
     <>
       <SEOHead
-        title={`${study.name} — Case Study`}
+        title={`${study.name} — Case Study | AHOS`}
         description={`How AHOS built ${study.name}: a ${study.category.toLowerCase()} project, in the client's own words.`}
         path={`/work/${study.slug}`}
       />

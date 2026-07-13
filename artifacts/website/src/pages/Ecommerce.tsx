@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function Ecommerce() {
   return (
     <>
       <SEOHead
-        title="E-Commerce Development — Shopify, WooCommerce & Custom Stores"
+        title="E-Commerce Development | Shopify & WooCommerce | AHOS Beirut"
         description="AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms that drive revenue. Payment optimization, multi-currency, subscriptions, and full migration support."
         path="/ecommerce-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "E-Commerce", url: "/ecommerce-development" }]} />
+      <ServiceSchema name="E-Commerce Development" description="Shopify, WooCommerce, and custom e-commerce stores optimized for checkout speed, conversion rate, and revenue." />
 
       <style>{css}</style>
 

@@ -37,7 +37,7 @@ export default function AriaAI() {
 
   return (
     <>
-      <SEOHead title="ARIA — Your AI Project Advisor" description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps." path="/aria-ai" />
+      <SEOHead title="ARIA AI | Free Project Advisor Chatbot | AHOS" description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps." path="/aria-ai" />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "ARIA AI", url: "/aria-ai" }]} />
 
       <style>{css}</style>

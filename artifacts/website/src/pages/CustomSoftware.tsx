@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function CustomSoftware() {
   return (
     <>
       <SEOHead
-        title="Custom Software Development — SaaS, Dashboards & APIs"
+        title="Custom Software Development | SaaS & APIs | AHOS Beirut"
         description="AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs. Fixed-price, full ownership."
         path="/custom-software"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Custom Software", url: "/custom-software" }]} />
+      <ServiceSchema name="Custom Software Development" description="Tailored SaaS products, internal dashboards, APIs, and automation systems built around how your business actually runs." />
 
       <style>{css}</style>
 

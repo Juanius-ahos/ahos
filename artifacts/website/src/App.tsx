@@ -27,6 +27,7 @@ import CustomSoftware from "@/pages/CustomSoftware";
 import AIDevelopment from "@/pages/AIDevelopment";
 import Ecommerce from "@/pages/Ecommerce";
 import UIDesign from "@/pages/UIDesign";
+import Pricing from "@/pages/Pricing";
 
 function NotFound() {
   return (
@@ -66,6 +67,7 @@ function Router() {
           <Route path="/ai-development"><ErrorBoundary><AIDevelopment /></ErrorBoundary></Route>
           <Route path="/ecommerce-development"><ErrorBoundary><Ecommerce /></ErrorBoundary></Route>
           <Route path="/ui-ux-design"><ErrorBoundary><UIDesign /></ErrorBoundary></Route>
+          <Route path="/pricing"><ErrorBoundary><Pricing /></ErrorBoundary></Route>
           <Route component={NotFound} />
         </Switch>
       </main>

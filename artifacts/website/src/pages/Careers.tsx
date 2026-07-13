@@ -56,7 +56,7 @@ export default function Careers() {
   return (
     <>
       <SEOHead
-        title="Careers — Join the Studio"
+        title="Careers | Join Our Development Studio | AHOS"
         description="AHOS hires rarely and well. Developers, designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket."
         path="/careers"
       />

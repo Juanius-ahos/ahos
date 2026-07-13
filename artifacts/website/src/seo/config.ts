@@ -7,7 +7,7 @@
 // All absolute SEO URLs (canonical, OG image, sitemap) derive from this.
 export const SITE_URL = "https://ahos.xyz";
 
-export const SITE_NAME = "AHOS — Digital Product Studio in Beirut, Lebanon";
+export const SITE_NAME = "AHOS — Digital Studio, Beirut";
 export const LEGAL_NAME = "Advanced Hybrid Online Systems";
 export const SHORT_NAME = "AHOS";
 

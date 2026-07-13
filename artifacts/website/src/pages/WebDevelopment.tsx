@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function WebDevelopment() {
   return (
     <>
       <SEOHead
-        title="Web Development Agency — Custom Websites & Web Apps"
+        title="Web Development Agency | Custom Websites & Web Apps | AHOS"
         description="AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. Custom development from Beirut, serving worldwide."
         path="/web-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Web Development", url: "/web-development" }]} />
+      <ServiceSchema name="Web Development" description="Premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients." />
 
       <style>{css}</style>
 

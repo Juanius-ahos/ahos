@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { ServiceSchema } from "../seo/ServiceSchema";
 
 const services = [
   {
@@ -46,11 +47,12 @@ export default function UIDesign() {
   return (
     <>
       <SEOHead
-        title="UI/UX Design & Brand Identity — Web, Mobile & Product Design"
+        title="UI/UX & Brand Design Agency | Web & Mobile Design | AHOS"
         description="AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts, communicates, and scales."
         path="/ui-ux-design"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "UI/UX Design", url: "/ui-ux-design" }]} />
+      <ServiceSchema name="UI/UX Design" description="Interfaces, brand identities, and design systems for web and mobile that convert, communicate, and scale." />
 
       <style>{css}</style>
 

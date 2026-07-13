@@ -55,7 +55,7 @@ export default function Contact() {
   return (
     <>
       <SEOHead
-        title="Start a Project — Tell Us Your Idea"
+        title="Start a Project | Website & App Inquiries | AHOS"
         description="Tell AHOS what you're building. Name, email, and a brief description — we'll come back with a clear plan within 24 hours."
         path="/contact"
       />

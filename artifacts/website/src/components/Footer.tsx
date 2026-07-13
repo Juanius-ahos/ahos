@@ -81,17 +81,21 @@ export function Footer() {
             <div className="ftx-cols">
               <Col head="Studio">
                 <SwapLink href="/">Home</SwapLink>
+                <SwapLink href="/pricing">Pricing</SwapLink>
                 <SwapLink href="/services">Services</SwapLink>
+                <SwapLink href="/aria-ai">ARIA AI</SwapLink>
                 <SwapLink href="/web3">Web3</SwapLink>
                 <SwapLink href="/careers">Careers</SwapLink>
                 <SwapLink href="/faq">FAQ</SwapLink>
               </Col>
               <Col head="Services">
                 <SwapLink href="/web-development">Web Development</SwapLink>
+                <SwapLink href="/mobile-app-development">Mobile Apps</SwapLink>
                 <SwapLink href="/custom-software">Custom Software</SwapLink>
+                <SwapLink href="/ecommerce-development">E-Commerce</SwapLink>
                 <SwapLink href="/web3">Web3 & Blockchain</SwapLink>
                 <SwapLink href="/ai-development">AI & Automation</SwapLink>
-                <SwapLink href="/ui-ux-design">Media & Branding</SwapLink>
+                <SwapLink href="/ui-ux-design">UI/UX Design</SwapLink>
               </Col>
               <Col head="Connect">
                 <SwapLink href="/contact">Start a project</SwapLink>
