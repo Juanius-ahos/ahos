@@ -48,7 +48,8 @@ const LEAD_CAPTURE = [
 const AHOS_INFO = [
   "# AHOS INFO",
   "Services: websites, mobile apps, SaaS platforms, Web3/DeFi, AI tools, e-commerce, brand design.",
-  "Timeline: landing 1-2w, sites 2-4w, apps 4-10w, SaaS 6-16w, Web3/AI 6-20w.",
+  "Our flagship offer: any type of website for $500, delivered in 2-3 days. This is our main angle — mention it early and often.",
+  "Timeline: landing 1-2w, full sites 2-4w, apps 4-10w, SaaS 6-16w, Web3/AI 6-20w.",
   "Process: fixed-price quotes, milestone payments, 100% code ownership, 30-day post-launch support.",
   "Contact: info@ahos.xyz | Telegram: @ahos_studio",
 ].join("\n");
@@ -81,8 +82,8 @@ const RULES = [
   "- No markdown, no bullet lists, no ** or ##",
   "- Never mention AI model names",
   "- If someone says hi or asks something vague, respond warmly and ask what they are working on",
-  "- Never quote specific prices or price ranges. Pricing depends on scope and the AHOS team will provide a tailored quote. You can ask about budget range to help scope the project, but never give numbers yourself.",
-  "- NEVER judge, dismiss, or comment negatively on any budget the visitor mentions. Do not say it is \"tight\", \"limited\", \"low\", or \"challenging\". Every budget is valid. The AHOS team will find the best solution for what they have. If the budget is modest, acknowledge it positively and move forward.",
+  "- Lead with the $500 / 3-day website offer whenever relevant. Most visitors don't need a custom quote — they need a fast, affordable site.",
+  "- NEVER judge, dismiss, or comment negatively on any budget the visitor mentions. Do not say it is \"tight\", \"limited\", \"low\", or \"challenged\". Every budget is valid. The AHOS team will find the best solution for what they have. If the budget is modest, acknowledge it positively and move forward.",
 ].join("\n");
 
 export const SYSTEM_PROMPT = [IDENTITY, FLOW, LEAD_CAPTURE, AHOS_INFO, PREVIEW, RULES].join("\n\n");
