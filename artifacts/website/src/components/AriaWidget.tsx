@@ -24,6 +24,14 @@ export function AriaWidget() {
     if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
   }, [messages, open]);
 
+  // Nudge: after 3+ messages and 15s idle, blink a suggestion chip
+  const [nudge, setNudge] = useState<string | null>(null);
+  useEffect(() => {
+    if (!open || messages.length < 3 || busy) { setNudge(null); return; }
+    const t = setTimeout(() => { if (open) setNudge("Ready for a quote?"); }, 15000);
+    return () => clearTimeout(t);
+  }, [messages.length, open, busy]);
+
   // Don't duplicate the entry point on the full ARIA page or bury the contact planner.
   if (location === "/aria-ai" || location === "/contact") return null;
 
@@ -73,6 +81,12 @@ export function AriaWidget() {
               </div>
             )}
           </div>
+
+          {nudge && (
+            <div className="aw-nudge">
+              <button className="aw-chip" onClick={() => { sendMessage(nudge); setNudge(null); }}>{nudge}</button>
+            </div>
+          )}
 
           <div className="aw-bar">
             <textarea
@@ -130,6 +144,10 @@ const css = `
 .aw-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
 .aw-chip { padding: 6px 14px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
 .aw-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
+.aw-nudge { flex-shrink: 0; display: flex; justify-content: center; padding: 4px 10px 0; }
+.aw-nudge .aw-chip { animation: aw-fade-in 0.35s ease both; background: rgba(70,210,126,0.08); border-color: rgba(70,210,126,0.25); color: var(--text-muted); }
+.aw-nudge .aw-chip:hover { background: rgba(70,210,126,0.15); border-color: rgba(70,210,126,0.4); color: var(--text); }
+@keyframes aw-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .aw-msg { display: flex; }
 .aw-msg-user { justify-content: flex-end; }

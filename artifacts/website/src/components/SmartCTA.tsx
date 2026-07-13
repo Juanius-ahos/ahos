@@ -19,22 +19,30 @@ export function SmartCTA() {
 
   useEffect(() => {
     setDismissed(false);
+    let exitShown = false;
     const onScroll = () => {
       const y = window.scrollY;
       const docH = document.documentElement.scrollHeight;
       const vh = window.innerHeight;
       const pastHero = y > vh * 0.7;
-      const nearFooter = docH - (y + vh) < 420; // don't fight the footer CTA
+      const nearFooter = docH - (y + vh) < 420;
       setShow(pastHero && !nearFooter);
+    };
+    const onMouseLeave = (e: MouseEvent) => {
+      if (exitShown || e.clientY > 0 || dismissed) return;
+      exitShown = true;
+      setShow(true);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+    document.addEventListener("mouseleave", onMouseLeave);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      document.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, [location]);
+  }, [location, dismissed]);
 
   // No floating CTA on the contact page itself.
   if (location === "/contact") return null;
