@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
+import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
 
@@ -127,6 +128,7 @@ export default function CustomSoftware() {
         </div>
       </motion.section>
 
+      <Testimonials />
       <Footer />
     </>
   );

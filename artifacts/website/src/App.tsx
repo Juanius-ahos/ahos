@@ -4,6 +4,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
 const HeroCanvas = lazy(() => import("@/components/HeroCanvas").then(m => ({ default: m.HeroCanvas })));
 import { SmartCTA } from "@/components/SmartCTA";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { AriaWidget } from "@/components/AriaWidget";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
@@ -101,6 +102,7 @@ export default function App() {
           <Nav />
           <Router />
           <SmartCTA />
+          <WhatsAppButton />
           <AriaWidget />
         </div>
       </WouterRouter>

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "wouter";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
@@ -10,11 +10,32 @@ const types = ["Website", "Web app / SaaS", "Mobile app", "Web3 / DeFi", "AI / A
 const budgets = ["< $3k", "$3k – $8k", "$8k – $20k", "$20k+", "Not sure yet"];
 
 type Data = { name: string; email: string; phone: string; company: string; type: string; budget: string; message: string };
-const empty: Data = { name: "", email: "", phone: "", company: "", type: "", budget: "", message: "" };
 
 export default function Contact() {
-  const [data, setData] = useState<Data>(empty);
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+  const [location] = useLocation();
+  const [data, setData] = useState<Data>(() => {
+    const params = new URLSearchParams(location.split("?")[1] || "");
+    const plan = params.get("plan") || "";
+    const price = params.get("price") || "";
+    let type = "";
+    let budget = "";
+    if (plan) {
+      if (plan.includes("Landing") || plan.includes("Standard") || plan.includes("E-Commerce")) {
+        type = "Website";
+      } else if (plan.includes("Web App")) {
+        type = "Web app / SaaS";
+      }
+      if (price) {
+        const p = parseInt(price.replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(p)) {
+          if (p <= 800) budget = "< $3k";
+          else if (p <= 8000) budget = "$3k – $8k";
+          else budget = "$8k – $20k";
+        }
+      }
+    }
+    return { name: "", email: "", phone: "", company: "", type, budget, message: plan ? `Interested in the ${plan} plan (${price})` : "" };
+  });
 
   const pick = (k: keyof Data, v: string) => setData((d) => ({ ...d, [k]: v }));
   const field = (k: keyof Data) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => pick(k, e.target.value);

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
+import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 
 const plans = [
@@ -118,7 +119,7 @@ export default function Pricing() {
                 <li key={f} className="pr-feat">{f}</li>
               ))}
             </ul>
-            <Link href="/contact" className="pr-cta">Get this plan <span>↗</span></Link>
+            <Link href={`/contact?plan=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}`} className="pr-cta">Get this plan <span>↗</span></Link>
           </div>
         ))}
       </section>
@@ -134,6 +135,8 @@ export default function Pricing() {
           ))}
         </div>
       </section>
+
+      <Testimonials id="pricing-testimonials" />
 
       <section className="ed pr-cta-section">
         <div className="pr-cta-inner">
