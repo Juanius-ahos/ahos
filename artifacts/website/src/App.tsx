@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
@@ -12,6 +12,7 @@ import { Cursor } from "@/components/Cursor";
 import { CornerGlow } from "@/components/CornerGlow";
 import { Loader } from "@/components/Loader";
 import { OrganizationSchema } from "@/seo/SEOHead";
+import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
 import CaseStudy from "@/pages/CaseStudy";
 import Services from "@/pages/Services";
@@ -73,6 +74,10 @@ function Router() {
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const [location] = useLocation();
+
+  useEffect(() => { window.scrollTo(0, 0); }, [location]);
+  useEffect(() => { retryPendingLeads(); }, []);
 
   return (
     <MotionConfig reducedMotion="user">

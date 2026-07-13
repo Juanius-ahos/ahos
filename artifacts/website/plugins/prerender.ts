@@ -190,13 +190,15 @@ const ROUTES: Record<string, RouteMeta> = {
     title: "Start a Web Design or Development Project — Get a Free Quote | AHOS",
     description:
       "Tell AHOS what you're building — website, web app, AI tool, or Web3 project. Based in Beirut, Lebanon. We'll come back with a free quote and clear plan within 24 hours.",
-    bodyHtml: `<h1>Let's plan your build.</h1>
-<p>Four quick steps — no essay required. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p>
-<section><h2>Step 1 — What are you building?</h2><p>Website, Web app/SaaS, Mobile app, Web3/DeFi, AI/Automation, Branding — and what industry you're in.</p></section>
-<section><h2>Step 2 — What's the main goal?</h2><p>Generate leads, Sell online, Build authority, Automate a process, Launch an MVP, Raise/pitch — and where you are right now (idea, concept, designs ready, existing brand, rework).</p></section>
-<section><h2>Step 3 — Budget & timeline</h2><p>Rough budget and ideal timeline — from under $3k to $20k+, from 2 weeks to flexible.</p></section>
-<section><h2>Step 4 — Your details</h2><p>Name, email, phone, company, and a brief message. We'll come back with a clear plan within 24 hours.</p></section>
-<p>Email: info@ahos.xyz · Based in Beirut — worldwide · Reply within 24 hours.</p>`,
+    bodyHtml: `<h1>Tell us your idea.</h1>
+<p>Name + email + a brief idea. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p>
+<section><h2>What we need from you</h2>
+<h3>Your name and email</h3><p>So we can reach you with the plan.</p>
+<h3>Phone / WhatsApp (optional)</h3><p>For a faster reply when we're ready to talk.</p>
+<h3>What are you building?</h3><p>Website, Web app/SaaS, Mobile app, Web3/DeFi, AI/Automation, Branding, or Not sure yet.</p>
+<h3>Rough budget (optional)</h3><p>From under $3k to $20k+, or Not sure yet.</p>
+<h3>Anything else (optional)</h3><p>A line or two about your project, timeline, or what you have in mind.</p></section>
+<p>We reply within 24 hours. Email: info@ahos.xyz · WhatsApp: +961 70 165 601 · Based in Beirut — worldwide.</p>`,
   },
   "/aria-ai": {
     title: "ARIA AI — Free Project Advisor for Web Development & Design | AHOS",
@@ -343,6 +345,8 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta name="twitter:title" content="${meta.title}" />
     <meta name="twitter:description" content="${meta.description}" />
     <meta name="twitter:image" content="${og}" />
+    <meta name="twitter:site" content="@ahos_xyz" />
+    <meta property="og:image:alt" content="AHOS — ${meta.title}" />
   `.trim();
 
   // Organization + WebSite schema on every page

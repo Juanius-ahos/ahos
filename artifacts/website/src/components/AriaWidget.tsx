@@ -44,7 +44,7 @@ export function AriaWidget() {
       <style>{css}</style>
 
       <div className={`aw ${open ? "is-open" : ""}`}>
-        <div className="aw-panel" role="dialog" aria-modal="false" aria-label="Chat with ARIA" aria-hidden={!open}>
+        <div className="aw-panel" role="dialog" aria-modal="true" aria-label="Chat with ARIA" aria-hidden={!open}>
           <header className="aw-top">
             <div className="aw-top-l">
               <span className="aw-dot" />

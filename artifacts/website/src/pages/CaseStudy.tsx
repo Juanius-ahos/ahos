@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -10,8 +9,6 @@ const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 export default function CaseStudy() {
   const { slug } = useParams<{ slug: string }>();
   const study = slug ? caseStudyBySlug(slug) : undefined;
-
-  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   if (!study) {
     return (

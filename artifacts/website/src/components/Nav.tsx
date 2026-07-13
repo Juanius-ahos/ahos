@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 
 const links = [
@@ -46,13 +46,35 @@ export function Nav() {
 
   useEffect(() => setOpen(false), [location]);
 
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const prev = document.activeElement as HTMLElement | null;
+    if (open && sheetRef.current) {
+      const first = sheetRef.current.querySelector<HTMLElement>("a, button, [tabindex]:not([tabindex='-1'])");
+      first?.focus();
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key === "Tab" && open && sheetRef.current) {
+        const focusable = Array.from(sheetRef.current.querySelectorAll<HTMLElement>("a, button, [tabindex]:not([tabindex='-1'])"));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
+      if (!open && prev && "focus" in prev) prev.focus();
     };
   }, [open]);
 
@@ -91,6 +113,7 @@ export function Nav() {
           </button>
           <Link href="/contact" className="nv-cta">Start a project <span aria-hidden="true">↗</span></Link>
           <button
+            ref={burgerRef}
             className={`nv-burger ${open ? "is-open" : ""}`}
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -101,7 +124,7 @@ export function Nav() {
         </div>
       </nav>
 
-      <div className={`nv-sheet ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-hidden={!open}>
+      <div ref={sheetRef} className={`nv-sheet ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-hidden={!open}>
         <div className="nv-sheet-inner">
           <div className="nv-sheet-links">
             {links.map((l, i) => (

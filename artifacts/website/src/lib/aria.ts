@@ -113,10 +113,36 @@ export interface Message {
 
 const W3F_KEY = "840f1d96-d5b1-4659-8a5e-30eae7d9f5db";
 
+function sendPayload(payload: Record<string, unknown>, retries = 2): Promise<boolean> {
+  return fetch("https://api.web3forms.com/submit", {
+    method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload),
+  }).then((r) => r.json().then((j) => j.success === true)).catch(() => {
+    if (retries > 0) return new Promise((r) => setTimeout(r, 1000 * (3 - retries))).then(() => sendPayload(payload, retries - 1));
+    return false;
+  });
+}
+
+/** Retry any unsent leads from localStorage (set on prior page loads). */
+export function retryPendingLeads() {
+  const keys: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k?.startsWith("ahos_lead_")) keys.push(k);
+  }
+  keys.sort();
+  for (const k of keys) {
+    try {
+      const payload = JSON.parse(localStorage.getItem(k) || "{}");
+      sendPayload(payload).then((ok) => { if (ok) localStorage.removeItem(k); });
+    } catch {}
+  }
+}
+
 export function fireLead(d: Record<string, string>, history: Message[], source: string) {
   const tr = history.slice(-14).map((h) => `${h.role === "user" ? "Visitor" : "Aria"}: ${h.content}`).join("\n\n");
   const payload = { access_key: W3F_KEY, subject: `New AHOS Lead - ${d.name || "Unknown"}`, ...d, Source: source, Transcript: tr };
-  try { localStorage.setItem("ahos_lead_" + Date.now(), JSON.stringify(payload)); } catch {}
-  fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
+  const key = "ahos_lead_" + Date.now();
+  try { localStorage.setItem(key, JSON.stringify(payload)); } catch {}
+  sendPayload(payload).then((ok) => { if (ok) try { localStorage.removeItem(key); } catch {} });
   trackEvent("generate_lead", { method: source });
 }

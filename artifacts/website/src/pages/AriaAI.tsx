@@ -17,8 +17,6 @@ export default function AriaAI() {
     onPreview: setPreviewHtml,
   });
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
   useEffect(() => {
     if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
   }, [messages]);

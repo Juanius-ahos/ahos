@@ -42,16 +42,6 @@ function upsertMeta(key: string, content: string) {
   el.setAttribute("content", content);
 }
 
-function upsertLink(rel: string, href: string) {
-  let el = document.head.querySelector(`link[rel="${rel}"]`);
-  if (!el) {
-    el = document.createElement("link");
-    el.setAttribute("rel", rel);
-    document.head.appendChild(el);
-  }
-  el.setAttribute("href", href);
-}
-
 export function SEOHead({ title, description, path, ogImage, noindex }: SEOProps) {
   const fullTitle = titleFor(title);
   const url = `${SITE_URL}${path}`;
@@ -88,10 +78,7 @@ export function SEOHead({ title, description, path, ogImage, noindex }: SEOProps
     upsertMeta("twitter:description", description);
     upsertMeta("twitter:image", og);
     upsertMeta("twitter:image:alt", `${SHORT_NAME} — ${title}`);
-
-    // Hreflang
-    upsertLink("alternate", url);
-    document.head.querySelector('link[rel="alternate"]')?.setAttribute("hreflang", "en");
+    upsertMeta("twitter:site", "@ahos_xyz");
 
     // Geographic targeting (local SEO)
     upsertMeta("geo.region", GEO.region);

@@ -418,18 +418,22 @@ function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: bo
 function Marquee() {
   const row1 = ["BUILD", "·", "SHIP", "·", "SCALE", "·", "REPEAT"];
   const row2 = ["strategy", "·", "design", "·", "code", "·", "launch"];
+  const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const pause = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; };
+  const resume = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = ""; };
 
   return (
     <section className="mq-section">
       <div className="mq-row">
-        <div className="mq-row-inner">
+        <div className="mq-row-inner" onMouseEnter={pause} onMouseLeave={resume}>
           {[...row1, ...row1].map((w, i) =>
             w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word">{w}</span>
           )}
         </div>
       </div>
       <div className="mq-row">
-        <div className="mq-row-inner mq-row-inner-reverse">
+        <div className="mq-row-inner mq-row-inner-reverse" onMouseEnter={pause} onMouseLeave={resume}>
           {[...row2, ...row2].map((w, i) =>
             w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word-dim">{w}</span>
           )}
@@ -465,16 +469,18 @@ function Testimonials() {
       <div className="tm-grid">
         {t.map((tc, i) => (
           <Reveal key={tc.name} delay={i * 100} className="tm-card">
-            <div className="tm-stars">
+            <div className="tm-stars" aria-label="5 out of 5 stars">
               {[1,2,3,4,5].map(s => (
-                <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)">
+                <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)" aria-hidden="true">
                   <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
                 </svg>
               ))}
             </div>
-            <p className="tm-text">"{tc.text}"</p>
+            <blockquote className="tm-text">
+              <p>"{tc.text}"</p>
+            </blockquote>
             <div className="tm-meta">
-              <span className="tm-name">{tc.name}</span>
+              <cite className="tm-name">{tc.name}</cite>
               <span className="tm-role">{tc.role}</span>
             </div>
           </Reveal>
@@ -485,8 +491,6 @@ function Testimonials() {
 }
 
 export default function Home() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
   return (
     <>
       <SEOHead

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -25,12 +25,12 @@ export default function Careers() {
   const [message, setMessage] = useState("");
   const [cv, setCv] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  const [errMsg, setErrMsg] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!cv) return;
+    if (cv.size > 10 * 1024 * 1024) { setStatus("err"); setErrMsg("File is too large — max 10 MB."); return; }
     setStatus("sending");
     try {
       const fd = new FormData();
@@ -197,7 +197,7 @@ export default function Careers() {
               <button type="submit" className="ed-btn ed-btn-lg cr-submit" disabled={status === "sending" || !cv}>
                 {status === "sending" ? "Sending…" : <>Send application<span>↗</span></>}
               </button>
-              {status === "err" && <p className="cr-err">Something went wrong — try emailing us at info@ahos.xyz.</p>}
+              {status === "err" && <p className="cr-err">{errMsg || "Something went wrong — try emailing us at info@ahos.xyz."}</p>}
             </form>
           </>
         )}

@@ -87,11 +87,11 @@ export function Footer() {
                 <SwapLink href="/faq">FAQ</SwapLink>
               </Col>
               <Col head="Services">
-                <SwapLink href="/services">Web Development</SwapLink>
-                <SwapLink href="/services">Custom Software</SwapLink>
+                <SwapLink href="/web-development">Web Development</SwapLink>
+                <SwapLink href="/custom-software">Custom Software</SwapLink>
                 <SwapLink href="/web3">Web3 & Blockchain</SwapLink>
-                <SwapLink href="/aria-ai">AI & Automation</SwapLink>
-                <SwapLink href="/services">Media & Branding</SwapLink>
+                <SwapLink href="/ai-development">AI & Automation</SwapLink>
+                <SwapLink href="/ui-ux-design">Media & Branding</SwapLink>
               </Col>
               <Col head="Connect">
                 <SwapLink href="/contact">Start a project</SwapLink>

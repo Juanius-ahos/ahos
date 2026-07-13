@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -9,8 +9,6 @@ import { Reveal } from "../components/motion";
 export default function FAQ() {
   const [cat, setCat] = useState(faqCategories[0].category);
   const [open, setOpen] = useState<string | null>(faqCategories[0].items[0].question);
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const items = faqCategories.find((c) => c.category === cat)?.items || [];
 

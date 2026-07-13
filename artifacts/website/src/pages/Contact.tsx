@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -15,8 +15,6 @@ const empty: Data = { name: "", email: "", phone: "", company: "", type: "", bud
 export default function Contact() {
   const [data, setData] = useState<Data>(empty);
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const pick = (k: keyof Data, v: string) => setData((d) => ({ ...d, [k]: v }));
   const field = (k: keyof Data) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => pick(k, e.target.value);
