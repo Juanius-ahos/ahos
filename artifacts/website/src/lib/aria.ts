@@ -111,10 +111,12 @@ export interface Message {
   content: string;
 }
 
+const W3F_KEY = "840f1d96-d5b1-4659-8a5e-30eae7d9f5db";
+
 export function fireLead(d: Record<string, string>, history: Message[], source: string) {
   const tr = history.slice(-14).map((h) => `${h.role === "user" ? "Visitor" : "Aria"}: ${h.content}`).join("\n\n");
-  const payload = { _captcha: "false", _subject: `New AHOS Lead - ${d.name || "Unknown"}`, ...d, Source: source, Transcript: tr };
+  const payload = { access_key: W3F_KEY, subject: `New AHOS Lead - ${d.name || "Unknown"}`, ...d, Source: source, Transcript: tr };
   try { localStorage.setItem("ahos_lead_" + Date.now(), JSON.stringify(payload)); } catch {}
-  fetch("https://formsubmit.co/ajax/daoujuan@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
+  fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) }).catch(() => {});
   trackEvent("generate_lead", { method: source });
 }

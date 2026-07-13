@@ -34,20 +34,20 @@ export default function Careers() {
     setStatus("sending");
     try {
       const fd = new FormData();
-      fd.append("_captcha", "false");
-      fd.append("_subject", `Career application — ${name}`);
-      fd.append("Name", name);
-      fd.append("Email", email);
-      fd.append("Phone", phone);
-      fd.append("Role", role);
-      fd.append("Message", message);
-      fd.append("CV", cv);
-      const res = await fetch("https://formsubmit.co/ajax/daoujuan@gmail.com", {
+      fd.append("access_key", "840f1d96-d5b1-4659-8a5e-30eae7d9f5db");
+      fd.append("subject", `Career application — ${name}`);
+      fd.append("name", name);
+      fd.append("email", email);
+      fd.append("phone", phone);
+      fd.append("role", role);
+      fd.append("message", message);
+      fd.append("cv", cv);
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: fd,
       });
       const json = await res.json();
-      setStatus(json && json.success === "true" ? "ok" : "err");
+      setStatus(json && json.success ? "ok" : "err");
     } catch {
       setStatus("err");
     }
