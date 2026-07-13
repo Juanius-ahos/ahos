@@ -22,6 +22,7 @@ const srcsetWebp = (p: string) => {
 
 const work = [
   { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "/work/speealigner" },
+  { name: "Jul's Auto", cat: "Web · Automotive", year: "2026", img: "work/julsauto.jpg", url: "https://julsauto.com" },
   { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
   { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
   { name: "Ido Taxi", cat: "Web · Transport", year: "2025", img: "work/idotaxi.jpg", url: "/work/ido-taxi" },
