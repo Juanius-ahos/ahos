@@ -114,11 +114,12 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS — Web Development Agency in Beirut, Lebanon | Custom Software & AI Studio",
+    title: "Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS",
     description:
-      "AHOS is a web development and digital design studio in Beirut, Lebanon that builds premium websites, custom software, AI tools, Web3 platforms, and brand identities for businesses worldwide — from strategy to launch, under one roof.",
-    bodyHtml: `<h1>We build digital experiences.</h1>
-<p>AHOS is a boutique digital product studio based in Beirut, Lebanon. We don't follow templates — we build the whole product, website, software, or app, from first sketch to launch, under one roof. For businesses that are built to stand out.</p>
+      "AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide.",
+    bodyHtml: `<h1>Custom websites from $300.</h1>
+<p>Landing pages, e-commerce stores, and full corporate sites — designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
+<p>Web development agency in Beirut, Lebanon — trusted worldwide.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale — from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation — software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
@@ -135,9 +136,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees — fixed quotes.</p></section>`,
   },
   "/services": {
-    title: "Web Development, AI, Web3 & Design Services | AHOS Digital Studio",
+    title: "Websites, Apps & AI | Full-Stack Digital Studio | AHOS",
     description:
-      "AHOS is a web design and development studio in Beirut, Lebanon delivering custom websites, AI automation, Web3 engineering, brand design, and custom software — all under one roof.",
+      "Custom software, web development, and media & branding from AHOS. One team, strategy to launch, full code ownership.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Everything you need, done properly.</h1>
 <p>Web development, mobile apps, custom software, AI & automation, e-commerce, and design — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
@@ -158,9 +159,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call. We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>`,
   },
   "/web3": {
-    title: "Web3 & Blockchain Development Studio | Smart Contracts, Dapps & DeFi | AHOS",
+    title: "Web3 & Blockchain Development | Dapps & DeFi | AHOS Beirut",
     description:
-      "AHOS is a Web3 development studio in Beirut, Lebanon building audited smart contracts, dapps, DeFi platforms, NFT infrastructure, and token launches on EVM chains for startups and enterprises.",
+      "Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy — designed and deployed by AHOS.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -172,9 +173,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call and we'll map your full build — contracts, frontend, art, and go-to-market.</p>`,
   },
   "/careers": {
-    title: "Careers — Web Developer, Designer & Web3 Engineer Jobs | AHOS Studio",
+    title: "Careers | Join Our Development Studio | AHOS",
     description:
-      "AHOS hires rarely and well. Full-stack web developers, product designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket. Apply with your CV.",
+      "AHOS hires rarely and well. Developers, designers, Web3 engineers, and motion artists who'd rather own a problem than close a ticket. Apply with your CV.",
     bodyHtml: `<h1>We hire rarely. And well.</h1>
 <p>We stay small on purpose. When we do bring someone in, it's someone who'd rather own a hard problem than be handed an easy one.</p>
 <section><h2>No ladders to climb. Just good work to do.</h2>
@@ -187,9 +188,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Don't see your role? If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template.</p>`,
   },
   "/contact": {
-    title: "Start a Web Design or Development Project — Get a Free Quote | AHOS",
+    title: "Start a Project | Website & App Inquiries | AHOS",
     description:
-      "Tell AHOS what you're building — website, web app, AI tool, or Web3 project. Based in Beirut, Lebanon. We'll come back with a free quote and clear plan within 24 hours.",
+      "Tell AHOS what you're building. Name, email, and a brief description — we'll come back with a clear plan within 24 hours.",
     bodyHtml: `<h1>Tell us your idea.</h1>
 <p>Name + email + a brief idea. We'll read it, think about it, and come back with a straight answer and a clear plan, usually within a day.</p>
 <section><h2>What we need from you</h2>
@@ -201,9 +202,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>We reply within 24 hours. Email: info@ahos.xyz · WhatsApp: +961 70 165 601 · Based in Beirut — worldwide.</p>`,
   },
   "/aria-ai": {
-    title: "ARIA AI — Free Project Advisor for Web Development & Design | AHOS",
+    title: "ARIA AI | Free Project Advisor Chatbot | AHOS",
     description:
-      "Chat with ARIA, the AHOS AI project advisor. Describe your website, app, or software idea and get instant, honest guidance on scope, timeline, tech stack, and next steps.",
+      "Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps.",
     bodyHtml: `<h1>Meet ARIA.</h1>
 <p>Your AI project advisor. Describe what you want to build and get instant, honest advice — scope, timeline, and next steps. No form, no sales pitch.</p>
 <p>ARIA is a senior project advisor at AHOS — a boutique digital studio building websites, mobile apps, SaaS, Web3/DeFi, and AI tools. She helps visitors understand what is possible, gives honest advice, and has real conversations about your project.</p>
@@ -212,9 +213,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support.</p>`,
   },
   "/faq": {
-    title: "FAQ — Web Design & Development Pricing in Lebanon | AHOS Digital Studio",
+    title: "FAQ — Pricing, Process & Timelines | Web Development | AHOS",
     description:
-      "Everything you want to know about working with AHOS web development studio in Beirut, Lebanon: process, pricing, timeline, code ownership, support, and more. Straight answers, no sales speak.",
+      "Straight answers about how AHOS works — services, timelines, pricing, code ownership, Web3, AI, and support. No jargon.",
     jsonLd: FAQ_JSON_LD,
     bodyHtml: `<h1>No fluff. Straight answers.</h1>
 <p>Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p>
@@ -233,9 +234,25 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>How do I get started?</h3><p>Contact us through the website form. Free 30-min discovery call within 24 hours.</p></section>
 <p>Still wondering? Skip the form. Email us what you're building and we'll tell you straight whether we're the right team for it.</p>`,
   },
+  "/pricing": {
+    title: "Website Pricing From $300 | Web Development Costs | AHOS Beirut",
+    description: "Transparent web development pricing from AHOS. Landing pages from $300, standard websites from $500, e-commerce from $800. Custom designs, no templates, full ownership. Launch in days.",
+    bodyHtml: `<h1>Websites from $300</h1>
+<p>Fixed prices, custom work, full ownership. What you see is what you pay.</p>
+<section><h2>Landing Page — $300</h2><p>Single-page website for startups, products, or personal brands. Delivered in 2 days. Responsive, custom design, contact form, SEO meta tags, fast hosting.</p>
+<h2>Standard Website — $500</h2><p>Multi-page site for small businesses. Up to 5 pages, responsive, custom branding, CMS, SEO, Google Analytics. Delivered in 3 days.</p>
+<h2>E-Commerce Store — $800</h2><p>Full online store with up to 50 products, cart, checkout, payment gateway, order management. Delivered in 5 days.</p>
+<h2>Custom Web App — From $1,500</h2><p>Bespoke web applications: dashboards, portals, SaaS platforms. Full-stack, auth, database, API, source code ownership. Delivered in 1-3 weeks.</p></section>
+<section><h2>Pricing FAQ</h2>
+<h3>What's included in the $500 standard website?</h3><p>A fully custom 5-page website with responsive design, SEO meta tags, contact form, CMS, social links, and Google Analytics. You own the code.</p>
+<h3>How fast can you deliver?</h3><p>Landing pages in 2 days, standard sites in 3 days, e-commerce in 5 days.</p>
+<h3>Do I need hosting?</h3><p>We can host or deploy to your existing hosting. Setup included. Ongoing hosting at cost ($5-15/mo).</p>
+<h3>What if I need changes after launch?</h3><p>30 days of post-launch support included. Maintenance retainers available after.</p>
+<h3>Do you offer payment plans?</h3><p>Milestone payments: 50% upfront, 50% on launch. E-commerce and web apps may split into 3 payments.</p></section>`,
+  },
   "/web-development": {
-    title: "Web Development Agency — Custom Websites & Web Applications | AHOS",
-    description: "AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. From landing pages to full-scale web apps.",
+    title: "Web Development Agency | Custom Websites & Web Apps | AHOS",
+    description: "AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. Custom development from Beirut, serving worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Websites that earn their keep.</h1>
 <p>Pixel-tight, fast, and built to convert — from a single landing page to a full-scale web application. Every site we ship is responsive, accessible, and tuned to perform.</p>
@@ -246,8 +263,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Maintenance & Hosting</h2><p>Security patches, backups, updates, and performance monitoring — all handled. Optional retainer or per-task basis.</p></section>`,
   },
   "/mobile-app-development": {
-    title: "Mobile App Development — iOS, Android & Cross-Platform Apps | AHOS",
-    description: "AHOS builds native iOS, Android, and cross-platform mobile applications. Swift, Kotlin, Flutter, React Native — from concept to App Store deployment.",
+    title: "Mobile App Development | iOS & Android Apps | AHOS Beirut",
+    description: "AHOS builds native iOS, Android, and cross-platform mobile applications. From concept to App Store deployment — designed, developed, and shipped by one team in Beirut.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Apps people keep using.</h1>
 <p>From concept to app store — iOS, Android, or cross-platform. We design, develop, and ship mobile applications that users genuinely enjoy opening every day.</p>
@@ -258,8 +275,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Backend & API for Mobile</h2><p>RESTful and GraphQL APIs, real-time WebSockets, auth systems, push notification infrastructure, and cloud storage built to scale with your app.</p></section>`,
   },
   "/custom-software": {
-    title: "Custom Software Development — SaaS, Dashboards & APIs | AHOS",
-    description: "AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs.",
+    title: "Custom Software Development | SaaS & APIs | AHOS Beirut",
+    description: "AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs. Fixed-price, full ownership.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Software that fits your workflow.</h1>
 <p>Off-the-shelf tools make you bend to their logic. We build custom platforms, dashboards, and systems shaped to how your business actually runs.</p>
@@ -270,7 +287,7 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Integration & Automation</h2><p>Connect CRM, ERP, marketing tools, and payment gateways into single workflows. Automated data syncs, webhooks, custom automation infrastructure.</p></section>`,
   },
   "/ai-development": {
-    title: "AI Development Agency — Custom AI Tools, Chatbots & Automation | AHOS",
+    title: "AI Development Agency | Custom AI Tools & Automation | AHOS",
     description: "AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>AI that actually does the work.</h1>
@@ -282,8 +299,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>AI Strategy & Consulting</h2><p>Feasibility studies, proof-of-concept builds, model selection, and clear roadmap from experiment to production. We help you identify where AI actually adds value.</p></section>`,
   },
   "/ecommerce-development": {
-    title: "E-Commerce Development — Shopify, WooCommerce & Custom Stores | AHOS",
-    description: "AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms. Payment optimization, multi-currency, subscriptions, and migration support.",
+    title: "E-Commerce Development | Shopify & WooCommerce | AHOS Beirut",
+    description: "AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms that drive revenue. Payment optimization, multi-currency, subscriptions, and full migration support.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Stores built to sell.</h1>
 <p>Shopify, WooCommerce, or fully custom — e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity.</p>
@@ -294,8 +311,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Migration & Maintenance</h2><p>Migrate from Magento, BigCommerce, or custom platforms without downtime. Product data migration, SEO redirect mapping, and ongoing maintenance.</p></section>`,
   },
   "/ui-ux-design": {
-    title: "UI/UX Design & Brand Identity — Web, Mobile & Product Design | AHOS",
-    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts and scales.",
+    title: "UI/UX & Brand Design Agency | Web & Mobile Design | AHOS",
+    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts, communicates, and scales.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Designed to be impossible to ignore.</h1>
 <p>Interfaces, brand identities, and design systems that communicate clearly, convert consistently, and scale effortlessly — from first sketch to shipped product.</p>
@@ -339,7 +356,7 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${og}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="AHOS — Web Development Agency in Lebanon | AI & Digital Design Studio" />
+    <meta property="og:site_name" content="AHOS — Digital Studio, Beirut" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${meta.title}" />
