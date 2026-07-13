@@ -54,7 +54,7 @@ const css = `
 .wa-label { white-space: nowrap; }
 
 @media (max-width: 560px) {
-  .wa-btn { left: 12px; bottom: 14px; padding: 10px 14px 10px 10px; gap: 8px; }
+  .wa-btn { left: 12px; bottom: 80px; padding: 10px 14px 10px 10px; gap: 8px; }
   .wa-btn svg { width: 20px; height: 20px; }
   .wa-label { font-size: 13px; }
 }
