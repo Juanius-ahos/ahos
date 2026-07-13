@@ -40,6 +40,7 @@ function NotFound() {
 
 function Router() {
   const [location] = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [location]);
 
   return (
     <motion.div
@@ -74,9 +75,6 @@ function Router() {
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
-  const [location] = useLocation();
-
-  useEffect(() => { window.scrollTo(0, 0); }, [location]);
   useEffect(() => { retryPendingLeads(); }, []);
 
   return (
