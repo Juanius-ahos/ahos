@@ -6,6 +6,7 @@ import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal, Parallax } from "../components/motion";
 import { trackEvent } from "../lib/analytics";
+import { HeroAria } from "../components/home/HeroAria";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 // "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
@@ -570,45 +571,15 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS"
-        description="AHOS is a web development agency in Beirut serving clients in the US and worldwide — custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks."
+        title="AHOS — Websites, Apps & Software That Pay for Themselves"
+        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <OverlayParticles />
 
-      {/* ─── HERO ─── */}
-      <header className="ed-hero" data-accent="255,106,26">
-        <div className="ed ed-hero-inner">
-          <Parallax amount={35}>
-            <Link href="/contact" className="ed-hero-badge">Websites from $300 · Launch in 2-3 days</Link>
-          </Parallax>
-          <Parallax amount={25}>
-            <div className="ed-hero-meta">
-              <span>AHOS</span><span className="ed-dot" /><span>Web Dev Agency</span>
-            </div>
-          </Parallax>
-          <h1 className="ed-hero-title">
-            <Parallax amount={12}>
-              <span className="ed-hero-line">Custom websites</span>
-            </Parallax>
-            <Parallax amount={5}>
-              <span className="ed-hero-line ed-hero-line-accent">from $300.</span>
-            </Parallax>
-          </h1>
-          <div className="ed-hero-lead">
-            <Parallax amount={-8}>
-              <p>Landing pages, e-commerce stores, and full corporate sites — designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
-              <p className="ed-hero-lead-sm">Web development agency in Beirut, Lebanon — trusted in the US and worldwide.</p>
-            </Parallax>
-            <div className="ed-hero-actions">
-              <Link href="/contact" className="ed-btn ed-btn-lg">Get your website <span>↗</span></Link>
-              <Link href="/pricing" className="ed-link-arrow">See pricing</Link>
-            </div>
-          </div>
-        </div>
-        <span className="ed-hero-scroll" aria-hidden="true">Scroll</span>
-      </header>
+      {/* ─── HERO (interactive ARIA) ─── */}
+      <HeroAria />
 
       {/* ─── ZOOM MISSION ─── */}
       <ZoomReveal />
