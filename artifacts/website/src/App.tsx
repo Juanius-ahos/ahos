@@ -1,8 +1,7 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
-const HeroCanvas = lazy(() => import("@/components/HeroCanvas").then(m => ({ default: m.HeroCanvas })));
 import { SmartCTA } from "@/components/SmartCTA";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { AriaWidget } from "@/components/AriaWidget";
@@ -84,7 +83,6 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
         <Loader onComplete={() => setLoaded(true)} />
-        <Suspense fallback={null}><HeroCanvas /></Suspense>
         <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>

@@ -36,6 +36,7 @@ export default function Contact() {
     }
     return { name: "", email: "", phone: "", company: "", type, budget, message: plan ? `Interested in the ${plan} plan (${price})` : "" };
   });
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
 
   const pick = (k: keyof Data, v: string) => setData((d) => ({ ...d, [k]: v }));
   const field = (k: keyof Data) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => pick(k, e.target.value);
