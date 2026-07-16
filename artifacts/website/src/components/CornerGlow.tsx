@@ -13,9 +13,9 @@ const lerpRGB = (a: RGB, b: RGB, t: number): RGB => [
   lerp(a[2], b[2], t),
 ];
 
-// Base colour-drift endpoints (dark theme): near-black → warm charcoal.
+// Base colour-drift endpoints (dark theme): near-black → faintly warm.
 const DRIFT_A: RGB = [10, 10, 11];
-const DRIFT_B: RGB = [30, 21, 16];
+const DRIFT_B: RGB = [17, 14, 12];
 
 export function CornerGlow() {
   const ref = useRef<HTMLDivElement>(null);
@@ -46,7 +46,7 @@ export function CornerGlow() {
       const warmY = 85 - pct * 8;   // vh: 85 → 77
       const coolX = -15 + pct * 50; // vw: -15 → 35
       const coolY = 10 + pct * 6;   // vh: 10 → 16
-      const size = 54 - pct * 18;   // vw: 54 → 36
+      const size = 34 - pct * 12;   // vw: 34 → 22
 
       el.style.setProperty("--cg-ox", `${warmX}vw`);
       el.style.setProperty("--cg-oy", `${warmY}vh`);

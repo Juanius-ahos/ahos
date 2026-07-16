@@ -617,9 +617,9 @@ html.lenis, html.lenis body { height: auto; }
   bottom: var(--cg-oy, 15vh);
   background: radial-gradient(
     ellipse at center,
-    rgba(var(--glow-rgb, 255, 118, 30), 0.24) 0%,
-    rgba(var(--glow-rgb, 255, 118, 30), 0.10) 32%,
-    transparent 68%
+    rgba(var(--glow-rgb, 255, 118, 30), 0.07) 0%,
+    rgba(var(--glow-rgb, 255, 118, 30), 0.025) 35%,
+    transparent 65%
   );
   transform: rotate(-12deg);
 }
@@ -632,9 +632,9 @@ html.lenis, html.lenis body { height: auto; }
   top: var(--cg-gy, 10vh);
   background: radial-gradient(
     ellipse at center,
-    rgba(var(--glow-rgb, 255, 118, 30), 0.12) 0%,
-    rgba(var(--glow-rgb, 255, 118, 30), 0.05) 40%,
-    transparent 68%
+    rgba(84, 84, 84, 0.04) 0%,
+    rgba(84, 84, 84, 0.015) 40%,
+    transparent 65%
   );
   transform: rotate(10deg);
 }
