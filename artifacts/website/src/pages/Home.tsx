@@ -113,8 +113,8 @@ function ZoomReveal() {
   }, []);
 
   return (
-    <section className="zoom-section" ref={ref}>
-      <div className="zoom-sticky">
+    <section className="zoom-section" ref={ref} data-accent="255,150,40">
+      <div className="zoom-sticky section-light">
         <div className="zoom-text">
           <span className="zoom-word">From</span>
           <span className="zoom-word">idea</span>

@@ -15,7 +15,7 @@ const lerpRGB = (a: RGB, b: RGB, t: number): RGB => [
 
 // Base colour-drift endpoints (dark theme): near-black → warm charcoal.
 const DRIFT_A: RGB = [10, 10, 11];
-const DRIFT_B: RGB = [20, 15, 12];
+const DRIFT_B: RGB = [30, 21, 16];
 
 export function CornerGlow() {
   const ref = useRef<HTMLDivElement>(null);
@@ -46,7 +46,7 @@ export function CornerGlow() {
       const warmY = 85 - pct * 8;   // vh: 85 → 77
       const coolX = -15 + pct * 50; // vw: -15 → 35
       const coolY = 10 + pct * 6;   // vh: 10 → 16
-      const size = 42 - pct * 20;   // vw: 42 → 22
+      const size = 54 - pct * 18;   // vw: 54 → 36
 
       el.style.setProperty("--cg-ox", `${warmX}vw`);
       el.style.setProperty("--cg-oy", `${warmY}vh`);
@@ -91,13 +91,12 @@ export function CornerGlow() {
         }
       }
 
-      // ── Dim the glow over the bright/inverted panel ──
+      // ── Dim the glow over the bright/inverted panels ──
       let alpha = 1;
-      const lightEl = document.querySelector(".section-light");
-      if (lightEl) {
+      for (const lightEl of document.querySelectorAll(".section-light")) {
         const rect = lightEl.getBoundingClientRect();
         const dist = Math.abs(rect.top) / window.innerHeight;
-        if (dist < 1.2) alpha = Math.max(0.1, dist / 1.2);
+        if (dist < 1.2) alpha = Math.min(alpha, Math.max(0.1, dist / 1.2));
       }
       if (isLight) alpha *= 0.3;
       el.style.setProperty("--cg-a", String(alpha));
