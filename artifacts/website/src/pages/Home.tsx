@@ -613,26 +613,26 @@ export default function Home() {
       {/* ─── CTA ─── */}
       <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }} data-accent="255,106,26">
         <div className="ed">
-          <Reveal dir="left"><Label n="07" text="Start here" /></Reveal>
+          <Reveal dir="left"><Label n="07" text="Let's build" /></Reveal>
           <h2 style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(80px, 22vw, 360px)",
+            fontSize: "clamp(64px, 15vw, 240px)",
             fontWeight: 700,
-            lineHeight: 0.85,
+            lineHeight: 0.86,
             letterSpacing: "-0.05em",
-            marginBottom: 16,
+            marginBottom: 20,
           }}>
-            START?
+            Build something<br />that <em style={{ fontStyle: "normal", color: "var(--orange)" }}>pays off.</em>
           </h2>
-          <p style={{ fontSize: "clamp(18px, 2.5vw, 32px)", fontStyle: "italic", color: "var(--text-muted)", marginBottom: 40 }}>
-            tell us your idea.
+          <p style={{ fontSize: "clamp(17px, 2vw, 26px)", color: "var(--text-muted)", marginBottom: 40, maxWidth: "28ch" }}>
+            Tell us what you're building — a real human replies within 24 hours with a clear plan and a fixed quote.
           </p>
           <div className="ed-cta-row">
-            <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
+            <Link href="/contact" className="ed-btn ed-btn-lg">Book a 30-min call<span>↗</span></Link>
             <a href="mailto:info@ahos.xyz" className="ed-link-arrow">info@ahos.xyz</a>
           </div>
           <p style={{ marginTop: 20, fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-dim)" }}>
-            Free 30-min call · No commitment · We reply within 24h
+            Free 30-min call · No commitment · Fixed quote · 100% code ownership
           </p>
         </div>
       </section>
