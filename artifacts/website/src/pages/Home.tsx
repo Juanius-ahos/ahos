@@ -8,6 +8,11 @@ import { Reveal, Parallax } from "../components/motion";
 import { trackEvent } from "../lib/analytics";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+// "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
+const hexToRgb = (h: string) => {
+  const v = parseInt(h.replace("#", ""), 16);
+  return `${(v >> 16) & 255},${(v >> 8) & 255},${v & 255}`;
+};
 const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
 const srcset = (p: string) => {
   const base = p.replace(/\.\w+$/, "");
@@ -163,7 +168,7 @@ function WorkRail() {
   });
 
   return (
-    <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref}>
+    <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref} data-accent="255,140,74">
       <div className="hs-sticky">
         <div className="hs-heading">
           <Reveal dir="left"><Label n="02" text="Selected work" /></Reveal>
@@ -257,6 +262,7 @@ function ServicesStack() {
           <div
             key={c.n}
             className="sc-card"
+            data-accent={hexToRgb(c.accent)}
             style={{ '--card-accent': c.accent, '--card-bg': c.bg } as React.CSSProperties}
           >
             <div className="sc-card-inner">
@@ -332,7 +338,7 @@ function ProcessSection() {
 
   return (
     <section className="ps-section" ref={ref}>
-      <div className="ps-sticky section-light">
+      <div className="ps-sticky section-light" data-accent="224,86,10">
         <div className="ed ps-inner">
           <div ref={labelRef}><Label n="05" text="How we work" /></div>
           <h2 ref={titleRef} className="ed-h2 ps-title">Three steps to a<br />live product.</h2>
@@ -396,7 +402,7 @@ function StatsGrid() {
   }, []);
 
   return (
-    <section className="sg-section" ref={ref}>
+    <section className="sg-section" ref={ref} data-accent="255,106,26">
       <div className="sg-sticky">
         <div className="ed sg-inner">
           <div ref={labelRef}><Label n="06" text="The fine print, up front" /></div>
@@ -493,7 +499,7 @@ function Testimonials() {
     },
   ];
   return (
-    <section className="ed ed-sec">
+    <section className="ed ed-sec" data-accent="255,140,74">
       <Label n="04" text="What clients say" />
       <h2 className="ed-h2">Kind words from people we've worked with.</h2>
       <div className="tm-grid">
@@ -533,7 +539,7 @@ export default function Home() {
       <OverlayParticles />
 
       {/* ─── HERO ─── */}
-      <header className="ed-hero">
+      <header className="ed-hero" data-accent="255,106,26">
         <div className="ed ed-hero-inner">
           <Parallax amount={35}>
             <Link href="/contact" className="ed-hero-badge">Websites from $300 · Launch in 2-3 days</Link>
@@ -587,7 +593,7 @@ export default function Home() {
       <Marquee />
 
       {/* ─── CTA ─── */}
-      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }}>
+      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }} data-accent="255,106,26">
         <div className="ed">
           <Reveal dir="left"><Label n="07" text="Start here" /></Reveal>
           <h2 style={{

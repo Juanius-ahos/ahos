@@ -359,9 +359,50 @@ html.lenis, html.lenis body { height: auto; }
   .ed-step { padding: 24px 0; }
 }
 
-/* ── Process section ── */
-.section-light { background: var(--bg-2); color: var(--text); }
+/* ── Process section — inverted "chapter" panel ──
+   Re-declares the theme tokens locally so this block flips to the OPPOSITE
+   palette of the active theme: a stark bright panel between the dark sections
+   (and a dark panel in light mode). Everything reads these vars, so cards,
+   text, and borders recolor automatically. The leading edge + lift shadow make
+   it read as a bright block wiping up over the section beneath it. */
+.section-light {
+  --bg: #f3eee6;
+  --bg-2: #ece6dc;
+  --bg-3: #e2dccf;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f7f4ee;
+  --text: #1c1b18;
+  --text-muted: rgba(28, 27, 24, 0.66);
+  --text-dim: rgba(28, 27, 24, 0.48);
+  --text-faint: rgba(28, 27, 24, 0.34);
+  --border: rgba(0, 0, 0, 0.10);
+  --border-soft: rgba(0, 0, 0, 0.06);
+  --border-hover: rgba(255, 106, 26, 0.4);
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="light"] .section-light {
+  --bg: #0d0d0f;
+  --bg-2: #141416;
+  --bg-3: #1a1a1d;
+  --bg-card: #161619;
+  --bg-card-hover: #1b1b1f;
+  --text: #ede8e0;
+  --text-muted: rgba(237, 232, 224, 0.66);
+  --text-dim: rgba(237, 232, 224, 0.48);
+  --text-faint: rgba(237, 232, 224, 0.34);
+  --border: rgba(255, 255, 255, 0.10);
+  --border-soft: rgba(255, 255, 255, 0.06);
+}
 .section-light .ed-step { border-top-color: var(--border-soft); }
+/* Wipe / lift: bright panel slides over the darker section beneath it. */
+.ps-sticky.section-light { box-shadow: 0 -34px 70px rgba(0, 0, 0, 0.42); }
+[data-theme="light"] .ps-sticky.section-light { box-shadow: 0 -34px 70px rgba(0, 0, 0, 0.5); }
+.ps-sticky.section-light::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--orange) 20%, var(--orange-light) 50%, var(--orange) 80%, transparent);
+  opacity: 0.9; z-index: 2;
+}
 
 /* ── Section overlaps — cinematic bleed between sections (#7) ── */
 .zoom-section { margin-bottom: -8vh; }
@@ -531,6 +572,20 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 800px) { .tm-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .tm-grid { grid-template-columns: 1fr; } }
 
+/* ─── BASE COLOUR-DRIFT ───
+   Fixed layer behind the (mostly transparent) sections; its colour is lerped
+   as you scroll so the whole page subtly warms from near-black toward a warm
+   charcoal and back. Sits below the hero canvas (-1) so the globe stays on top,
+   above the body background. JS keeps it transparent in light theme. */
+.bg-drift {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 0.5s linear;
+}
+
 /* ─── CORNER GLOW ─── */
 .corner-glow {
   position: fixed;
@@ -556,8 +611,8 @@ html.lenis, html.lenis body { height: auto; }
   bottom: var(--cg-oy, 15vh);
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 118, 30, 0.09) 0%,
-    rgba(255, 118, 30, 0.035) 35%,
+    rgba(var(--glow-rgb, 255, 118, 30), 0.10) 0%,
+    rgba(var(--glow-rgb, 255, 118, 30), 0.04) 35%,
     transparent 65%
   );
   transform: rotate(-12deg);
