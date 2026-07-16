@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -67,6 +67,18 @@ function ZoomReveal() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const reveal = () =>
+      ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word").forEach((w) => {
+        w.style.opacity = "1";
+        w.style.scale = "1";
+      });
+
+    // Reduced-motion users get the words statically revealed, no scrub.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      reveal();
+      return;
+    }
+
     let cleanup: (() => void) | undefined;
     (async () => {
       try {
@@ -89,7 +101,7 @@ function ZoomReveal() {
 
         cleanup = () => tl.kill();
       } catch {
-        ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word").forEach((w) => { w.style.opacity = "1"; w.style.scale = "1"; });
+        reveal();
       }
     })();
     return () => cleanup?.();
@@ -141,11 +153,13 @@ function WorkRail() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const n = work.length;
   const total = n + 1;
-  const rawX = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
-  const x = useSpring(rawX, { stiffness: 300, damping: 30, bounce: 0.1 });
+  // Track scroll 1:1 — Lenis already smooths the input, so an extra spring here
+  // would smooth a smoothed value and make the rail float behind the scroll.
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
   const [idx, setIdx] = useState(1);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setIdx(Math.min(total, Math.floor(v * total) + 1));
+    const next = Math.min(total, Math.floor(v * total) + 1);
+    setIdx((prev) => (prev === next ? prev : next));
   });
 
   return (
@@ -273,6 +287,10 @@ function ProcessSection() {
   const stepsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Reduced-motion: leave the label/title/steps in their natural visible
+    // state (gsap.from would otherwise scrub them in from offset positions).
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     let cleanup: (() => void) | undefined;
     (async () => {
       try {
@@ -338,9 +356,16 @@ function StatsGrid() {
   const labelRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+  // One-shot flag: the counters only need to start once, so we avoid a React
+  // re-render on every scrubbed frame (setState with the same value bails out).
+  const [play, setPlay] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPlay(true);
+      return;
+    }
+
     let cleanup: (() => void) | undefined;
     (async () => {
       try {
@@ -355,7 +380,7 @@ function StatsGrid() {
               start: "top bottom",
               end: "bottom bottom",
               scrub: 1,
-              onUpdate: (self) => setProgress(self.progress),
+              onUpdate: (self) => { if (self.progress > 0) setPlay(true); },
             },
           });
 
@@ -365,7 +390,7 @@ function StatsGrid() {
         }, ref.current ?? undefined);
 
         cleanup = () => ctx.revert();
-      } catch { /* fallback */ }
+      } catch { setPlay(true); }
     })();
     return () => cleanup?.();
   }, []);
@@ -380,7 +405,7 @@ function StatsGrid() {
             {stats.map((s) => (
               <div key={s.label} className="ed-stat">
                 <div className="ed-stat-num">
-                  <CountUpVal to={s.to} suffix={s.suffix} play={progress > 0} />
+                  <CountUpVal to={s.to} suffix={s.suffix} play={play} />
                 </div>
                 <div className="ed-stat-label">{s.label}</div>
               </div>
@@ -397,6 +422,10 @@ function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: bo
   const doneRef = useRef(false);
   useEffect(() => {
     if (!play) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (ref.current) ref.current.textContent = to + suffix;
+      return;
+    }
     if (to === 0) { if (ref.current) ref.current.textContent = "0" + suffix; return; }
     let raf = 0;
     let start = 0;
