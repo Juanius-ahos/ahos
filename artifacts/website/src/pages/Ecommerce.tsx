@@ -4,6 +4,14 @@ import { Footer } from "../components/Footer";
 import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does an e-commerce store cost?", a: "E-commerce stores start at $500 for a standard build and $800+ for full custom stores with up to 50 products. You get a fixed-price quote after a free call." },
+  { q: "How long does it take to launch an online store?", a: "Most stores go live in 3–6 weeks, depending on product count, integrations, and whether you're migrating from an existing platform." },
+  { q: "Can you migrate my existing store?", a: "Yes — we migrate from Shopify, WooCommerce, Magento, or custom platforms with full product-data transfer and SEO redirect mapping to protect your rankings." },
+];
 
 const services = [
   {
@@ -48,8 +56,8 @@ export default function Ecommerce() {
   return (
     <>
       <SEOHead
-        title="E-Commerce Development | Shopify & WooCommerce | AHOS Beirut"
-        description="AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms that drive revenue. Payment optimization, multi-currency, subscriptions, and full migration support."
+        title="E-Commerce Development in Lebanon | Shopify & Custom | AHOS"
+        description="AHOS builds e-commerce stores in Lebanon on Shopify, WooCommerce, and custom platforms — payment optimisation, multi-currency, and full migration. Serving the US and worldwide."
         path="/ecommerce-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "E-Commerce", url: "/ecommerce-development" }]} />
@@ -127,6 +135,8 @@ export default function Ecommerce() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/ecommerce-development" />
       <Testimonials />
       <Footer />
     </>

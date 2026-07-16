@@ -8,6 +8,7 @@ interface RouteMeta {
   ogImage?: string;
   bodyHtml: string;
   jsonLd?: string;
+  faqJsonLd?: string;
 }
 
 const SITE_URL = "https://ahos.xyz";
@@ -160,9 +161,9 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>Book a free 30-minute call. We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>`,
   },
   "/web3": {
-    title: "Web3 & Blockchain Development | Dapps & DeFi | AHOS Beirut",
+    title: "Web3 & Blockchain Development in Lebanon | Dapps & DeFi | AHOS",
     description:
-      "Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy — designed and deployed by AHOS.",
+      "AHOS builds audited smart contracts, dapps, NFT and token launches, and DeFi interfaces in Lebanon — from contracts to go-to-market. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -252,8 +253,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>Do you offer payment plans?</h3><p>Milestone payments: 50% upfront, 50% on launch. E-commerce and web apps may split into 3 payments.</p></section>`,
   },
   "/web-development": {
-    title: "Web Development Agency | Custom Websites & Web Apps | AHOS",
-    description: "AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. Custom development from Beirut, serving worldwide.",
+    title: "Web Development Company in Lebanon | Custom Websites | AHOS",
+    description: "AHOS is a web development company in Lebanon building custom websites, e-commerce stores, and web apps that load fast and convert — serving clients in the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Websites that earn their keep.</h1>
 <p>Pixel-tight, fast, and built to convert — from a single landing page to a full-scale web application. Every site we ship is responsive, accessible, and tuned to perform.</p>
@@ -264,8 +265,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Maintenance & Hosting</h2><p>Security patches, backups, updates, and performance monitoring — all handled. Optional retainer or per-task basis.</p></section>`,
   },
   "/mobile-app-development": {
-    title: "Mobile App Development | iOS & Android Apps | AHOS Beirut",
-    description: "AHOS builds native iOS, Android, and cross-platform mobile applications. From concept to App Store deployment — designed, developed, and shipped by one team in Beirut.",
+    title: "Mobile App Development in Lebanon | iOS & Android | AHOS",
+    description: "AHOS builds native iOS, Android, and cross-platform mobile apps in Lebanon — from concept to App Store. Fixed-price, full code ownership, serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Apps people keep using.</h1>
 <p>From concept to app store — iOS, Android, or cross-platform. We design, develop, and ship mobile applications that users genuinely enjoy opening every day.</p>
@@ -276,8 +277,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Backend & API for Mobile</h2><p>RESTful and GraphQL APIs, real-time WebSockets, auth systems, push notification infrastructure, and cloud storage built to scale with your app.</p></section>`,
   },
   "/custom-software": {
-    title: "Custom Software Development | SaaS & APIs | AHOS Beirut",
-    description: "AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs. Fixed-price, full ownership.",
+    title: "Custom Software Development Company in Lebanon | AHOS",
+    description: "AHOS is a custom software development company in Lebanon building SaaS platforms, dashboards, APIs, and automation — fixed-price, full ownership, serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Software that fits your workflow.</h1>
 <p>Off-the-shelf tools make you bend to their logic. We build custom platforms, dashboards, and systems shaped to how your business actually runs.</p>
@@ -288,8 +289,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Integration & Automation</h2><p>Connect CRM, ERP, marketing tools, and payment gateways into single workflows. Automated data syncs, webhooks, custom automation infrastructure.</p></section>`,
   },
   "/ai-development": {
-    title: "AI Development Agency | Custom AI Tools & Automation | AHOS",
-    description: "AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business.",
+    title: "AI Development Company in Lebanon | AI & Automation | AHOS",
+    description: "AHOS builds custom AI tools, chatbots, and workflow automation in Lebanon. From strategy to deployment — AI that does real work, for clients in the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>AI that actually does the work.</h1>
 <p>Not another chatbot wrapper. Custom AI tools, automations, and intelligent systems built to save your team hours every week.</p>
@@ -300,8 +301,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>AI Strategy & Consulting</h2><p>Feasibility studies, proof-of-concept builds, model selection, and clear roadmap from experiment to production. We help you identify where AI actually adds value.</p></section>`,
   },
   "/ecommerce-development": {
-    title: "E-Commerce Development | Shopify & WooCommerce | AHOS Beirut",
-    description: "AHOS builds e-commerce stores on Shopify, WooCommerce, and custom platforms that drive revenue. Payment optimization, multi-currency, subscriptions, and full migration support.",
+    title: "E-Commerce Development in Lebanon | Shopify & Custom | AHOS",
+    description: "AHOS builds e-commerce stores in Lebanon on Shopify, WooCommerce, and custom platforms — payment optimisation, multi-currency, and full migration. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Stores built to sell.</h1>
 <p>Shopify, WooCommerce, or fully custom — e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity.</p>
@@ -312,8 +313,8 @@ const ROUTES: Record<string, RouteMeta> = {
 <section><h2>Migration & Maintenance</h2><p>Migrate from Magento, BigCommerce, or custom platforms without downtime. Product data migration, SEO redirect mapping, and ongoing maintenance.</p></section>`,
   },
   "/ui-ux-design": {
-    title: "UI/UX & Brand Design Agency | Web & Mobile Design | AHOS",
-    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts, communicates, and scales.",
+    title: "UI/UX & Brand Design in Lebanon | Web & Mobile | AHOS",
+    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile in Lebanon — from user research to pixel-perfect UI. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Designed to be impossible to ignore.</h1>
 <p>Interfaces, brand identities, and design systems that communicate clearly, convert consistently, and scale effortlessly — from first sketch to shipped product.</p>
@@ -340,6 +341,89 @@ const ROUTES: Record<string, RouteMeta> = {
 <blockquote><p>"AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments — they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed."</p><footer>Khalil, Ido Taxi, Lebanon</footer></blockquote>`,
   },
 };
+
+// ── Per-service FAQ + cross-links ────────────────────────────────────────────
+// Mirrors the ServiceFAQ / RelatedServices React components so non-JS crawlers
+// see the same visible FAQ copy and internal links, plus FAQPage JSON-LD.
+interface QA { q: string; a: string; }
+
+const SERVICE_CATALOG = [
+  { href: "/web-development", label: "Web Development", blurb: "Websites, e-commerce &amp; web apps" },
+  { href: "/mobile-app-development", label: "Mobile App Development", blurb: "iOS, Android &amp; cross-platform" },
+  { href: "/custom-software", label: "Custom Software", blurb: "SaaS, dashboards &amp; APIs" },
+  { href: "/ai-development", label: "AI Development", blurb: "AI tools, chatbots &amp; automation" },
+  { href: "/ecommerce-development", label: "E-Commerce Development", blurb: "Shopify, WooCommerce &amp; custom stores" },
+  { href: "/ui-ux-design", label: "UI/UX &amp; Brand Design", blurb: "Interfaces &amp; design systems" },
+  { href: "/web3", label: "Web3 &amp; Blockchain", blurb: "Smart contracts, dapps &amp; DeFi" },
+];
+
+const SERVICE_FAQS: Record<string, QA[]> = {
+  "/web-development": [
+    { q: "How much does a website cost?", a: "Landing pages start at $300, multi-page business sites at $500, and e-commerce stores from $800. You get a fixed-price quote after a free discovery call — no hourly surprises." },
+    { q: "How long does it take to build a website?", a: "Landing pages take 1–2 weeks, business sites 2–4 weeks, and e-commerce platforms 3–6 weeks, depending on scope and how ready your content is." },
+    { q: "Will I own the code and content?", a: "Yes — you receive full ownership of all source code, assets, and IP on final delivery, with no lock-in and 30 days of post-launch support included." },
+  ],
+  "/mobile-app-development": [
+    { q: "How much does a mobile app cost?", a: "Mobile apps start at $1,000 and scale with features, platforms, and backend needs. You get a fixed-price quote after a free discovery call." },
+    { q: "How long does it take to build a mobile app?", a: "Most apps take 4–10 weeks from concept to store submission, depending on features, platforms, and how much backend it needs." },
+    { q: "Do you build for both iOS and Android?", a: "Yes — native Swift/Kotlin or cross-platform Flutter/React Native, whichever fits your product, budget, and timeline best. We handle App Store and Play Store submission." },
+  ],
+  "/custom-software": [
+    { q: "How much does custom software cost?", a: "Custom software and SaaS platforms start at $1,500 and scale with scope. You get a fixed-price quote after a free discovery call — no open-ended hourly billing." },
+    { q: "How long does a custom software project take?", a: "SaaS platforms typically take 6–16 weeks; smaller internal tools and dashboards are faster. We work in milestones so you see working software throughout." },
+    { q: "Will I own the source code?", a: "Yes — full ownership of all source code, architecture, and IP on delivery, plus 30 days of post-launch support. No vendor lock-in." },
+  ],
+  "/ai-development": [
+    { q: "How much does an AI tool or automation cost?", a: "Custom AI tools and automations start at $500 and scale with complexity. You get a fixed-price quote after a free discovery call." },
+    { q: "What can AI actually automate for my business?", a: "Document processing, data extraction, customer-support routing, lead scoring, content generation, and internal Q&A — anything repetitive and rules-heavy is a candidate." },
+    { q: "Which AI models do you use?", a: "We pick the right model for the job — OpenAI, Claude, Llama, or fine-tuned open-source — and build RAG or agent pipelines around reliable, testable outputs." },
+  ],
+  "/ecommerce-development": [
+    { q: "How much does an e-commerce store cost?", a: "E-commerce stores start at $500 for a standard build and $800+ for full custom stores with up to 50 products. You get a fixed-price quote after a free call." },
+    { q: "How long does it take to launch an online store?", a: "Most stores go live in 3–6 weeks, depending on product count, integrations, and whether you're migrating from an existing platform." },
+    { q: "Can you migrate my existing store?", a: "Yes — we migrate from Shopify, WooCommerce, Magento, or custom platforms with full product-data transfer and SEO redirect mapping to protect your rankings." },
+  ],
+  "/ui-ux-design": [
+    { q: "How much does UI/UX or brand design cost?", a: "Design engagements start at $200 and scale with scope — from a landing-page UI to a full brand identity and design system. Fixed-price quote after a free call." },
+    { q: "What do I get from a design project?", a: "Research, wireframes, high-fidelity Figma mockups, interactive prototypes, and production-ready specs — plus brand assets and a design system where relevant." },
+    { q: "Can you redesign my existing website or app?", a: "Yes — we run a UX audit, restructure content, and deliver a modern, responsive redesign you can hand straight to developers or have us build end to end." },
+  ],
+  "/web3": [
+    { q: "How much does a Web3 project cost?", a: "Web3 and blockchain projects start at $2,500 and scale with scope — from a single smart contract to a full dapp with frontend and art. Fixed-price after a free call." },
+    { q: "Do you audit smart contracts?", a: "Yes — contracts are gas-optimised and audited before any mainnet deployment, covering ERC-20, ERC-721/1155, DAO governance, and DeFi protocols." },
+    { q: "Can you handle the full launch, not just contracts?", a: "Yes — contracts, dapp frontend, wallet integration, NFT/token mechanics, art direction, and go-to-market strategy, all under one roof." },
+  ],
+};
+
+function buildFaqLd(items: QA[]): string {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.q,
+      acceptedAnswer: { "@type": "Answer", text: it.a },
+    })),
+  });
+}
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+function faqHtml(items: QA[]): string {
+  return `<section><h2>Common questions</h2>${items.map((it) => `<h3>${esc(it.q)}</h3><p>${esc(it.a)}</p>`).join("")}</section>`;
+}
+
+function relatedHtml(current: string): string {
+  const items = SERVICE_CATALOG.filter((s) => s.href !== current);
+  return `<section><h2>Other things we build</h2><ul>${items.map((s) => `<li><a href="${s.href}">${s.label}</a> — ${s.blurb}</li>`).join("")}</ul></section>`;
+}
+
+for (const [path, items] of Object.entries(SERVICE_FAQS)) {
+  const route = ROUTES[path];
+  if (!route) continue;
+  route.bodyHtml += faqHtml(items) + relatedHtml(path);
+  route.faqJsonLd = buildFaqLd(items);
+}
 
 function buildMetaTags(path: string, meta: RouteMeta): string {
   const url = `${SITE_URL}${path === "/" ? "/" : path + "/"}`;
@@ -372,6 +456,10 @@ function buildMetaTags(path: string, meta: RouteMeta): string {
 
   if (meta.jsonLd) {
     tags += `\n<script type="application/ld+json">${meta.jsonLd}</script>`;
+  }
+
+  if (meta.faqJsonLd) {
+    tags += `\n<script type="application/ld+json">${meta.faqJsonLd}</script>`;
   }
 
   return tags;

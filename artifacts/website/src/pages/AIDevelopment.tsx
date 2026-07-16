@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does an AI tool or automation cost?", a: "Custom AI tools and automations start at $500 and scale with complexity. You get a fixed-price quote after a free discovery call." },
+  { q: "What can AI actually automate for my business?", a: "Document processing, data extraction, customer-support routing, lead scoring, content generation, and internal Q&A — anything repetitive and rules-heavy is a candidate." },
+  { q: "Which AI models do you use?", a: "We pick the right model for the job — OpenAI, Claude, Llama, or fine-tuned open-source — and build RAG or agent pipelines around reliable, testable outputs." },
+];
 
 const services = [
   {
@@ -47,8 +55,8 @@ export default function AIDevelopment() {
   return (
     <>
       <SEOHead
-        title="AI Development Agency | Custom AI Tools & Automation | AHOS"
-        description="AHOS builds custom AI tools, chatbots, workflow automation, and LLM-powered systems. From strategy to deployment — AI that actually does real work for your business."
+        title="AI Development Company in Lebanon | AI & Automation | AHOS"
+        description="AHOS builds custom AI tools, chatbots, and workflow automation in Lebanon. From strategy to deployment — AI that does real work, for clients in the US and worldwide."
         path="/ai-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "AI Development", url: "/ai-development" }]} />
@@ -129,6 +137,8 @@ export default function AIDevelopment() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/ai-development" />
       <Footer />
     </>
   );

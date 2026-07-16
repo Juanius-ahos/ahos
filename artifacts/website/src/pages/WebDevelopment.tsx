@@ -4,6 +4,14 @@ import { Footer } from "../components/Footer";
 import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does a website cost?", a: "Landing pages start at $300, multi-page business sites at $500, and e-commerce stores from $800. You get a fixed-price quote after a free discovery call — no hourly surprises." },
+  { q: "How long does it take to build a website?", a: "Landing pages take 1–2 weeks, business sites 2–4 weeks, and e-commerce platforms 3–6 weeks, depending on scope and how ready your content is." },
+  { q: "Will I own the code and content?", a: "Yes — you receive full ownership of all source code, assets, and IP on final delivery, with no lock-in and 30 days of post-launch support included." },
+];
 
 const services = [
   {
@@ -48,8 +56,8 @@ export default function WebDevelopment() {
   return (
     <>
       <SEOHead
-        title="Web Development Agency | Custom Websites & Web Apps | AHOS"
-        description="AHOS builds premium websites, e-commerce stores, and web applications that load fast, rank well, and convert visitors into clients. Custom development from Beirut, serving worldwide."
+        title="Web Development Company in Lebanon | Custom Websites | AHOS"
+        description="AHOS is a web development company in Lebanon building custom websites, e-commerce stores, and web apps that load fast and convert — serving clients in the US and worldwide."
         path="/web-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Web Development", url: "/web-development" }]} />
@@ -126,6 +134,8 @@ export default function WebDevelopment() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/web-development" />
       <Testimonials />
       <Footer />
     </>

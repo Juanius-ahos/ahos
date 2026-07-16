@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does UI/UX or brand design cost?", a: "Design engagements start at $200 and scale with scope — from a landing-page UI to a full brand identity and design system. Fixed-price quote after a free call." },
+  { q: "What do I get from a design project?", a: "Research, wireframes, high-fidelity Figma mockups, interactive prototypes, and production-ready specs — plus brand assets and a design system where relevant." },
+  { q: "Can you redesign my existing website or app?", a: "Yes — we run a UX audit, restructure content, and deliver a modern, responsive redesign you can hand straight to developers or have us build end to end." },
+];
 
 const services = [
   {
@@ -47,8 +55,8 @@ export default function UIDesign() {
   return (
     <>
       <SEOHead
-        title="UI/UX & Brand Design Agency | Web & Mobile Design | AHOS"
-        description="AHOS designs interfaces, brand identities, and design systems for web and mobile. From user research to pixel-perfect UI — design that converts, communicates, and scales."
+        title="UI/UX & Brand Design in Lebanon | Web & Mobile | AHOS"
+        description="AHOS designs interfaces, brand identities, and design systems for web and mobile in Lebanon — from user research to pixel-perfect UI. Serving the US and worldwide."
         path="/ui-ux-design"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "UI/UX Design", url: "/ui-ux-design" }]} />
@@ -119,6 +127,8 @@ export default function UIDesign() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/ui-ux-design" />
       <Footer />
     </>
   );

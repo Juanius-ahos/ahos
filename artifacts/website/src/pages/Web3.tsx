@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does a Web3 project cost?", a: "Web3 and blockchain projects start at $2,500 and scale with scope — from a single smart contract to a full dapp with frontend and art. Fixed-price after a free call." },
+  { q: "Do you audit smart contracts?", a: "Yes — contracts are gas-optimised and audited before any mainnet deployment, covering ERC-20, ERC-721/1155, DAO governance, and DeFi protocols." },
+  { q: "Can you handle the full launch, not just contracts?", a: "Yes — contracts, dapp frontend, wallet integration, NFT/token mechanics, art direction, and go-to-market strategy, all under one roof." },
+];
 
 const services = [
   {
@@ -47,8 +55,8 @@ export default function Web3() {
   return (
     <>
       <SEOHead
-        title="Web3 & Blockchain Development | Dapps & DeFi | AHOS Beirut"
-        description="Audited smart contracts, dapps, NFT and token launches, DeFi interfaces, and blockchain strategy — designed and deployed by AHOS."
+        title="Web3 & Blockchain Development in Lebanon | Dapps & DeFi | AHOS"
+        description="AHOS builds audited smart contracts, dapps, NFT and token launches, and DeFi interfaces in Lebanon — from contracts to go-to-market. Serving the US and worldwide."
         path="/web3"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Web3", url: "/web3" }]} />
@@ -121,6 +129,8 @@ export default function Web3() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/web3" />
       <Footer />
     </>
   );

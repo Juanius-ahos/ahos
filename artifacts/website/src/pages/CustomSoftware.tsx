@@ -4,6 +4,14 @@ import { Footer } from "../components/Footer";
 import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does custom software cost?", a: "Custom software and SaaS platforms start at $1,500 and scale with scope. You get a fixed-price quote after a free discovery call — no open-ended hourly billing." },
+  { q: "How long does a custom software project take?", a: "SaaS platforms typically take 6–16 weeks; smaller internal tools and dashboards are faster. We work in milestones so you see working software throughout." },
+  { q: "Will I own the source code?", a: "Yes — full ownership of all source code, architecture, and IP on delivery, plus 30 days of post-launch support. No vendor lock-in." },
+];
 
 const services = [
   {
@@ -48,8 +56,8 @@ export default function CustomSoftware() {
   return (
     <>
       <SEOHead
-        title="Custom Software Development | SaaS & APIs | AHOS Beirut"
-        description="AHOS builds custom software platforms — SaaS products, internal dashboards, APIs, and automation systems — tailored to how your business actually runs. Fixed-price, full ownership."
+        title="Custom Software Development Company in Lebanon | AHOS"
+        description="AHOS is a custom software development company in Lebanon building SaaS platforms, dashboards, APIs, and automation — fixed-price, full ownership, serving the US and worldwide."
         path="/custom-software"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Custom Software", url: "/custom-software" }]} />
@@ -128,6 +136,8 @@ export default function CustomSoftware() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/custom-software" />
       <Testimonials />
       <Footer />
     </>

@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
+import { ServiceFAQ } from "../components/ServiceFAQ";
+import { RelatedServices } from "../components/RelatedServices";
+
+const faqs = [
+  { q: "How much does a mobile app cost?", a: "Mobile apps start at $1,000 and scale with features, platforms, and backend needs. You get a fixed-price quote after a free discovery call." },
+  { q: "How long does it take to build a mobile app?", a: "Most apps take 4–10 weeks from concept to store submission, depending on features, platforms, and how much backend it needs." },
+  { q: "Do you build for both iOS and Android?", a: "Yes — native Swift/Kotlin or cross-platform Flutter/React Native, whichever fits your product, budget, and timeline best. We handle App Store and Play Store submission." },
+];
 
 const services = [
   {
@@ -47,8 +55,8 @@ export default function MobileDev() {
   return (
     <>
       <SEOHead
-        title="Mobile App Development | iOS & Android Apps | AHOS Beirut"
-        description="AHOS builds native iOS, Android, and cross-platform mobile applications. From concept to App Store deployment — designed, developed, and shipped by one team in Beirut."
+        title="Mobile App Development in Lebanon | iOS & Android | AHOS"
+        description="AHOS builds native iOS, Android, and cross-platform mobile apps in Lebanon — from concept to App Store. Fixed-price, full code ownership, serving the US and worldwide."
         path="/mobile-app-development"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Mobile App Development", url: "/mobile-app-development" }]} />
@@ -135,6 +143,8 @@ export default function MobileDev() {
         </div>
       </motion.section>
 
+      <ServiceFAQ items={faqs} />
+      <RelatedServices current="/mobile-app-development" />
       <Footer />
     </>
   );

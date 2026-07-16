@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
+import { SERVICES } from "../data/services";
 
 const links = [
   { href: "/", label: "Home" },
@@ -9,6 +10,9 @@ const links = [
   { href: "/faq", label: "FAQ" },
   { href: "/aria-ai", label: "ARIA AI" },
 ];
+
+const serviceHrefs = new Set(SERVICES.map((s) => s.href));
+const isServicesActive = (loc: string) => loc === "/services" || serviceHrefs.has(loc);
 
 const socials = [
   { href: "https://www.instagram.com/ahos.xyz/", label: "Instagram" },
@@ -88,16 +92,43 @@ export function Nav() {
         </Link>
 
         <div className="nv-links">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`nv-link ${location === l.href ? "is-active" : ""}`}
-              aria-current={location === l.href ? "page" : undefined}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) =>
+            l.href === "/services" ? (
+              <div key={l.href} className="nv-dd">
+                <Link
+                  href={l.href}
+                  className={`nv-link nv-dd-trigger ${isServicesActive(location) ? "is-active" : ""}`}
+                  aria-current={location === l.href ? "page" : undefined}
+                  aria-haspopup="true"
+                >
+                  {l.label}
+                  <svg className="nv-dd-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                </Link>
+                <div className="nv-dd-menu" role="menu">
+                  {SERVICES.map((s) => (
+                    <Link
+                      key={s.href}
+                      href={s.href}
+                      className={`nv-dd-item ${location === s.href ? "is-active" : ""}`}
+                      role="menuitem"
+                    >
+                      <span className="nv-dd-item-name">{s.label}</span>
+                      <span className="nv-dd-item-blurb">{s.blurb}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`nv-link ${location === l.href ? "is-active" : ""}`}
+                aria-current={location === l.href ? "page" : undefined}
+              >
+                {l.label}
+              </Link>
+            )
+          )}
         </div>
 
         <div className="nv-right">
@@ -128,15 +159,29 @@ export function Nav() {
         <div className="nv-sheet-inner">
           <div className="nv-sheet-links">
             {links.map((l, i) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`nv-sheet-link ${location === l.href ? "is-active" : ""}`}
-                style={{ transitionDelay: open ? `${0.08 + i * 0.05}s` : "0s" }}
-              >
-                <span className="nv-sheet-n">0{i + 1}</span>
-                {l.label}
-              </Link>
+              <div key={l.href} className="nv-sheet-group">
+                <Link
+                  href={l.href}
+                  className={`nv-sheet-link ${location === l.href ? "is-active" : ""}`}
+                  style={{ transitionDelay: open ? `${0.08 + i * 0.05}s` : "0s" }}
+                >
+                  <span className="nv-sheet-n">0{i + 1}</span>
+                  {l.label}
+                </Link>
+                {l.href === "/services" && (
+                  <div className="nv-sheet-sub">
+                    {SERVICES.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className={`nv-sheet-sublink ${location === s.href ? "is-active" : ""}`}
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
@@ -200,6 +245,43 @@ const css = `
 .nv-link:hover::after { transform: scaleX(0.4); }
 .nv-link.is-active { color: var(--text); }
 .nv-link.is-active::after { transform: scaleX(1); }
+
+/* Services dropdown */
+.nv-dd { position: relative; }
+.nv-dd-trigger { display: inline-flex; align-items: center; gap: 4px; }
+.nv-dd-caret { opacity: 0.55; transition: transform 0.25s ease, opacity 0.2s ease; }
+.nv-dd:hover .nv-dd-caret, .nv-dd:focus-within .nv-dd-caret { transform: rotate(180deg); opacity: 1; }
+.nv-dd-menu {
+  position: absolute; top: calc(100% + 12px); left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 340px; padding: 8px; border-radius: 16px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  display: grid; gap: 2px; z-index: 1001;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+/* Invisible bridge so the menu doesn't close while crossing the gap */
+.nv-dd-menu::before { content: ""; position: absolute; top: -14px; left: 0; right: 0; height: 14px; }
+.nv-dd:hover .nv-dd-menu, .nv-dd:focus-within .nv-dd-menu {
+  opacity: 1; pointer-events: auto; visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.nv-dd-item {
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 10px 14px; border-radius: 10px;
+  transition: background 0.18s ease;
+}
+.nv-dd-item:hover { background: var(--bg-card); }
+.nv-dd-item-name { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+.nv-dd-item-blurb { font-size: 11.5px; color: var(--text-faint); }
+.nv-dd-item.is-active .nv-dd-item-name { color: var(--orange); }
+
+/* Mobile sheet service sub-links */
+.nv-sheet-group { display: flex; flex-direction: column; }
+.nv-sheet-sub { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 12px 0 16px; }
+.nv-sheet-sublink { font-size: 14.5px; font-weight: 500; color: var(--text-dim); transition: color 0.2s ease; }
+.nv-sheet-sublink:hover, .nv-sheet-sublink.is-active { color: var(--orange); }
 
 .nv-right { display: flex; align-items: center; gap: 12px; }
 /* WhatsApp icon */
