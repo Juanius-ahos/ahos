@@ -7,6 +7,8 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal, Parallax } from "../components/motion";
 import { trackEvent } from "../lib/analytics";
 import { HeroAria } from "../components/home/HeroAria";
+import { WhyAhos } from "../components/home/WhyAhos";
+import { PricingMRR } from "../components/home/PricingMRR";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 // "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
@@ -37,13 +39,13 @@ const work = [
 ];
 
 const capabilities = [
-  { n: "01", title: "Web Development", from: "$300", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
-  { n: "02", title: "Custom Software", from: "$1,500", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/custom-software", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "03", title: "Mobile Apps", from: "$1,000", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native — the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
-  { n: "04", title: "Web3 & Blockchain", from: "$2,500", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
-  { n: "05", title: "AI & Automation", from: "$500", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
-  { n: "06", title: "E-Commerce", from: "$500", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "07", title: "UI/UX & Brand Design", from: "$200", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI — design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
+  { n: "01", title: "Web Development", tag: "Sites that convert", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
+  { n: "02", title: "Custom Software", tag: "Built around your workflow", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/custom-software", accent: "#e0560a", bg: "var(--bg-3)" },
+  { n: "03", title: "Mobile Apps", tag: "iOS · Android · cross-platform", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native — the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
+  { n: "04", title: "Web3 & Blockchain", tag: "Audited & shipped", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
+  { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
+  { n: "06", title: "E-Commerce", tag: "Built to sell", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
+  { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI — design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
 ];
 
 const steps = [
@@ -271,7 +273,7 @@ function ServicesStack() {
               <Parallax amount={-12} style={{ width: '100%' }}>
                 <Reveal><span className="sc-card-num">{c.n}</span></Reveal>
                 <Reveal delay={80}><h3 className="sc-card-title">{c.title}</h3></Reveal>
-                <Reveal delay={120}><span className="sc-card-price">From {c.from}</span></Reveal>
+                <Reveal delay={120}><span className="sc-card-price">{c.tag}</span></Reveal>
                 <Reveal delay={160}><p className="sc-card-desc">{c.desc}</p></Reveal>
                 <Reveal delay={240}>
                   <div className="sc-card-link">
@@ -581,23 +583,29 @@ export default function Home() {
       {/* ─── HERO (interactive ARIA) ─── */}
       <HeroAria />
 
-      {/* ─── ZOOM MISSION ─── */}
+      {/* ─── MANIFESTO ─── */}
       <ZoomReveal />
 
-      {/* ─── WORK RAIL ─── */}
+      {/* ─── PROOF / WORK ─── */}
       <WorkRail />
 
-      {/* ─── SERVICES STACK ─── */}
+      {/* ─── CAPABILITIES ─── */}
       <ServicesStack />
 
-      {/* ─── TESTIMONIALS ─── */}
-      <Testimonials />
+      {/* ─── WHY AHOS (differentiators) ─── */}
+      <WhyAhos />
 
       {/* ─── PROCESS (light) ─── */}
       <ProcessSection />
 
+      {/* ─── PRICING + RECURRING ─── */}
+      <PricingMRR />
+
       {/* ─── STATS ─── */}
       <StatsGrid />
+
+      {/* ─── TESTIMONIALS ─── */}
+      <Testimonials />
 
       {/* ─── MARQUEE ─── */}
       <Marquee />
