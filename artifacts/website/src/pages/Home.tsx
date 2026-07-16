@@ -498,29 +498,68 @@ function Testimonials() {
       role: "Marketing Lead, defi.app",
     },
   ];
+
+  const secRef = useRef<HTMLElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let cleanup: (() => void) | undefined;
+    (async () => {
+      try {
+        const gsap = (await import("gsap")).default;
+        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        gsap.registerPlugin(ScrollTrigger);
+
+        const ctx = gsap.context(() => {
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: secRef.current, start: "top 82%", end: "center 58%", scrub: 1 },
+          });
+          const head = headRef.current ? Array.from(headRef.current.children) : [];
+          if (head.length) tl.from(head, { y: 44, opacity: 0, stagger: 0.1, ease: "none" }, 0);
+          // Cards fan up into place, staggered — the "dealing cards" reveal.
+          const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tm-card-outer");
+          if (cards?.length) tl.from(cards, { y: 90, opacity: 0, scale: 0.94, rotateZ: (i) => (i - 1) * 3.5, transformOrigin: "50% 100%", stagger: 0.14, ease: "none" }, 0.08);
+          // Stars pop in after each card lands.
+          const stars = gridRef.current?.querySelectorAll<HTMLElement>(".tm-stars svg");
+          if (stars?.length) tl.from(stars, { scale: 0, opacity: 0, stagger: 0.025, ease: "none" }, 0.34);
+        }, secRef.current ?? undefined);
+
+        cleanup = () => ctx.revert();
+      } catch { /* leave content visible */ }
+    })();
+    return () => cleanup?.();
+  }, []);
+
   return (
-    <section className="ed ed-sec" data-accent="255,140,74">
-      <Label n="04" text="What clients say" />
-      <h2 className="ed-h2">Kind words from people we've worked with.</h2>
-      <div className="tm-grid">
-        {t.map((tc, i) => (
-          <Reveal key={tc.name} delay={i * 100} className="tm-card">
-            <div className="tm-stars" aria-label="5 out of 5 stars">
-              {[1,2,3,4,5].map(s => (
-                <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)" aria-hidden="true">
-                  <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
-                </svg>
-              ))}
-            </div>
-            <blockquote className="tm-text">
-              <p>"{tc.text}"</p>
-            </blockquote>
-            <div className="tm-meta">
-              <cite className="tm-name">{tc.name}</cite>
-              <span className="tm-role">{tc.role}</span>
-              {tc.link && <a className="tm-trustpilot" href={tc.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
-            </div>
-          </Reveal>
+    <section className="ed ed-sec tm-section" ref={secRef} data-accent="255,140,74">
+      <div ref={headRef} className="tm-head">
+        <Label n="04" text="What clients say" />
+        <h2 className="ed-h2">Kind words from people we've worked with.</h2>
+      </div>
+      <div className="tm-grid" ref={gridRef}>
+        {t.map((tc) => (
+          <div key={tc.name} className="tm-card-outer">
+            <TiltCard className="tm-card">
+              <span className="tm-quote-mark" aria-hidden="true">&ldquo;</span>
+              <div className="tm-stars" aria-label="5 out of 5 stars">
+                {[1,2,3,4,5].map(s => (
+                  <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)" aria-hidden="true">
+                    <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
+                  </svg>
+                ))}
+              </div>
+              <blockquote className="tm-text">
+                <p>"{tc.text}"</p>
+              </blockquote>
+              <div className="tm-meta">
+                <cite className="tm-name">{tc.name}</cite>
+                <span className="tm-role">{tc.role}</span>
+                {tc.link && <a className="tm-trustpilot" href={tc.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
+              </div>
+            </TiltCard>
+          </div>
         ))}
       </div>
     </section>
