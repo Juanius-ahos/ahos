@@ -254,7 +254,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/web-development": {
     title: "Web Development Company in Lebanon | Custom Websites | AHOS",
-    description: "AHOS is a web development company in Lebanon building custom websites, e-commerce stores, and web apps that load fast and convert — serving clients in the US and worldwide.",
+    description: "AHOS is a web development company in Lebanon building custom websites, e-commerce stores, and web apps that load fast and convert. We serve clients in the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Websites that earn their keep.</h1>
 <p>Pixel-tight, fast, and built to convert — from a single landing page to a full-scale web application. Every site we ship is responsive, accessible, and tuned to perform.</p>
