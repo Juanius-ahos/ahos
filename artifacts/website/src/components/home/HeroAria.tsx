@@ -60,9 +60,9 @@ export function HeroAria() {
           </h1>
 
           <p className="hx-sub">
-            AHOS is a boutique studio that designs, builds, and ships — websites, custom
-            software, AI, and Web3 — for founders who need it done right. One team, idea to
-            launch, full code ownership.
+            AHOS is a boutique studio that designs, builds, and ships. Websites, custom software,
+            AI, and Web3, for founders who want it done right the first time. One team from idea
+            to launch, and you own everything we make.
           </p>
 
           <div className="hx-trust">
@@ -79,19 +79,21 @@ export function HeroAria() {
         {/* ── Right: ARIA console ── */}
         <div className={`hx-console ${started ? "is-active" : ""}`}>
           <div className="hx-console-head">
-            <span className="hx-aria-avatar" aria-hidden="true">✦</span>
+            <span className="hx-aria-avatar" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.4L20 10l-6.1 1.6L12 18l-1.9-6.4L4 10l6.1-1.6z" /></svg>
+            </span>
             <div className="hx-console-id">
               <strong>ARIA</strong>
               <span>AI project advisor · replies instantly</span>
             </div>
-            <span className="hx-live">● live</span>
+            <span className="hx-live">online</span>
           </div>
 
           {!started ? (
             <div className="hx-console-intro">
               <p className="hx-console-pitch">
-                Not sure where to start? Tell me what you want to build and I'll map the
-                scope, a rough timeline, and the smartest next step — in seconds.
+                Not sure where to start? Tell me what you want to build. I'll map the scope, a
+                rough timeline, and the smartest next step, in seconds.
               </p>
               <div className="hx-chips">
                 {CHIPS.map((c) => (
@@ -160,9 +162,9 @@ const css = `
 .hx-link:hover { color: var(--orange); }
 
 /* Console */
-.hx-console { position: relative; display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); overflow: hidden; min-height: 360px; }
-.hx-console-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--border-soft); }
-.hx-aria-avatar { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--orange-soft); color: var(--orange); font-size: 16px; flex-shrink: 0; }
+.hx-console { position: relative; display: flex; flex-direction: column; background: linear-gradient(165deg, var(--bg-3), var(--bg-card)); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.05); overflow: hidden; min-height: 380px; }
+.hx-console-head { display: flex; align-items: center; gap: 12px; padding: 17px 20px; border-bottom: 1px solid var(--border-soft); }
+.hx-aria-avatar { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: var(--orange-soft); border: 1px solid var(--border-hover); color: var(--orange); flex-shrink: 0; }
 .hx-console-id { display: flex; flex-direction: column; line-height: 1.3; }
 .hx-console-id strong { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; }
 .hx-console-id span { font-size: 11.5px; color: var(--text-faint); }
