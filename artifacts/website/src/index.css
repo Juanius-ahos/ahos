@@ -359,6 +359,8 @@ html.lenis, html.lenis body { height: auto; }
   .ed-step { padding: 24px 0; }
 }
 
+/* (service-page intro spacing lives in the page component) */
+
 /* ── Process section — inverted "chapter" panel ──
    Re-declares the theme tokens locally so this block flips to the OPPOSITE
    palette of the active theme: a stark bright panel between the dark sections
