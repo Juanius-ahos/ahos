@@ -208,10 +208,22 @@ const css = `
 .hb-assure-list svg { color: var(--orange); flex-shrink: 0; }
 
 @media (max-width: 900px) {
-  .hb-grid { grid-template-columns: 1fr; }
+  .hb { padding: clamp(78px, 12vh, 100px) var(--gutter) 30px; }
+  .hb-grid { grid-template-columns: 1fr; gap: 12px; }
   .hb-headline, .hb-stat, .hb-aria, .hb-side { grid-column: 1; grid-row: auto; }
-  .hb-h1 { font-size: clamp(32px, 8.5vw, 52px); }
-  .hb-stat { flex-direction: row; align-items: flex-end; justify-content: space-between; }
-  .hb-stat-sub { margin-top: 0; }
+  .hb-headline { min-height: auto; padding: 28px; gap: 22px; }
+  .hb-h1 { font-size: clamp(31px, 8.4vw, 50px); }
+  .hb-stat { flex-direction: row; align-items: center; justify-content: space-between; gap: 18px; padding: 24px 26px; }
+  .hb-stat-num { font-size: 66px; }
+  .hb-stat-sub { margin-top: 0; max-width: 15ch; font-size: 13px; }
+  .hb-aria { min-height: auto; }
+  .hb-aria-convo { max-height: 42vh; }
+}
+@media (max-width: 460px) {
+  .hb-headline { padding: 22px; }
+  .hb-headline-foot { gap: 14px; }
+  .hb-stat-num { font-size: 56px; }
+  .hb-chips { gap: 6px; }
+  .hb-chip { font-size: 12px; padding: 8px 12px; }
 }
 `;
