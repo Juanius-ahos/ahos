@@ -87,6 +87,9 @@ body {
   line-height: 1.6;
 }
 
+/* Responsive safety: media never overflows its container on any device. */
+img, video, iframe { max-width: 100%; height: auto; }
+
 a {
   text-decoration: none;
   color: inherit;
