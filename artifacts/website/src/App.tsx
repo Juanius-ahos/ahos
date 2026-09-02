@@ -3,7 +3,6 @@ import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
 const HeroCanvas = lazy(() => import("@/components/HeroCanvas").then(m => ({ default: m.HeroCanvas })));
-import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -99,7 +98,6 @@ export default function App() {
           <ScrollProgress />
           <Nav />
           <Router />
-          <WhatsAppButton />
         </div>
       </WouterRouter>
     </MotionConfig>
