@@ -28,6 +28,11 @@ export function HeroCanvas() {
       const globe = new THREE.Group();
       scene.add(globe);
 
+      // (1) Depth cueing: fog fades the far side of the globe toward the
+      // background, so it reads as a real sphere instead of flat line art.
+      // Ambient particle fields opt out (fog:false) so the wide field stays.
+      scene.fog = new THREE.Fog(0x0a0a0b, 10, 25);
+
       const r = isMobile ? 4 : 5.5;
       const count = isMobile ? 300 : 550;
       const pts = new Float32Array(count * 3);
@@ -62,14 +67,16 @@ export function HeroCanvas() {
       lineGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(linePositions), 3));
       globe.add(new THREE.LineSegments(
         lineGeo,
-        new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.06 : 0.1 })
+        // (2) Additive blending: overlapping edges glow brighter, reading as depth.
+        new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.08 : 0.14, blending: THREE.AdditiveBlending })
       ));
 
       const dotGeo = new THREE.BufferGeometry();
       dotGeo.setAttribute("position", new THREE.BufferAttribute(pts, 3));
       globe.add(new THREE.Points(
         dotGeo,
-        new THREE.PointsMaterial({ color: 0xff6a1a, size: isMobile ? 0.05 : 0.065, transparent: true, opacity: 0.7, sizeAttenuation: true })
+        // (2)+(3) Additive glow + perspective size attenuation (nearer nodes larger).
+        new THREE.PointsMaterial({ color: 0xff6a1a, size: isMobile ? 0.06 : 0.085, transparent: true, opacity: 0.85, sizeAttenuation: true, blending: THREE.AdditiveBlending })
       ));
 
       if (!isMobile) {
@@ -82,7 +89,7 @@ export function HeroCanvas() {
           }
           const ringGeo = new THREE.BufferGeometry();
           ringGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(ringPts), 3));
-          globe.add(new THREE.Line(ringGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.05 })));
+          globe.add(new THREE.Line(ringGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending })));
         }
       }
 
@@ -93,7 +100,36 @@ export function HeroCanvas() {
       }
       const eqGeo = new THREE.BufferGeometry();
       eqGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(eqPts), 3));
-      globe.add(new THREE.Line(eqGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.05 : 0.08 })));
+      globe.add(new THREE.Line(eqGeo, new THREE.LineBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: isMobile ? 0.06 : 0.1, blending: THREE.AdditiveBlending })));
+
+      // (4) Traveling light pulses: packets of light flow node-to-node along the
+      // wireframe, so the network reads as alive. Built from the edge list above.
+      const segTotal = linePositions.length / 6;
+      const PULSE_COUNT = isMobile ? 0 : 34;
+      const pulsePos = new Float32Array(PULSE_COUNT * 3);
+      const pulses: { seg: number; phase: number; speed: number }[] = [];
+      for (let i = 0; i < PULSE_COUNT; i++) {
+        pulses.push({ seg: Math.floor(Math.random() * segTotal), phase: Math.random(), speed: 0.4 + Math.random() * 0.7 });
+        pulsePos[i * 3] = pulsePos[i * 3 + 1] = pulsePos[i * 3 + 2] = 9999; // offscreen until first frame
+      }
+      const pulseGeo = new THREE.BufferGeometry();
+      pulseGeo.setAttribute("position", new THREE.BufferAttribute(pulsePos, 3));
+      const pulseObj = new THREE.Points(pulseGeo, new THREE.PointsMaterial({ color: 0xffb074, size: 0.16, transparent: true, opacity: 0.95, sizeAttenuation: true, blending: THREE.AdditiveBlending }));
+      globe.add(pulseObj);
+      const updatePulses = (dt: number) => {
+        if (!PULSE_COUNT) return;
+        for (let i = 0; i < PULSE_COUNT; i++) {
+          const p = pulses[i];
+          p.phase += p.speed * dt;
+          if (p.phase >= 1) { p.phase = 0; p.seg = Math.floor(Math.random() * segTotal); }
+          const s = p.seg * 6;
+          const t = p.phase;
+          pulsePos[i * 3] = linePositions[s] + (linePositions[s + 3] - linePositions[s]) * t;
+          pulsePos[i * 3 + 1] = linePositions[s + 1] + (linePositions[s + 4] - linePositions[s + 1]) * t;
+          pulsePos[i * 3 + 2] = linePositions[s + 2] + (linePositions[s + 5] - linePositions[s + 2]) * t;
+        }
+        pulseGeo.getAttribute("position").needsUpdate = true;
+      };
 
       if (!isMobile) {
         const or1Pts: number[] = [];
@@ -131,7 +167,7 @@ export function HeroCanvas() {
       }
       const mdParticles = new THREE.Points(
         new THREE.BufferGeometry(),
-        new THREE.PointsMaterial({ color: 0xff6a1a, size: 0.02, transparent: true, opacity: isMobile ? 0.15 : 0.25, sizeAttenuation: true })
+        new THREE.PointsMaterial({ color: 0xff6a1a, size: 0.02, transparent: true, opacity: isMobile ? 0.15 : 0.25, sizeAttenuation: true, fog: false })
       );
       mdParticles.geometry.setAttribute("position", new THREE.BufferAttribute(mdPos, 3));
       scene.add(mdParticles);
@@ -146,7 +182,7 @@ export function HeroCanvas() {
       }
       const nrParticles = new THREE.Points(
         new THREE.BufferGeometry(),
-        new THREE.PointsMaterial({ color: 0xffdbb8, size: 0.01, transparent: true, opacity: isMobile ? 0.1 : 0.15, sizeAttenuation: true })
+        new THREE.PointsMaterial({ color: 0xffdbb8, size: 0.01, transparent: true, opacity: isMobile ? 0.1 : 0.15, sizeAttenuation: true, fog: false })
       );
       nrParticles.geometry.setAttribute("position", new THREE.BufferAttribute(nrPos, 3));
       scene.add(nrParticles);
@@ -161,7 +197,7 @@ export function HeroCanvas() {
       }
       const clParticles = new THREE.Points(
         new THREE.BufferGeometry(),
-        new THREE.PointsMaterial({ color: 0x4455cc, size: 0.015, transparent: true, opacity: isMobile ? 0.08 : 0.12, sizeAttenuation: true })
+        new THREE.PointsMaterial({ color: 0x4455cc, size: 0.015, transparent: true, opacity: isMobile ? 0.08 : 0.12, sizeAttenuation: true, fog: false })
       );
       clParticles.geometry.setAttribute("position", new THREE.BufferAttribute(clPos, 3));
       scene.add(clParticles);
@@ -176,7 +212,7 @@ export function HeroCanvas() {
       }
       const bgParticles = new THREE.Points(
         new THREE.BufferGeometry(),
-        new THREE.PointsMaterial({ color: 0xffffff, size: 0.008, transparent: true, opacity: isMobile ? 0.05 : 0.08, sizeAttenuation: true })
+        new THREE.PointsMaterial({ color: 0xffffff, size: 0.008, transparent: true, opacity: isMobile ? 0.05 : 0.08, sizeAttenuation: true, fog: false })
       );
       bgParticles.geometry.setAttribute("position", new THREE.BufferAttribute(bgPos, 3));
       scene.add(bgParticles);
@@ -228,7 +264,13 @@ export function HeroCanvas() {
       }
 
       let frame = 0;
+      let lastT = performance.now();
       const animate = () => {
+        const now = performance.now();
+        const dt = Math.min((now - lastT) / 1000, 0.05); // clamp so tab-switch jumps don't teleport pulses
+        lastT = now;
+        if (!reducedMotion) updatePulses(dt);
+
         globe.rotation.y = state.rot;
         globe.rotation.x = Math.sin(state.rot * 0.2) * 0.06;
         globe.position.x = state.posX;
