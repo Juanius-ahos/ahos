@@ -163,7 +163,7 @@ const ROUTES: Record<string, RouteMeta> = {
   "/web3": {
     title: "Web3 & Blockchain Development in Lebanon | Dapps & DeFi | AHOS",
     description:
-      "AHOS builds audited smart contracts, dapps, NFT and token launches, and DeFi interfaces in Lebanon — from contracts to go-to-market. Serving the US and worldwide.",
+      "AHOS builds audited smart contracts, dapps, NFT and token launches, and DeFi interfaces in Lebanon, from contracts to go-to-market. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Your chain. Our build.</h1>
 <p>From contracts to creative — every layer of your Web3 project, under one roof. Audited where it counts, beautiful where it shows.</p>
@@ -266,7 +266,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/mobile-app-development": {
     title: "Mobile App Development in Lebanon | iOS & Android | AHOS",
-    description: "AHOS builds native iOS, Android, and cross-platform mobile apps in Lebanon — from concept to App Store. Fixed-price, full code ownership, serving the US and worldwide.",
+    description: "AHOS builds native iOS, Android, and cross-platform mobile apps in Lebanon, from concept to App Store. Fixed price, full code ownership, serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Apps people keep using.</h1>
 <p>From concept to app store — iOS, Android, or cross-platform. We design, develop, and ship mobile applications that users genuinely enjoy opening every day.</p>
@@ -278,7 +278,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/custom-software": {
     title: "Custom Software Development Company in Lebanon | AHOS",
-    description: "AHOS is a custom software development company in Lebanon building SaaS platforms, dashboards, APIs, and automation — fixed-price, full ownership, serving the US and worldwide.",
+    description: "AHOS is a custom software development company in Lebanon building SaaS platforms, dashboards, APIs, and automation. Fixed price, full ownership, serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Software that fits your workflow.</h1>
 <p>Off-the-shelf tools make you bend to their logic. We build custom platforms, dashboards, and systems shaped to how your business actually runs.</p>
@@ -290,7 +290,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/ai-development": {
     title: "AI Development Company in Lebanon | AI & Automation | AHOS",
-    description: "AHOS builds custom AI tools, chatbots, and workflow automation in Lebanon. From strategy to deployment — AI that does real work, for clients in the US and worldwide.",
+    description: "AHOS builds custom AI tools, chatbots, and workflow automation in Lebanon. From strategy to deployment, AI that does real work, for clients in the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>AI that actually does the work.</h1>
 <p>Not another chatbot wrapper. Custom AI tools, automations, and intelligent systems built to save your team hours every week.</p>
@@ -302,7 +302,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/ecommerce-development": {
     title: "E-Commerce Development in Lebanon | Shopify & Custom | AHOS",
-    description: "AHOS builds e-commerce stores in Lebanon on Shopify, WooCommerce, and custom platforms — payment optimisation, multi-currency, and full migration. Serving the US and worldwide.",
+    description: "AHOS builds e-commerce stores in Lebanon on Shopify, WooCommerce, and custom platforms. Payment optimisation, multi-currency, and full migration. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Stores built to sell.</h1>
 <p>Shopify, WooCommerce, or fully custom — e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity.</p>
@@ -314,7 +314,7 @@ const ROUTES: Record<string, RouteMeta> = {
   },
   "/ui-ux-design": {
     title: "UI/UX & Brand Design in Lebanon | Web & Mobile | AHOS",
-    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile in Lebanon — from user research to pixel-perfect UI. Serving the US and worldwide.",
+    description: "AHOS designs interfaces, brand identities, and design systems for web and mobile in Lebanon, from user research to pixel-perfect UI. Serving the US and worldwide.",
     jsonLd: SERVICE_JSON_LD,
     bodyHtml: `<h1>Designed to be impossible to ignore.</h1>
 <p>Interfaces, brand identities, and design systems that communicate clearly, convert consistently, and scale effortlessly — from first sketch to shipped product.</p>
