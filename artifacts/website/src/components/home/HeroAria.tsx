@@ -1,42 +1,47 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { useAriaChat } from "../../hooks/useAriaChat";
-import { SYSTEM_PROMPT } from "../../lib/aria";
-import { trackEvent } from "../../lib/analytics";
-
-const CHIPS = ["A booking app", "An online store", "A SaaS dashboard", "An AI tool"];
 
 const ASSURE = ["Fixed price, in writing", "You own the code", "Live in days, not months"];
 
+// Scripted showcase, no live API. ARIA's real backend is being upgraded, so the
+// tile plays a canned example on a loop instead of hitting a flaky service.
+const DEMOS: [string, string][] = [
+  ["A booking app for my salon", "A salon booking app usually runs about six weeks: online scheduling, reminders, and payments. Want a rough plan and a quote?"],
+  ["An online store", "Nice. A clean store on Shopify or fully custom, live in a few weeks with fast checkout and real analytics built in."],
+  ["An AI tool for my team", "Love it. Tell me the busywork you want gone and we'll map what's worth automating first."],
+];
+
 /**
- * Bento-grid hero. A structured tile layout: headline, a bold stat, proof, and
- * reassurances at a glance, with the interactive ARIA advisor as the centre
- * tile so visitors can scope a project without leaving the fold.
+ * Bento-grid hero. The ARIA tile is a self-playing showcase while the real AI
+ * backend is being upgraded, with a clear CTA to the (reliable) contact flow.
  */
 export function HeroAria() {
-  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
-  const [started, setStarted] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [typed, setTyped] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { messages, input, setInput, busy, sendMessage } = useAriaChat({
-    systemPrompt: SYSTEM_PROMPT,
-    source: "hero_aria",
-    maxTokens: 700,
-    onPreview: (html) => setPreviewHtml(html),
-  });
+  const [user, aria] = DEMOS[idx];
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const send = (text: string) => {
-    const t = text.trim();
-    if (!t || busy) return;
-    if (!started) { setStarted(true); trackEvent("aria_hero_start", { intent: t.slice(0, 60) }); }
-    sendMessage(t);
-  };
+  useEffect(() => {
+    if (reduced) { setTyped(aria.length); return; }
+    setTyped(0);
+    let i = 0;
+    const type = setInterval(() => {
+      i += 1;
+      setTyped(i);
+      if (i >= aria.length) {
+        clearInterval(type);
+        // Hold the finished reply, then advance to the next example.
+        setTimeout(() => setIdx((n) => (n + 1) % DEMOS.length), 2600);
+      }
+    }, 26);
+    return () => clearInterval(type);
+  }, [idx, aria, reduced]);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages]);
-
-  const convo = messages.slice(1);
+  }, [typed]);
 
   return (
     <header className="hb" data-accent="255,106,26">
@@ -62,7 +67,7 @@ export function HeroAria() {
           </div>
         </div>
 
-        {/* ARIA advisor */}
+        {/* ARIA showcase (backend upgrading) */}
         <div className="hb-tile hb-aria">
           <div className="hb-aria-head">
             <span className="hb-aria-avatar" aria-hidden="true">
@@ -70,48 +75,23 @@ export function HeroAria() {
             </span>
             <div className="hb-aria-id">
               <strong>ARIA</strong>
-              <span>AI project advisor · scopes your build in seconds</span>
+              <span>AI project advisor</span>
             </div>
-            <span className="hb-aria-live">online</span>
+            <span className="hb-aria-badge">Upgrading</span>
           </div>
 
-          {!started ? (
-            <div className="hb-aria-intro">
-              <p className="hb-aria-pitch">Tell me what you want to build and I'll map the scope, a rough timeline, and the smartest next step.</p>
-              <div className="hb-chips">
-                {CHIPS.map((c) => (
-                  <button key={c} className="hb-chip" onClick={() => send(c)}>{c}</button>
-                ))}
-              </div>
+          <div className="hb-aria-demo" ref={scrollRef} aria-hidden="true">
+            <div className="hb-msg hb-msg-user">{user}</div>
+            <div className="hb-msg hb-msg-assistant">
+              {aria.slice(0, typed)}
+              {typed < aria.length && <span className="hb-caret" />}
             </div>
-          ) : (
-            <div className="hb-aria-convo" ref={scrollRef}>
-              {convo.map((m, i) => (
-                <div key={i} className={`hb-msg hb-msg-${m.role}`}>
-                  {m.content || (busy && i === convo.length - 1 ? <span className="hb-typing"><i /><i /><i /></span> : "")}
-                </div>
-              ))}
-              {previewHtml && (
-                <div className="hb-preview">
-                  <div className="hb-preview-bar"><span /><span /><span /><em>live preview</em></div>
-                  <iframe title="Live preview of your project" sandbox="" srcDoc={previewHtml} />
-                </div>
-              )}
-            </div>
-          )}
+          </div>
 
-          <form className="hb-inputbar" onSubmit={(e) => { e.preventDefault(); send(input); }}>
-            <input
-              className="hb-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={started ? "Reply to ARIA…" : "e.g. a booking app for my salon…"}
-              aria-label="Describe your project"
-            />
-            <button className="hb-send" disabled={busy || !input.trim()} aria-label="Send to ARIA">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-            </button>
-          </form>
+          <div className="hb-aria-note">
+            <p>ARIA is getting an upgrade. In the meantime, tell us your project directly and a real person replies within 24 hours.</p>
+            <Link href="/contact" className="hb-aria-cta">Tell us your project <span aria-hidden="true">↗</span></Link>
+          </div>
         </div>
 
         {/* Side stack */}
@@ -169,33 +149,17 @@ const css = `
 .hb-aria-id { display: flex; flex-direction: column; line-height: 1.3; }
 .hb-aria-id strong { font-size: 14px; font-weight: 700; }
 .hb-aria-id span { font-size: 11.5px; color: var(--text-faint); }
-.hb-aria-live { margin-left: auto; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
-.hb-aria-intro { padding: 20px; }
-.hb-aria-pitch { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); margin: 0 0 16px; }
-.hb-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.hb-chip { padding: 9px 14px; border-radius: 999px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-.hb-chip:hover { border-color: var(--border-hover); color: var(--orange); background: var(--orange-soft); }
-.hb-aria-convo { flex: 1; max-height: 300px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 11px; }
-.hb-msg { max-width: 88%; padding: 11px 15px; border-radius: 14px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
-.hb-msg-assistant { align-self: flex-start; background: var(--bg-card); color: var(--text); border-bottom-left-radius: 4px; }
+.hb-aria-badge { margin-left: auto; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); background: var(--orange-soft); border: 1px solid var(--border-hover); padding: 4px 10px; border-radius: 999px; }
+.hb-aria-demo { flex: 1; max-height: 210px; overflow: hidden; padding: 18px; display: flex; flex-direction: column; gap: 11px; }
+.hb-msg { max-width: 88%; padding: 11px 15px; border-radius: 14px; font-size: 14px; line-height: 1.55; }
+.hb-msg-assistant { align-self: flex-start; background: var(--bg-card); color: var(--text); border-bottom-left-radius: 4px; min-height: 1.2em; }
 .hb-msg-user { align-self: flex-end; background: var(--orange); color: #0a0a0b; font-weight: 500; border-bottom-right-radius: 4px; }
-.hb-typing { display: inline-flex; gap: 4px; }
-.hb-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint); animation: hb-bounce 1.2s infinite ease-in-out; }
-.hb-typing i:nth-child(2) { animation-delay: 0.15s; }
-.hb-typing i:nth-child(3) { animation-delay: 0.3s; }
-@keyframes hb-bounce { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
-.hb-preview { margin-top: 4px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; }
-.hb-preview-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: var(--bg-3); border-bottom: 1px solid var(--border-soft); }
-.hb-preview-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint); }
-.hb-preview-bar em { margin-left: auto; font-style: normal; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
-.hb-preview iframe { width: 100%; height: 280px; border: 0; display: block; background: #fff; }
-.hb-inputbar { display: flex; align-items: center; gap: 8px; padding: 12px; border-top: 1px solid var(--border-soft); margin-top: auto; }
-.hb-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 12px 18px; font-size: 14px; color: var(--text); font-family: var(--font-sans); transition: border-color 0.2s; }
-.hb-input::placeholder { color: var(--text-faint); }
-.hb-input:focus { outline: none; border-color: var(--border-hover); }
-.hb-send { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; background: var(--orange); color: #0a0a0b; display: grid; place-items: center; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
-.hb-send:hover:not(:disabled) { transform: scale(1.06); }
-.hb-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.hb-caret { display: inline-block; width: 2px; height: 1em; background: var(--orange); margin-left: 2px; vertical-align: text-bottom; animation: hb-blink 1s step-end infinite; }
+@keyframes hb-blink { 50% { opacity: 0; } }
+.hb-aria-note { border-top: 1px solid var(--border-soft); padding: 16px 20px; margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+.hb-aria-note p { font-size: 13px; line-height: 1.55; color: var(--text-muted); margin: 0; }
+.hb-aria-cta { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; background: var(--orange); color: #0a0a0b; font-size: 13.5px; font-weight: 700; box-shadow: 0 8px 26px rgba(255,106,26,0.26); transition: transform 0.25s, box-shadow 0.3s, background 0.25s; }
+.hb-aria-cta:hover { transform: translateY(-2px); background: var(--orange-light); box-shadow: 0 12px 34px rgba(255,106,26,0.36); }
 
 /* Side */
 .hb-side { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; gap: 14px; }
@@ -217,13 +181,11 @@ const css = `
   .hb-stat-num { font-size: 66px; }
   .hb-stat-sub { margin-top: 0; max-width: 15ch; font-size: 13px; }
   .hb-aria { min-height: auto; }
-  .hb-aria-convo { max-height: 42vh; }
+  .hb-aria-demo { max-height: 40vh; }
 }
 @media (max-width: 460px) {
   .hb-headline { padding: 22px; }
   .hb-headline-foot { gap: 14px; }
   .hb-stat-num { font-size: 56px; }
-  .hb-chips { gap: 6px; }
-  .hb-chip { font-size: 12px; padding: 8px 12px; }
 }
 `;
