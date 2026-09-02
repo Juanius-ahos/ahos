@@ -1,6 +1,11 @@
 import { trackEvent } from "./analytics";
 
-export const API_URL = "https://text.pollinations.ai/openai";
+// Reliable AI backend. Deploy the Cloudflare Worker in /worker (see
+// worker/SETUP.md) and paste its URL here to run ARIA on Google Gemini.
+// While empty, ARIA uses the free Pollinations fallback (flaky; the chat hook
+// retries and shows a graceful "reach us" message when it fails).
+const ARIA_WORKER_URL = "";
+export const API_URL = ARIA_WORKER_URL || "https://text.pollinations.ai/openai";
 export const MODEL = "openai";
 
 const IDENTITY = [
