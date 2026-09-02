@@ -2,13 +2,13 @@ import { Reveal } from "./motion";
 
 const items = [
   {
-    text: "AHOS built SpeeAligner from scratch — clean code, great UI, and they shipped fast. The whole process was straightforward and they were always available. Highly recommend them for any web project.",
+    text: "AHOS built SpeeAligner from scratch, clean code, great UI, and they shipped fast. The whole process was straightforward and they were always available. Highly recommend them for any web project.",
     name: "Yorgo",
     role: "SpeeAligner.com",
     trustpilot: "https://www.trustpilot.com/review/ahos.xyz",
   },
   {
-    text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments — they handled every layer with care.",
+    text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care.",
     name: "Khalil",
     role: "Ido Taxi",
   },

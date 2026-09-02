@@ -9,7 +9,7 @@ export const faqCategories = [
     items: [
       {
         question: "What is AHOS?",
-        answer: "AHOS (Advanced Hybrid Online Systems) is a boutique digital product studio that builds websites, custom software, mobile apps, Web3/DeFi platforms, AI tools, and brand identities. We handle everything from strategy to launch under one roof — no juggling multiple agencies.",
+        answer: "AHOS (Advanced Hybrid Online Systems) is a boutique digital product studio that builds websites, custom software, mobile apps, Web3/DeFi platforms, AI tools, and brand identities. We handle everything from strategy to launch under one roof, no juggling multiple agencies.",
       },
       {
         question: "What services does AHOS offer?",
@@ -42,15 +42,15 @@ export const faqCategories = [
       },
       {
         question: "Are your websites mobile-friendly and responsive?",
-        answer: "Absolutely. Every website we build is fully responsive across all devices — mobile, tablet, and desktop. We design mobile-first and ensure pixel-perfect performance on every screen size.",
+        answer: "Absolutely. Every website we build is fully responsive across all devices, mobile, tablet, and desktop. We design mobile-first and ensure pixel-perfect performance on every screen size.",
       },
       {
         question: "Do you optimise websites for search engines?",
-        answer: "Yes. SEO is built into every website we create — semantic HTML, proper heading hierarchy, meta tags, structured data (JSON-LD), fast load times, clean URLs, and descriptive content. We build sites that search engines can properly understand and rank.",
+        answer: "Yes. SEO is built into every website we create, semantic HTML, proper heading hierarchy, meta tags, structured data (JSON-LD), fast load times, clean URLs, and descriptive content. We build sites that search engines can properly understand and rank.",
       },
       {
         question: "Can you redesign an existing website?",
-        answer: "Yes. We frequently redesign and rebuild existing websites — improving the design, performance, user experience, and SEO while preserving (or migrating) your content and URLs. We'll audit your current site and create a tailored upgrade plan.",
+        answer: "Yes. We frequently redesign and rebuild existing websites, improving the design, performance, user experience, and SEO while preserving (or migrating) your content and URLs. We'll audit your current site and create a tailored upgrade plan.",
       },
     ],
   },
@@ -59,7 +59,7 @@ export const faqCategories = [
     items: [
       {
         question: "Do you build SaaS platforms?",
-        answer: "Yes, we build SaaS platforms from concept to launch — including user authentication, subscription billing, admin dashboards, API integrations, and scalable cloud infrastructure. We've built platforms for startups and established businesses alike.",
+        answer: "Yes, we build SaaS platforms from concept to launch, including user authentication, subscription billing, admin dashboards, API integrations, and scalable cloud infrastructure. We've built platforms for startups and established businesses alike.",
       },
       {
         question: "What tech stack do you use?",
@@ -88,7 +88,7 @@ export const faqCategories = [
       },
       {
         question: "Can you help launch an NFT or token project?",
-        answer: "Yes. We handle the full launch lifecycle — minting platforms, staking interfaces, allowlist mechanics, reveal systems, and marketplace integrations. We've launched multiple NFT collections and token projects from concept to post-launch.",
+        answer: "Yes. We handle the full launch lifecycle, minting platforms, staking interfaces, allowlist mechanics, reveal systems, and marketplace integrations. We've launched multiple NFT collections and token projects from concept to post-launch.",
       },
       {
         question: "Do you provide Web3 advisory and strategy?",
@@ -101,11 +101,11 @@ export const faqCategories = [
     items: [
       {
         question: "How does your process work?",
-        answer: "Our process has three phases: (1) Discovery — a free 30-minute consultation where we understand your goals and provide a clear plan and quote; (2) Design & Build — we craft your solution with milestone check-ins and regular updates; (3) Launch & Support — full deployment, monitoring, and ongoing support.",
+        answer: "Our process has three phases: (1) Discovery, a free 30-minute consultation where we understand your goals and provide a clear plan and quote; (2) Design & Build, we craft your solution with milestone check-ins and regular updates; (3) Launch & Support, full deployment, monitoring, and ongoing support.",
       },
       {
         question: "How much does a website or app cost?",
-        answer: "Pricing depends on scope and complexity. We provide fixed-price quotes after our free discovery call, so there are no surprises. Starting points: design from $200, websites from $300, AI tools and e-commerce from $500, mobile apps from $1,000, custom software from $1,500, and Web3 projects from $2,500 — all scaling based on features, pages, integrations, and timeline. Contact us for a tailored quote.",
+        answer: "Pricing depends on scope and complexity. We provide fixed-price quotes after our free discovery call, so there are no surprises. Starting points: design from $200, websites from $300, AI tools and e-commerce from $500, mobile apps from $1,000, custom software from $1,500, and Web3 projects from $2,500, all scaling based on features, pages, integrations, and timeline. Contact us for a tailored quote.",
       },
       {
         question: "Do you offer fixed-price quotes?",
@@ -113,7 +113,7 @@ export const faqCategories = [
       },
       {
         question: "How do I get started with AHOS?",
-        answer: "Simply contact us through our website form and tell us about your project. We'll schedule a free 30-minute discovery call to understand your needs, answer your questions, and provide a clear plan and quote — usually within 24 hours.",
+        answer: "Simply contact us through our website form and tell us about your project. We'll schedule a free 30-minute discovery call to understand your needs, answer your questions, and provide a clear plan and quote, usually within 24 hours.",
       },
       {
         question: "How quickly do you respond to inquiries?",

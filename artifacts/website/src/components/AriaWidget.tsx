@@ -4,7 +4,7 @@ import { useAriaChat } from "../hooks/useAriaChat";
 import { CHIPS, WIDGET_SYSTEM_PROMPT } from "../lib/aria";
 import { trackEvent } from "../lib/analytics";
 
-/** Floating chat launcher — the site-wide entry point into ARIA. The full
+/** Floating chat launcher, the site-wide entry point into ARIA. The full
  *  /aria-ai page (with the live mockup preview) stays as the deep-dive
  *  experience; this widget is the low-friction one available everywhere. */
 export function AriaWidget() {

@@ -39,18 +39,18 @@ const work = [
 ];
 
 const capabilities = [
-  { n: "01", title: "Web Development", tag: "Sites that convert", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to — from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
+  { n: "01", title: "Web Development", tag: "Sites that convert", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to, from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
   { n: "02", title: "Custom Software", tag: "Built around your workflow", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/custom-software", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "03", title: "Mobile Apps", tag: "iOS · Android · cross-platform", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native — the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
-  { n: "04", title: "Web3 & Blockchain", tag: "Audited & shipped", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative — every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
-  { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines — built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
+  { n: "03", title: "Mobile Apps", tag: "iOS · Android · cross-platform", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native, the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
+  { n: "04", title: "Web3 & Blockchain", tag: "Audited & shipped", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative, every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
+  { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines, built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
   { n: "06", title: "E-Commerce", tag: "Built to sell", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI — design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
+  { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
 ];
 
 const steps = [
   { n: "01", title: "Discovery", text: "A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote." },
-  { n: "02", title: "Design & Build", text: "We craft your solution with clean code and sharp design — milestone updates at every stage." },
+  { n: "02", title: "Design & Build", text: "We craft your solution with clean code and sharp design, milestone updates at every stage." },
   { n: "03", title: "Launch & Support", text: "We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty." },
 ];
 
@@ -161,7 +161,7 @@ function WorkRail() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const n = work.length;
   const total = n + 1;
-  // Track scroll 1:1 — Lenis already smooths the input, so an extra spring here
+  // Track scroll 1:1, Lenis already smooths the input, so an extra spring here
   // would smooth a smoothed value and make the rail float behind the scroll.
   const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
   const [idx, setIdx] = useState(1);
@@ -191,7 +191,7 @@ function WorkRail() {
                   <Link href={p.url} className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
                     <picture>
                       {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                     </picture>
                     <div className="hs-card-bar">
                       <span className="hs-card-dot" />
@@ -212,7 +212,7 @@ function WorkRail() {
                   <a href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
                     <picture>
                       {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name} — ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
                     </picture>
                     <div className="hs-card-bar">
                       <span className="hs-card-dot" />
@@ -331,7 +331,7 @@ function ProcessSection() {
 
         cleanup = () => ctx.revert();
       } catch {
-        // fallback — reveal all
+        // fallback, reveal all
       }
     })();
     return () => cleanup?.();
@@ -485,13 +485,13 @@ function Marquee() {
 function Testimonials() {
   const t = [
     {
-      text: "I'm grateful for the team at AHOS — they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
+      text: "I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
       name: "Yorgo",
       role: "SpeeAligner.com, Lebanon",
       link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
     },
     {
-      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments — they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
+      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
       name: "Khalil",
       role: "Ido Taxi, Lebanon",
     },
@@ -521,7 +521,7 @@ function Testimonials() {
           });
           const head = headRef.current ? Array.from(headRef.current.children) : [];
           if (head.length) tl.from(head, { y: 44, opacity: 0, stagger: 0.1, ease: "none" }, 0);
-          // Cards fan up into place, staggered — the "dealing cards" reveal.
+          // Cards fan up into place, staggered, the "dealing cards" reveal.
           const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tm-card-outer");
           if (cards?.length) tl.from(cards, { y: 90, opacity: 0, scale: 0.94, rotateZ: (i) => (i - 1) * 3.5, transformOrigin: "50% 100%", stagger: 0.14, ease: "none" }, 0.08);
           // Stars pop in after each card lands.
@@ -573,7 +573,7 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS — Websites, Apps & Software That Pay for Themselves"
+        title="AHOS | Websites, Apps & Software That Pay for Themselves"
         description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership."
         path="/"
       />
@@ -625,7 +625,7 @@ export default function Home() {
             Build something<br />that <em style={{ fontStyle: "normal", color: "var(--orange)" }}>pays off.</em>
           </h2>
           <p style={{ fontSize: "clamp(17px, 2vw, 26px)", color: "var(--text-muted)", marginBottom: 40, maxWidth: "28ch" }}>
-            Tell us what you're building — a real human replies within 24 hours with a clear plan and a fixed quote.
+            Tell us what you're building, a real human replies within 24 hours with a clear plan and a fixed quote.
           </p>
           <div className="ed-cta-row">
             <Link href="/contact" className="ed-btn ed-btn-lg">Book a 30-min call<span>↗</span></Link>

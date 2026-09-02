@@ -53,7 +53,7 @@ const plans = [
     name: "Custom Web App",
     price: "From $1,500",
     timeline: "1-3 weeks",
-    desc: "Bespoke web applications — dashboards, portals, SaaS platforms, and tools.",
+    desc: "Bespoke web applications, dashboards, portals, SaaS platforms, and tools.",
     features: [
       "Full-stack development",
       "User authentication & accounts",
@@ -69,7 +69,7 @@ const plans = [
 const faqs = [
   { q: "What's included in the $500 standard website?", a: "A fully custom 5-page website with responsive design, SEO meta tags, contact form, CMS (so you can edit content), social links, and Google Analytics. You own the code. No templates." },
   { q: "How fast can you deliver?", a: "Landing pages in 2 days, standard sites in 3 days, e-commerce in 5 days. We work fast because we don't do meetings about meetings." },
-  { q: "Do I need hosting? Will you set it up?", a: "We can host your site or deploy to your existing hosting. Setup is included — you don't need to touch a control panel. Ongoing hosting at cost ($5-15/mo)." },
+  { q: "Do I need hosting? Will you set it up?", a: "We can host your site or deploy to your existing hosting. Setup is included, you don't need to touch a control panel. Ongoing hosting at cost ($5-15/mo)." },
   { q: "What if I need changes after launch?", a: "We include 30 days of post-launch support at no extra cost. After that, we offer maintenance retainers or per-task fixes." },
   { q: "Do you offer payment plans?", a: "We work on milestones. Typically 50% upfront, 50% on launch. E-commerce and web apps may be split into 3 payments." },
 ];
@@ -141,7 +141,7 @@ export default function Pricing() {
       <section className="ed pr-cta-section">
         <div className="pr-cta-inner">
           <h2 className="pr-cta-title">Not sure which plan fits?</h2>
-          <p className="pr-cta-text">We'll listen to what you need and recommend the right option — no pressure, no sales pitch.</p>
+          <p className="pr-cta-text">We'll listen to what you need and recommend the right option, no pressure, no sales pitch.</p>
           <Link href="/contact" className="ed-btn ed-btn-lg">Talk to us <span>↗</span></Link>
         </div>
       </section>

@@ -9,7 +9,7 @@ const services = [
     n: "01",
     name: "Custom Software",
     from: "$1,500",
-    tag: "Built around your workflow — not the other way around.",
+    tag: "Built around your workflow, not the other way around.",
     desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed, scalable product you fully own.",
     chips: ["SaaS Platforms", "Web Apps", "Dashboards", "Automation", "API Integration"],
     gets: ["Full source-code ownership", "Architecture that scales with you", "Optional hosting & long-term support"],
@@ -20,7 +20,7 @@ const services = [
     name: "Web Development",
     from: "$300",
     tag: "Sites that turn visitors into clients.",
-    desc: "Every site we ship is fast, pixel-tight, and built to earn its keep — responsive on every screen, tuned for search, and ready to scale the day you need it to. From a single landing page to full e-commerce.",
+    desc: "Every site we ship is fast, pixel-tight, and built to earn its keep, responsive on every screen, tuned for search, and ready to scale the day you need it to. From a single landing page to full e-commerce.",
     chips: ["Landing Pages", "Corporate Sites", "E-Commerce", "Maintenance", "Hosting"],
     gets: ["Responsive on every device", "Speed & conversion optimised", "Scalable foundation from day one"],
     popular: true,
@@ -30,8 +30,8 @@ const services = [
     n: "03",
     name: "Mobile Apps",
     from: "$1,000",
-    tag: "iOS, Android, cross-platform — built to ship.",
-    desc: "Native or cross-platform mobile applications from concept to App Store. Swift, Kotlin, Flutter, or React Native — we pick the right stack for your product and ship it with confidence.",
+    tag: "iOS, Android, cross-platform, built to ship.",
+    desc: "Native or cross-platform mobile applications from concept to App Store. Swift, Kotlin, Flutter, or React Native, we pick the right stack for your product and ship it with confidence.",
     chips: ["iOS / Swift", "Android / Kotlin", "Flutter", "React Native", "Cross-Platform"],
     gets: ["App Store & Play Store deployment", "Push notifications & real-time", "Ongoing support & updates"],
     href: "/mobile-app-development",
@@ -41,7 +41,7 @@ const services = [
     name: "AI & Automation",
     from: "$500",
     tag: "AI that actually does real work.",
-    desc: "Custom AI tools, chatbots, workflow automations, and LLM-powered systems that save your team hours every week. From strategy through deployment — AI built to compound, not just demo.",
+    desc: "Custom AI tools, chatbots, workflow automations, and LLM-powered systems that save your team hours every week. From strategy through deployment, AI built to compound, not just demo.",
     chips: ["AI Tools", "Chatbots", "Automation", "LLM Integration", "Fine-Tuning"],
     gets: ["Custom AI built for your workflow", "Seamless integration with existing tools", "Measurable time & cost savings"],
     href: "/ai-development",
@@ -51,7 +51,7 @@ const services = [
     name: "E-Commerce",
     from: "$500",
     tag: "Stores that actually sell.",
-    desc: "Shopify, WooCommerce, or fully custom — we build e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.",
+    desc: "Shopify, WooCommerce, or fully custom, we build e-commerce platforms optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.",
     chips: ["Shopify", "WooCommerce", "Custom Stores", "Payment Gateways", "Multi-Currency"],
     gets: ["High-conversion checkout flow", "Multi-currency & local payments", "Migration without downtime"],
     href: "/ecommerce-development",
@@ -61,7 +61,7 @@ const services = [
     name: "UI/UX & Brand Design",
     from: "$200",
     tag: "Impossible to scroll past.",
-    desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research and wireframes to pixel-perfect UI — design that scales across every touchpoint.",
+    desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research and wireframes to pixel-perfect UI, design that scales across every touchpoint.",
     chips: ["UI/UX Design", "Brand Identity", "Design Systems", "Prototyping", "Motion Design"],
     gets: ["Cohesive brand across all channels", "Design system for consistent output", "Production-ready Figma files"],
     href: "/ui-ux-design",
@@ -92,7 +92,7 @@ export default function Services() {
             <span className="ed-label-n">01 / 06</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
           </div>
           <h1 className="ed-h1">Everything you need,<br />done <em>properly.</em></h1>
-          <p className="ed-lead">Web development, mobile apps, custom software, AI & automation, e-commerce, and design — handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
+          <p className="ed-lead">Web development, mobile apps, custom software, AI & automation, e-commerce, and design, handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
         </div>
         <div className="sv-hero-strip">
           <div className="sv-strip-inner">
@@ -146,7 +146,7 @@ export default function Services() {
         <div className="ed-sec-head">
           <div className="ed-label"><span className="ed-label-n">+</span><span className="ed-label-line" /><span className="ed-label-text">Not sure where to start?</span></div>
           <h2 className="ed-h2">Book a free 30-minute call.</h2>
-          <p className="ed-lead" style={{ marginTop: 18 }}>We'll listen, point you at the right move, and hand you a clear plan — no pressure, no commitment.</p>
+          <p className="ed-lead" style={{ marginTop: 18 }}>We'll listen, point you at the right move, and hand you a clear plan, no pressure, no commitment.</p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap", justifyContent: "center" }}>
           <Link href="/contact" className="ed-btn ed-btn-lg">Book a call<span>↗</span></Link>

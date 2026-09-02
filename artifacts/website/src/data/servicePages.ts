@@ -1,6 +1,6 @@
 import type { ServicePageData } from "../components/ServicePageLayout";
 
-// Shared trust row — same proof signals on every service page.
+// Shared trust row, same proof signals on every service page.
 const TRUST: [string, string][] = [["50+", "projects shipped"], ["5.0", "on Trustpilot"], ["24h", "first reply"]];
 
 export const SERVICE_PAGES: Record<string, ServicePageData> = {

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import type { ReactNode } from "react";
 
-/* Masked text-swap link — the label slides up, an orange copy rises in.
+/* Masked text-swap link, the label slides up, an orange copy rises in.
    A small bespoke touch that reads as hand-built, not a default hover. */
 function SwapLink({ href, children, external }: { href: string; children: string; external?: boolean }) {
   const inner = (
@@ -33,7 +33,7 @@ export function Footer() {
 
       <footer className="ftx">
         <div className="ed">
-          {/* Quiet CTA strip — useful on pages that don't end in a CTA */}
+          {/* Quiet CTA strip, useful on pages that don't end in a CTA */}
           <div className="ftx-cta">
             <span className="ftx-cta-label">Got something to build?</span>
             <a className="ftx-cta-mail" href="mailto:info@ahos.xyz">
@@ -47,11 +47,11 @@ export function Footer() {
                 AHOS<span>.</span>
               </Link>
               <p className="ftx-pitch">
-                An independent studio that builds the whole thing — sites, software, Web3,
+                An independent studio that builds the whole thing, sites, software, Web3,
                 AI, and brand. One team, no handoffs, no filler.
               </p>
               <div className="ftx-locality">
-                <span className="ftx-loc-dot" /> Beirut — working worldwide
+                <span className="ftx-loc-dot" /> Beirut, working worldwide
               </div>
               <div className="ftx-socials">
                 <a className="ftx-social" href="https://www.instagram.com/ahos.xyz/" target="_blank" rel="noopener noreferrer">
@@ -107,11 +107,11 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Oversized ghost wordmark — editorial signature */}
+          {/* Oversized ghost wordmark, editorial signature */}
           <div className="ftx-ghost" aria-hidden="true">AHOS</div>
 
           <div className="ftx-bottom">
-            <span>© {new Date().getFullYear()} AHOS — Advanced Hybrid Online Systems</span>
+            <span>© {new Date().getFullYear()} AHOS, Advanced Hybrid Online Systems</span>
             <span className="ftx-signoff">Made by people, not templates.</span>
             <button className="ftx-top-btn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
               Back to top <span aria-hidden="true">↑</span>

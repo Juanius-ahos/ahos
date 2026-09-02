@@ -50,7 +50,7 @@ export default function Contact() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           access_key: W3F_KEY,
-          subject: `New project plan — ${data.name || "Unknown"}`,
+          subject: `New project plan, ${data.name || "Unknown"}`,
           name: data.name, email: data.email, phone: data.phone, company: data.company,
           type: data.type, budget: data.budget, message: data.message,
         }),
@@ -78,7 +78,7 @@ export default function Contact() {
     <>
       <SEOHead
         title="Start a Project | Website & App Inquiries | AHOS"
-        description="Tell AHOS what you're building. Name, email, and a brief description — we'll come back with a clear plan within 24 hours."
+        description="Tell AHOS what you're building. Name, email, and a brief description, we'll come back with a clear plan within 24 hours."
         path="/contact"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Contact", url: "/contact" }]} />
@@ -96,7 +96,7 @@ export default function Contact() {
             <a href="mailto:info@ahos.xyz" className="ct-meta-item"><span className="ed-cap">Email</span>info@ahos.xyz</a>
             <a href="https://wa.me/96170165601" className="ct-meta-item" target="_blank" rel="noopener noreferrer"><span className="ed-cap">WhatsApp</span>+961 70 165 601</a>
             <div className="ct-meta-item"><span className="ed-cap">Reply time</span>Within 24 hours</div>
-            <div className="ct-meta-item"><span className="ed-cap">Based</span>Beirut — worldwide</div>
+            <div className="ct-meta-item"><span className="ed-cap">Based</span>Beirut, worldwide</div>
             <Link href="/services" className="ct-meta-item"><span className="ed-cap">Services</span>See what we build →</Link>
           </Reveal>
         </div>
@@ -106,7 +106,7 @@ export default function Contact() {
             <div className="pl-done">
               <div className="pl-done-mark" aria-hidden="true">✓</div>
               <h2>Idea received.</h2>
-              <p>Thanks{data.name ? `, ${data.name.split(" ")[0]}` : ""} — we've got your message. Expect a reply within 24 hours.</p>
+              <p>Thanks{data.name ? `, ${data.name.split(" ")[0]}` : ""}, we've got your message. Expect a reply within 24 hours.</p>
             </div>
           ) : (
             <form className="pl-form" onSubmit={submit}>
@@ -145,7 +145,7 @@ export default function Contact() {
               <button type="submit" className="ed-btn ed-btn-lg pl-submit" disabled={status === "sending"}>
                 {status === "sending" ? "Sending…" : <>Send my idea<span>↗</span></>}
               </button>
-              {status === "err" && <p className="pl-err">Something went wrong — email us at info@ahos.xyz.</p>}
+              {status === "err" && <p className="pl-err">Something went wrong, email us at info@ahos.xyz.</p>}
             </form>
           )}
         </Reveal>

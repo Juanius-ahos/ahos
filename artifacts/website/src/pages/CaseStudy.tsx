@@ -26,7 +26,7 @@ export default function CaseStudy() {
   return (
     <>
       <SEOHead
-        title={`${study.name} — Case Study | AHOS`}
+        title={`${study.name}, Case Study | AHOS`}
         description={`How AHOS built ${study.name}: a ${study.category.toLowerCase()} project, in the client's own words.`}
         path={`/work/${study.slug}`}
       />
@@ -46,7 +46,7 @@ export default function CaseStudy() {
       </header>
 
       <Reveal className="ed cs-shot-wrap">
-        <img src={asset(study.img)} alt={`${study.name} — ${study.category}, built by AHOS`} className="cs-shot" width={1280} height={860} loading="lazy" decoding="async" />
+        <img src={asset(study.img)} alt={`${study.name}, ${study.category}, built by AHOS`} className="cs-shot" width={1280} height={860} loading="lazy" decoding="async" />
       </Reveal>
 
       <section className="ed ed-sec cs-body">

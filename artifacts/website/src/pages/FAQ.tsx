@@ -15,8 +15,8 @@ export default function FAQ() {
   return (
     <>
       <SEOHead
-        title="FAQ — Pricing, Process & Timelines | Web Development | AHOS"
-        description="Straight answers about how AHOS works — services, timelines, pricing, code ownership, Web3, AI, and support. No jargon."
+        title="FAQ, Pricing, Process & Timelines | Web Development | AHOS"
+        description="Straight answers about how AHOS works, services, timelines, pricing, code ownership, Web3, AI, and support. No jargon."
         path="/faq"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "FAQ", url: "/faq" }]} />
@@ -30,7 +30,7 @@ export default function FAQ() {
           <span className="ed-label-n">00</span><span className="ed-label-line" /><span className="ed-label-text">Support</span>
         </Reveal>
         <Reveal delay={80}><h1 className="ed-h1">No fluff.<br /><em>Straight answers.</em></h1></Reveal>
-        <Reveal delay={160}><p className="ed-lead">Everything people actually ask before they hit "start a project." Can't find it? Email us — a human replies.</p></Reveal>
+        <Reveal delay={160}><p className="ed-lead">Everything people actually ask before they hit "start a project." Can't find it? Email us, a human replies.</p></Reveal>
       </header>
 
       <section className="ed ed-sec">

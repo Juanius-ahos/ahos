@@ -37,7 +37,7 @@ export default function AriaAI() {
 
   return (
     <>
-      <SEOHead title="ARIA AI | Free Project Advisor Chatbot | AHOS" description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance — scope, timeline, and next steps." path="/aria-ai" />
+      <SEOHead title="ARIA AI | Free Project Advisor Chatbot | AHOS" description="Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance, scope, timeline, and next steps." path="/aria-ai" />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "ARIA AI", url: "/aria-ai" }]} />
 
       <style>{css}</style>
@@ -74,7 +74,7 @@ export default function AriaAI() {
                   </svg>
                 </div>
                 <h1 className="ar-welcome-h1">Hi, I'm ARIA.</h1>
-                <p className="ar-welcome-p">Your AI project advisor. Tell me what you're building — a website, app, AI tool, or Web3 project — and I'll help you scope it out.</p>
+                <p className="ar-welcome-p">Your AI project advisor. Tell me what you're building, a website, app, AI tool, or Web3 project, and I'll help you scope it out.</p>
                 <div className="ar-chips">
                   {CHIPS.map((chip) => (
                     <button key={chip} className="ar-chip" onClick={() => handleChip(chip)}>{chip}</button>

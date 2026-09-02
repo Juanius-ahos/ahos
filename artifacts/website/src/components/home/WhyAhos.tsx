@@ -4,12 +4,12 @@ const points = [
   {
     k: "01",
     title: "One team, idea to launch",
-    body: "Strategy, design, and engineering under one roof — no agency relay race, no finger-pointing when something breaks. The people who scope your project are the ones who ship it.",
+    body: "Strategy, design, and engineering under one roof, no agency relay race, no finger-pointing when something breaks. The people who scope your project are the ones who ship it.",
   },
   {
     k: "02",
     title: "You own everything",
-    body: "100% of the source code, assets, and IP are yours on delivery. No proprietary lock-in, no license traps, no hostage situations. Walk away any time — you won't need to.",
+    body: "100% of the source code, assets, and IP are yours on delivery. No proprietary lock-in, no license traps, no hostage situations. Walk away any time, you won't need to.",
   },
   {
     k: "03",
@@ -19,21 +19,21 @@ const points = [
   {
     k: "04",
     title: "Built to perform, not just look good",
-    body: "Fast, accessible, SEO-tuned, and measured. We build products that convert visitors and earn their keep — and we can prove it with the numbers after launch.",
+    body: "Fast, accessible, SEO-tuned, and measured. We build products that convert visitors and earn their keep, and we can prove it with the numbers after launch.",
   },
   {
     k: "05",
     title: "We don't disappear at launch",
-    body: "Every build ships with a 30-day warranty. After that, care plans and growth retainers keep your product fast, secure, and improving — we stay your team, not a vendor.",
+    body: "Every build ships with a 30-day warranty. After that, care plans and growth retainers keep your product fast, secure, and improving, we stay your team, not a vendor.",
   },
   {
     k: "06",
     title: "Senior craft, sane rates",
-    body: "A lean, senior team based in Beirut serving founders in the US, Gulf, and Europe — world-class work without agency-of-record overhead priced into every invoice.",
+    body: "A lean, senior team based in Beirut serving founders in the US, Gulf, and Europe, world-class work without agency-of-record overhead priced into every invoice.",
   },
 ];
 
-/** Trust / differentiator block — the reasons a founder with a budget chooses
+/** Trust / differentiator block, the reasons a founder with a budget chooses
  *  AHOS over a freelancer or a bloated agency. Answers "why you?" head-on. */
 export function WhyAhos() {
   return (

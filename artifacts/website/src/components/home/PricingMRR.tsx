@@ -16,7 +16,7 @@ const tiers = [
     name: "Growth",
     price: "From $800",
     tagline: "Most projects start here.",
-    desc: "Conversion-focused websites and online stores — multi-page sites, e-commerce, and web apps built to bring in and convert real customers.",
+    desc: "Conversion-focused websites and online stores, multi-page sites, e-commerce, and web apps built to bring in and convert real customers.",
     features: ["Business websites", "E-commerce stores", "CMS & analytics", "SEO built in"],
     cta: "Start a project",
     href: "/contact",
@@ -26,7 +26,7 @@ const tiers = [
     name: "Launch",
     price: "From $300",
     tagline: "Get online, fast.",
-    desc: "A sharp, custom landing page or single-purpose site — live in days, not weeks. The fastest way to look legit and start capturing leads.",
+    desc: "A sharp, custom landing page or single-purpose site, live in days, not weeks. The fastest way to look legit and start capturing leads.",
     features: ["Landing pages", "Custom design", "Contact & forms", "Live in 2–3 days"],
     cta: "Launch fast",
     href: "/pricing",
@@ -34,7 +34,7 @@ const tiers = [
 ];
 
 /** Repositioned pricing: the flagship Custom tier anchors the page, the cheap
- *  "Launch" tier is the entry — not the identity. Plus the recurring-revenue
+ *  "Launch" tier is the entry, not the identity. Plus the recurring-revenue
  *  offer (care & growth plans) that turns one-off projects into MRR. */
 export function PricingMRR() {
   return (
@@ -74,13 +74,13 @@ export function PricingMRR() {
         ))}
       </div>
 
-      {/* Recurring revenue — the MRR pitch */}
+      {/* Recurring revenue, the MRR pitch */}
       <Reveal delay={120}>
         <div className="pm-mrr">
           <div className="pm-mrr-tx">
             <span className="pm-mrr-eyebrow">After launch</span>
             <h3 className="pm-mrr-title">We don't hand you the keys and vanish.</h3>
-            <p className="pm-mrr-body">Care &amp; growth plans keep your product fast, secure, and improving — hosting, monitoring, updates, and a monthly block of improvements. Most clients stay, because momentum is where the real growth happens.</p>
+            <p className="pm-mrr-body">Care &amp; growth plans keep your product fast, secure, and improving, hosting, monitoring, updates, and a monthly block of improvements. Most clients stay, because momentum is where the real growth happens.</p>
           </div>
           <Link href="/contact" className="pm-mrr-cta">Ask about care plans <span aria-hidden="true">→</span></Link>
         </div>

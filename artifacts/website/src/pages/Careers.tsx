@@ -30,12 +30,12 @@ export default function Careers() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!cv) return;
-    if (cv.size > 10 * 1024 * 1024) { setStatus("err"); setErrMsg("File is too large — max 10 MB."); return; }
+    if (cv.size > 10 * 1024 * 1024) { setStatus("err"); setErrMsg("File is too large, max 10 MB."); return; }
     setStatus("sending");
     try {
       const fd = new FormData();
       fd.append("access_key", "840f1d96-d5b1-4659-8a5e-30eae7d9f5db");
-      fd.append("subject", `Career application — ${name}`);
+      fd.append("subject", `Career application, ${name}`);
       fd.append("name", name);
       fd.append("email", email);
       fd.append("phone", phone);
@@ -119,7 +119,7 @@ export default function Careers() {
         </div>
         <div className="cr-roles">
           {roles.map((r) => (
-            <a key={r.role} className="cr-role" href={`mailto:info@ahos.xyz?subject=${encodeURIComponent(`Joining the studio — ${r.role}`)}`}>
+            <a key={r.role} className="cr-role" href={`mailto:info@ahos.xyz?subject=${encodeURIComponent(`Joining the studio, ${r.role}`)}`}>
               <span className="cr-role-name">{r.role}</span>
               <span className="cr-role-stack">{r.stack}</span>
               <span className="cr-role-arrow" aria-hidden="true">↗</span>
@@ -152,12 +152,12 @@ export default function Careers() {
           <div className="cr-done">
             <div className="cr-done-mark" aria-hidden="true">✓</div>
             <h2 className="ed-h2">Application sent.</h2>
-            <p className="ed-lead">Thanks{name ? `, ${name.split(" ")[0]}` : ""} — we'll review your CV and get back to you if there's a fit.</p>
+            <p className="ed-lead">Thanks{name ? `, ${name.split(" ")[0]}` : ""}, we'll review your CV and get back to you if there's a fit.</p>
           </div>
         ) : (
           <>
             <h2 className="ed-h2">Don't see your role?</h2>
-            <p className="ed-lead" style={{ margin: "18px 0 30px" }}>If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template — show us what you've actually shipped.</p>
+            <p className="ed-lead" style={{ margin: "18px 0 30px" }}>If you're genuinely good at something we'd be lucky to have, tell us. Send your work, not a résumé template, show us what you've actually shipped.</p>
             <form className="cr-form" onSubmit={submit}>
               <div className="cr-row">
                 <div className="cr-field">
@@ -197,7 +197,7 @@ export default function Careers() {
               <button type="submit" className="ed-btn ed-btn-lg cr-submit" disabled={status === "sending" || !cv}>
                 {status === "sending" ? "Sending…" : <>Send application<span>↗</span></>}
               </button>
-              {status === "err" && <p className="cr-err">{errMsg || "Something went wrong — try emailing us at info@ahos.xyz."}</p>}
+              {status === "err" && <p className="cr-err">{errMsg || "Something went wrong, try emailing us at info@ahos.xyz."}</p>}
             </form>
           </>
         )}
