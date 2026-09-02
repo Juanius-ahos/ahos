@@ -178,7 +178,8 @@ const css = `
 .sv-build-head { margin-bottom: clamp(36px, 5vw, 60px); }
 .sv-build-head .ed-h2 { margin-top: 6px; }
 .sv-build-list { display: flex; flex-direction: column; }
-.sv-item { display: grid; grid-template-columns: 64px 1fr; gap: clamp(16px, 3vw, 40px); padding: clamp(28px, 3.5vw, 44px) 0; border-top: 1px solid var(--border-soft); }
+.sv-item { display: grid; grid-template-columns: 64px 1fr; gap: clamp(16px, 3vw, 40px); padding: clamp(28px, 3.5vw, 44px) 0; border-top: 1px solid var(--border-soft); transition: background 0.35s ease; }
+.sv-item:hover { background: linear-gradient(100deg, var(--orange-soft), transparent 62%); }
 .sv-item:last-child { border-bottom: 1px solid var(--border-soft); }
 .sv-item-n { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--orange); padding-top: 6px; }
 .sv-item-name { font-family: var(--font-display); font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; margin-bottom: 14px; }
@@ -188,7 +189,8 @@ const css = `
 .sv-chips span { padding: 6px 13px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-weight: 600; }
 
 .sv-promise-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); overflow: hidden; }
-.sv-promise-card { background: var(--bg); padding: clamp(24px, 2.6vw, 34px); }
+.sv-promise-card { background: var(--bg); padding: clamp(24px, 2.6vw, 34px); transition: background 0.3s ease; }
+.sv-promise-card:hover { background: var(--bg-2); }
 .sv-promise-check { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--orange-soft); color: var(--orange); margin-bottom: 16px; }
 .sv-promise-k { font-family: var(--font-display); font-size: clamp(17px, 1.7vw, 21px); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
 .sv-promise-v { font-size: 13.5px; line-height: 1.6; color: var(--text-muted); }
