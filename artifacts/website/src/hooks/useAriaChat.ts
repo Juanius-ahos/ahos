@@ -50,73 +50,89 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; ma
     historyRef.current = [...historyRef.current, { role: "assistant", content: "" }];
     setMessages(historyRef.current);
 
-    try {
-      // `referrer` keeps requests in Pollinations' keyless free tier — without
-      // it the legacy endpoint now returns intermittent 402 Payment Required.
-      const res = await fetch(`${API_URL}?referrer=ahos.xyz`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: MODEL,
-          referrer: "ahos.xyz",
-          messages: [{ role: "system", content: systemPrompt }, ...updated.slice(-14)],
-          max_tokens: maxTokens,
-          temperature: 0.72,
-          stream: true,
-        }),
-      });
+    // One streamed attempt. Throws on any failure (bad status, no body, a
+    // timeout, or an empty completion) so the retry loop can try again.
+    // `referrer` keeps requests in Pollinations' keyless free tier; without it
+    // the legacy endpoint returns intermittent 402 Payment Required.
+    const runAttempt = async (): Promise<void> => {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 15000);
+      try {
+        const res = await fetch(`${API_URL}?referrer=ahos.xyz`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: ctrl.signal,
+          body: JSON.stringify({
+            model: MODEL,
+            referrer: "ahos.xyz",
+            messages: [{ role: "system", content: systemPrompt }, ...updated.slice(-14)],
+            max_tokens: maxTokens,
+            temperature: 0.72,
+            stream: true,
+          }),
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const reader = res.body?.getReader();
+        if (!reader) throw new Error("No response body");
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => null);
-        throw new Error((errData?.error?.message) || "HTTP " + res.status);
-      }
-
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No response body");
-
-      const decoder = new TextDecoder();
-      let fullContent = "";
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-
-        let idx;
-        while ((idx = buffer.indexOf("\n")) !== -1) {
-          const line = buffer.slice(0, idx).trim();
-          buffer = buffer.slice(idx + 1);
-
-          if (!line || !line.startsWith("data: ")) continue;
-          const payload = line.slice(6);
-          if (payload === "[DONE]") { buffer = ""; break; }
-
-          try {
-            const parsed = JSON.parse(payload);
-            const delta = parsed?.choices?.[0]?.delta?.content;
-            if (delta) {
-              fullContent += delta;
-              const msgs = [...historyRef.current];
-              msgs[msgs.length - 1] = { role: "assistant", content: fullContent };
-              historyRef.current = msgs;
-              setMessages(msgs);
-            }
-          } catch {}
+        const decoder = new TextDecoder();
+        let fullContent = "";
+        let buffer = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let idx;
+          while ((idx = buffer.indexOf("\n")) !== -1) {
+            const line = buffer.slice(0, idx).trim();
+            buffer = buffer.slice(idx + 1);
+            if (!line || !line.startsWith("data: ")) continue;
+            const payload = line.slice(6);
+            if (payload === "[DONE]") { buffer = ""; break; }
+            try {
+              const parsed = JSON.parse(payload);
+              const delta = parsed?.choices?.[0]?.delta?.content;
+              if (delta) {
+                fullContent += delta;
+                const msgs = [...historyRef.current];
+                msgs[msgs.length - 1] = { role: "assistant", content: fullContent };
+                historyRef.current = msgs;
+                setMessages(msgs);
+              }
+            } catch {}
+          }
         }
-      }
 
-      // Stream complete — process markers
-      const afterPreview = handlePreview(fullContent.trim());
-      const clean = handleLead(afterPreview);
-      if (clean) {
+        if (!fullContent.trim()) throw new Error("Empty completion");
+
+        const afterPreview = handlePreview(fullContent.trim());
+        const clean = handleLead(afterPreview);
+        if (clean) {
+          const msgs = [...historyRef.current];
+          msgs[msgs.length - 1] = { role: "assistant", content: clean };
+          historyRef.current = msgs;
+          setMessages(msgs);
+        }
+      } finally {
+        clearTimeout(timer);
+      }
+    };
+
+    // Retry through Pollinations' intermittent 402/500s before giving up.
+    let ok = false;
+    for (let attempt = 0; attempt < 3 && !ok; attempt++) {
+      if (attempt > 0) {
+        // Reset the pending bubble (show the typing dots again) and back off.
         const msgs = [...historyRef.current];
-        msgs[msgs.length - 1] = { role: "assistant", content: clean };
+        msgs[msgs.length - 1] = { role: "assistant", content: "" };
         historyRef.current = msgs;
         setMessages(msgs);
+        await new Promise((r) => setTimeout(r, 500 * attempt));
       }
-    } catch {
+      try { await runAttempt(); ok = true; } catch {}
+    }
+
+    if (!ok) {
       // Never leave a visitor at a dead end: replace the pending bubble with a
       // graceful message that still routes them to a real person.
       const fallback = "Looks like I'm having a brief connection hiccup. The quickest way to reach the team is email at info@ahos.xyz or WhatsApp at +961 70 165 601, and someone replies within 24 hours. You can also send your message again in a moment.";
