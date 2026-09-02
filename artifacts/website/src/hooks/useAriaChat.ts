@@ -51,11 +51,14 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; ma
     setMessages(historyRef.current);
 
     try {
-      const res = await fetch(API_URL, {
+      // `referrer` keeps requests in Pollinations' keyless free tier — without
+      // it the legacy endpoint now returns intermittent 402 Payment Required.
+      const res = await fetch(`${API_URL}?referrer=ahos.xyz`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: MODEL,
+          referrer: "ahos.xyz",
           messages: [{ role: "system", content: systemPrompt }, ...updated.slice(-14)],
           max_tokens: maxTokens,
           temperature: 0.72,
@@ -113,11 +116,18 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; ma
         historyRef.current = msgs;
         setMessages(msgs);
       }
-    } catch (e: unknown) {
-      const errMsg = e instanceof Error ? e.message : "Connection issue";
-      const ariaMsg: Message = { role: "assistant", content: "Sorry, I hit a snag — " + errMsg + ". Please try again in a moment." };
-      historyRef.current = [...historyRef.current, ariaMsg];
-      setMessages(historyRef.current);
+    } catch {
+      // Never leave a visitor at a dead end: replace the pending bubble with a
+      // graceful message that still routes them to a real person.
+      const fallback = "Looks like I'm having a brief connection hiccup. The quickest way to reach the team is email at info@ahos.xyz or WhatsApp at +961 70 165 601, and someone replies within 24 hours. You can also send your message again in a moment.";
+      const msgs = [...historyRef.current];
+      if (msgs.length && msgs[msgs.length - 1].role === "assistant" && !msgs[msgs.length - 1].content) {
+        msgs[msgs.length - 1] = { role: "assistant", content: fallback };
+      } else {
+        msgs.push({ role: "assistant", content: fallback });
+      }
+      historyRef.current = msgs;
+      setMessages(msgs);
     }
 
     setBusy(false);
