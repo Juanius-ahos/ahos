@@ -1,28 +1,40 @@
 import { Link } from "wouter";
+import { motion } from "framer-motion";
 
 /**
- * Centered hero in the weevolveit arrangement (dotted sphere as the focal point,
- * huge headline over it, vertical side label, stat line, scroll cue) — written
- * entirely in AHOS's own words and colors. No competitor copy.
+ * Cinematic hero: the dotted sphere (HeroCanvas) as the focal point, wrapped in
+ * a drifting orange aurora, with a staggered blur-and-rise entrance on the copy.
+ * Original AHOS art direction, in AHOS's colors and words.
  */
+const EASE = [0.22, 1, 0.36, 1] as const;
+const rise = (delay: number) => ({
+  initial: { opacity: 0, y: 28, filter: "blur(12px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { duration: 0.95, ease: EASE, delay },
+});
+
 export function HeroMain() {
   return (
     <header className="hm">
+      {/* Painterly orange aurora behind the sphere */}
+      <div className="hm-aurora hm-aurora-a" aria-hidden="true" />
+      <div className="hm-aurora hm-aurora-b" aria-hidden="true" />
+
       <span className="hm-side" aria-hidden="true"><i className="hm-side-dot" />ONLINE · BEIRUT</span>
 
       <div className="hm-inner">
-        <div className="hm-eyebrow"><span className="hm-eyebrow-dot" />Digital product studio · Beirut → Worldwide</div>
-        <h1 className="hm-h1">
+        <motion.div className="hm-eyebrow" {...rise(0.15)}><span className="hm-eyebrow-dot" />Digital product studio · Beirut → Worldwide</motion.div>
+        <motion.h1 className="hm-h1" {...rise(0.28)}>
           Websites, apps &amp; software<br />
           that <em>pay for themselves.</em>
-        </h1>
-        <p className="hm-sub">
+        </motion.h1>
+        <motion.p className="hm-sub" {...rise(0.44)}>
           One team, from idea to launch. Fixed quotes, full code ownership, and a real human who replies within 24 hours.
-        </p>
-        <div className="hm-actions">
+        </motion.p>
+        <motion.div className="hm-actions" {...rise(0.58)}>
           <Link href="/contact" className="hm-btn">Start a project <span aria-hidden="true">↗</span></Link>
           <span className="hm-rating"><span className="hm-stars" aria-hidden="true">★★★★★</span> 5.0 on Trustpilot · 50+ shipped</span>
-        </div>
+        </motion.div>
       </div>
 
       <div className="hm-scroll" aria-hidden="true">SCROLL</div>
@@ -41,6 +53,14 @@ const css = `
   padding: clamp(78px, 12vh, 128px) var(--gutter) clamp(52px, 8vh, 92px);
   overflow: hidden;
 }
+
+/* Drifting aurora blobs, painterly orange glow around the sphere */
+.hm-aurora { position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; filter: blur(90px); opacity: 0.5; will-change: transform; }
+.hm-aurora-a { width: 46vw; height: 46vw; left: -6vw; top: -4vw; background: radial-gradient(circle, rgba(255,106,26,0.28), transparent 66%); animation: hm-drift-a 18s ease-in-out infinite; }
+.hm-aurora-b { width: 40vw; height: 40vw; right: -6vw; bottom: -6vw; background: radial-gradient(circle, rgba(255,150,60,0.20), transparent 66%); animation: hm-drift-b 22s ease-in-out infinite; }
+@keyframes hm-drift-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6vw, 4vw) scale(1.15); } }
+@keyframes hm-drift-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5vw, -3vw) scale(1.12); } }
+
 .hm-inner { position: relative; z-index: 2; width: min(1000px, 100%); display: flex; flex-direction: column; align-items: center; }
 
 .hm-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: clamp(10px, 1.1vw, 12px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: clamp(22px, 3vw, 34px); }
@@ -73,11 +93,12 @@ const css = `
   .hm-side { display: none; }
   .hm { min-height: 82vh; }
   .hm-h1 { font-size: clamp(38px, 12vw, 60px); }
+  .hm-aurora { filter: blur(60px); opacity: 0.4; }
 }
 @media (max-width: 480px) {
   .hm-scroll { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hm-scroll::after, .hm-side-dot { animation: none; }
+  .hm-scroll::after, .hm-side-dot, .hm-aurora { animation: none; }
 }
 `;
