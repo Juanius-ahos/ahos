@@ -6,6 +6,7 @@ import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { trackEvent } from "../lib/analytics";
 import { HeroMain } from "../components/home/HeroMain";
+import { IntroAnimation } from "../components/home/IntroAnimation";
 import { LogoMarquee } from "../components/home/LogoMarquee";
 import { ReviewsMarquee } from "../components/home/ReviewsMarquee";
 import { MethodSection } from "../components/home/MethodSection";
@@ -219,6 +220,8 @@ export default function Home() {
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <OverlayParticles />
+
+      <IntroAnimation />
 
       <HeroMain />
 
