@@ -1,11 +1,22 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 
 /**
- * "What's slowing you down?" audit section — matches weevolveit.com.
- * Eyebrow, title, subtitle, live counter, text input form.
+ * "What's slowing you down?" prompt: the visitor types their bottleneck and we
+ * carry it into the contact flow so a real person can reply. No fabricated
+ * counters, and the form actually does something.
  */
 export function AuditSection() {
   const [value, setValue] = useState("");
+  const [, setLocation] = useLocation();
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const v = value.trim();
+    if (!v) return;
+    try { sessionStorage.setItem("ahos_audit", v); } catch {}
+    setLocation("/contact");
+  };
 
   return (
     <section className="audit-section">
@@ -14,29 +25,21 @@ export function AuditSection() {
         <span className="audit-eyebrow">[ the audit ]</span>
         <h2 className="audit-title">What's slowing you down?</h2>
         <p className="audit-sub">
-          You name the friction. We map the fix.<br />
-          See what happens next...
+          Tell us the bottleneck and we'll map the fix.<br />
+          A real person replies within 24 hours.
         </p>
-        <div className="audit-live">
-          <span className="audit-pulse">
-            <span className="audit-pulse-ring" />
-            <span className="audit-pulse-dot" />
-          </span>
-          <span className="audit-live-text">live</span>
-          <span className="audit-stat">183 · frictions diagnosed</span>
-        </div>
-        <form className="audit-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="audit-form" onSubmit={submit}>
           <input
             type="text"
-            placeholder=""
+            placeholder="A booking app, a faster site, an AI tool..."
             spellCheck={false}
             autoComplete="off"
-            aria-label="Describe your own business pain"
+            aria-label="Describe what's slowing your business down"
             className="audit-input"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button type="submit" className="audit-submit" aria-label="Submit" disabled={!value}>
+          <button type="submit" className="audit-submit" aria-label="Continue" disabled={!value.trim()}>
             →
           </button>
         </form>

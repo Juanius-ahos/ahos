@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
@@ -8,7 +8,6 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { CornerGlow } from "@/components/CornerGlow";
-import { Loader } from "@/components/Loader";
 import { AriaWidget } from "@/components/AriaWidget";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
@@ -75,13 +74,11 @@ function Router() {
 }
 
 export default function App() {
-  const [loaded, setLoaded] = useState(false);
   useEffect(() => { retryPendingLeads(); }, []);
 
   return (
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-        <Loader onComplete={() => setLoaded(true)} />
         <Suspense fallback={null}><HeroCanvas /></Suspense>
         <div className="dot-grid" aria-hidden="true" />
         <CornerGlow />
@@ -89,7 +86,7 @@ export default function App() {
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
           <rect width="100%" height="100%" filter="url(#grain)"/>
         </svg>
-        <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease" }}>
+        <div>
           <OrganizationSchema />
           <a href="#main-content" className="skip-link">Skip to content</a>
           <div className="vlines">

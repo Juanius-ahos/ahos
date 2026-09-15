@@ -44,7 +44,7 @@ export function IntroAnimation() {
 
   if (!visible) return null;
 
-  const phases = ["DISCOVER", "DIAGNOSE", "DESIGN", "DELIVER", "EVOLVE"];
+  const phases = ["DISCOVER", "DESIGN", "BUILD", "LAUNCH", "EVOLVE"];
 
   return (
     <div className="intro-overlay" aria-hidden="true">

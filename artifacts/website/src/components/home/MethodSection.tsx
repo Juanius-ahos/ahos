@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const PHASES = [
-  { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", headline: "80% of tech projects fail because no one asked the right question.", notes: ["We don't start at the solution — we start at the uncomfortable truth", "How your business actually runs, not the org-chart version", "Clarity before code"] },
-  { n: "02", title: "Diagnose", ghost: "DIAGNOSE", accent: "#ff8c4a", headline: "If it can't be measured, it doesn't exist.", notes: ["Every friction, bottleneck, and silent leak — mapped", "An executive diagnosis few consultants will sign their name to", "Quantified truth. Zero opinions."] },
-  { n: "03", title: "Design", ghost: "DESIGN", accent: "#e0560a", headline: "We don't prescribe software. We prescribe outcomes.", notes: ["Every architectural decision tied to a business KPI", "If it doesn't move the needle, it doesn't make the plan", "Blueprint, not buzzwords"] },
-  { n: "04", title: "Deliver", ghost: "DELIVER", accent: "#ffb074", headline: "Code without adoption is debt with ego.", notes: ["Victory isn't deploy — it's your team running it without us", "Understood without a manual. Improved without permission.", "Adoption, not delivery"] },
-  { n: "05", title: "Evolve", ghost: "EVOLVE", accent: "#cc5500", headline: "What doesn't evolve is already dying.", notes: ["While most invoice and disappear, we stay", "Your business changes every quarter — your tech has to match", "Partnership, not project"] },
+  { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", headline: "We start with your goals, not our stack.", notes: ["A free consultation, no commitment", "We map scope, risks, and what success looks like", "You get a fixed-price quote in writing"] },
+  { n: "02", title: "Design", ghost: "DESIGN", accent: "#ff8c4a", headline: "See it before we build it.", notes: ["UX flows first, then pixel-tight UI", "A clickable direction you can react to", "You sign off before a line of code"] },
+  { n: "03", title: "Build", ghost: "BUILD", accent: "#e0560a", headline: "Clean code, built in the open.", notes: ["Documented, tested, and yours to keep", "Milestone demos as it takes shape", "No black box, you watch it grow"] },
+  { n: "04", title: "Launch", ghost: "LAUNCH", accent: "#ffb074", headline: "Live, and set up to grow.", notes: ["We deploy, QA, and load-check", "Analytics and SEO wired in", "Full handover, the code is 100% yours"] },
+  { n: "05", title: "Evolve", ghost: "EVOLVE", accent: "#cc5500", headline: "We stick around after launch.", notes: ["A 30-day post-launch warranty", "Support when you need a human", "Improvements as your business grows"] },
 ];
 
 const SLIDE_W = 70; // vw per phase
@@ -84,15 +84,15 @@ export function MethodSection() {
 
       {/* Intro screen (visible before scroll-jack starts) */}
       <div className={`mth-intro ${introVisible ? "is-visible" : ""}`}>
-        <span className="mth-intro-label">[ The framework ]</span>
+        <span className="mth-intro-label">[ How we work ]</span>
         <h2 className="mth-intro-title">
-          The 5 method<span className="mth-dot" aria-hidden="true" />
+          A five-phase method<span className="mth-dot" aria-hidden="true" />
         </h2>
         <p className="mth-intro-lead">
-          Technology accelerates faster every day. Most businesses fall behind. We're the AI specialists who close that gap — a five-phase method that doesn't follow the curve, it bends it.
+          The same path on every project, so you always know what happens next, what it costs, and who owns the result. You do.
         </p>
         <p className="mth-intro-phases">
-          Discover · Diagnose · Design · Deliver · <span style={{ color: "var(--orange)" }}>Evolve</span>
+          Discover · Design · Build · Launch · <span style={{ color: "var(--orange)" }}>Evolve</span>
         </p>
       </div>
 

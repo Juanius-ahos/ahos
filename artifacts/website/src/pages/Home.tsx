@@ -41,7 +41,7 @@ const work = [
 ];
 
 function ScrollingMarquee() {
-  const text = "YOUR TECHNOLOGY DOESN'T HAVE TO BE THE MOST SOPHISTICATED. YOUR PROCESSES DON'T HAVE TO BE THE MOST BUREAUCRATIC. NOR THE MOST EXPENSIVE. THEY NEED TO BE RIGHT. · ";
+  const text = "ONE TEAM, IDEA TO LAUNCH. FIXED QUOTES, NO SURPRISES. FULL CODE OWNERSHIP. BUILT TO PAY FOR ITSELF. · ";
   const repeated = text.repeat(6);
   const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const pause = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; };
@@ -169,7 +169,7 @@ function CtaFooter() {
     <section className="cta-section" data-accent="255,106,26">
       <style>{ctaCss}</style>
       <div className="cta-inner">
-        <h2 className="cta-title">And every business<br />deserves to evolve</h2>
+        <h2 className="cta-title">Let's build something<br />that pays for itself.</h2>
         <div className="cta-links">
           <a href="mailto:info@ahos.xyz" className="cta-link">
             <span className="cta-link-label">email</span>
@@ -216,8 +216,8 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS | Your Digital Partner, Evolved"
-        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. A five-phase method — Discover, Diagnose, Design, Deliver, Evolve."
+        title="AHOS | Websites, Apps & Software That Pay for Themselves"
+        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />

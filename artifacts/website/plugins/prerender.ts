@@ -116,12 +116,13 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS | Your Digital Partner, Evolved",
+    title: "AHOS | Websites, Apps & Software That Pay for Themselves",
     description:
-      "AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders worldwide. A five-phase method — Discover, Diagnose, Design, Deliver, Evolve.",
-    bodyHtml: `<h1>Your digital partner. Evolved.</h1>
-<p>A five-phase method that transforms how your business runs on technology. An AI-first studio — and your end-to-end tech partner.</p>
+      "AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership.",
+    bodyHtml: `<h1>Websites, apps and software that pay for themselves.</h1>
+<p>One team, from idea to launch. Fixed quotes, full code ownership, and a real human who replies within 24 hours.</p>
 <p>Digital product studio in Beirut, Lebanon, serving founders in the US, Gulf, and worldwide.</p>
+<p>Our five-phase method: Discover, Design, Build, Launch, Evolve.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale, from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation, software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
