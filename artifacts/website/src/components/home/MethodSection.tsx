@@ -2,11 +2,11 @@ import { Reveal } from "../motion";
 import { GhostHeading } from "./GhostHeading";
 
 /**
- * The five-phase method, rendered as a scroll-jacked stack: each phase pins to
- * the viewport and the next scrolls up over it (same choreography as the
- * services stack). Behind each phase sits a giant ghosted word that slides in.
- * Content is a truthful, more granular telling of the AHOS process, no invented
- * services, no em-dashes.
+ * The five-phase method, rendered as a scroll-jacked stack: each phase is a
+ * full opaque screen that wipes up over the previous one (same choreography as
+ * the services stack). Behind each phase sits a giant ghosted word. Content is
+ * a truthful, more granular telling of the AHOS process, no invented services,
+ * no em-dashes.
  */
 const PHASES = [
   { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", notes: ["Free consultation, no commitment", "We map goals, scope, and risks", "You get a fixed-price quote in writing"] },
@@ -22,29 +22,33 @@ export function MethodSection() {
     <section className="mth-section">
       <div className="mth-stack" style={{ height: `${cardCount * 100}vh` } as React.CSSProperties}>
         {/* Intro chapter */}
-        <div className="mth-card mth-card-intro">
-          <div className="mth-inner section-light">
+        <div className="mth-card">
+          <GhostHeading variant="outline" from="right" className="mth-ghost" style={{ WebkitTextStrokeColor: "var(--border-hover)" }}>METHOD</GhostHeading>
+          <div className="mth-inner">
             <div className="ed-label">
               <span className="ed-label-n">05</span>
               <span className="ed-label-line" />
               <span className="ed-label-text">How we work</span>
             </div>
             <h2 className="ed-h2 mth-intro-h">A five-phase method,<br />idea to live product.</h2>
-            <p className="ed-lead" style={{ marginTop: 22 }}>
+            <p className="ed-lead mth-intro-lead">
               The same path on every project. You always know what happens next, what it costs, and who owns the result. You do.
             </p>
           </div>
-          <GhostHeading variant="solid" from="right" className="mth-ghost mth-ghost-intro">METHOD</GhostHeading>
         </div>
 
         {/* Phases */}
         {PHASES.map((p, i) => (
           <div key={p.n} className="mth-card" data-accent={p.accent}>
-            <GhostHeading variant="outline" from={i % 2 === 0 ? "left" : "right"} className="mth-ghost" style={{ WebkitTextStrokeColor: "var(--border)" }}>
+            <GhostHeading
+              variant="outline"
+              from={i % 2 === 0 ? "left" : "right"}
+              className="mth-ghost"
+              style={{ WebkitTextStrokeColor: "var(--border-hover)" }}
+            >
               {p.ghost}
             </GhostHeading>
             <div className="mth-inner" style={{ "--mth-accent": p.accent } as React.CSSProperties}>
-              <div className="mth-accent-bar" />
               <Reveal><span className="mth-n">Phase {p.n}</span></Reveal>
               <Reveal delay={80}><h3 className="mth-title">{p.title}</h3></Reveal>
               <ul className="mth-notes">

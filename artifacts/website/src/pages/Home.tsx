@@ -114,8 +114,7 @@ function ZoomReveal() {
   return (
     <section className="zoom-section" ref={ref} data-accent="255,150,40">
       <div className="zoom-sticky section-light">
-        <GhostHeading variant="outline" from="left" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", zIndex: 0 }}>SHIP</GhostHeading>
-        <div className="zoom-text" style={{ position: "relative", zIndex: 1 }}>
+        <div className="zoom-text">
           <span className="zoom-word">From</span>
           <span className="zoom-word">idea</span>
           <span className="zoom-word">to</span>
