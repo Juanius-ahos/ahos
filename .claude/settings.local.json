@@ -34,7 +34,19 @@
       "Bash(grep -n '\\\\$1,000\\\\|How much does' plugins/prerender.ts)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(pnpm --filter @workspace/website run typecheck)",
+      "Bash(pnpm --filter @workspace/website run build)",
+      "Bash(grep -vi \"contact.tsx\\\\|ERR_PNPM\\\\|typecheck:\\\\|^$\")",
+      "WebFetch(domain:ahos.xyz)",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__javascript_tool",
+      "Bash(grep -vi \"contact.tsx\\\\|ERR_PNPM\\\\|typecheck:\\\\|tsc -p\\\\|^\\\\$ \")",
+      "Bash(git checkout *)",
+      "Bash(grep -viE \"contact\\\\.tsx|ERR_PNPM|typecheck:|tsc -p|^\\\\\\\\\\\\$ \")",
+      "Bash(git merge *)"
     ]
   }
 }

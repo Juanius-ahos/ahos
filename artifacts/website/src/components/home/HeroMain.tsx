@@ -1,11 +1,5 @@
 import { Link } from "wouter";
 
-/**
- * Centered hero in the weevolveit arrangement: the dotted sphere (HeroCanvas,
- * rendered site-wide behind everything) is the focal point, with a huge headline
- * over it, vertical side labels, a stat line, and a scroll cue. Built in AHOS's
- * orange identity with AHOS's own copy and real numbers.
- */
 export function HeroMain() {
   return (
     <header className="hm">
@@ -13,18 +7,14 @@ export function HeroMain() {
       <span className="hm-side hm-side-r" aria-hidden="true">BEIRUT · LEBANON</span>
 
       <div className="hm-inner">
-        <div className="hm-eyebrow"><span className="hm-eyebrow-dot" />AI-first product studio · Beirut → Worldwide</div>
         <h1 className="hm-h1">
-          Websites, apps &amp; software<br />
-          that <em>pay for themselves.</em>
+          Your digital partner.<br />
+          <em>Evolved.</em>
         </h1>
         <p className="hm-sub">
-          One team, from idea to launch. Fixed quotes, full code ownership, and a real human who replies within 24 hours.
+          A five-phase method that transforms how your business runs on technology.
+          An AI-first studio — and your end-to-end tech partner.
         </p>
-        <div className="hm-actions">
-          <Link href="/contact" className="hm-btn">Start a project <span aria-hidden="true">↗</span></Link>
-          <span className="hm-rating"><span className="hm-stars" aria-hidden="true">★★★★★</span> 5.0 on Trustpilot · 50+ shipped</span>
-        </div>
       </div>
 
       <div className="hm-scroll" aria-hidden="true">SCROLL</div>
@@ -45,21 +35,10 @@ const css = `
 }
 .hm-inner { position: relative; z-index: 2; width: min(1000px, 100%); display: flex; flex-direction: column; align-items: center; }
 
-.hm-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: clamp(10px, 1.1vw, 12px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: clamp(22px, 3vw, 34px); }
-.hm-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px var(--orange-glow); }
-
-.hm-h1 { font-family: var(--font-display); font-size: clamp(38px, 7.2vw, 108px); font-weight: 700; line-height: 0.9; letter-spacing: -0.045em; color: var(--text); margin: 0; text-shadow: 0 2px 40px rgba(10,10,11,0.65); }
+.hm-h1 { font-family: var(--font-display); font-size: clamp(42px, 8vw, 120px); font-weight: 700; line-height: 0.88; letter-spacing: -0.045em; color: var(--text); margin: 0; text-shadow: 0 2px 40px rgba(10,10,11,0.65); }
 .hm-h1 em { font-style: normal; color: var(--orange); }
 
-.hm-sub { margin: clamp(20px, 2.4vw, 30px) 0 0; max-width: 600px; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.6; color: var(--text-muted); }
-
-.hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px; margin-top: clamp(24px, 3vw, 34px); }
-.hm-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 999px; background: var(--orange); color: #0a0a0b; font-size: 15px; font-weight: 700; box-shadow: 0 10px 34px rgba(255,106,26,0.32); transition: transform 0.25s, box-shadow 0.3s, background 0.25s; }
-.hm-btn span { display: inline-block; transition: transform 0.3s; }
-.hm-btn:hover { transform: translateY(-2px); background: var(--orange-light); box-shadow: 0 16px 44px rgba(255,106,26,0.42); }
-.hm-btn:hover span { transform: translate(3px,-3px); }
-.hm-rating { font-size: 13px; font-weight: 500; color: var(--text-dim); }
-.hm-stars { color: var(--orange); letter-spacing: 1.5px; }
+.hm-sub { margin: clamp(24px, 3vw, 40px) 0 0; max-width: 640px; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--text-muted); }
 
 /* Vertical side labels */
 .hm-side { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; writing-mode: vertical-rl; text-orientation: mixed; display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
@@ -76,7 +55,7 @@ const css = `
 @media (max-width: 768px) {
   .hm-side { display: none; }
   .hm { min-height: 82vh; }
-  .hm-h1 { font-size: clamp(38px, 12vw, 60px); }
+  .hm-h1 { font-size: clamp(42px, 12vw, 64px); }
 }
 @media (max-width: 480px) {
   .hm-scroll { display: none; }

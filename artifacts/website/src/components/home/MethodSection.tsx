@@ -1,19 +1,12 @@
 import { Reveal } from "../motion";
 import { GhostHeading } from "./GhostHeading";
 
-/**
- * The five-phase method, rendered as a scroll-jacked stack: each phase is a
- * full opaque screen that wipes up over the previous one (same choreography as
- * the services stack). Behind each phase sits a giant ghosted word. Content is
- * a truthful, more granular telling of the AHOS process, no invented services,
- * no em-dashes.
- */
 const PHASES = [
-  { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", notes: ["Free consultation, no commitment", "We map goals, scope, and risks", "You get a fixed-price quote in writing"] },
-  { n: "02", title: "Design", ghost: "DESIGN", accent: "#ff8c4a", notes: ["UX flows, then pixel-tight UI", "A clickable direction to react to", "You sign off before a line of code"] },
-  { n: "03", title: "Build", ghost: "BUILD", accent: "#e0560a", notes: ["Clean, documented, tested code", "Milestone demos as it takes shape", "No black box, you watch it grow"] },
-  { n: "04", title: "Launch", ghost: "LAUNCH", accent: "#ffb074", notes: ["Deploy, QA, and load-check", "Analytics and SEO wired in", "Full handover, the code is yours"] },
-  { n: "05", title: "Evolve", ghost: "EVOLVE", accent: "#cc5500", notes: ["30-day post-launch warranty", "Support when you need a human", "Improvements as your business grows"] },
+  { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", headline: "80% of tech projects fail because no one asked the right question.", notes: ["We don't start at the solution — we start at the uncomfortable truth", "How your business actually runs, not the org-chart version", "Clarity before code"] },
+  { n: "02", title: "Diagnose", ghost: "DIAGNOSE", accent: "#ff8c4a", headline: "If it can't be measured, it doesn't exist.", notes: ["Every friction, bottleneck, and silent leak — mapped", "An executive diagnosis few consultants will sign their name to", "Quantified truth. Zero opinions."] },
+  { n: "03", title: "Design", ghost: "DESIGN", accent: "#e0560a", headline: "We don't prescribe software. We prescribe outcomes.", notes: ["Every architectural decision tied to a business KPI", "If it doesn't move the needle, it doesn't make the plan", "Blueprint, not buzzwords"] },
+  { n: "04", title: "Deliver", ghost: "DELIVER", accent: "#ffb074", headline: "Code without adoption is debt with ego.", notes: ["Victory isn't deploy — it's your team running it without us", "Understood without a manual. Improved without permission.", "Adoption, not delivery"] },
+  { n: "05", title: "Evolve", ghost: "EVOLVE", accent: "#cc5500", headline: "What doesn't evolve is already dying.", notes: ["While most invoice and disappear, we stay", "Your business changes every quarter — your tech has to match", "Partnership, not project"] },
 ];
 
 export function MethodSection() {
@@ -21,23 +14,22 @@ export function MethodSection() {
   return (
     <section className="mth-section">
       <div className="mth-stack" style={{ height: `${cardCount * 100}vh` } as React.CSSProperties}>
-        {/* Intro chapter */}
         <div className="mth-card">
           <GhostHeading variant="outline" from="right" className="mth-ghost" style={{ WebkitTextStrokeColor: "var(--border-hover)" }}>METHOD</GhostHeading>
           <div className="mth-inner">
             <div className="ed-label">
-              <span className="ed-label-n">05</span>
+              <span className="ed-label-n">01</span>
               <span className="ed-label-line" />
-              <span className="ed-label-text">How we work</span>
+              <span className="ed-label-text">The framework</span>
             </div>
-            <h2 className="ed-h2 mth-intro-h">A five-phase method,<br />idea to live product.</h2>
+            <h2 className="ed-h2 mth-intro-h">The 5 method.</h2>
             <p className="ed-lead mth-intro-lead">
-              The same path on every project. You always know what happens next, what it costs, and who owns the result. You do.
+              Technology accelerates faster every day. Most businesses fall behind. We're the AI specialists who close that gap — a five-phase method that doesn't follow the curve, it bends it.
             </p>
+            <p className="mth-intro-sub">Discover · Diagnose · Design · Deliver · Evolve</p>
           </div>
         </div>
 
-        {/* Phases */}
         {PHASES.map((p, i) => (
           <div key={p.n} className="mth-card" data-accent={p.accent}>
             <GhostHeading
@@ -51,11 +43,12 @@ export function MethodSection() {
             <div className="mth-inner" style={{ "--mth-accent": p.accent } as React.CSSProperties}>
               <Reveal><span className="mth-n">Phase {p.n}</span></Reveal>
               <Reveal delay={80}><h3 className="mth-title">{p.title}</h3></Reveal>
+              <Reveal delay={120}><p className="mth-headline">{p.headline}</p></Reveal>
               <ul className="mth-notes">
                 {p.notes.map((note, j) => (
-                  <Reveal key={note} delay={140 + j * 70}>
+                  <Reveal key={note} delay={180 + j * 70}>
                     <li className="mth-note">
-                      <span className="mth-note-tick" aria-hidden="true">›</span>
+                      <span className="mth-note-tick" aria-hidden="true">—</span>
                       {note}
                     </li>
                   </Reveal>

@@ -1,20 +1,17 @@
-import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useRef, useState } from "react";
 import { Footer } from "../components/Footer";
 import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { Reveal, Parallax } from "../components/motion";
 import { trackEvent } from "../lib/analytics";
 import { HeroMain } from "../components/home/HeroMain";
-import { WhyAhos } from "../components/home/WhyAhos";
-import { PricingMRR } from "../components/home/PricingMRR";
-import { StatsTicker } from "../components/home/StatsTicker";
+import { LogoMarquee } from "../components/home/LogoMarquee";
+import { ReviewsMarquee } from "../components/home/ReviewsMarquee";
 import { MethodSection } from "../components/home/MethodSection";
-import { GhostHeading } from "../components/home/GhostHeading";
+import { StatsTicker } from "../components/home/StatsTicker";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
-// "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
 const hexToRgb = (h: string) => {
   const v = parseInt(h.replace("#", ""), 16);
   return `${(v >> 16) & 255},${(v >> 8) & 255},${v & 255}`;
@@ -40,125 +37,40 @@ const work = [
   { name: "ARIA AI", cat: "AI · Chat", year: "2026", img: "work/aria-ai.svg", url: "/aria-ai" },
 ];
 
-const capabilities = [
-  { n: "01", title: "Web Development", tag: "Sites that convert", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to, from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
-  { n: "02", title: "Custom Software", tag: "Built around your workflow", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/custom-software", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "03", title: "Mobile Apps", tag: "iOS · Android · cross-platform", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native, the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
-  { n: "04", title: "Web3 & Blockchain", tag: "Audited & shipped", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative, every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
-  { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines, built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
-  { n: "06", title: "E-Commerce", tag: "Built to sell", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
-];
-
-const stats = [
-  { to: 100, suffix: "%", label: "Source code, yours" },
-  { to: 30, suffix: "", label: "Day post-launch warranty" },
-  { to: 24, suffix: "h", label: "Average first reply" },
-  { to: 0, suffix: "", label: "Hidden fees, fixed quotes" },
-];
-
-function Label({ n, text }: { n: string; text: string }) {
-  return (
-    <div className="ed-label">
-      <span className="ed-label-n">{n}</span>
-      <span className="ed-label-line" />
-      <span className="ed-label-text">{text}</span>
-    </div>
-  );
-}
-
-function ZoomReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const reveal = () =>
-      ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word").forEach((w) => {
-        w.style.opacity = "1";
-        w.style.scale = "1";
-      });
-
-    // Reduced-motion users get the words statically revealed, no scrub.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      reveal();
-      return;
-    }
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const words = ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word");
-        if (!words || !words.length) return;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top bottom",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        });
-        tl.fromTo(words, { opacity: 0, scale: 0.15, rotateX: 25 }, { opacity: 1, scale: 1, rotateX: 0, ease: "none" });
-
-        cleanup = () => tl.kill();
-      } catch {
-        reveal();
-      }
-    })();
-    return () => cleanup?.();
-  }, []);
+function ScrollingMarquee() {
+  const text = "YOUR TECHNOLOGY DOESN'T HAVE TO BE THE MOST SOPHISTICATED. YOUR PROCESSES DON'T HAVE TO BE THE MOST BUREAUCRATIC. NOR THE MOST EXPENSIVE. THEY NEED TO BE RIGHT. · ";
+  const repeated = text.repeat(6);
+  const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const pause = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; };
+  const resume = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = ""; };
 
   return (
-    <section className="zoom-section" ref={ref} data-accent="255,150,40">
-      <div className="zoom-sticky section-light">
-        <div className="zoom-text">
-          <span className="zoom-word">From</span>
-          <span className="zoom-word">idea</span>
-          <span className="zoom-word">to</span>
-          <span className="zoom-word" style={{ color: "var(--orange)" }}>launch</span>
-          <br />
-          <span className="zoom-word">one</span>
-          <span className="zoom-word">team</span>
-          <span className="zoom-word">no</span>
-          <span className="zoom-word">handoffs.</span>
+    <section className="sm-section" data-accent="255,106,26">
+      <style>{smCss}</style>
+      <div className="sm-row">
+        <div className="sm-track" onMouseEnter={pause} onMouseLeave={resume}>
+          <span className="sm-text">{repeated}</span>
         </div>
       </div>
     </section>
   );
 }
 
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const active = () =>
-    window.matchMedia("(pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el || !active()) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) scale(1.015)`;
-  };
-  const reset = () => { if (ref.current) ref.current.style.transform = ""; };
-  return (
-    <div ref={ref} className={className} onMouseMove={onMove} onMouseLeave={reset}
-      style={{ transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)", willChange: "transform" }}>
-      {children}
-    </div>
-  );
-}
+const smCss = `
+.sm-section { overflow: hidden; border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); padding: clamp(28px, 4vw, 48px) 0; background: var(--bg); }
+.sm-row { display: flex; overflow: hidden; }
+.sm-track { display: flex; white-space: nowrap; animation: sm-scroll 60s linear infinite; will-change: transform; }
+.sm-track:hover { animation-play-state: paused; }
+.sm-text { font-family: var(--font-display); font-size: clamp(14px, 1.6vw, 20px); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+@keyframes sm-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .sm-track { animation: none; } }
+`;
 
 function WorkRail() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const n = work.length;
   const total = n + 1;
-  // Track scroll 1:1, Lenis already smooths the input, so an extra spring here
-  // would smooth a smoothed value and make the rail float behind the scroll.
   const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
   const [idx, setIdx] = useState(1);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
@@ -170,7 +82,11 @@ function WorkRail() {
     <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref} data-accent="255,140,74">
       <div className="hs-sticky">
         <div className="hs-heading">
-          <Reveal dir="left"><Label n="02" text="Selected work" /></Reveal>
+          <div className="ed-label">
+            <span className="ed-label-n">02</span>
+            <span className="ed-label-line" />
+            <span className="ed-label-text">Selected work</span>
+          </div>
           <div className="hs-heading-row">
             <h2 className="ed-h2" style={{ margin: 0 }}>Projects we've shipped.</h2>
             <div className="hs-counter">
@@ -183,7 +99,7 @@ function WorkRail() {
           <motion.div className="hs-track" style={{ x }}>
             {work.map((p) =>
               p.url.startsWith("/") ? (
-                <TiltCard key={p.name + p.cat} className="hs-card">
+                <div key={p.name + p.cat} className="hs-card">
                   <Link href={p.url} className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
                     <picture>
                       {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
@@ -202,9 +118,9 @@ function WorkRail() {
                       <span className="hs-go" aria-hidden="true">{p.url.startsWith("/work/") ? "Case study →" : "Visit ↗"}</span>
                     </div>
                   </Link>
-                </TiltCard>
+                </div>
               ) : (
-                <TiltCard key={p.name + p.cat} className="hs-card">
+                <div key={p.name + p.cat} className="hs-card">
                   <a href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
                     <picture>
                       {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
@@ -223,7 +139,7 @@ function WorkRail() {
                       <span className="hs-go" aria-hidden="true">Visit ↗</span>
                     </div>
                   </a>
-                </TiltCard>
+                </div>
               )
             )}
             <div className="hs-end-card">
@@ -245,328 +161,80 @@ function WorkRail() {
   );
 }
 
-function ServicesStack() {
-  const cardCount = 1 + capabilities.length;
+function CtaFooter() {
   return (
-    <section className="sc-section">
-      <div className="sc-stack" style={{ height: `${cardCount * 100}vh` } as React.CSSProperties}>
-        <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': 'var(--bg)' } as React.CSSProperties}>
-          <div className="sc-card-inner sc-card-intro">
-            <div className="sc-card-accent" />
-            <GhostHeading variant="outline" from="left" style={{ position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)", zIndex: 0 }}>BUILD</GhostHeading>
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <Label n="03" text="Capabilities" />
-              <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Seven capabilities,<br />one studio.</h2>
-            </div>
-          </div>
+    <section className="cta-section" data-accent="255,106,26">
+      <style>{ctaCss}</style>
+      <div className="cta-inner">
+        <h2 className="cta-title">And every business<br />deserves to evolve</h2>
+        <div className="cta-links">
+          <a href="mailto:info@ahos.xyz" className="cta-link">
+            <span className="cta-link-label">email</span>
+            <span className="cta-link-text">write to us · info@ahos.xyz</span>
+            <span className="cta-link-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="https://wa.me/96170165601" className="cta-link" target="_blank" rel="noopener noreferrer">
+            <span className="cta-link-label">whatsapp</span>
+            <span className="cta-link-text">let's talk · +961 70 165 601</span>
+            <span className="cta-link-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
-        {capabilities.map((c) => (
-          <div
-            key={c.n}
-            className="sc-card"
-            data-accent={hexToRgb(c.accent)}
-            style={{ '--card-accent': c.accent, '--card-bg': c.bg } as React.CSSProperties}
-          >
-            <div className="sc-card-inner">
-              <div className="sc-card-accent" />
-              <Parallax amount={-12} style={{ width: '100%' }}>
-                <Reveal><span className="sc-card-num">{c.n}</span></Reveal>
-                <Reveal delay={80}><h3 className="sc-card-title">{c.title}</h3></Reveal>
-                <Reveal delay={120}><span className="sc-card-price">{c.tag}</span></Reveal>
-                <Reveal delay={160}><p className="sc-card-desc">{c.desc}</p></Reveal>
-                <Reveal delay={240}>
-                  <div className="sc-card-link">
-                    <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
-                  </div>
-                </Reveal>
-              </Parallax>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function StatsGrid() {
-  const ref = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  // One-shot flag: the counters only need to start once, so we avoid a React
-  // re-render on every scrubbed frame (setState with the same value bails out).
-  const [play, setPlay] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPlay(true);
-      return;
-    }
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: 1,
-              onUpdate: (self) => { if (self.progress > 0) setPlay(true); },
-            },
-          });
-
-          if (labelRef.current) tl.from(labelRef.current, { y: 40, opacity: 0, ease: "none" }, 0);
-          if (titleRef.current) tl.from(titleRef.current, { y: 40, opacity: 0, ease: "none" }, 0.1);
-          if (gridRef.current) tl.from(gridRef.current, { y: 60, opacity: 0, ease: "none" }, 0.2);
-        }, ref.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch { setPlay(true); }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-  return (
-    <section className="sg-section" ref={ref} data-accent="255,106,26">
-      <div className="sg-sticky">
-        <div className="ed sg-inner">
-          <div ref={labelRef}><Label n="06" text="The fine print, up front" /></div>
-          <h2 ref={titleRef} className="ed-h2 sg-title">No surprises.<br />In writing.</h2>
-          <div ref={gridRef} className="ed-stats">
-            {stats.map((s) => (
-              <div key={s.label} className="ed-stat">
-                <div className="ed-stat-num">
-                  <CountUpVal to={s.to} suffix={s.suffix} play={play} />
-                </div>
-                <div className="ed-stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
+        <div className="cta-socials">
+          <a href="https://www.instagram.com/ahos.xyz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+          <a href="https://www.linkedin.com/company/ahos-xyz" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+          <a href="https://www.youtube.com/@ahos_xyz" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
         </div>
       </div>
     </section>
   );
 }
 
-function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: boolean }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const doneRef = useRef(false);
-  useEffect(() => {
-    if (!play) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      if (ref.current) ref.current.textContent = to + suffix;
-      return;
-    }
-    if (to === 0) { if (ref.current) ref.current.textContent = "0" + suffix; return; }
-    let raf = 0;
-    let start = 0;
-    const duration = 1600;
-    const step = (ts: number) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / duration, 1);
-      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-      const v = Math.round(eased * to);
-      if (ref.current) ref.current.textContent = v + suffix;
-      if (p < 1) raf = requestAnimationFrame(step);
-      else { doneRef.current = true; if (ref.current) ref.current.classList.add("stat-bounce"); }
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [play, to, suffix]);
-  return <span ref={ref}>0{suffix}</span>;
+const ctaCss = `
+.cta-section { border-top: 1px solid var(--border-soft); padding: clamp(64px, 10vh, 120px) var(--gutter); background: var(--bg); }
+.cta-inner { width: min(var(--max-width), 100%); margin: 0 auto; }
+.cta-title { font-family: var(--font-display); font-size: clamp(32px, 5vw, 64px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin-bottom: clamp(40px, 6vw, 72px); color: var(--text); }
+.cta-links { display: flex; flex-direction: column; gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); overflow: hidden; margin-bottom: clamp(32px, 4vw, 56px); }
+.cta-link { display: flex; align-items: center; gap: 16px; padding: clamp(20px, 3vw, 32px) clamp(24px, 3vw, 40px); background: var(--bg-card); transition: background 0.3s; }
+.cta-link:hover { background: var(--bg-card-hover); }
+.cta-link-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); min-width: 80px; }
+.cta-link-text { font-family: var(--font-display); font-size: clamp(16px, 2vw, 22px); font-weight: 500; color: var(--text); flex: 1; }
+.cta-link-arrow { font-size: 20px; color: var(--text-dim); transition: color 0.3s, transform 0.3s; }
+.cta-link:hover .cta-link-arrow { color: var(--orange); transform: translateX(4px); }
+.cta-socials { display: flex; gap: 24px; }
+.cta-socials a { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); transition: color 0.3s; }
+.cta-socials a:hover { color: var(--orange); }
+@media (max-width: 600px) {
+  .cta-link { flex-wrap: wrap; gap: 8px; }
+  .cta-link-label { min-width: auto; }
 }
-
-function Marquee() {
-  const row1 = ["BUILD", "·", "SHIP", "·", "SCALE", "·", "REPEAT"];
-  const row2 = ["strategy", "·", "design", "·", "code", "·", "launch"];
-  const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const pause = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; };
-  const resume = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = ""; };
-
-  return (
-    <section className="mq-section">
-      <div className="mq-row">
-        <div className="mq-row-inner" onMouseEnter={pause} onMouseLeave={resume}>
-          {[...row1, ...row1].map((w, i) =>
-            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word">{w}</span>
-          )}
-        </div>
-      </div>
-      <div className="mq-row">
-        <div className="mq-row-inner mq-row-inner-reverse" onMouseEnter={pause} onMouseLeave={resume}>
-          {[...row2, ...row2].map((w, i) =>
-            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word-dim">{w}</span>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Testimonials() {
-  const t = [
-    {
-      text: "I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
-      name: "Yorgo",
-      role: "SpeeAligner.com, Lebanon",
-      link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
-    },
-    {
-      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
-      name: "Khalil",
-      role: "Ido Taxi, Lebanon",
-    },
-    {
-      text: "We brought AHOS in to shape our content strategy, and they exceeded every expectation. They took complex DeFi concepts and turned them into clear, engaging material that actually connects with our audience. Engagement is up, our community is growing, and we finally have a voice that matches our product.",
-      name: "Doran",
-      role: "Marketing Lead, defi.app",
-    },
-  ];
-
-  const secRef = useRef<HTMLElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: secRef.current, start: "top 82%", end: "center 58%", scrub: 1 },
-          });
-          const head = headRef.current ? Array.from(headRef.current.children) : [];
-          if (head.length) tl.from(head, { y: 44, opacity: 0, stagger: 0.1, ease: "none" }, 0);
-          // Cards fan up into place, staggered, the "dealing cards" reveal.
-          const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tm-card-outer");
-          if (cards?.length) tl.from(cards, { y: 90, opacity: 0, scale: 0.94, rotateZ: (i) => (i - 1) * 3.5, transformOrigin: "50% 100%", stagger: 0.14, ease: "none" }, 0.08);
-          // Stars pop in after each card lands.
-          const stars = gridRef.current?.querySelectorAll<HTMLElement>(".tm-stars svg");
-          if (stars?.length) tl.from(stars, { scale: 0, opacity: 0, stagger: 0.025, ease: "none" }, 0.34);
-        }, secRef.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch { /* leave content visible */ }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-  return (
-    <section className="ed ed-sec tm-section" ref={secRef} data-accent="255,140,74">
-      <div ref={headRef} className="tm-head">
-        <Label n="04" text="What clients say" />
-        <h2 className="ed-h2">Kind words from people we've worked with.</h2>
-      </div>
-      <div className="tm-grid" ref={gridRef}>
-        {t.map((tc) => (
-          <div key={tc.name} className="tm-card-outer">
-            <TiltCard className="tm-card">
-              <span className="tm-quote-mark" aria-hidden="true">&ldquo;</span>
-              <div className="tm-stars" aria-label="5 out of 5 stars">
-                {[1,2,3,4,5].map(s => (
-                  <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)" aria-hidden="true">
-                    <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
-                  </svg>
-                ))}
-              </div>
-              <blockquote className="tm-text">
-                <p>"{tc.text}"</p>
-              </blockquote>
-              <div className="tm-meta">
-                <cite className="tm-name">{tc.name}</cite>
-                <span className="tm-role">{tc.role}</span>
-                {tc.link && <a className="tm-trustpilot" href={tc.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
-              </div>
-            </TiltCard>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+`;
 
 export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS | Websites, Apps & Software That Pay for Themselves"
-        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership."
+        title="AHOS | Your Digital Partner, Evolved"
+        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. A five-phase method — Discover, Diagnose, Design, Deliver, Evolve."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <OverlayParticles />
 
-      {/* ─── HERO (centered, sphere focal point) ─── */}
       <HeroMain />
 
-      {/* ─── STATS TICKER ─── */}
+      <LogoMarquee />
+
       <StatsTicker />
 
-      {/* ─── MANIFESTO ─── */}
-      <ZoomReveal />
+      <ReviewsMarquee />
 
-      {/* ─── PROOF / WORK ─── */}
-      <WorkRail />
-
-      {/* ─── CAPABILITIES ─── */}
-      <ServicesStack />
-
-      {/* ─── WHY AHOS (differentiators) ─── */}
-      <WhyAhos />
-
-      {/* ─── METHOD (5-phase scroll-jack) ─── */}
       <MethodSection />
 
-      {/* ─── PRICING + RECURRING ─── */}
-      <PricingMRR />
+      <ScrollingMarquee />
 
-      {/* ─── STATS ─── */}
-      <StatsGrid />
+      <WorkRail />
 
-      {/* ─── TESTIMONIALS ─── */}
-      <Testimonials />
-
-      {/* ─── MARQUEE ─── */}
-      <Marquee />
-
-      {/* ─── CTA ─── */}
-      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }} data-accent="255,106,26">
-        <div className="ed">
-          <Reveal dir="left"><Label n="07" text="Let's build" /></Reveal>
-          <h2 style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(64px, 15vw, 240px)",
-            fontWeight: 700,
-            lineHeight: 0.86,
-            letterSpacing: "-0.05em",
-            marginBottom: 20,
-          }}>
-            Build something<br />that <em style={{ fontStyle: "normal", color: "var(--orange)" }}>pays off.</em>
-          </h2>
-          <p style={{ fontSize: "clamp(17px, 2vw, 26px)", color: "var(--text-muted)", marginBottom: 40, maxWidth: "28ch" }}>
-            Tell us what you're building, a real human replies within 24 hours with a clear plan and a fixed quote.
-          </p>
-          <div className="ed-cta-row">
-            <Link href="/contact" className="ed-btn ed-btn-lg">Book a 30-min call<span>↗</span></Link>
-            <a href="mailto:info@ahos.xyz" className="ed-link-arrow">info@ahos.xyz</a>
-          </div>
-          <p style={{ marginTop: 20, fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-dim)" }}>
-            Free 30-min call · No commitment · Fixed quote · 100% code ownership
-          </p>
-        </div>
-      </section>
+      <CtaFooter />
 
       <Footer />
     </>

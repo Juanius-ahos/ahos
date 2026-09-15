@@ -116,12 +116,12 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS",
+    title: "AHOS | Your Digital Partner, Evolved",
     description:
-      "AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide.",
-    bodyHtml: `<h1>Custom websites from $300.</h1>
-<p>Landing pages, e-commerce stores, and full corporate sites, designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
-<p>Web development agency in Beirut, Lebanon, trusted in the US and worldwide.</p>
+      "AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders worldwide. A five-phase method — Discover, Diagnose, Design, Deliver, Evolve.",
+    bodyHtml: `<h1>Your digital partner. Evolved.</h1>
+<p>A five-phase method that transforms how your business runs on technology. An AI-first studio — and your end-to-end tech partner.</p>
+<p>Digital product studio in Beirut, Lebanon, serving founders in the US, Gulf, and worldwide.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale, from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation, software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
