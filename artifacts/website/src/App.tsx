@@ -49,7 +49,7 @@ function Router() {
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
-      <main id="main-content" style={{ paddingTop: 64 }}>
+      <main id="main-content" style={{ paddingTop: 84 }}>
         <Switch>
           <Route path="/"><ErrorBoundary><Home /></ErrorBoundary></Route>
           <Route path="/work/:slug"><ErrorBoundary><CaseStudy /></ErrorBoundary></Route>
