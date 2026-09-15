@@ -77,7 +77,7 @@ export function HeroAria() {
               <strong>ARIA</strong>
               <span>AI project advisor</span>
             </div>
-            <span className="hb-aria-badge">Upgrading</span>
+            <span className="hb-aria-badge">Online</span>
           </div>
 
           <div className="hb-aria-demo" ref={scrollRef} aria-hidden="true">
@@ -89,8 +89,8 @@ export function HeroAria() {
           </div>
 
           <div className="hb-aria-note">
-            <p>ARIA is getting an upgrade. In the meantime, tell us your project directly and a real person replies within 24 hours.</p>
-            <Link href="/contact" className="hb-aria-cta">Tell us your project <span aria-hidden="true">↗</span></Link>
+            <p>ARIA is our AI assistant. Ask about services, timelines, or your idea, any time, and get pointed the right way in seconds.</p>
+            <Link href="/aria-ai" className="hb-aria-cta">Chat with ARIA <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
 

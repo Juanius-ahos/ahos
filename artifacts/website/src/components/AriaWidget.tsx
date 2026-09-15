@@ -2,48 +2,43 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { useAriaChat } from "../hooks/useAriaChat";
 import { CHIPS, WIDGET_SYSTEM_PROMPT } from "../lib/aria";
-import { trackEvent } from "../lib/analytics";
 
-/** Floating chat launcher, the site-wide entry point into ARIA. The full
- *  /aria-ai page (with the live mockup preview) stays as the deep-dive
- *  experience; this widget is the low-friction one available everywhere. */
+/**
+ * Floating "Ask ARIA" support widget, mounted site-wide. A compact chat panel
+ * powered by the same hook as the full /aria-ai page, using the widget system
+ * prompt (no live preview, shorter replies). Hidden on /aria-ai itself, where
+ * the full experience already lives.
+ */
 export function AriaWidget() {
   const [location] = useLocation();
   const [open, setOpen] = useState(false);
-  const [opened, setOpened] = useState(false);
   const msgsRef = useRef<HTMLDivElement>(null);
   const inpRef = useRef<HTMLTextAreaElement>(null);
 
-  const { messages, input, setInput, busy, sendMessage } = useAriaChat({
+  const { messages, input, setInput, busy, sendMessage, newChat } = useAriaChat({
     systemPrompt: WIDGET_SYSTEM_PROMPT,
     source: "aria_widget",
-    maxTokens: 220,
+    maxTokens: 500,
   });
 
   useEffect(() => {
     if (msgsRef.current) msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
-  }, [messages, open]);
+  }, [messages, busy, open]);
 
-  // Nudge: after 3+ messages and 15s idle, blink a suggestion chip
-  const [nudge, setNudge] = useState<string | null>(null);
   useEffect(() => {
-    if (!open || messages.length < 3 || busy) { setNudge(null); return; }
-    const t = setTimeout(() => { if (open) setNudge("Ready for a quote?"); }, 15000);
-    return () => clearTimeout(t);
-  }, [messages.length, open, busy]);
+    if (open && inpRef.current) inpRef.current.focus();
+  }, [open]);
 
-  // Don't duplicate the entry point on the full ARIA page or bury the contact planner.
-  if (location === "/aria-ai" || location === "/contact") return null;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
-  const toggle = () => {
-    setOpen((v) => {
-      const next = !v;
-      if (next && !opened) { setOpened(true); trackEvent("aria_widget_open"); }
-      return next;
-    });
-  };
+  // The dedicated page is the full experience; no floating widget there.
+  if (location === "/aria-ai") return null;
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
   };
 
@@ -51,128 +46,148 @@ export function AriaWidget() {
     <>
       <style>{css}</style>
 
-      <div className={`aw ${open ? "is-open" : ""}`}>
-        <div className="aw-panel" role="dialog" aria-modal="true" aria-label="Chat with ARIA" aria-hidden={!open}>
-          <header className="aw-top">
-            <div className="aw-top-l">
-              <span className="aw-dot" />
-              <span className="aw-name">ARIA</span>
-              <span className="aw-by">AHOS AI advisor</span>
+      <div className={"aw " + (open ? "is-open" : "")}>
+        {/* Panel */}
+        <div className="aw-panel" role="dialog" aria-label="Chat with ARIA" aria-hidden={!open}>
+          <header className="aw-head">
+            <span className="aw-head-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.4L20 10l-6.1 1.6L12 18l-1.9-6.4L4 10l6.1-1.6z" /></svg>
+            </span>
+            <div className="aw-head-id">
+              <strong>ARIA</strong>
+              <span className="aw-head-status"><i className="aw-dot-live" />AHOS assistant</span>
             </div>
-            <button className="aw-close" onClick={() => setOpen(false)} aria-label="Close chat">×</button>
+            <button className="aw-head-btn" onClick={newChat} title="New conversation" aria-label="New conversation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+            <button className="aw-head-btn" onClick={() => setOpen(false)} title="Close" aria-label="Close chat">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+            </button>
           </header>
 
           <div className="aw-msgs" ref={msgsRef}>
-            {messages.length === 1 && (
+            {messages.map((m, i) => (
+              <div key={i} className={"aw-msg " + (m.role === "user" ? "aw-msg-user" : "aw-msg-aria")}>
+                {m.content}
+              </div>
+            ))}
+            {busy && (
+              <div className="aw-msg aw-msg-aria aw-typing"><span /><span /><span /></div>
+            )}
+            {messages.length === 1 && !busy && (
               <div className="aw-chips">
-                {CHIPS.map((chip) => (
-                  <button key={chip} className="aw-chip" onClick={() => sendMessage(chip)}>{chip}</button>
+                {CHIPS.map((c) => (
+                  <button key={c} className="aw-chip" onClick={() => sendMessage(c)}>{c}</button>
                 ))}
               </div>
             )}
-            {messages.map((msg, i) => (
-              <div key={i} className={"aw-msg " + (msg.role === "user" ? "aw-msg-user" : "aw-msg-aria")}>
-                <div className="aw-bub">{msg.content}</div>
-              </div>
-            ))}
-            {busy && messages[messages.length - 1]?.content === "" && (
-              <div className="aw-msg aw-msg-aria">
-                <div className="aw-bub"><span className="aw-td" /><span className="aw-td" /><span className="aw-td" /></div>
-              </div>
-            )}
           </div>
-
-          {nudge && (
-            <div className="aw-nudge">
-              <button className="aw-chip" onClick={() => { sendMessage(nudge); setNudge(null); }}>{nudge}</button>
-            </div>
-          )}
 
           <div className="aw-bar">
             <textarea
               ref={inpRef}
               className="aw-inp"
-              placeholder="Ask ARIA anything..."
               rows={1}
+              placeholder="Ask ARIA anything about AHOS..."
               value={input}
-              onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(90, e.target.scrollHeight) + "px"; }}
-              onKeyDown={handleKeyDown}
+              onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = Math.min(96, e.target.scrollHeight) + "px"; }}
+              onKeyDown={onKeyDown}
               disabled={busy}
             />
             <button className="aw-send" disabled={busy || !input.trim()} onClick={() => sendMessage(input)} aria-label="Send">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </div>
         </div>
 
-        <button className="aw-launcher" onClick={toggle} aria-label={open ? "Close ARIA chat" : "Chat with ARIA, our AI project advisor"}>
+        {/* Launcher */}
+        <button className="aw-launch" onClick={() => setOpen((o) => !o)} aria-label={open ? "Close ARIA chat" : "Chat with ARIA"} aria-expanded={open}>
           {open ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
           ) : (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.4L20 10l-6.1 1.6L12 18l-1.9-6.4L4 10l6.1-1.6z" /></svg>
+              <span className="aw-launch-txt">Ask ARIA</span>
+            </>
           )}
-          {!opened && <span className="aw-ping" aria-hidden="true" />}
         </button>
       </div>
+
+      <svg aria-hidden="true" style={{ position: "absolute", width: 0, height: 0 }}>
+        <defs>
+          <linearGradient id="awG" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#ff9d4e" /><stop offset="1" stopColor="#e05000" />
+          </linearGradient>
+        </defs>
+      </svg>
     </>
   );
 }
 
 const css = `
-.aw { position: fixed; right: 20px; bottom: 24px; z-index: 950; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.aw { position: fixed; right: clamp(16px, 3vw, 28px); bottom: clamp(16px, 3vw, 28px); z-index: 1200; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
 
-.aw-launcher { position: relative; width: 56px; height: 56px; border-radius: 50%; background: var(--orange); border: none; color: #0a0a0b; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(255,106,26,0.35); transition: transform 0.2s, box-shadow 0.2s; flex-shrink: 0; }
-.aw-launcher:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(255,106,26,0.45); }
-.aw-ping { position: absolute; top: -3px; right: -3px; width: 14px; height: 14px; border-radius: 50%; background: #46d27e; border: 2px solid var(--bg); animation: aw-pulse 2.2s infinite; }
-@keyframes aw-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.55);} 70%{box-shadow:0 0 0 8px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
+/* Launcher */
+.aw-launch {
+  display: inline-flex; align-items: center; gap: 9px; height: 52px; padding: 0 20px;
+  border-radius: 999px; border: none; cursor: pointer;
+  background: var(--orange); color: #0a0a0b; font-family: var(--font-sans); font-size: 14px; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(255,106,26,0.4); transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.2s;
+}
+.aw-launch:hover { transform: translateY(-2px); background: var(--orange-light); box-shadow: 0 14px 38px rgba(255,106,26,0.5); }
+.aw-launch:active { transform: scale(0.96); }
+.aw.is-open .aw-launch { width: 52px; padding: 0; justify-content: center; }
+.aw.is-open .aw-launch-txt { display: none; }
 
-.aw-panel { width: min(360px, calc(100vw - 40px)); height: 480px; max-height: calc(100vh - 140px); display: flex; flex-direction: column; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-2); box-shadow: 0 24px 64px rgba(0,0,0,0.5); overflow: hidden; opacity: 0; transform: translateY(16px) scale(0.97); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22,1,0.36,1); transform-origin: bottom right; }
-.aw.is-open .aw-panel { opacity: 1; transform: none; pointer-events: auto; }
+/* Panel */
+.aw-panel {
+  width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 140px));
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  transform-origin: bottom right; transform: translateY(16px) scale(0.94); opacity: 0; pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease;
+}
+.aw.is-open .aw-panel { transform: none; opacity: 1; pointer-events: auto; }
 
-.aw-top { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--border-soft); background: var(--bg-3); }
-.aw-top-l { display: flex; align-items: baseline; gap: 8px; }
-.aw-dot { width: 6px; height: 6px; border-radius: 50%; background: #46d27e; align-self: center; }
-.aw-name { font-weight: 700; font-size: 14px; color: var(--text); }
-.aw-by { font-size: 10.5px; color: var(--text-faint); font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
-.aw-close { width: 26px; height: 26px; border-radius: 50%; border: none; background: none; color: var(--text-dim); font-size: 18px; line-height: 1; cursor: pointer; transition: color 0.2s, background 0.2s; }
-.aw-close:hover { color: var(--text); background: var(--bg); }
+.aw-head { flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 12px 12px 12px 16px; border-bottom: 1px solid var(--border-soft); background: var(--bg-3); }
+.aw-head-ico { width: 30px; height: 30px; flex-shrink: 0; border-radius: 9px; display: grid; place-items: center; background: var(--orange-soft); border: 1px solid var(--border-hover); color: var(--orange); }
+.aw-head-id { display: flex; flex-direction: column; line-height: 1.25; margin-right: auto; }
+.aw-head-id strong { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.aw-head-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-faint); }
+.aw-dot-live { width: 6px; height: 6px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: aw-pulse 2.2s infinite; }
+@keyframes aw-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.5);} 70%{box-shadow:0 0 0 7px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
+.aw-head-btn { width: 30px; height: 30px; flex-shrink: 0; display: grid; place-items: center; border: none; background: none; color: var(--text-faint); cursor: pointer; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+.aw-head-btn:hover { color: var(--orange); background: var(--orange-soft); }
 
-.aw-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.aw-msgs::-webkit-scrollbar { width: 4px; }
-.aw-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
+.aw-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; }
+.aw-msg { max-width: 88%; padding: 10px 14px; font-size: 13.5px; line-height: 1.6; border-radius: 15px; word-break: break-word; }
+.aw-msg-aria { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border-soft); color: var(--text-muted); border-bottom-left-radius: 4px; }
+.aw-msg-user { align-self: flex-end; background: var(--orange); color: #0a0a0b; font-weight: 500; border-bottom-right-radius: 4px; }
+.aw-typing { display: inline-flex; gap: 4px; }
+.aw-typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); opacity: 0.4; animation: aw-dot 1.4s ease-in-out infinite; }
+.aw-typing span:nth-child(2) { animation-delay: 0.18s; }
+.aw-typing span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes aw-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-4px);opacity:1;} }
 
-.aw-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
-.aw-chip { padding: 6px 14px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.aw-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+.aw-chip { padding: 7px 13px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
 .aw-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
-.aw-nudge { flex-shrink: 0; display: flex; justify-content: center; padding: 4px 10px 0; }
-.aw-nudge .aw-chip { animation: aw-fade-in 0.35s ease both; background: rgba(70,210,126,0.08); border-color: rgba(70,210,126,0.25); color: var(--text-muted); }
-.aw-nudge .aw-chip:hover { background: rgba(70,210,126,0.15); border-color: rgba(70,210,126,0.4); color: var(--text); }
-@keyframes aw-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-.aw-msg { display: flex; }
-.aw-msg-user { justify-content: flex-end; }
-.aw-bub { max-width: 85%; padding: 8px 13px; font-size: 13px; line-height: 1.6; word-break: break-word; border-radius: 14px; background: var(--bg-3); border: 1px solid var(--border-soft); color: var(--text-muted); }
-.aw-msg-user .aw-bub { color: var(--text); background: rgba(255,106,26,0.06); border-color: rgba(255,106,26,0.12); }
-.aw-td { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--orange); opacity: 0.4; animation: aw-td-a 1.5s ease-in-out infinite; margin-right: 3px; }
-.aw-td:nth-child(2) { animation-delay: 0.17s; }
-.aw-td:nth-child(3) { animation-delay: 0.34s; margin-right: 0; }
-@keyframes aw-td-a { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-3px);opacity:1;} }
-
-.aw-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 6px; padding: 10px; border-top: 1px solid var(--border-soft); background: var(--bg-3); }
-.aw-inp { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; font-family: var(--font-sans); padding: 8px 12px; resize: none; outline: none; line-height: 1.5; min-height: 36px; max-height: 90px; overflow-y: auto; transition: border-color 0.2s; }
+.aw-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border-soft); background: var(--bg-3); }
+.aw-inp { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 13.5px; font-family: var(--font-sans); padding: 9px 12px; resize: none; outline: none; line-height: 1.5; min-height: 38px; max-height: 96px; transition: border-color 0.2s; }
 .aw-inp::placeholder { color: var(--text-faint); }
 .aw-inp:focus { border-color: var(--border-hover); }
-.aw-send { width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0a0a0b; transition: transform 0.15s, opacity 0.15s; }
+.aw-send { width: 38px; height: 38px; flex-shrink: 0; border-radius: 11px; background: var(--orange); border: none; cursor: pointer; display: grid; place-items: center; color: #0a0a0b; transition: transform 0.15s, opacity 0.15s; }
 .aw-send:not([disabled]):hover { transform: translateY(-1px); }
 .aw-send[disabled] { opacity: 0.15; cursor: default; pointer-events: none; }
 
-@media (max-width: 560px) {
-  .aw { right: 12px; bottom: 90px; }
-  .aw-panel { width: calc(100vw - 24px); height: min(500px, calc(100vh - 200px)); }
-  .aw-launcher { width: 50px; height: 50px; }
+@media (max-width: 460px) {
+  .aw { right: 12px; bottom: 12px; }
+  .aw-panel { width: calc(100vw - 24px); height: min(70vh, calc(100vh - 120px)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .aw-panel { transition: opacity 0.2s ease; transform: none; }
-  .aw-ping { animation: none; }
+  .aw.is-open .aw-panel { transform: none; }
 }
 `;

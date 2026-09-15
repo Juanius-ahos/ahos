@@ -9,6 +9,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { CornerGlow } from "@/components/CornerGlow";
 import { Loader } from "@/components/Loader";
+import { AriaWidget } from "@/components/AriaWidget";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
@@ -98,6 +99,7 @@ export default function App() {
           <ScrollProgress />
           <Nav />
           <Router />
+          <AriaWidget />
         </div>
       </WouterRouter>
     </MotionConfig>

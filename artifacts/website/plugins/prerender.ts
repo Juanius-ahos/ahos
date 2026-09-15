@@ -206,13 +206,12 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>We reply within 24 hours. Email: info@ahos.xyz · WhatsApp: +961 70 165 601 · Based in Beirut, worldwide.</p>`,
   },
   "/aria-ai": {
-    title: "ARIA AI | AHOS Project Advisor (Upgrading)",
+    title: "ARIA AI | AHOS AI Support Assistant",
     description:
-      "Meet ARIA, the AHOS AI project advisor. Describe what you want to build and get honest scope, timeline, and pricing. ARIA is being upgraded, so tell us your project and a real person replies within 24 hours.",
+      "Chat with ARIA, the AHOS AI assistant. Ask anything about AHOS services, process, timelines, and work, or describe what you want to build and get pointed the right way in seconds.",
     bodyHtml: `<h1>Meet ARIA.</h1>
-<p>ARIA is the AI advisor built into AHOS. Describe what you want to build in plain words and get an honest plan back: scope, timeline, and a real price range, in seconds.</p>
-<p>ARIA is getting an upgrade, so the live chat is paused. Tell us your project directly and a real person replies within 24 hours.</p>
-<section><h2>How ARIA works</h2><p>Describe your idea in plain words, get an honest plan with scope, timeline, and a real price range, then see it sketched into a live preview.</p></section>
+<p>ARIA is the AI support assistant built into AHOS. Ask anything about our services, process, timelines, and the work we have shipped, or describe what you want to build and ARIA points you the right way in seconds.</p>
+<section><h2>What you can ask ARIA</h2><p>What AHOS builds, how the five-phase process works, typical timelines, the work we have shipped, guarantees and code ownership, and how to start a project.</p></section>
 <section><h2>Services ARIA can advise on</h2><p>Websites · Mobile Apps · SaaS Platforms · Web3/DeFi · AI Tools · E-commerce · Brand Design</p></section>
 <section><h2>Typical project timelines</h2><p>Landing pages: 1-2 weeks · Business sites: 2-4 weeks · Apps: 4-10 weeks · SaaS: 6-16 weeks · Web3/AI: 6-20 weeks</p></section>
 <p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support. Reach us at info@ahos.xyz or WhatsApp +961 70 165 601.</p>`,
