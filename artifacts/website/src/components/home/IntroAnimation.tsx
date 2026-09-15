@@ -39,7 +39,11 @@ export function IntroAnimation() {
     };
 
     raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+
+    // Safety: force remove after 4s even if animation fails
+    const safety = setTimeout(() => setVisible(false), 4000);
+
+    return () => { cancelAnimationFrame(raf); clearTimeout(safety); };
   }, []);
 
   if (!visible) return null;
@@ -76,6 +80,9 @@ const css = `
   justify-content: center;
   background: var(--bg);
   animation: intro-fade 0.4s ease-in-out 2.6s forwards;
+}
+.intro-overlay.is-done {
+  display: none !important;
 }
 .intro-counter {
   display: flex;
