@@ -224,10 +224,10 @@ export function HeroCanvas() {
             { rot: Math.PI * 3.5, scale: 0.4, posX: -0.3, posY: 0.8, d: 0.2 },
             { rot: Math.PI * 4, scale: 0.3, posX: -0.8, posY: -0.2, d: 0.2 },
           ] }
-        : { startX: 8, startY: -0.3, startScale: 1, path: [
-            { rot: Math.PI * 2, scale: 0.85, posX: 4, posY: -0.8, d: 0.35 },
-            { rot: Math.PI * 4, scale: 0.65, posX: 0, posY: -1.2, d: 0.25 },
-            { rot: Math.PI * 5.5, scale: 0.45, posX: -4, posY: 1.5, d: 0.2 },
+        : { startX: 0, startY: 0.2, startScale: 1.15, path: [
+            { rot: Math.PI * 2, scale: 0.85, posX: 3.5, posY: -0.8, d: 0.35 },
+            { rot: Math.PI * 4, scale: 0.6, posX: -1, posY: -1.2, d: 0.25 },
+            { rot: Math.PI * 5.5, scale: 0.45, posX: -4.5, posY: 1.4, d: 0.2 },
             { rot: Math.PI * 6.5, scale: 0.3, posX: -7, posY: -0.5, d: 0.2 },
           ] };
 

@@ -6,7 +6,7 @@ import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal, Parallax } from "../components/motion";
 import { trackEvent } from "../lib/analytics";
-import { HeroAria } from "../components/home/HeroAria";
+import { HeroMain } from "../components/home/HeroMain";
 import { WhyAhos } from "../components/home/WhyAhos";
 import { PricingMRR } from "../components/home/PricingMRR";
 import { StatsTicker } from "../components/home/StatsTicker";
@@ -508,8 +508,8 @@ export default function Home() {
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <OverlayParticles />
 
-      {/* ─── HERO (interactive ARIA) ─── */}
-      <HeroAria />
+      {/* ─── HERO (centered, sphere focal point) ─── */}
+      <HeroMain />
 
       {/* ─── STATS TICKER ─── */}
       <StatsTicker />
