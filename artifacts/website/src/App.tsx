@@ -83,6 +83,7 @@ export default function App() {
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
         <Loader onComplete={() => setLoaded(true)} />
         <Suspense fallback={null}><HeroCanvas /></Suspense>
+        <div className="dot-grid" aria-hidden="true" />
         <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>

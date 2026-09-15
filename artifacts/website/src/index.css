@@ -610,6 +610,27 @@ html.lenis, html.lenis body { height: auto; }
   transition: background-color 0.5s linear;
 }
 
+/* ─── DOT-GRID MATRIX ───
+   weevolveit-style background texture: a faint regular dot matrix on a fixed
+   layer behind all content. A soft radial mask keeps the centre clean and lets
+   it breathe toward the edges. Theme-aware, GPU-cheap (tiled gradient). */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(237, 232, 224, 0.06) 1px, transparent 1.5px);
+  background-size: 26px 26px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 130% 100% at 50% 35%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 130% 100% at 50% 35%, #000 58%, transparent 100%);
+  opacity: var(--dot-a, 1);
+  transition: opacity 0.5s ease;
+}
+[data-theme="light"] .dot-grid {
+  background-image: radial-gradient(circle, rgba(28, 27, 24, 0.07) 1px, transparent 1.5px);
+}
+
 /* ─── CORNER GLOW ─── */
 .corner-glow {
   position: fixed;
