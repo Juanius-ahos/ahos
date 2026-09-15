@@ -9,6 +9,9 @@ import { trackEvent } from "../lib/analytics";
 import { HeroAria } from "../components/home/HeroAria";
 import { WhyAhos } from "../components/home/WhyAhos";
 import { PricingMRR } from "../components/home/PricingMRR";
+import { StatsTicker } from "../components/home/StatsTicker";
+import { MethodSection } from "../components/home/MethodSection";
+import { GhostHeading } from "../components/home/GhostHeading";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 // "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
@@ -45,12 +48,6 @@ const capabilities = [
   { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines, built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
   { n: "06", title: "E-Commerce", tag: "Built to sell", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
   { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
-];
-
-const steps = [
-  { n: "01", title: "Discovery", text: "A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote." },
-  { n: "02", title: "Design & Build", text: "We craft your solution with clean code and sharp design, milestone updates at every stage." },
-  { n: "03", title: "Launch & Support", text: "We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty." },
 ];
 
 const stats = [
@@ -117,7 +114,8 @@ function ZoomReveal() {
   return (
     <section className="zoom-section" ref={ref} data-accent="255,150,40">
       <div className="zoom-sticky section-light">
-        <div className="zoom-text">
+        <GhostHeading variant="outline" from="left" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", zIndex: 0 }}>SHIP</GhostHeading>
+        <div className="zoom-text" style={{ position: "relative", zIndex: 1 }}>
           <span className="zoom-word">From</span>
           <span className="zoom-word">idea</span>
           <span className="zoom-word">to</span>
@@ -256,8 +254,11 @@ function ServicesStack() {
         <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': 'var(--bg)' } as React.CSSProperties}>
           <div className="sc-card-inner sc-card-intro">
             <div className="sc-card-accent" />
-            <Label n="03" text="Capabilities" />
-            <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Seven capabilities,<br />one studio.</h2>
+            <GhostHeading variant="outline" from="left" style={{ position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)", zIndex: 0 }}>BUILD</GhostHeading>
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <Label n="03" text="Capabilities" />
+              <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Seven capabilities,<br />one studio.</h2>
+            </div>
           </div>
         </div>
         {capabilities.map((c) => (
@@ -283,77 +284,6 @@ function ServicesStack() {
             </div>
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const stepsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Reduced-motion: leave the label/title/steps in their natural visible
-    // state (gsap.from would otherwise scrub them in from offset positions).
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: 1,
-            },
-          });
-
-          if (labelRef.current) {
-            tl.from(labelRef.current, { x: -60, opacity: 0, ease: "none" }, 0);
-          }
-          if (titleRef.current) {
-            tl.from(titleRef.current, { x: 80, opacity: 0, ease: "none" }, 0);
-          }
-          const stepEls = stepsRef.current?.querySelectorAll<HTMLDivElement>(".ed-step");
-          if (stepEls?.length) {
-            tl.from(stepEls, { x: (i) => (i % 2 === 0 ? -60 : 60), opacity: 0, ease: "none" }, 0.15);
-          }
-        }, ref.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch {
-        // fallback, reveal all
-      }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-
-
-  return (
-    <section className="ps-section" ref={ref}>
-      <div className="ps-sticky section-light" data-accent="224,86,10">
-        <div className="ed ps-inner">
-          <div ref={labelRef}><Label n="05" text="How we work" /></div>
-          <h2 ref={titleRef} className="ed-h2 ps-title">Three steps to a<br />live product.</h2>
-          <div ref={stepsRef} className="ed-steps">
-            {steps.map((s) => (
-              <div key={s.n} className="ed-step">
-                <span className="ed-step-n">{s.n}</span>
-                <h3 className="ed-step-title">{s.title}</h3>
-                <p className="ed-step-text">{s.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -582,6 +512,9 @@ export default function Home() {
       {/* ─── HERO (interactive ARIA) ─── */}
       <HeroAria />
 
+      {/* ─── STATS TICKER ─── */}
+      <StatsTicker />
+
       {/* ─── MANIFESTO ─── */}
       <ZoomReveal />
 
@@ -594,8 +527,8 @@ export default function Home() {
       {/* ─── WHY AHOS (differentiators) ─── */}
       <WhyAhos />
 
-      {/* ─── PROCESS (light) ─── */}
-      <ProcessSection />
+      {/* ─── METHOD (5-phase scroll-jack) ─── */}
+      <MethodSection />
 
       {/* ─── PRICING + RECURRING ─── */}
       <PricingMRR />

@@ -131,10 +131,12 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>E-Commerce</h3><p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.</p>
 <h3>UI/UX & Brand Design</h3><p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales across every touchpoint.</p></section>
 <section><h2>Selected work</h2><p>SpeeAligner, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, and AI tools we've shipped.</p></section>
-<section><h2>Three steps to a live product.</h2>
-<h3>Discovery</h3><p>A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote.</p>
-<h3>Design & Build</h3><p>We craft your solution with clean code and sharp design, milestone updates at every stage.</p>
-<h3>Launch & Support</h3><p>We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty.</p></section>
+<section><h2>A five-phase method, idea to live product.</h2>
+<h3>Discover</h3><p>A free consultation to learn your goals, map scope and risks, and hand you a fixed-price quote in writing.</p>
+<h3>Design</h3><p>UX flows then pixel-tight UI. A clickable direction you sign off on before a line of code is written.</p>
+<h3>Build</h3><p>Clean, documented, tested code with milestone demos as it takes shape. No black box, you watch it grow.</p>
+<h3>Launch</h3><p>We deploy, QA, and load-check, wire in analytics and SEO, then hand over. The code is yours.</p>
+<h3>Evolve</h3><p>A 30-day post-launch warranty, support when you need a human, and improvements as your business grows.</p></section>
 <section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees, fixed quotes.</p></section>`,
   },
   "/services": {
