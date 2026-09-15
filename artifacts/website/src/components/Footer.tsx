@@ -144,8 +144,29 @@ export function Footer() {
 
           {/* Bottom bar */}
           <div className="ftx-bottom">
+            <div className="ftx-locations">
+              <span className="ftx-location-pill">
+                <span className="ftx-pulse-dot" />
+                beirut · lb · hq
+              </span>
+              <span className="ftx-location-pill">
+                <span className="ftx-pulse-dot ftx-pulse-green" />
+                online · worldwide
+              </span>
+              <span className="ftx-location-pill ftx-location-stat">
+                since 2023 · 50+ projects
+              </span>
+            </div>
+            <div className="ftx-payments">
+              <span className="ftx-payments-label">payment rails</span>
+              <span className="ftx-payments-cards">VISA · Mastercard · AMEX</span>
+            </div>
+          </div>
+          <div className="ftx-meta">
             <span>© {new Date().getFullYear()} AHOS — Advanced Hybrid Online Systems</span>
-            <span className="ftx-signoff">Built to perform.</span>
+            <span className="ftx-legal">
+              <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms</a>
+            </span>
           </div>
         </div>
       </footer>
@@ -199,8 +220,19 @@ const css = `
 .ftx-link:hover .ftx-swap-b { transform: translateY(0); }
 
 /* Bottom */
-.ftx-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 26px 0; border-top: 1px solid var(--border-soft); font-size: 12.5px; color: var(--text-dim); }
-.ftx-signoff { color: var(--text-faint); }
+.ftx-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 24px 0; border-top: 1px solid var(--border-soft); }
+.ftx-locations { display: flex; flex-wrap: wrap; gap: 8px; }
+.ftx-location-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); }
+.ftx-location-stat { border-color: transparent; color: var(--text-faint); }
+.ftx-pulse-dot { width: 5px; height: 5px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: ftx-pulse 2.2s infinite; }
+.ftx-pulse-green { background: #46d27e; }
+@keyframes ftx-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.5);} 70%{box-shadow:0 0 0 6px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
+.ftx-payments { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.ftx-payments-label { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+.ftx-payments-cards { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+.ftx-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 16px 0 20px; border-top: 1px solid var(--border-soft); font-size: 11px; color: var(--text-faint); }
+.ftx-legal a { color: var(--text-dim); transition: color 0.2s; }
+.ftx-legal a:hover { color: var(--orange); }
 
 @media (max-width: 768px) {
   .ftx-comms-grid { grid-template-columns: 1fr; }

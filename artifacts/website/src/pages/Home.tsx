@@ -7,10 +7,12 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { trackEvent } from "../lib/analytics";
 import { HeroMain } from "../components/home/HeroMain";
 import { IntroAnimation } from "../components/home/IntroAnimation";
+import { ScrollProgressIndicator } from "../components/home/ScrollProgressIndicator";
 import { LogoMarquee } from "../components/home/LogoMarquee";
 import { ReviewsMarquee } from "../components/home/ReviewsMarquee";
 import { MethodSection } from "../components/home/MethodSection";
 import { StatsTicker } from "../components/home/StatsTicker";
+import { AuditSection } from "../components/home/AuditSection";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 const hexToRgb = (h: string) => {
@@ -223,6 +225,8 @@ export default function Home() {
 
       <IntroAnimation />
 
+      <ScrollProgressIndicator />
+
       <HeroMain />
 
       <LogoMarquee />
@@ -233,11 +237,11 @@ export default function Home() {
 
       <MethodSection />
 
+      <AuditSection />
+
       <ScrollingMarquee />
 
       <WorkRail />
-
-      <CtaFooter />
 
       <Footer />
     </>
