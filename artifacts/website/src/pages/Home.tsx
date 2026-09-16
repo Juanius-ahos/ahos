@@ -1,6 +1,4 @@
 import { Link } from "wouter";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { useRef, useState } from "react";
 import { Footer } from "../components/Footer";
 import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -69,100 +67,80 @@ const smCss = `
 @media (prefers-reduced-motion: reduce) { .sm-track { animation: none; } }
 `;
 
-function WorkRail() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const n = work.length;
-  const total = n + 1;
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
-  const [idx, setIdx] = useState(1);
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const next = Math.min(total, Math.floor(v * total) + 1);
-    setIdx((prev) => (prev === next ? prev : next));
-  });
+function WorkCard({ p }: { p: (typeof work)[number] }) {
+  const inner = (
+    <>
+      <div className="wg-media">
+        <picture>
+          {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw" />}
+          <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw" } : {})} width={1280} height={860} loading="lazy" decoding="async" />
+        </picture>
+      </div>
+      <div className="wg-cap">
+        <div className="wg-cap-tx">
+          <h3 className="wg-name">{p.name}</h3>
+          <span className="wg-cat">{p.cat}</span>
+        </div>
+        <span className="wg-go" aria-hidden="true">{p.url.startsWith("/work/") ? "Case study →" : p.url.startsWith("/") ? "Open →" : "Visit ↗"}</span>
+      </div>
+    </>
+  );
+  const track = () => trackEvent("select_content", { content_type: "work_sample", item_id: p.name });
+  return p.url.startsWith("/") ? (
+    <Link href={p.url} className="wg-card" onClick={track}>{inner}</Link>
+  ) : (
+    <a href={p.url} target="_blank" rel="noopener noreferrer" className="wg-card" onClick={track}>{inner}</a>
+  );
+}
 
+function WorkGrid() {
   return (
-    <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref} data-accent="255,140,74">
-      <div className="hs-sticky">
-        <div className="hs-heading">
-          <div className="ed-label">
+    <section className="wg" aria-label="Selected work">
+      <style>{wgCss}</style>
+      <div className="ed">
+        <div className="wg-head">
+          <span className="ed-label">
             <span className="ed-label-n">02</span>
             <span className="ed-label-line" />
             <span className="ed-label-text">Selected work</span>
-          </div>
-          <div className="hs-heading-row">
-            <h2 className="ed-h2" style={{ margin: 0 }}>Projects we've shipped.</h2>
-            <div className="hs-counter">
-              <span className="hs-counter-cur">{String(idx).padStart(2, "0")}</span>
-              <span className="hs-counter-total">{String(total).padStart(2, "0")}</span>
-            </div>
-          </div>
+          </span>
+          <h2 className="ed-h2">Projects we've shipped.</h2>
         </div>
-        <div className="hs-track-wrap">
-          <motion.div className="hs-track" style={{ x }}>
-            {work.map((p) =>
-              p.url.startsWith("/") ? (
-                <div key={p.name + p.cat} className="hs-card">
-                  <Link href={p.url} className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
-                    <picture>
-                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="eager" decoding="async" fetchPriority="low" />
-                    </picture>
-                    <div className="hs-card-bar">
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                    </div>
-                    <div className="hs-cap">
-                      <div className="hs-cap-tx">
-                        <h3 className="hs-name">{p.name}</h3>
-                        <span className="hs-cat">{p.cat}</span>
-                      </div>
-                      <span className="hs-go" aria-hidden="true">{p.url.startsWith("/work/") ? "Case study →" : "Visit ↗"}</span>
-                    </div>
-                  </Link>
-                </div>
-              ) : (
-                <div key={p.name + p.cat} className="hs-card">
-                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
-                    <picture>
-                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="eager" decoding="async" fetchPriority="low" />
-                    </picture>
-                    <div className="hs-card-bar">
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                    </div>
-                    <div className="hs-cap">
-                      <div className="hs-cap-tx">
-                        <h3 className="hs-name">{p.name}</h3>
-                        <span className="hs-cat">{p.cat}</span>
-                      </div>
-                      <span className="hs-go" aria-hidden="true">Visit ↗</span>
-                    </div>
-                  </a>
-                </div>
-              )
-            )}
-            <div className="hs-end-card">
-              <div className="hs-card-bar">
-                <span className="hs-card-dot" />
-                <span className="hs-card-dot" />
-                <span className="hs-card-dot" />
-              </div>
-              <div className="hs-end-inner">
-                <span className="hs-end-amp">&</span>
-                <h3 className="hs-end-title">many more to come.</h3>
-                <p className="hs-end-sub">We're just getting started.</p>
-              </div>
-            </div>
-          </motion.div>
+        <div className="wg-grid">
+          {work.map((p) => <WorkCard key={p.name + p.cat} p={p} />)}
+          <Link href="/contact" className="wg-card wg-card-end">
+            <span className="wg-end-amp" aria-hidden="true">&</span>
+            <h3 className="wg-end-title">many more to come.</h3>
+            <p className="wg-end-sub">Start a project →</p>
+          </Link>
         </div>
       </div>
     </section>
   );
 }
+
+const wgCss = `
+.wg { padding: var(--section-pad) 0; border-top: 1px solid var(--border-soft); position: relative; z-index: 1; }
+.wg-head { margin-bottom: clamp(36px, 5vw, 60px); }
+.wg-head .ed-label { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 20px; font-family: var(--font-mono); }
+.wg-head .ed-h2 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 68px); font-weight: 700; line-height: 1; letter-spacing: -0.035em; color: var(--text); margin: 0; }
+.wg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 18px; }
+.wg-card { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-card); color: inherit; transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s cubic-bezier(0.22,1,0.36,1); }
+.wg-card:hover { border-color: var(--border-hover); box-shadow: 0 20px 50px -16px rgba(0,0,0,0.55); transform: translateY(-4px); }
+.wg-media { overflow: hidden; }
+.wg-media img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; display: block; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.wg-card:hover .wg-media img { transform: scale(1.05); }
+.wg-cap { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; padding: clamp(16px, 2vw, 22px); }
+.wg-name { font-family: var(--font-display); font-size: clamp(19px, 2.2vw, 26px); font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 3px; }
+.wg-cat { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.wg-go { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); white-space: nowrap; transition: color 0.25s; }
+.wg-card:hover .wg-go { color: var(--orange); }
+/* End card */
+.wg-card-end { align-items: flex-start; justify-content: center; padding: clamp(28px, 3vw, 40px); background: linear-gradient(168deg, var(--bg-3), var(--bg-card)); min-height: 220px; }
+.wg-end-amp { font-family: var(--font-display); font-size: clamp(52px, 6vw, 84px); font-weight: 700; color: var(--orange); line-height: 0.9; }
+.wg-end-title { font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 32px); font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 10px 0 6px; }
+.wg-end-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); }
+`;
 
 function CtaFooter() {
   return (
@@ -241,7 +219,7 @@ export default function Home() {
 
       <ScrollingMarquee />
 
-      <WorkRail />
+      <WorkGrid />
 
       <Footer />
     </>

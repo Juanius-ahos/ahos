@@ -1,231 +1,124 @@
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * The five-phase method as a robust vertical timeline. No scroll pinning and no
+ * horizontal scroll-jack (those kept breaking / overlapping) — just clean rows
+ * that reveal on scroll via IntersectionObserver. AHOS's own process and words.
+ */
 const PHASES = [
-  { n: "01", title: "Discover", ghost: "DISCOVER", accent: "#ff6a1a", headline: "We start with your goals, not our stack.", notes: ["A free consultation, no commitment", "We map scope, risks, and what success looks like", "You get a fixed-price quote in writing"] },
-  { n: "02", title: "Design", ghost: "DESIGN", accent: "#ff8c4a", headline: "See it before we build it.", notes: ["UX flows first, then pixel-tight UI", "A clickable direction you can react to", "You sign off before a line of code"] },
-  { n: "03", title: "Build", ghost: "BUILD", accent: "#e0560a", headline: "Clean code, built in the open.", notes: ["Documented, tested, and yours to keep", "Milestone demos as it takes shape", "No black box, you watch it grow"] },
-  { n: "04", title: "Launch", ghost: "LAUNCH", accent: "#ffb074", headline: "Live, and set up to grow.", notes: ["We deploy, QA, and load-check", "Analytics and SEO wired in", "Full handover, the code is 100% yours"] },
-  { n: "05", title: "Evolve", ghost: "EVOLVE", accent: "#cc5500", headline: "We stick around after launch.", notes: ["A 30-day post-launch warranty", "Support when you need a human", "Improvements as your business grows"] },
+  { n: "01", title: "Discover", accent: "#ff6a1a", headline: "We start with your goals, not our stack.", notes: ["A free consultation, no commitment", "We map scope, risks, and what success looks like", "You get a fixed-price quote in writing"] },
+  { n: "02", title: "Design", accent: "#ff8c4a", headline: "See it before we build it.", notes: ["UX flows first, then pixel-tight UI", "A clickable direction you can react to", "You sign off before a line of code"] },
+  { n: "03", title: "Build", accent: "#e0560a", headline: "Clean code, built in the open.", notes: ["Documented, tested, and yours to keep", "Milestone demos as it takes shape", "No black box, you watch it grow"] },
+  { n: "04", title: "Launch", accent: "#ffb074", headline: "Live, and set up to grow.", notes: ["We deploy, QA, and load-check", "Analytics and SEO wired in", "Full handover, the code is 100% yours"] },
+  { n: "05", title: "Evolve", accent: "#cc5500", headline: "We stick around after launch.", notes: ["A 30-day post-launch warranty", "Support when you need a human", "Improvements as your business grows"] },
 ];
 
-const SLIDE_W = 70; // vw per phase
-const TOTAL_W = PHASES.length * SLIDE_W; // 350vw
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setShown(true); return; }
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } },
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return { ref, shown };
+}
+
+function Phase({ p, i }: { p: (typeof PHASES)[number]; i: number }) {
+  const { ref, shown } = useReveal<HTMLLIElement>();
+  return (
+    <li
+      ref={ref}
+      className={"mth-phase" + (shown ? " in" : "")}
+      style={{ ["--acc" as string]: p.accent, transitionDelay: `${i * 0.06}s` } as React.CSSProperties}
+    >
+      <div className="mth-phase-num" aria-hidden="true">{p.n}</div>
+      <div className="mth-phase-content">
+        <h3 className="mth-phase-title">{p.title}</h3>
+        <p className="mth-phase-headline">{p.headline}</p>
+        <ul className="mth-phase-notes">
+          {p.notes.map((note) => (
+            <li key={note} className="mth-note">
+              <span className="mth-note-tick" aria-hidden="true">›</span>
+              {note}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </li>
+  );
+}
 
 export function MethodSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const [introVisible, setIntroVisible] = useState(true);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setIntroVisible(false);
-      return;
-    }
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const section = sectionRef.current;
-        const track = trackRef.current;
-        if (!section || !track) return;
-
-        // Hide intro once we scroll past it
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: `+=${window.innerHeight * 0.8}`,
-          onLeave: () => setIntroVisible(false),
-          onEnterBack: () => setIntroVisible(true),
-        });
-
-        // Horizontal scroll-jack: map vertical scroll to horizontal track movement
-        const tween = gsap.to(track, {
-          x: () => -(track.scrollWidth - window.innerWidth),
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: () => `+=${track.scrollWidth - window.innerWidth}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              const progress = self.progress;
-              const idx = Math.min(
-                PHASES.length - 1,
-                Math.floor(progress * PHASES.length)
-              );
-              setActive(idx);
-            },
-          },
-        });
-
-        cleanup = () => {
-          tween.scrollTrigger?.kill();
-          tween.kill();
-        };
-      } catch {
-        setIntroVisible(false);
-      }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-  const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+  const head = useReveal<HTMLDivElement>();
   return (
-    <section className="mth-section" ref={sectionRef}>
+    <section className="mth" aria-label="How we work">
       <style>{css}</style>
-
-      {/* Intro screen (visible before scroll-jack starts) */}
-      <div className={`mth-intro ${introVisible ? "is-visible" : ""}`}>
-        <span className="mth-intro-label">[ How we work ]</span>
-        <h2 className="mth-intro-title">
-          A five-phase method<span className="mth-dot" aria-hidden="true" />
-        </h2>
-        <p className="mth-intro-lead">
-          The same path on every project, so you always know what happens next, what it costs, and who owns the result. You do.
-        </p>
-        <p className="mth-intro-phases">
-          Discover · Design · Build · Launch · <span style={{ color: "var(--orange)" }}>Evolve</span>
-        </p>
-      </div>
-
-      {/* Horizontal scroll track */}
-      <div className="mth-track" ref={trackRef}>
-        {PHASES.map((p, i) => (
-          <article
-            key={p.n}
-            className={`mth-slide ${i === active ? "is-active" : ""}`}
-            style={{ width: `${SLIDE_W}vw` } as React.CSSProperties}
-            data-accent={p.accent}
-          >
-            <span className="mth-watermark" aria-hidden="true">{p.n}</span>
-            <div className="mth-slide-inner">
-              <span className="mth-phase-n">Phase {p.n}</span>
-              <h3 className="mth-phase-title">
-                {p.title}
-                <span className="mth-dot" aria-hidden="true" />
-              </h3>
-              <div className="mth-divider" style={{ background: p.accent }} />
-              <p className="mth-headline">{p.headline}</p>
-              <ul className="mth-bullets">
-                {p.notes.map((note, j) => (
-                  <li key={j} className="mth-bullet">
-                    <span className="mth-bullet-bar" style={{ background: p.accent }} />
-                    {note}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      {/* Fixed progress indicator */}
-      <div className="mth-progress" aria-hidden={rm ? "true" : undefined}>
-        <svg viewBox="0 0 740 100" className="mth-progress-svg">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <g key={i}>
-              <circle
-                cx={20 + i * 175}
-                cy={50}
-                r={9}
-                fill={i <= active ? PHASES[i].accent : "transparent"}
-                stroke={i <= active ? PHASES[i].accent : "rgba(255,255,255,0.15)"}
-                strokeWidth={1.5}
-                style={{ transition: "fill 0.4s, stroke 0.4s" }}
-              />
-              {i < 4 && (
-                <rect
-                  x={39 + i * 175}
-                  y={49.25}
-                  width={i < active ? 137 : i === active ? 137 * ((active - i + 1) * PHASES.length - (active - i)) / PHASES.length : 0}
-                  height={1.5}
-                  rx={0.75}
-                  fill={PHASES[i].accent}
-                  style={{ transition: "width 0.4s" }}
-                />
-              )}
-            </g>
-          ))}
-        </svg>
-        <div className="mth-progress-labels">
-          {PHASES.map((p, i) => (
-            <span
-              key={p.n}
-              className="mth-progress-label"
-              style={{
-                left: `${(i / (PHASES.length - 1)) * 100}%`,
-                color: i === active ? p.accent : undefined,
-                transition: "color 0.4s",
-              }}
-            >
-              {p.title}
-            </span>
-          ))}
+      <div className="ed">
+        <div ref={head.ref} className={"mth-head" + (head.shown ? " in" : "")}>
+          <span className="mth-label">
+            <span className="mth-label-n">03</span>
+            <span className="mth-label-line" />
+            How we work
+          </span>
+          <h2 className="mth-h2">A five-phase method.</h2>
+          <p className="mth-lead">
+            The same path on every project, so you always know what happens next, what it costs, and who owns the result. You do.
+          </p>
+          <p className="mth-flow">Discover · Design · Build · Launch · <span>Evolve</span></p>
         </div>
+
+        <ol className="mth-list">
+          {PHASES.map((p, i) => <Phase key={p.n} p={p} i={i} />)}
+        </ol>
       </div>
     </section>
   );
 }
 
 const css = `
-.mth-section { position: relative; z-index: 4; }
+.mth { position: relative; z-index: 1; padding: var(--section-pad) 0; border-top: 1px solid var(--border-soft); }
 
-/* Intro screen */
-.mth-intro { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-left: clamp(32px, 8vw, 120px); opacity: 0; transition: opacity 0.5s; pointer-events: none; }
-.mth-intro.is-visible { opacity: 1; pointer-events: auto; }
-.mth-intro-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
-.mth-intro-title { font-family: var(--font-display); font-size: clamp(54px, 8.5vw, 111px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text); margin-bottom: 24px; }
-.mth-intro-lead { max-width: 560px; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--text-muted); margin-bottom: 20px; }
-.mth-intro-phases { font-family: var(--font-mono); font-size: clamp(12px, 1.2vw, 14px); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.mth-head { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.mth-head.in { opacity: 1; transform: none; }
+.mth-label { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 22px; }
+.mth-label-n { color: var(--orange); }
+.mth-label-line { width: 36px; height: 1px; background: var(--border-hover); }
+.mth-h2 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 68px); font-weight: 700; line-height: 1; letter-spacing: -0.035em; color: var(--text); margin: 0; }
+.mth-lead { margin: 20px 0 0; max-width: 560px; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.65; color: var(--text-muted); }
+.mth-flow { margin: 18px 0 0; font-family: var(--font-mono); font-size: clamp(11px, 1.2vw, 13px); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+.mth-flow span { color: var(--orange); }
 
-/* Period dot */
-.mth-dot { display: inline-block; width: 0.18em; height: 0.18em; border-radius: 50%; background: currentColor; margin-left: 0.02em; vertical-align: baseline; }
-
-/* Horizontal track */
-.mth-track { display: flex; width: fit-content; will-change: transform; }
-
-/* Each phase slide */
-.mth-slide { position: relative; flex-shrink: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; border-left: 1px solid var(--border-soft); }
-.mth-slide:first-child { border-left: none; }
-.mth-slide-inner { position: relative; z-index: 2; padding: clamp(32px, 5vw, 80px) clamp(24px, 4vw, 60px); max-width: 640px; }
-
-/* Ghost watermark number */
-.mth-watermark { position: absolute; right: clamp(24px, 4vw, 48px); top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: clamp(200px, 30vh, 400px); font-weight: 700; color: var(--text); opacity: 0.04; line-height: 0.8; letter-spacing: -0.05em; pointer-events: none; user-select: none; }
-
-/* Phase content */
-.mth-phase-n { font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mth-accent, var(--orange)); }
-.mth-phase-title { font-family: var(--font-display); font-size: clamp(56px, 10vw, 150px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; color: var(--text); margin: 14px 0 20px; }
-.mth-divider { width: 120px; height: 0.5px; margin-bottom: 24px; }
-.mth-headline { font-family: var(--font-display); font-size: clamp(18px, 2vw, 26px); font-weight: 500; line-height: 1.4; color: var(--text-muted); margin-bottom: 28px; max-width: 52ch; }
-.mth-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
-.mth-bullet { display: flex; align-items: flex-start; gap: 14px; font-size: clamp(15px, 1.5vw, 20px); line-height: 1.5; color: var(--text-muted); }
-.mth-bullet-bar { display: block; width: 12px; height: 0.5px; flex-shrink: 0; margin-top: 0.7em; }
-
-/* Progress indicator */
-.mth-progress { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 20; pointer-events: none; width: clamp(200px, 40vw, 340px); }
-.mth-progress-svg { width: 100%; height: auto; }
-.mth-progress-labels { position: relative; margin-top: 4px; height: 14px; }
-.mth-progress-label { position: absolute; transform: translateX(-50%); font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); white-space: nowrap; transition: color 0.4s; }
-
-/* Responsive: static fallback on mobile */
-@media (max-width: 900px) {
-  .mth-section { overflow: visible; }
-  .mth-intro { position: static; height: auto; padding: var(--section-pad) var(--gutter); opacity: 1; pointer-events: auto; }
-  .mth-track { flex-direction: column; width: 100%; }
-  .mth-slide { width: 100% !important; height: auto; min-height: auto; padding: clamp(40px, 7vh, 72px) 0; border-left: none; border-top: 1px solid var(--border-soft); }
-  .mth-watermark { display: none; }
-  .mth-progress { display: none; }
+.mth-list { list-style: none; margin: clamp(44px, 6vw, 80px) 0 0; padding: 0; }
+.mth-phase {
+  display: grid; grid-template-columns: clamp(88px, 13vw, 190px) 1fr; gap: clamp(20px, 4vw, 56px);
+  padding: clamp(28px, 4vw, 48px) 0; border-top: 1px solid var(--border-soft);
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.22,1,0.36,1);
 }
-@media (max-width: 600px) {
-  .mth-phase-title { font-size: clamp(40px, 14vw, 60px); }
-  .mth-bullet { font-size: 15px; }
+.mth-phase.in { opacity: 1; transform: none; }
+
+.mth-phase-num {
+  font-family: var(--font-display); font-size: clamp(46px, 7vw, 104px); font-weight: 700; line-height: 0.9; letter-spacing: -0.04em;
+  color: transparent; -webkit-text-stroke: 1.5px var(--acc, var(--orange)); text-stroke: 1.5px var(--acc, var(--orange));
+}
+.mth-phase-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: var(--text); margin: 0 0 12px; }
+.mth-phase-headline { font-family: var(--font-display); font-size: clamp(16px, 1.9vw, 23px); font-weight: 500; line-height: 1.4; color: var(--text-muted); margin: 0 0 22px; max-width: 46ch; }
+.mth-phase-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+.mth-note { display: flex; align-items: flex-start; gap: 13px; font-size: clamp(14.5px, 1.4vw, 17px); line-height: 1.5; color: var(--text-muted); }
+.mth-note-tick { color: var(--acc, var(--orange)); font-family: var(--font-mono); font-weight: 700; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .mth-phase { grid-template-columns: 1fr; gap: 14px; }
+  .mth-phase-num { font-size: clamp(40px, 16vw, 64px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mth-head, .mth-phase { opacity: 1; transform: none; transition: none; }
 }
 `;
