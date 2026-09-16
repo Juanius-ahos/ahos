@@ -714,47 +714,12 @@ html.lenis, html.lenis body { height: auto; }
 .tk-row:hover .tk-inner { animation-play-state: paused; }
 @media (max-width: 600px) { .tk-inner { animation-duration: 44s; } }
 
-/* ════════════════════════════════════════════════════════════
-   METHOD (5-phase scroll-jack stack)  (.mth-*)
-   Each phase is a FULL OPAQUE screen; as you scroll, the next phase
-   wipes up over the previous one (same sticky-stack mechanic as the
-   services cards). The opaque background is essential: without it the
-   pinned phases pile up and their text collides.
-   ════════════════════════════════════════════════════════════ */
-.mth-section { position: relative; padding-top: var(--section-pad); margin-top: -4vh; z-index: 4; }
-.mth-stack { position: relative; }
-.mth-card { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--bg); border-top: 1px solid var(--border-soft); }
-.mth-inner { position: relative; z-index: 2; width: min(var(--max-width), 100% - var(--gutter) * 2); margin: 0 auto; }
-.mth-ghost { position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-
-/* Intro screen */
-.mth-intro-h { margin-top: 6px; }
-.mth-intro-lead { margin-top: 22px; }
-.mth-intro-sub { margin-top: 18px; font-family: var(--font-mono); font-size: clamp(12px, 1.2vw, 14px); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); }
-
-/* Phase content */
-.mth-n { font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mth-accent, var(--orange)); }
-.mth-title { font-family: var(--font-display); font-size: clamp(56px, 10vw, 150px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; color: var(--text); margin: 14px 0 20px; }
-.mth-headline { font-family: var(--font-display); font-size: clamp(18px, 2vw, 26px); font-weight: 500; line-height: 1.4; color: var(--text-muted); margin-bottom: 28px; max-width: 52ch; }
-.mth-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; max-width: 48ch; }
-.mth-note { display: flex; align-items: flex-start; gap: 14px; font-size: clamp(15px, 1.5vw, 20px); line-height: 1.5; color: var(--text-muted); }
-.mth-note-tick { color: var(--mth-accent, var(--orange)); font-family: var(--font-mono); font-weight: 700; flex-shrink: 0; }
-
-/* ── Method responsive / static fallback ── */
-@media (max-width: 900px) {
-  .mth-section { margin-top: 0; }
-  .mth-stack { height: auto !important; }
-  .mth-card { position: relative; height: auto; min-height: auto; padding: clamp(40px, 7vh, 72px) 0; }
-  .mth-inner { opacity: 1 !important; transform: none !important; }
-  .mth-ghost { display: none; }
-}
-@media (max-width: 600px) {
-  .mth-title { font-size: clamp(40px, 14vw, 60px); }
-  .mth-note { font-size: 15px; }
-}
+/* Method (.mth-*) styles live inside MethodSection.tsx's own <style> block.
+   The earlier stacked-pin rules were removed from here because they collided
+   with the component's horizontal-scroll layout. */
 
 /* ════════════════════════════════════════════════════════════
-   CANDLE GLOW — breathing orange border on cards (weevolveit style)
+   CANDLE GLOW — breathing orange border on cards
    ════════════════════════════════════════════════════════════ */
 .candle-glow { position: relative; }
 .candle-glow::before {

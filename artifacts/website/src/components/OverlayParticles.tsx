@@ -150,7 +150,7 @@ export function OverlayParticles() {
         inset: 0,
         width: "100%",
         height: "100%",
-        zIndex: -1,
+        zIndex: 9999,
         pointerEvents: "none",
       }}
       aria-hidden="true"

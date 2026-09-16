@@ -11,8 +11,8 @@ function CurvedTextMarquee() {
           </defs>
           <text fill="rgba(237,232,224,0.12)" fontSize="var(--text-display-m, 36px)" fontWeight="700" fontFamily="var(--font-display)">
             <textPath href="#fm-curve" startOffset="0%">
-              YOUR WEBSITES LOAD FAST. YOUR SOFTWARE ACTUALLY WORKS. YOUR CUSTOMERS STAY. · YOUR WEBSITES LOAD FAST. YOUR SOFTWARE ACTUALLY WORKS. YOUR CUSTOMERS STAY. ·{" "}
-              <tspan fill="var(--orange)">BUILT TO PERFORM</tspan>.
+              WEBSITES, APPS AND SOFTWARE THAT PAY FOR THEMSELVES. · ONE TEAM, IDEA TO LAUNCH. · WEBSITES, APPS AND SOFTWARE THAT PAY FOR THEMSELVES. · ONE TEAM, IDEA TO LAUNCH. ·{" "}
+              <tspan fill="var(--orange)">BUILT TO LAST</tspan>.
             </textPath>
           </text>
         </svg>
@@ -92,14 +92,24 @@ export function Footer() {
                 </span>
                 <span className="ftx-comm-arrow" aria-hidden="true">→</span>
               </a>
+              <a href="https://wa.me/96171107430" className="ftx-comm-card" target="_blank" rel="noopener noreferrer">
+                <span className="ftx-comm-icon" style={{ color: "#25d366" }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </span>
+                <span className="ftx-comm-text">
+                  <span className="ftx-comm-type">whatsapp</span>
+                  <span className="ftx-comm-detail">or message · +961 71 107 430</span>
+                </span>
+                <span className="ftx-comm-arrow" aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
 
-          {/* The cure */}
+          {/* Closing line */}
           <div className="ftx-phrase">
-            <span className="ftx-phrase-label">[ the cure ]</span>
+            <span className="ftx-phrase-label">[ let's build ]</span>
             <h2 className="ftx-phrase-title">
-              And every business deserves to evolve<span className="ftx-dot" aria-hidden="true" />
+              Let's build something that pays for itself<span className="ftx-dot" aria-hidden="true" />
             </h2>
           </div>
 
@@ -180,7 +190,7 @@ const css = `
 /* Talk to us */
 .ftx-comms { padding: clamp(48px, 6vw, 80px) 0 clamp(32px, 4vw, 56px); }
 .ftx-comms-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 20px; }
-.ftx-comms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); overflow: hidden; }
+.ftx-comms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); overflow: hidden; }
 .ftx-comm-card { display: flex; align-items: center; gap: 16px; padding: clamp(20px, 3vw, 32px) clamp(24px, 3vw, 40px); background: var(--bg-card); transition: background 0.3s; }
 .ftx-comm-card:hover { background: var(--bg-card-hover); }
 .ftx-comm-icon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border); color: var(--text-dim); transition: color 0.3s, border-color 0.3s; }
