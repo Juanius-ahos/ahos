@@ -131,7 +131,7 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>AI & Automation</h3><p>Custom AI tools, chatbots, and workflow automations. From a simple chat interface to full agent pipelines, built to save you hours every week.</p>
 <h3>E-Commerce</h3><p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.</p>
 <h3>UI/UX & Brand Design</h3><p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales across every touchpoint.</p></section>
-<section><h2>Selected work</h2><p>SpeeAligner, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, and AI tools we've shipped.</p></section>
+<section><h2>Selected work</h2><p>SpeeAligner, The Tavern, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, Web3, and AI tools we've shipped.</p></section>
 <section><h2>A five-phase method, idea to live product.</h2>
 <h3>Discover</h3><p>A free consultation to learn your goals, map scope and risks, and hand you a fixed-price quote in writing.</p>
 <h3>Design</h3><p>UX flows then pixel-tight UI. A clickable direction you sign off on before a line of code is written.</p>
