@@ -56,8 +56,6 @@ export function Footer() {
               <div style={{ marginTop: 14, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, fontFamily: "var(--font-mono)", fontSize: 13 }}>
                 <span style={{ color: "#25d366", fontWeight: 600 }}>WhatsApp</span>
                 <a href="https://wa.me/96170165601" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)" }}>+961 70 165 601</a>
-                <span style={{ color: "var(--text-faint)" }}>·</span>
-                <a href="https://wa.me/96171107430" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)" }}>+961 71 107 430</a>
               </div>
               <div className="ftx-socials">
                 <a className="ftx-social" href="https://www.instagram.com/ahos.xyz/" target="_blank" rel="noopener noreferrer">
