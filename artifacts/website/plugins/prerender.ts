@@ -116,13 +116,12 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "AHOS | Websites, Apps & Software That Pay for Themselves",
+    title: "Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS",
     description:
-      "AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership.",
-    bodyHtml: `<h1>Websites, apps and software that pay for themselves.</h1>
-<p>One team, from idea to launch. Fixed quotes, full code ownership, and a real human who replies within 24 hours.</p>
-<p>Digital product studio in Beirut, Lebanon, serving founders in the US, Gulf, and worldwide.</p>
-<p>Our five-phase method: Discover, Design, Build, Launch, Evolve.</p>
+      "AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide.",
+    bodyHtml: `<h1>Custom websites from $300.</h1>
+<p>Landing pages, e-commerce stores, and full corporate sites, designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
+<p>Web development agency in Beirut, Lebanon, trusted in the US and worldwide.</p>
 <section><h2>Seven capabilities, one studio.</h2>
 <h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale, from a single landing page to full e-commerce.</p>
 <h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation, software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
@@ -131,13 +130,11 @@ const ROUTES: Record<string, RouteMeta> = {
 <h3>AI & Automation</h3><p>Custom AI tools, chatbots, and workflow automations. From a simple chat interface to full agent pipelines, built to save you hours every week.</p>
 <h3>E-Commerce</h3><p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.</p>
 <h3>UI/UX & Brand Design</h3><p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales across every touchpoint.</p></section>
-<section><h2>Selected work</h2><p>SpeeAligner, The Tavern, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, Web3, and AI tools we've shipped.</p></section>
-<section><h2>A five-phase method, idea to live product.</h2>
-<h3>Discover</h3><p>A free consultation to learn your goals, map scope and risks, and hand you a fixed-price quote in writing.</p>
-<h3>Design</h3><p>UX flows then pixel-tight UI. A clickable direction you sign off on before a line of code is written.</p>
-<h3>Build</h3><p>Clean, documented, tested code with milestone demos as it takes shape. No black box, you watch it grow.</p>
-<h3>Launch</h3><p>We deploy, QA, and load-check, wire in analytics and SEO, then hand over. The code is yours.</p>
-<h3>Evolve</h3><p>A 30-day post-launch warranty, support when you need a human, and improvements as your business grows.</p></section>
+<section><h2>Selected work</h2><p>SpeeAligner, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, and AI tools we've shipped.</p></section>
+<section><h2>Three steps to a live product.</h2>
+<h3>Discovery</h3><p>A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote.</p>
+<h3>Design & Build</h3><p>We craft your solution with clean code and sharp design, milestone updates at every stage.</p>
+<h3>Launch & Support</h3><p>We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty.</p></section>
 <section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees, fixed quotes.</p></section>`,
   },
   "/services": {
@@ -207,15 +204,15 @@ const ROUTES: Record<string, RouteMeta> = {
 <p>We reply within 24 hours. Email: info@ahos.xyz · WhatsApp: +961 70 165 601 · Based in Beirut, worldwide.</p>`,
   },
   "/aria-ai": {
-    title: "ARIA AI | AHOS AI Support Assistant",
+    title: "ARIA AI | Free Project Advisor Chatbot | AHOS",
     description:
-      "Chat with ARIA, the AHOS AI assistant. Ask anything about AHOS services, process, timelines, and work, or describe what you want to build and get pointed the right way in seconds.",
+      "Chat with ARIA, the AHOS AI project advisor. Describe what you want to build and get instant, honest guidance, scope, timeline, and next steps.",
     bodyHtml: `<h1>Meet ARIA.</h1>
-<p>ARIA is the AI support assistant built into AHOS. Ask anything about our services, process, timelines, and the work we have shipped, or describe what you want to build and ARIA points you the right way in seconds.</p>
-<section><h2>What you can ask ARIA</h2><p>What AHOS builds, how the five-phase process works, typical timelines, the work we have shipped, guarantees and code ownership, and how to start a project.</p></section>
+<p>Your AI project advisor. Describe what you want to build and get instant, honest advice, scope, timeline, and next steps. No form, no sales pitch.</p>
+<p>ARIA is a senior project advisor at AHOS, a boutique digital studio building websites, mobile apps, SaaS, Web3/DeFi, and AI tools. She helps visitors understand what is possible, gives honest advice, and has real conversations about your project.</p>
 <section><h2>Services ARIA can advise on</h2><p>Websites · Mobile Apps · SaaS Platforms · Web3/DeFi · AI Tools · E-commerce · Brand Design</p></section>
 <section><h2>Typical project timelines</h2><p>Landing pages: 1-2 weeks · Business sites: 2-4 weeks · Apps: 4-10 weeks · SaaS: 6-16 weeks · Web3/AI: 6-20 weeks</p></section>
-<p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support. Reach us at info@ahos.xyz or WhatsApp +961 70 165 601.</p>`,
+<p>AHOS works on fixed-price quotes, milestone payments, 100% code ownership, and 30-day post-launch support.</p>`,
   },
   "/faq": {
     title: "FAQ, Pricing, Process & Timelines | Web Development | AHOS",

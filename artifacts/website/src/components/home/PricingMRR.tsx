@@ -106,7 +106,7 @@ const css = `
 .pm-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
 .pm-features li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--text); }
 .pm-check { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--orange-soft); color: var(--orange); font-size: 10px; font-weight: 700; flex-shrink: 0; }
-.pm-cta { margin-top: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 20px; border-radius: 999px; border: 1px solid var(--border-hover); color: var(--text); font-size: 13.5px; font-weight: 600; transition: color 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s, opacity 0.25s; }
+.pm-cta { margin-top: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 20px; border-radius: 999px; border: 1px solid var(--border-hover); color: var(--text); font-size: 13.5px; font-weight: 600; transition: all 0.25s; }
 .pm-cta:hover { background: var(--orange-soft); color: var(--orange); }
 .pm-cta-solid { background: var(--orange); color: #0a0a0b; border-color: var(--orange); box-shadow: 0 8px 26px rgba(255,106,26,0.28); }
 .pm-cta-solid:hover { background: var(--orange-light); color: #0a0a0b; }
@@ -116,7 +116,7 @@ const css = `
 .pm-mrr-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); }
 .pm-mrr-title { font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.025em; margin: 12px 0 14px; line-height: 1.1; }
 .pm-mrr-body { font-size: 14.5px; line-height: 1.65; color: var(--text-muted); }
-.pm-mrr-cta { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--bg-card); border: 1px solid var(--border-hover); color: var(--text); font-size: 14px; font-weight: 600; transition: color 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s, opacity 0.25s; }
+.pm-mrr-cta { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--bg-card); border: 1px solid var(--border-hover); color: var(--text); font-size: 14px; font-weight: 600; transition: all 0.25s; }
 .pm-mrr-cta:hover { background: var(--orange); color: #0a0a0b; border-color: var(--orange); }
 
 @media (max-width: 900px) { .pm-grid { grid-template-columns: 1fr; } .pm-mrr { flex-direction: column; align-items: flex-start; } }

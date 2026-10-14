@@ -1,4 +1,4 @@
-import { useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
@@ -8,7 +8,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { CornerGlow } from "@/components/CornerGlow";
-import { AriaWidget } from "@/components/AriaWidget";
+import { Loader } from "@/components/Loader";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
@@ -49,7 +49,7 @@ function Router() {
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
-      <main id="main-content" style={{ paddingTop: 84 }}>
+      <main id="main-content" style={{ paddingTop: 64 }}>
         <Switch>
           <Route path="/"><ErrorBoundary><Home /></ErrorBoundary></Route>
           <Route path="/work/:slug"><ErrorBoundary><CaseStudy /></ErrorBoundary></Route>
@@ -74,19 +74,20 @@ function Router() {
 }
 
 export default function App() {
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => { retryPendingLeads(); }, []);
 
   return (
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+        <Loader onComplete={() => setLoaded(true)} />
         <Suspense fallback={null}><HeroCanvas /></Suspense>
-        <div className="dot-grid" aria-hidden="true" />
         <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
           <rect width="100%" height="100%" filter="url(#grain)"/>
         </svg>
-        <div>
+        <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease" }}>
           <OrganizationSchema />
           <a href="#main-content" className="skip-link">Skip to content</a>
           <div className="vlines">
@@ -97,7 +98,6 @@ export default function App() {
           <ScrollProgress />
           <Nav />
           <Router />
-          <AriaWidget />
         </div>
       </WouterRouter>
     </MotionConfig>

@@ -128,7 +128,7 @@ export function OrganizationSchema() {
         description: DEFAULT_DESC,
         email: EMAIL,
         telephone: "+961 70 165 601",
-        slogan: "Websites, apps and software that pay for themselves.",
+        slogan: "We build digital products that perform.",
         knowsAbout: KNOWS_ABOUT,
         address: {
           "@type": "PostalAddress",

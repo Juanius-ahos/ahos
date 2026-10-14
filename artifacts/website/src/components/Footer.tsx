@@ -53,10 +53,6 @@ export function Footer() {
               <div className="ftx-locality">
                 <span className="ftx-loc-dot" /> Beirut, working worldwide
               </div>
-              <div style={{ marginTop: 14, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, fontFamily: "var(--font-mono)", fontSize: 13 }}>
-                <span style={{ color: "#25d366", fontWeight: 600 }}>WhatsApp</span>
-                <a href="https://wa.me/96170165601" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)" }}>+961 70 165 601</a>
-              </div>
               <div className="ftx-socials">
                 <a className="ftx-social" href="https://www.instagram.com/ahos.xyz/" target="_blank" rel="noopener noreferrer">
                   <span className="ftx-social-ico">
