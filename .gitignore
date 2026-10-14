@@ -51,3 +51,10 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# agent skills (installed locally, not part of the site)
+.agents/skills/
+.claude/skills/
+skills-lock.json
+# ad build scratch (videos, fonts, pngs)
+ad_build/
