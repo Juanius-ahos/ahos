@@ -1,18 +1,13 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { Magnetic } from "../motion";
 
 /**
- * Cinematic hero: the dotted sphere (HeroCanvas) as the focal point, wrapped in
- * a drifting orange aurora, with a staggered blur-and-rise entrance on the copy.
- * Original AHOS art direction, in AHOS's colors and words.
+ * Hero: the dotted sphere (HeroCanvas) as the focal point, wrapped in a drifting
+ * orange aurora, with a staggered blur-and-rise entrance. The entrance is pure
+ * CSS (animation-fill-mode both) so it is reliable and always resolves to the
+ * visible state, even if scripting/hydration hiccups. Original AHOS art
+ * direction, AHOS's own voice.
  */
-const EASE = [0.22, 1, 0.36, 1] as const;
-const rise = (delay: number) => ({
-  initial: { opacity: 0, y: 28, filter: "blur(12px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { duration: 0.95, ease: EASE, delay },
-});
-
 export function HeroMain() {
   return (
     <header className="hm">
@@ -23,18 +18,18 @@ export function HeroMain() {
       <span className="hm-side" aria-hidden="true"><i className="hm-side-dot" />ONLINE · BEIRUT</span>
 
       <div className="hm-inner">
-        <motion.div className="hm-eyebrow" {...rise(0.15)}><span className="hm-eyebrow-dot" />Digital product studio · Beirut → Worldwide</motion.div>
-        <motion.h1 className="hm-h1" {...rise(0.28)}>
+        <div className="hm-eyebrow hm-rise" style={{ animationDelay: "0.1s" }}><span className="hm-eyebrow-dot" />An independent product studio in Beirut, building for founders worldwide</div>
+        <h1 className="hm-h1 hm-rise" style={{ animationDelay: "0.22s" }}>
           Websites, apps &amp; software<br />
           that <em>pay for themselves.</em>
-        </motion.h1>
-        <motion.p className="hm-sub" {...rise(0.44)}>
-          One team, from idea to launch. Fixed quotes, full code ownership, and a real human who replies within 24 hours.
-        </motion.p>
-        <motion.div className="hm-actions" {...rise(0.58)}>
-          <Link href="/contact" className="hm-btn">Start a project <span aria-hidden="true">↗</span></Link>
+        </h1>
+        <p className="hm-sub hm-rise" style={{ animationDelay: "0.38s" }}>
+          One team, from the first sketch to launch. A price fixed in writing, code that is 100% yours, and a real person who answers within a day, not a ticket queue.
+        </p>
+        <div className="hm-actions hm-rise" style={{ animationDelay: "0.52s" }}>
+          <Magnetic strength={0.4}><Link href="/contact" className="hm-btn">Start a project <span aria-hidden="true">↗</span></Link></Magnetic>
           <span className="hm-rating"><span className="hm-stars" aria-hidden="true">★★★★★</span> 5.0 on Trustpilot · 50+ shipped</span>
-        </motion.div>
+        </div>
       </div>
 
       <div className="hm-scroll" aria-hidden="true">SCROLL</div>
@@ -54,6 +49,10 @@ const css = `
   overflow: hidden;
 }
 
+/* Reliable CSS entrance: starts hidden (fill: both), always resolves visible. */
+@keyframes hm-rise { from { opacity: 0; transform: translateY(28px); filter: blur(12px); } to { opacity: 1; transform: none; filter: none; } }
+.hm-rise { animation: hm-rise 0.9s cubic-bezier(0.22,1,0.36,1) both; }
+
 /* Drifting aurora blobs, painterly orange glow around the sphere */
 .hm-aurora { position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; filter: blur(90px); opacity: 0.5; will-change: transform; }
 .hm-aurora-a { width: 46vw; height: 46vw; left: -6vw; top: -4vw; background: radial-gradient(circle, rgba(255,106,26,0.28), transparent 66%); animation: hm-drift-a 18s ease-in-out infinite; }
@@ -63,8 +62,8 @@ const css = `
 
 .hm-inner { position: relative; z-index: 2; width: min(1000px, 100%); display: flex; flex-direction: column; align-items: center; }
 
-.hm-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: clamp(10px, 1.1vw, 12px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); margin-bottom: clamp(22px, 3vw, 34px); }
-.hm-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px var(--orange-glow); }
+.hm-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans); font-size: clamp(12px, 1.3vw, 15px); letter-spacing: 0.01em; color: var(--text-dim); margin-bottom: clamp(22px, 3vw, 34px); max-width: 44ch; }
+.hm-eyebrow-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: hm-pulse 2.2s infinite; }
 
 .hm-h1 { font-family: var(--font-display); font-size: clamp(36px, 6.2vw, 92px); font-weight: 700; line-height: 0.92; letter-spacing: -0.045em; color: var(--text); margin: 0; text-shadow: 0 2px 40px rgba(10,10,11,0.65); }
 .hm-h1 em { font-style: normal; color: var(--orange); }
@@ -99,6 +98,7 @@ const css = `
   .hm-scroll { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hm-scroll::after, .hm-side-dot, .hm-aurora { animation: none; }
+  .hm-rise { animation: none; }
+  .hm-scroll::after, .hm-side-dot, .hm-eyebrow-dot, .hm-aurora { animation: none; }
 }
 `;
