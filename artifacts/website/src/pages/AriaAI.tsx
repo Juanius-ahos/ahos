@@ -208,7 +208,7 @@ const css = `
 .ar-welcome-p { font-size: clamp(14px, 1.5vw, 16px); color: var(--text-muted); max-width: 480px; line-height: 1.65; }
 
 .ar-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
-.ar-chip { padding: 8px 20px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.ar-chip { padding: 8px 20px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-family: var(--font-sans); cursor: pointer; transition: color 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.18s, opacity 0.18s; }
 .ar-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
 
 .ar-msg { display: flex; gap: 10px; align-items: flex-start; animation: ar-in 0.25s ease-out both; }
@@ -237,7 +237,7 @@ const css = `
 .ar-preview-top { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border-soft); }
 .ar-preview-label { font-size: 12px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.03em; text-transform: uppercase; }
 .ar-device-btns { display: flex; gap: 4px; }
-.ar-device-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: none; color: var(--text-faint); cursor: pointer; transition: all 0.15s; }
+.ar-device-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: none; color: var(--text-faint); cursor: pointer; transition: color 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s; }
 .ar-device-btn:hover { color: var(--text-dim); border-color: var(--border-hover); }
 .ar-device-btn.active { color: var(--orange); border-color: var(--orange); background: var(--orange-soft); }
 

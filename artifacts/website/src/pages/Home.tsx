@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { Footer } from "../components/Footer";
-import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { trackEvent } from "../lib/analytics";
 import { HeroMain } from "../components/home/HeroMain";
@@ -200,7 +199,6 @@ export default function Home() {
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
-      <OverlayParticles />
 
       <IntroAnimation />
 

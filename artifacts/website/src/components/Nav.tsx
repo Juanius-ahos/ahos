@@ -305,7 +305,7 @@ const css = `
 
 /* Right cluster */
 .nv-right { display: flex; align-items: center; gap: 8px; }
-.nv-theme { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: all 0.2s; flex-shrink: 0; }
+.nv-theme { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; flex-shrink: 0; }
 .nv-theme:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange); }
 /* WhatsApp "message us" pill */
 .nv-wa {
@@ -313,7 +313,7 @@ const css = `
   border-radius: 999px; border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); font-family: var(--font-mono); font-size: 10.5px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
-  transition: all 0.2s; flex-shrink: 0;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; flex-shrink: 0;
 }
 .nv-wa svg { color: #25d366; flex-shrink: 0; }
 .nv-wa:hover { color: var(--text); border-color: #25d366; background: rgba(37,211,102,0.08); }

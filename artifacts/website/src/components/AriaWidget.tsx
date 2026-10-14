@@ -171,7 +171,7 @@ const css = `
 @keyframes aw-dot { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-4px);opacity:1;} }
 
 .aw-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-.aw-chip { padding: 7px 13px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: all 0.18s; }
+.aw-chip { padding: 7px 13px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: color 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.18s, opacity 0.18s; }
 .aw-chip:hover { background: var(--orange-soft); border-color: var(--border-hover); color: var(--orange-light); }
 
 .aw-bar { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border-soft); background: var(--bg-3); }
