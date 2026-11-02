@@ -32,6 +32,7 @@ export default function FAQ() {
         titleAccent="Straight answers."
         lead="Everything people actually ask before they hit start a project. Can’t find it? Email us and a human replies."
         visual="design"
+        loop="design"
       />
 
       <section className="ed ed-sec">

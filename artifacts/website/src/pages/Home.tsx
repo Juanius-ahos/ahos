@@ -17,6 +17,7 @@ const WORK = [
     where: "Beirut",
     line: "A sportswear store for original Nike, adidas, On and The North Face, with cash on delivery anywhere in Lebanon.",
     img: "work/r-threads",
+    loop: "ecom",
     href: "https://threadsactivewear.com",
     cta: "Visit store",
   },
@@ -26,6 +27,7 @@ const WORK = [
     where: "Lebanon",
     line: "Clear aligner planning for dental clinics: treatment plans, case submission and a 24-hour turnaround, explained in one scroll.",
     img: "work/r-speealigner",
+    loop: "web",
     href: "/work/speealigner",
     cta: "Read the case study",
   },
@@ -35,6 +37,7 @@ const WORK = [
     where: "Raynham, Massachusetts",
     line: "A local service site built around one action: call the shop or get directions in a single tap.",
     img: "work/r-julsauto",
+    loop: "jul",
     href: "https://julsauto.com",
     cta: "Visit site",
   },
@@ -44,6 +47,7 @@ const WORK = [
     where: "Beirut",
     line: "Lebanon's 24/7 taxi service, bookable by app, phone or WhatsApp, with dispatch running around the clock.",
     img: "work/r-idotaxi",
+    loop: "mobile",
     href: "/work/ido-taxi",
     cta: "Read the case study",
   },
@@ -146,6 +150,9 @@ function Work() {
                     width={1600}
                     height={1000}
                   />
+                  <video data-loop muted loop playsInline preload="none" poster={asset(`${w.img}.webp`)} aria-hidden="true">
+                    <source src={asset(`loops/work-${w.loop}.mp4`)} type="video/mp4" />
+                  </video>
                 </div>
                 <div className="wk-meta">
                   <span className="wk-idx">{String(i + 1).padStart(2, "0")}</span>

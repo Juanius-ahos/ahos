@@ -6,6 +6,8 @@ const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 // Film frames rendered with the homepage film; the subject sits on the right third.
 export type Visual = "design" | "build" | "live" | "launch" | "world" | "spark";
+// Looping product scenes rendered with the same pipeline (public/loops/<name>.mp4).
+export type Loop = "web" | "ecom" | "mobile" | "software" | "ai" | "design";
 
 interface PageHeroProps {
   crumb?: string;
@@ -14,17 +16,24 @@ interface PageHeroProps {
   titleAccent?: ReactNode;
   lead?: ReactNode;
   visual: Visual | { src: string; alt: string };
+  loop?: Loop;
   children?: ReactNode;
 }
 
 /** Cinematic page opener shared by every inner page, matching the homepage film. */
-export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, children }: PageHeroProps) {
+export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, loop, children }: PageHeroProps) {
   const custom = typeof visual === "object";
   const src = custom ? visual.src : asset(`visuals/${visual}.webp`);
   const srcSet = custom ? undefined : `${asset(`visuals/${visual}-800.webp`)} 800w, ${asset(`visuals/${visual}.webp`)} 1600w`;
   return (
     <header className={`ph${custom ? " ph-custom" : ""}`}>
-      <img className="ph-bg" src={src} srcSet={srcSet} sizes="100vw" alt={custom ? visual.alt : ""} aria-hidden={custom ? undefined : true} fetchPriority="high" />
+      {loop ? (
+        <video className="ph-bg ph-video" data-loop autoPlay muted loop playsInline preload="auto" poster={asset(`loops/${loop}.jpg`)} aria-hidden="true">
+          <source src={asset(`loops/${loop}.mp4`)} type="video/mp4" />
+        </video>
+      ) : (
+        <img className={`ph-bg${custom ? "" : " ph-drift"}`} src={src} srcSet={srcSet} sizes="100vw" alt={custom ? visual.alt : ""} aria-hidden={custom ? undefined : true} fetchPriority="high" />
+      )}
       <div className="ph-shade" aria-hidden="true" />
       <div className="ph-inner">
         {crumb && (

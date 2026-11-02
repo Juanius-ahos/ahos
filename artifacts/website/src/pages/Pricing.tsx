@@ -94,6 +94,7 @@ export default function Pricing() {
         titleAccent="$300."
         lead="Fixed prices, custom work, full ownership. What you see is what you pay."
         visual="build"
+        loop="web"
       >
         <Link href="/contact" className="fh-btn">Start your project <span aria-hidden="true">↗</span></Link>
         <Link href="/faq" className="fh-ghost">Visit FAQ</Link>

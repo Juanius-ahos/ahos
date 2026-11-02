@@ -17,6 +17,7 @@ const CHAPTERS = [
 export function FilmHero() {
   const rootRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const idleRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const root = rootRef.current, video = videoRef.current;
@@ -25,6 +26,8 @@ export function FilmHero() {
     video.poster = asset(portrait ? "film/poster-port.jpg" : "film/poster-land.jpg");
     video.src = asset(portrait ? "film/port.mp4" : "film/land.mp4");
     video.load();
+    const idle = idleRef.current;
+    if (idle) { idle.src = asset(portrait ? "film/idle-port.mp4" : "film/idle-land.mp4"); idle.play().catch(() => {}); }
 
     let target = 0, shown = -1, raf = 0;
     const chapters = Array.from(root.querySelectorAll<HTMLElement>("[data-ch]"));
@@ -56,6 +59,12 @@ export function FilmHero() {
           el.style.visibility = o > 0.01 ? "visible" : "hidden";
         });
         if (bar) bar.style.transform = `scaleY(${cur / FILM_SECONDS})`;
+        // the idle loop owns the frame until the visitor scrolls, then hands over to the scrub
+        if (idle) {
+          const k = Math.min(1, Math.max(0, cur / 0.35));
+          idle.style.opacity = String(1 - k);
+          if (k >= 1 && !idle.paused) idle.pause(); else if (k < 1 && idle.paused) idle.play().catch(() => {});
+        }
       }
     };
     measure();
@@ -81,6 +90,7 @@ export function FilmHero() {
           poster={asset("film/poster-land.jpg")}
           aria-hidden="true"
         />
+        <video ref={idleRef} className="fh-video fh-idle" muted loop playsInline autoPlay preload="auto" aria-hidden="true" />
         <div className="fh-shade" aria-hidden="true" />
 
         <div className="fh-copy">

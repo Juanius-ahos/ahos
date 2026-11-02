@@ -6,6 +6,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
+import { MotionLayer } from "@/components/MotionLayer";
 import { CornerGlow } from "@/components/CornerGlow";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
@@ -88,6 +89,7 @@ export default function App() {
           <a href="#main-content" className="skip-link">Skip to content</a>
           <SmoothScroll />
           <Cursor />
+          <MotionLayer />
           <ScrollProgress />
           <Nav />
           <Router />

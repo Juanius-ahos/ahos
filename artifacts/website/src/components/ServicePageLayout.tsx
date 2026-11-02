@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Footer } from "./Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
-import { PageHero, type Visual } from "./PageHero";
+import { PageHero, type Visual, type Loop } from "./PageHero";
 import { Voices, Closing, FaqBlock } from "./Blocks";
 import { otherServices } from "../data/services";
 
@@ -54,6 +54,15 @@ const VISUALS: Record<string, Visual> = {
   "/ai-development": "spark",
   "/web3": "world",
 };
+// Each service plays its own product loop: the thing we build, running.
+const LOOPS: Record<string, Loop> = {
+  "/web-development": "web",
+  "/ecommerce-development": "ecom",
+  "/mobile-app-development": "mobile",
+  "/custom-software": "software",
+  "/ui-ux-design": "design",
+  "/ai-development": "ai",
+};
 // Work renders for projects that have them.
 const PROOF_IMG: Record<string, string> = {
   "/work/speealigner": "work/r-speealigner",
@@ -69,7 +78,7 @@ export function ServicePageLayout(d: ServicePageData) {
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: d.crumb, url: d.path }]} />
       <ServiceSchema name={d.schemaName} description={d.schemaDesc} />
 
-      <PageHero crumb={d.crumb} kicker={d.eyebrow} titleLead={d.titleLead} titleAccent={d.titleAccent} lead={d.lead} visual={VISUALS[d.path] ?? "live"}>
+      <PageHero crumb={d.crumb} kicker={d.eyebrow} titleLead={d.titleLead} titleAccent={d.titleAccent} lead={d.lead} visual={VISUALS[d.path] ?? "live"} loop={LOOPS[d.path]}>
         <Link href="/contact" className="fh-btn">Start a project <span aria-hidden="true">↗</span></Link>
         <Link href="/pricing" className="fh-ghost">See pricing</Link>
         <ul className="sv-trust">

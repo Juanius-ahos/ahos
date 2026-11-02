@@ -89,6 +89,7 @@ export default function Services() {
         titleAccent="done properly."
         lead="Websites, online stores, mobile apps, custom software, AI and design, handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks."
         visual="live"
+        loop="ecom"
       >
         <Link href="/contact" className="fh-btn">Start a project <span aria-hidden="true">↗</span></Link>
         <Link href="/pricing" className="fh-ghost">See pricing</Link>
