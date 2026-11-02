@@ -26,20 +26,20 @@ const ORG_JSON_LD = `{
       "logo": "${SITE_URL}/logo.png",
       "email": "info@ahos.xyz",
       "telephone": "+961 70 165 601",
-      "description": "AHOS is a web development and digital design studio based in Beirut, Lebanon building premium websites, custom software, AI tools, Web3 platforms, and brand identities for clients in the US and worldwide.",
+      "description": "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, custom software and AI automations for founders in Lebanon, the Gulf, Europe and the US.",
       "address": { "@type": "PostalAddress", "streetAddress": "Beirut Digital District", "addressLocality": "Beirut", "addressRegion": "Beirut", "addressCountry": "LB" },
       "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" }],
       "priceRange": "$$",
-      "areaServed": [{"@type":"Country","name":"Lebanon"},{"@type":"Country","name":"United States"},{"@type":"AdministrativeArea","name":"Worldwide"}],
-      "knowsAbout": ["Web Development","Custom Software","SaaS","Web3","Smart Contracts","Blockchain","Artificial Intelligence","Automation","Brand Identity","UI/UX Design","E-commerce","Mobile App Development"],
+      "areaServed": [{"@type":"Country","name":"Lebanon"},{"@type":"Country","name":"United Arab Emirates"},{"@type":"Country","name":"Saudi Arabia"},{"@type":"Country","name":"United States"},{"@type":"AdministrativeArea","name":"Europe"}],
+      "knowsAbout": ["Web Development","E-commerce","Shopify","Mobile App Development","Custom Software","SaaS","Artificial Intelligence","Automation","WhatsApp Business API","UI/UX Design","Brand Identity","Technical SEO","Web3"],
       "sameAs": ["https://www.instagram.com/ahos.xyz/","https://www.linkedin.com/company/ahos-xyz","https://www.youtube.com/@ahos_xyz"]
     },
     {
       "@type": "WebSite",
       "@id": "${SITE_URL}/#website",
       "url": "${SITE_URL}",
-      "name": "AHOS, Web Development Agency in Lebanon | AI & Digital Design Studio",
-      "description": "AHOS is a web development and digital design studio in Beirut, Lebanon building premium websites, custom software, AI tools, and Web3 platforms for clients in the US and worldwide.",
+      "name": "AHOS, Digital Product Studio in Beirut",
+      "description": "Websites, online stores, apps and custom software for founders, designed and built by AHOS in Beirut, Lebanon.",
       "publisher": { "@id": "${SITE_URL}/#organization" }
     }
   ]
@@ -116,26 +116,26 @@ const FAQ_JSON_LD = `{
 
 const ROUTES: Record<string, RouteMeta> = {
   "/": {
-    title: "Websites From $300 | Web Dev Agency Beirut Lebanon | AHOS",
+    title: "AHOS | Websites, Apps and Software for Founders, Built in Beirut",
     description:
-      "AHOS is a web development agency in Beirut building custom websites, e-commerce stores & web apps from $300. Launch in days, not weeks. Serving clients worldwide.",
-    bodyHtml: `<h1>Custom websites from $300.</h1>
-<p>Landing pages, e-commerce stores, and full corporate sites, designed and shipped in days, not weeks. No templates, no hidden fees, full ownership.</p>
-<p>Web development agency in Beirut, Lebanon, trusted in the US and worldwide.</p>
-<section><h2>Seven capabilities, one studio.</h2>
-<h3>Web Development</h3><p>Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale, from a single landing page to full e-commerce.</p>
-<h3>Custom Software</h3><p>SaaS platforms, web apps, dashboards, automation, software shaped to how your business actually runs, from first sketch to deployed product you fully own.</p>
-<h3>Mobile Apps</h3><p>Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native, the right stack for your product.</p>
-<h3>Web3 & Blockchain</h3><p>Audited smart contracts, dapps, token launches, and DeFi interfaces. Every layer of your Web3 project under one roof.</p>
-<h3>AI & Automation</h3><p>Custom AI tools, chatbots, and workflow automations. From a simple chat interface to full agent pipelines, built to save you hours every week.</p>
-<h3>E-Commerce</h3><p>Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.</p>
-<h3>UI/UX & Brand Design</h3><p>Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales across every touchpoint.</p></section>
-<section><h2>Selected work</h2><p>SpeeAligner, YourProvider, Aleph, Ido Taxi, ARIA AI, websites, mobile apps, and AI tools we've shipped.</p></section>
-<section><h2>Three steps to a live product.</h2>
-<h3>Discovery</h3><p>A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote.</p>
-<h3>Design & Build</h3><p>We craft your solution with clean code and sharp design, milestone updates at every stage.</p>
-<h3>Launch & Support</h3><p>We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty.</p></section>
-<section><h2>No surprises. In writing.</h2><p>100% source code yours · 30 day post-launch warranty · 24h average first reply · 0 hidden fees, fixed quotes.</p></section>`,
+      "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps and custom software for founders in Lebanon, the Gulf, Europe and the US. Fixed quotes, and you own the code.",
+    ogImage: `${SITE_URL}/film/poster-land.jpg`,
+    bodyHtml: `<h1>What if you could watch your product being built?</h1>
+<p>AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps and custom software for founders in Lebanon, the Gulf, Europe and the US.</p>
+<section><h2>01 Design: every screen is drawn before a line of code.</h2><p>We map your product screen by screen, so you see exactly what you are getting before we build it.</p></section>
+<section><h2>02 Build: built by the people who designed it.</h2><p>Design and engineering under one roof. Nothing gets lost in a handoff, and every line of code is yours.</p></section>
+<section><h2>03 Ship: live, fast, and selling.</h2><p>Threads Activewear, an online store we designed and built for a sportswear retailer in Beirut.</p></section>
+<section><h2>04 Scale: then the world finds it.</h2><p>Search, speed and support after launch, so your product keeps working while you grow.</p></section>
+<section><h2>Selected work</h2>
+<h3><a href="https://threadsactivewear.com">Threads Activewear</a></h3><p>Online store, Beirut. A sportswear store for original Nike, adidas, On and The North Face, with cash on delivery anywhere in Lebanon.</p>
+<h3><a href="/work/speealigner">SpeeAligner</a></h3><p>Website, Lebanon. Clear aligner planning for dental clinics: treatment plans, case submission and a 24-hour turnaround.</p>
+<h3><a href="https://julsauto.com">Jul's Auto Repair</a></h3><p>Website, Raynham, Massachusetts. A local service site built around calling the shop or getting directions in one tap.</p>
+<h3><a href="/work/ido-taxi">I Do Taxi</a></h3><p>Website and iOS app, Beirut. Lebanon's 24/7 taxi service, bookable by app, phone or WhatsApp.</p></section>
+<section><h2>What we build</h2>
+<h3><a href="/web-development">Websites and online stores</a></h3><p>Fast, search-ready sites and stores that turn visitors into orders, built on Shopify or fully custom.</p>
+<h3><a href="/mobile-app-development">Apps and custom software</a></h3><p>iOS and Android apps, dashboards and internal tools, shaped around how your business actually runs.</p>
+<h3><a href="/ai-development">AI and automation</a></h3><p>Assistants, WhatsApp flows and automations that take repetitive work off your team's plate.</p></section>
+<section><h2>The studio</h2><p>A small senior team in Beirut, working since 2023. 50+ products shipped, 5.0 on Trustpilot, first reply within 24 hours, 100% code ownership and a 30-day warranty on every build.</p></section>`,
   },
   "/services": {
     title: "Websites, Apps & AI | Full-Stack Digital Studio | AHOS",
@@ -417,6 +417,17 @@ function relatedHtml(current: string): string {
   const items = SERVICE_CATALOG.filter((s) => s.href !== current);
   return `<section><h2>Other things we build</h2><ul>${items.map((s) => `<li><a href="${s.href}">${s.label}</a>, ${s.blurb}</li>`).join("")}</ul></section>`;
 }
+
+const HOME_FAQ: QA[] = [
+  { q: "What does AHOS do?", a: "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, custom software and AI automations for founders and businesses in Lebanon, the Gulf, Europe and the US." },
+  { q: "How long does it take to build a website or app?", a: "A landing page takes about one to two weeks, a full website or online store two to four weeks, and a mobile app or custom platform usually six to twelve weeks. You get a timeline in writing before work starts." },
+  { q: "Do I own the code and design?", a: "Yes. On delivery you own all source code, designs and content. There is no lock-in and no licence you have to keep paying for." },
+  { q: "How does pricing work?", a: "Every project gets a fixed quote in writing after a free 30-minute call, with payments split into milestones. There is no hourly billing." },
+  { q: "Can you work with clients outside Lebanon?", a: "Yes. Most of our work runs remotely, with clients across Lebanon, the Gulf, Europe and the United States. We work in English, Arabic and French." },
+  { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements." },
+];
+ROUTES["/"].bodyHtml += faqHtml(HOME_FAQ);
+ROUTES["/"].faqJsonLd = buildFaqLd(HOME_FAQ);
 
 for (const [path, items] of Object.entries(SERVICE_FAQS)) {
   const route = ROUTES[path];

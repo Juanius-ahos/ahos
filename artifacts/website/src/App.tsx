@@ -1,14 +1,12 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { MotionConfig, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
-const HeroCanvas = lazy(() => import("@/components/HeroCanvas").then(m => ({ default: m.HeroCanvas })));
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { CornerGlow } from "@/components/CornerGlow";
-import { Loader } from "@/components/Loader";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
@@ -74,14 +72,12 @@ function Router() {
 }
 
 export default function App() {
-  const [loaded, setLoaded] = useState(false);
+  const loaded = true;
   useEffect(() => { retryPendingLeads(); }, []);
 
   return (
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-        <Loader onComplete={() => setLoaded(true)} />
-        <Suspense fallback={null}><HeroCanvas /></Suspense>
         <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
@@ -90,9 +86,6 @@ export default function App() {
         <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease" }}>
           <OrganizationSchema />
           <a href="#main-content" className="skip-link">Skip to content</a>
-          <div className="vlines">
-            <div className="vl"></div><div className="vl"></div><div className="vl"></div>
-          </div>
           <SmoothScroll />
           <Cursor />
           <ScrollProgress />

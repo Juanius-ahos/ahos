@@ -47,8 +47,8 @@ export function Footer() {
                 AHOS<span>.</span>
               </Link>
               <p className="ftx-pitch">
-                An independent studio that builds the whole thing, sites, software, Web3,
-                AI, and brand. One team, no handoffs, no filler.
+                A digital product studio in Beirut. We design and build websites, apps
+                and software for founders in Lebanon, the Gulf, Europe and the US.
               </p>
               <div className="ftx-locality">
                 <span className="ftx-loc-dot" /> Beirut, working worldwide

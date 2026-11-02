@@ -5,10 +5,9 @@ import { SERVICES } from "../data/services";
 const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/web3", label: "Blockchain" },
-  { href: "/careers", label: "Careers" },
   { href: "/faq", label: "FAQ" },
-  { href: "/aria-ai", label: "ARIA AI" },
+  { href: "/careers", label: "Careers" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const serviceHrefs = new Set(SERVICES.map((s) => s.href));

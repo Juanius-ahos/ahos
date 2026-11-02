@@ -1,568 +1,323 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Footer } from "../components/Footer";
-import { OverlayParticles } from "../components/OverlayParticles";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { Reveal, Parallax } from "../components/motion";
+import { FAQSchema } from "../seo/FAQSchema";
+import { FilmHero } from "../components/film/FilmHero";
 import { trackEvent } from "../lib/analytics";
-import { HeroAria } from "../components/home/HeroAria";
-import { WhyAhos } from "../components/home/WhyAhos";
-import { PricingMRR } from "../components/home/PricingMRR";
+import "./home.css";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
-// "#ff6a1a" → "255,106,26" for the accent-reactive scroll glow (data-accent).
-const hexToRgb = (h: string) => {
-  const v = parseInt(h.replace("#", ""), 16);
-  return `${(v >> 16) & 255},${(v >> 8) & 255},${v & 255}`;
-};
-const webpSrc = (jpg: string) => jpg.replace(/\.jpg$/, ".webp");
-const srcset = (p: string) => {
-  const base = p.replace(/\.\w+$/, "");
-  const u = (s: string) => asset(s);
-  return `${u(base + "-480w.jpg")} 480w, ${u(base + "-880w.jpg")} 880w`;
-};
-const srcsetWebp = (p: string) => {
-  const base = p.replace(/\.\w+$/, "");
-  const u = (s: string) => asset(s);
-  return `${u(base + "-480w.webp")} 480w, ${u(base + "-880w.webp")} 880w`;
-};
 
-const work = [
-  { name: "SpeeAligner", cat: "Web · Healthcare", year: "2026", img: "work/speealigner.jpg", url: "/work/speealigner" },
-  { name: "Jul's Auto", cat: "Web · Automotive", year: "2026", img: "work/julsauto.jpg", url: "https://julsauto.com" },
-  { name: "YourProvider", cat: "Web · Services", year: "2023", img: "work/yourprovider.jpg", url: "https://www.yourprovider-lb.com" },
-  { name: "Aleph", cat: "Web · Print & Packaging", year: "2026", img: "work/aleph.jpg", url: "https://www.aleph.com.lb" },
-  { name: "Ido Taxi", cat: "Web & Mobile App · Transport", year: "2025", img: "work/idotaxi.jpg", url: "/work/ido-taxi" },
-  { name: "ARIA AI", cat: "AI · Chat", year: "2026", img: "work/aria-ai.svg", url: "/aria-ai" },
+// Real client work. Copy describes what each product does; no invented metrics.
+const WORK = [
+  {
+    name: "Threads Activewear",
+    kind: "Online store",
+    where: "Beirut",
+    line: "A sportswear store for original Nike, adidas, On and The North Face, with cash on delivery anywhere in Lebanon.",
+    img: "work/r-threads",
+    href: "https://threadsactivewear.com",
+    cta: "Visit store",
+  },
+  {
+    name: "SpeeAligner",
+    kind: "Website",
+    where: "Lebanon",
+    line: "Clear aligner planning for dental clinics: treatment plans, case submission and a 24-hour turnaround, explained in one scroll.",
+    img: "work/r-speealigner",
+    href: "/work/speealigner",
+    cta: "Read the case study",
+  },
+  {
+    name: "Jul's Auto Repair",
+    kind: "Website",
+    where: "Raynham, Massachusetts",
+    line: "A local service site built around one action: call the shop or get directions in a single tap.",
+    img: "work/r-julsauto",
+    href: "https://julsauto.com",
+    cta: "Visit site",
+  },
+  {
+    name: "I Do Taxi",
+    kind: "Website and iOS app",
+    where: "Beirut",
+    line: "Lebanon's 24/7 taxi service, bookable by app, phone or WhatsApp, with dispatch running around the clock.",
+    img: "work/r-idotaxi",
+    href: "/work/ido-taxi",
+    cta: "Read the case study",
+  },
 ];
 
-const capabilities = [
-  { n: "01", title: "Web Development", tag: "Sites that convert", desc: "Fast, pixel-tight sites built to earn their keep. Responsive on every screen, tuned for search, and ready to scale the day you need it to, from a single landing page to full e-commerce.", href: "/web-development", accent: "#ff6a1a", bg: "var(--bg)" },
-  { n: "02", title: "Custom Software", tag: "Built around your workflow", desc: "Off-the-shelf tools make you bend to their logic. We do the opposite: software shaped to how your business actually runs, from first sketch to a deployed product you fully own.", href: "/custom-software", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "03", title: "Mobile Apps", tag: "iOS · Android · cross-platform", desc: "Native iOS, Android, and cross-platform mobile applications designed and shipped from concept to App Store. Swift, Kotlin, Flutter, or React Native, the right stack for your product.", href: "/mobile-app-development", accent: "#ff8c4a", bg: "var(--bg-3)" },
-  { n: "04", title: "Web3 & Blockchain", tag: "Audited & shipped", desc: "Audited smart contracts, dapps, token launches, and DeFi interfaces. From contracts to creative, every layer of your Web3 project under one roof.", href: "/web3", accent: "#ffb074", bg: "var(--bg-3)" },
-  { n: "05", title: "AI & Automation", tag: "Automate the busywork", desc: "Custom AI tools, chatbots, and workflow automations that compound over time. From a simple chat interface to full agent pipelines, built to save you hours every week.", href: "/ai-development", accent: "#cc5500", bg: "var(--bg-3)" },
-  { n: "06", title: "E-Commerce", tag: "Built to sell", desc: "Shopify, WooCommerce, or fully custom stores optimized for checkout speed, conversion rate, and inventory sanity. Payment gateways, multi-currency, and full migration support.", href: "/ecommerce-development", accent: "#e0560a", bg: "var(--bg-3)" },
-  { n: "07", title: "UI/UX & Brand Design", tag: "Design that scales", desc: "Interfaces, brand identities, and design systems that communicate clearly and convert consistently. From user research to pixel-perfect UI, design that scales.", href: "/ui-ux-design", accent: "#ff8c4a", bg: "var(--bg-3)" },
+const BUILD = [
+  {
+    n: "01",
+    title: "Websites and online stores",
+    line: "Fast, search-ready sites and stores that turn visitors into orders, built on Shopify or fully custom.",
+    links: [["Web development", "/web-development"], ["E-commerce", "/ecommerce-development"]],
+  },
+  {
+    n: "02",
+    title: "Apps and custom software",
+    line: "iOS and Android apps, dashboards and internal tools, shaped around how your business actually runs.",
+    links: [["Mobile apps", "/mobile-app-development"], ["Custom software", "/custom-software"]],
+  },
+  {
+    n: "03",
+    title: "AI and automation",
+    line: "Assistants, WhatsApp flows and automations that take repetitive work off your team's plate.",
+    links: [["AI development", "/ai-development"], ["UI and brand design", "/ui-ux-design"]],
+  },
 ];
 
-const steps = [
-  { n: "01", title: "Discovery", text: "A free consultation to learn your goals, define the product, and map a clear plan with a fixed-price quote." },
-  { n: "02", title: "Design & Build", text: "We craft your solution with clean code and sharp design, milestone updates at every stage." },
-  { n: "03", title: "Launch & Support", text: "We deploy, monitor, and support from day one, with 24/7 availability and a 30-day warranty." },
+const VOICES = [
+  {
+    text: "Highly professional, neat work, and they reply fast. They did an amazing job building my website.",
+    name: "Yorgo",
+    role: "SpeeAligner, Lebanon",
+    link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
+  },
+  {
+    text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. The app is live, our drivers love it, and our passengers keep growing.",
+    name: "Khalil",
+    role: "I Do Taxi, Lebanon",
+  },
+  {
+    text: "They took complex concepts and turned them into clear material that actually connects with our audience. Engagement is up and our community is growing.",
+    name: "Doran",
+    role: "Marketing lead, defi.app",
+  },
 ];
 
-const stats = [
-  { to: 100, suffix: "%", label: "Source code, yours" },
-  { to: 30, suffix: "", label: "Day post-launch warranty" },
-  { to: 24, suffix: "h", label: "Average first reply" },
-  { to: 0, suffix: "", label: "Hidden fees, fixed quotes" },
+// Written as direct answers so search engines and AI assistants can quote them as-is.
+const FAQ = [
+  {
+    question: "What does AHOS do?",
+    answer: "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, custom software and AI automations for founders and businesses in Lebanon, the Gulf, Europe and the US.",
+  },
+  {
+    question: "How long does it take to build a website or app?",
+    answer: "A landing page takes about one to two weeks, a full website or online store two to four weeks, and a mobile app or custom platform usually six to twelve weeks. You get a timeline in writing before work starts.",
+  },
+  {
+    question: "Do I own the code and design?",
+    answer: "Yes. On delivery you own all source code, designs and content. There is no lock-in and no licence you have to keep paying for.",
+  },
+  {
+    question: "How does pricing work?",
+    answer: "Every project gets a fixed quote in writing after a free 30-minute call, with payments split into milestones. There is no hourly billing.",
+  },
+  {
+    question: "Can you work with clients outside Lebanon?",
+    answer: "Yes. Most of our work runs remotely, with clients across Lebanon, the Gulf, Europe and the United States. We work in English, Arabic and French.",
+  },
+  {
+    question: "What happens after launch?",
+    answer: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements.",
+  },
 ];
 
-function Label({ n, text }: { n: string; text: string }) {
-  return (
-    <div className="ed-label">
-      <span className="ed-label-n">{n}</span>
-      <span className="ed-label-line" />
-      <span className="ed-label-text">{text}</span>
-    </div>
-  );
-}
-
-function ZoomReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-
+// ---------- work: cinematic panels that stack as you scroll ----------
+function Work() {
+  const ref = useRef<HTMLElement>(null);
   useEffect(() => {
-    const reveal = () =>
-      ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word").forEach((w) => {
-        w.style.opacity = "1";
-        w.style.scale = "1";
-      });
-
-    // Reduced-motion users get the words statically revealed, no scrub.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      reveal();
-      return;
-    }
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const words = ref.current?.querySelectorAll<HTMLSpanElement>(".zoom-word");
-        if (!words || !words.length) return;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top bottom",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        });
-        tl.fromTo(words, { opacity: 0, scale: 0.15, rotateX: 25 }, { opacity: 1, scale: 1, rotateX: 0, ease: "none" });
-
-        cleanup = () => tl.kill();
-      } catch {
-        reveal();
-      }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-  return (
-    <section className="zoom-section" ref={ref} data-accent="255,150,40">
-      <div className="zoom-sticky section-light">
-        <div className="zoom-text">
-          <span className="zoom-word">From</span>
-          <span className="zoom-word">idea</span>
-          <span className="zoom-word">to</span>
-          <span className="zoom-word" style={{ color: "var(--orange)" }}>launch</span>
-          <br />
-          <span className="zoom-word">one</span>
-          <span className="zoom-word">team</span>
-          <span className="zoom-word">no</span>
-          <span className="zoom-word">handoffs.</span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const active = () =>
-    window.matchMedia("(pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el || !active()) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) scale(1.015)`;
-  };
-  const reset = () => { if (ref.current) ref.current.style.transform = ""; };
-  return (
-    <div ref={ref} className={className} onMouseMove={onMove} onMouseLeave={reset}
-      style={{ transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)", willChange: "transform" }}>
-      {children}
-    </div>
-  );
-}
-
-function WorkRail() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const n = work.length;
-  const total = n + 1;
-  // Track scroll 1:1, Lenis already smooths the input, so an extra spring here
-  // would smooth a smoothed value and make the rail float behind the scroll.
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${n * 88 + n * 3}vw`]);
-  const [idx, setIdx] = useState(1);
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const next = Math.min(total, Math.floor(v * total) + 1);
-    setIdx((prev) => (prev === next ? prev : next));
-  });
-
-  return (
-    <section className="hs-section" style={{ height: `${total * 100}vh` }} ref={ref} data-accent="255,140,74">
-      <div className="hs-sticky">
-        <div className="hs-heading">
-          <Reveal dir="left"><Label n="02" text="Selected work" /></Reveal>
-          <div className="hs-heading-row">
-            <h2 className="ed-h2" style={{ margin: 0 }}>Projects we've shipped.</h2>
-            <div className="hs-counter">
-              <span className="hs-counter-cur">{String(idx).padStart(2, "0")}</span>
-              <span className="hs-counter-total">{String(total).padStart(2, "0")}</span>
-            </div>
-          </div>
-        </div>
-        <div className="hs-track-wrap">
-          <motion.div className="hs-track" style={{ x }}>
-            {work.map((p) =>
-              p.url.startsWith("/") ? (
-                <TiltCard key={p.name + p.cat} className="hs-card">
-                  <Link href={p.url} className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
-                    <picture>
-                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="eager" decoding="async" fetchPriority="low" />
-                    </picture>
-                    <div className="hs-card-bar">
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                    </div>
-                    <div className="hs-cap">
-                      <div className="hs-cap-tx">
-                        <h3 className="hs-name">{p.name}</h3>
-                        <span className="hs-cat">{p.cat}</span>
-                      </div>
-                      <span className="hs-go" aria-hidden="true">{p.url.startsWith("/work/") ? "Case study →" : "Visit ↗"}</span>
-                    </div>
-                  </Link>
-                </TiltCard>
-              ) : (
-                <TiltCard key={p.name + p.cat} className="hs-card">
-                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="hs-card-inner-link" onClick={() => trackEvent("select_content", { content_type: "work_sample", item_id: p.name })}>
-                    <picture>
-                      {p.img.endsWith(".jpg") && <source srcSet={srcsetWebp(p.img)} type="image/webp" sizes="(max-width: 600px) 480px, 880px" />}
-                      <img src={asset(p.img)} alt={`${p.name}, ${p.cat} project built by AHOS`} {...(p.img.endsWith(".jpg") ? { srcSet: srcset(p.img), sizes: "(max-width: 600px) 480px, 880px" } : {})} width={1280} height={860} loading="eager" decoding="async" fetchPriority="low" />
-                    </picture>
-                    <div className="hs-card-bar">
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                      <span className="hs-card-dot" />
-                    </div>
-                    <div className="hs-cap">
-                      <div className="hs-cap-tx">
-                        <h3 className="hs-name">{p.name}</h3>
-                        <span className="hs-cat">{p.cat}</span>
-                      </div>
-                      <span className="hs-go" aria-hidden="true">Visit ↗</span>
-                    </div>
-                  </a>
-                </TiltCard>
-              )
-            )}
-            <div className="hs-end-card">
-              <div className="hs-card-bar">
-                <span className="hs-card-dot" />
-                <span className="hs-card-dot" />
-                <span className="hs-card-dot" />
-              </div>
-              <div className="hs-end-inner">
-                <span className="hs-end-amp">&</span>
-                <h3 className="hs-end-title">many more to come.</h3>
-                <p className="hs-end-sub">We're just getting started.</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServicesStack() {
-  const cardCount = 1 + capabilities.length;
-  return (
-    <section className="sc-section">
-      <div className="sc-stack" style={{ height: `${cardCount * 100}vh` } as React.CSSProperties}>
-        <div className="sc-card" style={{ '--card-accent': '#ff6a1a', '--card-bg': 'var(--bg)' } as React.CSSProperties}>
-          <div className="sc-card-inner sc-card-intro">
-            <div className="sc-card-accent" />
-            <Label n="03" text="Capabilities" />
-            <h2 className="ed-h2" style={{ margin: "8px 0 0" }}>Seven capabilities,<br />one studio.</h2>
-          </div>
-        </div>
-        {capabilities.map((c) => (
-          <div
-            key={c.n}
-            className="sc-card"
-            data-accent={hexToRgb(c.accent)}
-            style={{ '--card-accent': c.accent, '--card-bg': c.bg } as React.CSSProperties}
-          >
-            <div className="sc-card-inner">
-              <div className="sc-card-accent" />
-              <Parallax amount={-12} style={{ width: '100%' }}>
-                <Reveal><span className="sc-card-num">{c.n}</span></Reveal>
-                <Reveal delay={80}><h3 className="sc-card-title">{c.title}</h3></Reveal>
-                <Reveal delay={120}><span className="sc-card-price">{c.tag}</span></Reveal>
-                <Reveal delay={160}><p className="sc-card-desc">{c.desc}</p></Reveal>
-                <Reveal delay={240}>
-                  <div className="sc-card-link">
-                    <Link href={c.href} className="ed-link-arrow">Learn more →</Link>
-                  </div>
-                </Reveal>
-              </Parallax>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const stepsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Reduced-motion: leave the label/title/steps in their natural visible
-    // state (gsap.from would otherwise scrub them in from offset positions).
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: 1,
-            },
-          });
-
-          if (labelRef.current) {
-            tl.from(labelRef.current, { x: -60, opacity: 0, ease: "none" }, 0);
-          }
-          if (titleRef.current) {
-            tl.from(titleRef.current, { x: 80, opacity: 0, ease: "none" }, 0);
-          }
-          const stepEls = stepsRef.current?.querySelectorAll<HTMLDivElement>(".ed-step");
-          if (stepEls?.length) {
-            tl.from(stepEls, { x: (i) => (i % 2 === 0 ? -60 : 60), opacity: 0, ease: "none" }, 0.15);
-          }
-        }, ref.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch {
-        // fallback, reveal all
-      }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-
-
-  return (
-    <section className="ps-section" ref={ref}>
-      <div className="ps-sticky section-light" data-accent="224,86,10">
-        <div className="ed ps-inner">
-          <div ref={labelRef}><Label n="05" text="How we work" /></div>
-          <h2 ref={titleRef} className="ed-h2 ps-title">Three steps to a<br />live product.</h2>
-          <div ref={stepsRef} className="ed-steps">
-            {steps.map((s) => (
-              <div key={s.n} className="ed-step">
-                <span className="ed-step-n">{s.n}</span>
-                <h3 className="ed-step-title">{s.title}</h3>
-                <p className="ed-step-text">{s.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatsGrid() {
-  const ref = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  // One-shot flag: the counters only need to start once, so we avoid a React
-  // re-render on every scrubbed frame (setState with the same value bails out).
-  const [play, setPlay] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPlay(true);
-      return;
-    }
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: 1,
-              onUpdate: (self) => { if (self.progress > 0) setPlay(true); },
-            },
-          });
-
-          if (labelRef.current) tl.from(labelRef.current, { y: 40, opacity: 0, ease: "none" }, 0);
-          if (titleRef.current) tl.from(titleRef.current, { y: 40, opacity: 0, ease: "none" }, 0.1);
-          if (gridRef.current) tl.from(gridRef.current, { y: 60, opacity: 0, ease: "none" }, 0.2);
-        }, ref.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch { setPlay(true); }
-    })();
-    return () => cleanup?.();
-  }, []);
-
-  return (
-    <section className="sg-section" ref={ref} data-accent="255,106,26">
-      <div className="sg-sticky">
-        <div className="ed sg-inner">
-          <div ref={labelRef}><Label n="06" text="The fine print, up front" /></div>
-          <h2 ref={titleRef} className="ed-h2 sg-title">No surprises.<br />In writing.</h2>
-          <div ref={gridRef} className="ed-stats">
-            {stats.map((s) => (
-              <div key={s.label} className="ed-stat">
-                <div className="ed-stat-num">
-                  <CountUpVal to={s.to} suffix={s.suffix} play={play} />
-                </div>
-                <div className="ed-stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CountUpVal({ to, suffix, play }: { to: number; suffix: string; play: boolean }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const doneRef = useRef(false);
-  useEffect(() => {
-    if (!play) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      if (ref.current) ref.current.textContent = to + suffix;
-      return;
-    }
-    if (to === 0) { if (ref.current) ref.current.textContent = "0" + suffix; return; }
+    const root = ref.current;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cards = Array.from(root.querySelectorAll<HTMLElement>(".wk-card"));
     let raf = 0;
-    let start = 0;
-    const duration = 1600;
-    const step = (ts: number) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / duration, 1);
-      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-      const v = Math.round(eased * to);
-      if (ref.current) ref.current.textContent = v + suffix;
-      if (p < 1) raf = requestAnimationFrame(step);
-      else { doneRef.current = true; if (ref.current) ref.current.classList.add("stat-bounce"); }
+    const tick = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      cards.forEach((c, i) => {
+        const next = cards[i + 1];
+        if (!next) { c.style.setProperty("--k", "0"); return; }
+        // how far the next card has slid over this one (0..1)
+        const k = Math.min(1, Math.max(0, 1 - (next.getBoundingClientRect().top - 96) / (vh * 0.8)));
+        c.style.setProperty("--k", k.toFixed(3));
+      });
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [play, to, suffix]);
-  return <span ref={ref}>0{suffix}</span>;
-}
-
-function Marquee() {
-  const row1 = ["BUILD", "·", "SHIP", "·", "SCALE", "·", "REPEAT"];
-  const row2 = ["strategy", "·", "design", "·", "code", "·", "launch"];
-  const rm = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const pause = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; };
-  const resume = (e: React.MouseEvent<HTMLElement>) => { if (!rm) (e.currentTarget as HTMLElement).style.animationPlayState = ""; };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    tick();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
+  }, []);
 
   return (
-    <section className="mq-section">
-      <div className="mq-row">
-        <div className="mq-row-inner" onMouseEnter={pause} onMouseLeave={resume}>
-          {[...row1, ...row1].map((w, i) =>
-            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word">{w}</span>
-          )}
+    <section id="work" className="hm-sec wk" ref={ref} aria-labelledby="wk-title">
+      <div className="hm-wrap">
+        <header className="hm-head">
+          <p className="hm-kicker"><span className="hm-rule" />Selected work</p>
+          <h2 id="wk-title" className="hm-h2">Products we designed, built <em>and shipped.</em></h2>
+        </header>
+        <div className="wk-list">
+          {WORK.map((w, i) => {
+            const external = w.href.startsWith("http");
+            const body = (
+              <>
+                <div className="wk-media">
+                  <img
+                    src={asset(`${w.img}.webp`)}
+                    srcSet={`${asset(`${w.img}-800.webp`)} 800w, ${asset(`${w.img}.webp`)} 1600w`}
+                    sizes="(max-width: 900px) 100vw, 1200px"
+                    alt={`${w.name} on a laptop and phone, designed and built by AHOS`}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    width={1600}
+                    height={1000}
+                  />
+                </div>
+                <div className="wk-meta">
+                  <span className="wk-idx">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="wk-name">{w.name}</h3>
+                  <p className="wk-kind">{w.kind} · {w.where}</p>
+                  <p className="wk-line">{w.line}</p>
+                  <span className="wk-cta">{w.cta} <span aria-hidden="true">{external ? "↗" : "→"}</span></span>
+                </div>
+              </>
+            );
+            return (
+              <article className="wk-card" key={w.name} style={{ zIndex: i + 1 }}>
+                {external ? (
+                  <a className="wk-inner" href={w.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("work_click", { project: w.name })}>{body}</a>
+                ) : (
+                  <Link className="wk-inner" href={w.href} onClick={() => trackEvent("work_click", { project: w.name })}>{body}</Link>
+                )}
+              </article>
+            );
+          })}
         </div>
+        <p className="wk-also">
+          Also shipped: <a href="https://www.yourprovider-lb.com" target="_blank" rel="noopener noreferrer">YourProvider</a>,{" "}
+          <a href="https://www.aleph.com.lb" target="_blank" rel="noopener noreferrer">Aleph</a>,{" "}
+          <Link href="/aria-ai">ARIA AI</Link> and more.
+        </p>
       </div>
-      <div className="mq-row">
-        <div className="mq-row-inner mq-row-inner-reverse" onMouseEnter={pause} onMouseLeave={resume}>
-          {[...row2, ...row2].map((w, i) =>
-            w === "·" ? <span key={i} className="mq-dot" /> : <span key={i} className="mq-word-dim">{w}</span>
-          )}
+    </section>
+  );
+}
+
+function Build() {
+  return (
+    <section className="hm-sec bd" aria-labelledby="bd-title">
+      <div className="hm-wrap">
+        <header className="hm-head">
+          <p className="hm-kicker"><span className="hm-rule" />What we build</p>
+          <h2 id="bd-title" className="hm-h2">Three things, <em>done properly.</em></h2>
+        </header>
+        <div className="bd-grid">
+          {BUILD.map((b) => (
+            <div className="bd-item" key={b.n}>
+              <span className="bd-n">{b.n}</span>
+              <h3 className="bd-title">{b.title}</h3>
+              <p className="bd-line">{b.line}</p>
+              <ul className="bd-links">
+                {b.links.map(([label, href]) => <li key={href}><Link href={href}>{label} <span aria-hidden="true">→</span></Link></li>)}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function Testimonials() {
-  const t = [
-    {
-      text: "I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
-      name: "Yorgo",
-      role: "SpeeAligner.com, Lebanon",
-      link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
-    },
-    {
-      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
-      name: "Khalil",
-      role: "Ido Taxi, Lebanon",
-    },
-    {
-      text: "We brought AHOS in to shape our content strategy, and they exceeded every expectation. They took complex DeFi concepts and turned them into clear, engaging material that actually connects with our audience. Engagement is up, our community is growing, and we finally have a voice that matches our product.",
-      name: "Doran",
-      role: "Marketing Lead, defi.app",
-    },
-  ];
-
-  const secRef = useRef<HTMLElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: secRef.current, start: "top 82%", end: "center 58%", scrub: 1 },
-          });
-          const head = headRef.current ? Array.from(headRef.current.children) : [];
-          if (head.length) tl.from(head, { y: 44, opacity: 0, stagger: 0.1, ease: "none" }, 0);
-          // Cards fan up into place, staggered, the "dealing cards" reveal.
-          const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tm-card-outer");
-          if (cards?.length) tl.from(cards, { y: 90, opacity: 0, scale: 0.94, rotateZ: (i) => (i - 1) * 3.5, transformOrigin: "50% 100%", stagger: 0.14, ease: "none" }, 0.08);
-          // Stars pop in after each card lands.
-          const stars = gridRef.current?.querySelectorAll<HTMLElement>(".tm-stars svg");
-          if (stars?.length) tl.from(stars, { scale: 0, opacity: 0, stagger: 0.025, ease: "none" }, 0.34);
-        }, secRef.current ?? undefined);
-
-        cleanup = () => ctx.revert();
-      } catch { /* leave content visible */ }
-    })();
-    return () => cleanup?.();
-  }, []);
-
+function BeirutClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => { const id = setInterval(() => setNow(new Date()), 30000); return () => clearInterval(id); }, []);
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Beirut" }).format(now);
+  const hour = +new Intl.DateTimeFormat("en-GB", { hour: "numeric", hourCycle: "h23", timeZone: "Asia/Beirut" }).format(now);
+  const online = hour >= 9 && hour < 21;
   return (
-    <section className="ed ed-sec tm-section" ref={secRef} data-accent="255,140,74">
-      <div ref={headRef} className="tm-head">
-        <Label n="04" text="What clients say" />
-        <h2 className="ed-h2">Kind words from people we've worked with.</h2>
+    <p className="st-clock">
+      <span className={`st-dot${online ? " is-on" : ""}`} aria-hidden="true" />
+      {time} in Beirut · {online ? "we're online" : "we reply first thing tomorrow"}
+    </p>
+  );
+}
+
+function Studio() {
+  return (
+    <section className="hm-sec st" aria-labelledby="st-title">
+      <div className="hm-wrap st-grid">
+        <div>
+          <p className="hm-kicker"><span className="hm-rule" />The studio</p>
+          <h2 id="st-title" className="st-statement">
+            A small senior team in Beirut. You talk to the people who <em>build your product,</em> from the first call to launch day.
+          </h2>
+          <BeirutClock />
+        </div>
+        <dl className="st-facts">
+          <div><dt>Since</dt><dd>2023</dd></div>
+          <div><dt>Products shipped</dt><dd>50+</dd></div>
+          <div><dt>Trustpilot</dt><dd>5.0</dd></div>
+          <div><dt>First reply</dt><dd>&lt; 24h</dd></div>
+          <div><dt>Code ownership</dt><dd>100%</dd></div>
+          <div><dt>Warranty</dt><dd>30 days</dd></div>
+        </dl>
       </div>
-      <div className="tm-grid" ref={gridRef}>
-        {t.map((tc) => (
-          <div key={tc.name} className="tm-card-outer">
-            <TiltCard className="tm-card">
-              <span className="tm-quote-mark" aria-hidden="true">&ldquo;</span>
-              <div className="tm-stars" aria-label="5 out of 5 stars">
-                {[1,2,3,4,5].map(s => (
-                  <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)" aria-hidden="true">
-                    <path d="M10 1l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 13.2l-4.8 2.7.9-5.4-3.9-3.8 5.4-.8L10 1z" />
-                  </svg>
-                ))}
-              </div>
-              <blockquote className="tm-text">
-                <p>"{tc.text}"</p>
-              </blockquote>
-              <div className="tm-meta">
-                <cite className="tm-name">{tc.name}</cite>
-                <span className="tm-role">{tc.role}</span>
-                {tc.link && <a className="tm-trustpilot" href={tc.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
-              </div>
-            </TiltCard>
-          </div>
-        ))}
+    </section>
+  );
+}
+
+function Voices() {
+  return (
+    <section className="hm-sec vc" aria-labelledby="vc-title">
+      <div className="hm-wrap">
+        <header className="hm-head">
+          <p className="hm-kicker"><span className="hm-rule" />Client words</p>
+          <h2 id="vc-title" className="hm-h2">From the people <em>we built for.</em></h2>
+        </header>
+        <div className="vc-grid">
+          {VOICES.map((v) => (
+            <figure className="vc-item" key={v.name}>
+              <blockquote>{v.text}</blockquote>
+              <figcaption>
+                <b>{v.name}</b><span>{v.role}</span>
+                {v.link && <a href={v.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Questions() {
+  return (
+    <section className="hm-sec qa" aria-labelledby="qa-title">
+      <FAQSchema items={FAQ} />
+      <div className="hm-wrap qa-grid">
+        <header>
+          <p className="hm-kicker"><span className="hm-rule" />Questions</p>
+          <h2 id="qa-title" className="hm-h2">Straight <em>answers.</em></h2>
+          <Link href="/faq" className="qa-more">All questions →</Link>
+        </header>
+        <div className="qa-list">
+          {FAQ.map((f, i) => (
+            <details key={f.question} open={i === 0}>
+              <summary>{f.question}<span aria-hidden="true" /></summary>
+              <p>{f.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Closing() {
+  return (
+    <section className="hm-sec cl" aria-labelledby="cl-title">
+      <div className="hm-wrap">
+        <p className="hm-kicker"><span className="hm-rule" />Next</p>
+        <h2 id="cl-title" className="cl-title">Let's build <em>yours.</em></h2>
+        <p className="cl-sub">Tell us what you're making. A real person replies within 24 hours with a plan and a fixed quote.</p>
+        <div className="cl-ctas">
+          <Link href="/contact" className="fh-btn" onClick={() => trackEvent("cta_click", { where: "home_closing" })}>Book a 30-min call <span aria-hidden="true">↗</span></Link>
+          <a href="https://wa.me/96170165601" className="fh-ghost" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+          <a href="mailto:info@ahos.xyz" className="fh-ghost">info@ahos.xyz</a>
+        </div>
       </div>
     </section>
   );
@@ -572,70 +327,18 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="AHOS | Websites, Apps & Software That Pay for Themselves"
-        description="AHOS is a boutique digital product studio in Beirut building websites, custom software, AI, and Web3 for founders in the US, Gulf, and worldwide. One team, idea to launch, full code ownership."
+        title="AHOS | Websites, Apps and Software for Founders, Built in Beirut"
+        description="AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps and custom software for founders in Lebanon, the Gulf, Europe and the US. Fixed quotes, and you own the code."
         path="/"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
-      <OverlayParticles />
-
-      {/* ─── HERO (interactive ARIA) ─── */}
-      <HeroAria />
-
-      {/* ─── MANIFESTO ─── */}
-      <ZoomReveal />
-
-      {/* ─── PROOF / WORK ─── */}
-      <WorkRail />
-
-      {/* ─── CAPABILITIES ─── */}
-      <ServicesStack />
-
-      {/* ─── WHY AHOS (differentiators) ─── */}
-      <WhyAhos />
-
-      {/* ─── PROCESS (light) ─── */}
-      <ProcessSection />
-
-      {/* ─── PRICING + RECURRING ─── */}
-      <PricingMRR />
-
-      {/* ─── STATS ─── */}
-      <StatsGrid />
-
-      {/* ─── TESTIMONIALS ─── */}
-      <Testimonials />
-
-      {/* ─── MARQUEE ─── */}
-      <Marquee />
-
-      {/* ─── CTA ─── */}
-      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)" }} data-accent="255,106,26">
-        <div className="ed">
-          <Reveal dir="left"><Label n="07" text="Let's build" /></Reveal>
-          <h2 style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(64px, 15vw, 240px)",
-            fontWeight: 700,
-            lineHeight: 0.86,
-            letterSpacing: "-0.05em",
-            marginBottom: 20,
-          }}>
-            Build something<br />that <em style={{ fontStyle: "normal", color: "var(--orange)" }}>pays off.</em>
-          </h2>
-          <p style={{ fontSize: "clamp(17px, 2vw, 26px)", color: "var(--text-muted)", marginBottom: 40, maxWidth: "28ch" }}>
-            Tell us what you're building, a real human replies within 24 hours with a clear plan and a fixed quote.
-          </p>
-          <div className="ed-cta-row">
-            <Link href="/contact" className="ed-btn ed-btn-lg">Book a 30-min call<span>↗</span></Link>
-            <a href="mailto:info@ahos.xyz" className="ed-link-arrow">info@ahos.xyz</a>
-          </div>
-          <p style={{ marginTop: 20, fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-dim)" }}>
-            Free 30-min call · No commitment · Fixed quote · 100% code ownership
-          </p>
-        </div>
-      </section>
-
+      <FilmHero />
+      <Work />
+      <Build />
+      <Studio />
+      <Voices />
+      <Questions />
+      <Closing />
       <Footer />
     </>
   );
