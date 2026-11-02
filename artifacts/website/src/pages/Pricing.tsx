@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { Testimonials } from "../components/Testimonials";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { PageHero } from "../components/PageHero";
 
 const plans = [
   {
@@ -86,23 +87,17 @@ export default function Pricing() {
 
       <style>{css}</style>
 
-      <motion.header
-        className="ed ed-page-hero pr-hero"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
+      <PageHero
+        crumb="Pricing"
+        kicker="Transparent, fair, fixed"
+        titleLead="Websites from"
+        titleAccent="$300."
+        lead="Fixed prices, custom work, full ownership. What you see is what you pay."
+        visual="build"
       >
-        <span className="ed-label">
-          <span className="ed-label-n">Pricing</span>
-          <span className="ed-label-line" />
-          <span className="ed-label-text">Transparent, fair, fixed</span>
-        </span>
-        <h1 className="ed-page-title">Websites from <span className="pr-accent">$300</span></h1>
-        <p className="ed-page-lead">Fixed prices, custom work, full ownership. What you see is what you pay.</p>
-        <div className="ed-hero-actions" style={{ marginTop: 24 }}>
-          <Link href="/contact" className="ed-btn ed-btn-lg">Start your project <span>↗</span></Link>
-          <Link href="/faq" className="ed-link-arrow">Visit FAQ</Link>
-        </div>
-      </motion.header>
+        <Link href="/contact" className="fh-btn">Start your project <span aria-hidden="true">↗</span></Link>
+        <Link href="/faq" className="fh-ghost">Visit FAQ</Link>
+      </PageHero>
 
       <section className="ed pr-grid">
         {plans.map((p, i) => (

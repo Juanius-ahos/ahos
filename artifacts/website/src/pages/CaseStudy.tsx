@@ -3,8 +3,11 @@ import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
 import { caseStudyBySlug } from "../data/caseStudies";
+import { PageHero } from "../components/PageHero";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+
+const RENDERS: Record<string, string> = { speealigner: "work/r-speealigner.webp", "ido-taxi": "work/r-idotaxi.webp" };
 
 export default function CaseStudy() {
   const { slug } = useParams<{ slug: string }>();
@@ -34,20 +37,16 @@ export default function CaseStudy() {
 
       <style>{css}</style>
 
-      <header className="ed ed-page-hero cs-hero">
-        <Reveal className="ed-label" y={12}>
-          <span className="ed-label-n">Case study</span><span className="ed-label-line" /><span className="ed-label-text">{study.category}</span>
-        </Reveal>
-        <Reveal delay={80}><h1 className="ed-h1">{study.name}</h1></Reveal>
-        <Reveal delay={160} className="cs-meta">
-          <span className="ed-cap">{study.year}</span>
-          <a href={study.url} target="_blank" rel="noopener noreferrer" className="ed-link-arrow">Visit live site →</a>
-        </Reveal>
-      </header>
-
-      <Reveal className="ed cs-shot-wrap">
-        <img src={asset(study.img)} alt={`${study.name}, ${study.category}, built by AHOS`} className="cs-shot" width={1280} height={860} loading="lazy" decoding="async" />
-      </Reveal>
+      <PageHero
+        crumb={study.name}
+        kicker={`Case study · ${study.category}`}
+        titleLead={study.name}
+        lead={study.testimonial.text.split(". ")[0] + "."}
+        visual={{ src: asset(RENDERS[study.slug] ?? study.img), alt: `${study.name} on a laptop and phone, designed and built by AHOS` }}
+      >
+        <a href={study.url} target="_blank" rel="noopener noreferrer" className="fh-btn">Visit live site <span aria-hidden="true">↗</span></a>
+        <Link href="/contact" className="fh-ghost">Start a project like this</Link>
+      </PageHero>
 
       <section className="ed ed-sec cs-body">
         <div className="cs-grid">

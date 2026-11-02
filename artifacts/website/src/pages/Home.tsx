@@ -4,8 +4,8 @@ import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { FAQSchema } from "../seo/FAQSchema";
 import { FilmHero } from "../components/film/FilmHero";
+import { Voices, Closing } from "../components/Blocks";
 import { trackEvent } from "../lib/analytics";
-import "./home.css";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -67,25 +67,6 @@ const BUILD = [
     title: "AI and automation",
     line: "Assistants, WhatsApp flows and automations that take repetitive work off your team's plate.",
     links: [["AI development", "/ai-development"], ["UI and brand design", "/ui-ux-design"]],
-  },
-];
-
-const VOICES = [
-  {
-    text: "Highly professional, neat work, and they reply fast. They did an amazing job building my website.",
-    name: "Yorgo",
-    role: "SpeeAligner, Lebanon",
-    link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
-  },
-  {
-    text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. The app is live, our drivers love it, and our passengers keep growing.",
-    name: "Khalil",
-    role: "I Do Taxi, Lebanon",
-  },
-  {
-    text: "They took complex concepts and turned them into clear material that actually connects with our audience. Engagement is up and our community is growing.",
-    name: "Doran",
-    role: "Marketing lead, defi.app",
   },
 ];
 
@@ -259,30 +240,6 @@ function Studio() {
   );
 }
 
-function Voices() {
-  return (
-    <section className="hm-sec vc" aria-labelledby="vc-title">
-      <div className="hm-wrap">
-        <header className="hm-head">
-          <p className="hm-kicker"><span className="hm-rule" />Client words</p>
-          <h2 id="vc-title" className="hm-h2">From the people <em>we built for.</em></h2>
-        </header>
-        <div className="vc-grid">
-          {VOICES.map((v) => (
-            <figure className="vc-item" key={v.name}>
-              <blockquote>{v.text}</blockquote>
-              <figcaption>
-                <b>{v.name}</b><span>{v.role}</span>
-                {v.link && <a href={v.link} target="_blank" rel="noopener noreferrer">Verified on Trustpilot ↗</a>}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Questions() {
   return (
     <section className="hm-sec qa" aria-labelledby="qa-title">
@@ -300,23 +257,6 @@ function Questions() {
               <p>{f.answer}</p>
             </details>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Closing() {
-  return (
-    <section className="hm-sec cl" aria-labelledby="cl-title">
-      <div className="hm-wrap">
-        <p className="hm-kicker"><span className="hm-rule" />Next</p>
-        <h2 id="cl-title" className="cl-title">Let's build <em>yours.</em></h2>
-        <p className="cl-sub">Tell us what you're making. A real person replies within 24 hours with a plan and a fixed quote.</p>
-        <div className="cl-ctas">
-          <Link href="/contact" className="fh-btn" onClick={() => trackEvent("cta_click", { where: "home_closing" })}>Book a 30-min call <span aria-hidden="true">↗</span></Link>
-          <a href="https://wa.me/96170165601" className="fh-ghost" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
-          <a href="mailto:info@ahos.xyz" className="fh-ghost">info@ahos.xyz</a>
         </div>
       </div>
     </section>

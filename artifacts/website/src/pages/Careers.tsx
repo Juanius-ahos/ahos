@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
+import { PageHero } from "../components/PageHero";
 
 const values = [
   { n: "01", title: "Own the whole thing", text: "No ticket-pushing. You take a problem from blank page to shipped, and your name is on it." },
@@ -64,18 +65,14 @@ export default function Careers() {
 
       <style>{css}</style>
 
-      <motion.header
-        className="ed ed-page-hero"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className="ed-label">
-          <span className="ed-label-n">03</span><span className="ed-label-line" /><span className="ed-label-text">Careers</span>
-        </div>
-        <h1 className="ed-h1">We hire rarely.<br /><em>And well.</em></h1>
-        <p className="ed-lead">We stay small on purpose. When we do bring someone in, it's someone who'd rather own a hard problem than be handed an easy one.</p>
-      </motion.header>
+      <PageHero
+        crumb="Careers"
+        kicker="Careers"
+        titleLead="We hire rarely."
+        titleAccent="And well."
+        lead="We stay small on purpose. When we do bring someone in, it's someone who'd rather own a hard problem than be handed an easy one."
+        visual="world"
+      />
 
       {/* Pull-quote */}
       <div className="ed cr-quote">

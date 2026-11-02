@@ -10,7 +10,7 @@ const items = [
   {
     text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care.",
     name: "Khalil",
-    role: "Ido Taxi",
+    role: "I Do Taxi",
   },
   {
     text: "They built our DeFi dashboard and staking platform on Solana. Smart contracts were audited, frontend was clean, and the whole thing shipped on schedule. Professional work.",

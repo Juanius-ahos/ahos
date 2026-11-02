@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { AllServicesSchema } from "../seo/ServiceSchema";
+import { PageHero } from "../components/PageHero";
 
 const services = [
   {
@@ -81,27 +82,17 @@ export default function Services() {
 
       <style>{css}</style>
 
-      <motion.header
-        className="ed ed-page-hero sv-hero"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+      <PageHero
+        crumb="Services"
+        kicker="Services"
+        titleLead="Everything you need,"
+        titleAccent="done properly."
+        lead="Websites, online stores, mobile apps, custom software, AI and design, handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks."
+        visual="live"
       >
-        <div className="sv-hero-inner">
-          <div className="ed-label">
-            <span className="ed-label-n">01 / 06</span><span className="ed-label-line" /><span className="ed-label-text">Services</span>
-          </div>
-          <h1 className="ed-h1">Everything you need,<br />done <em>properly.</em></h1>
-          <p className="ed-lead">Web development, mobile apps, custom software, AI & automation, e-commerce, and design, handled by one team that talks to itself. No agency relay race, no finger-pointing when something breaks.</p>
-        </div>
-        <div className="sv-hero-strip">
-          <div className="sv-strip-inner">
-            {["Custom Software", "Web Development", "Mobile Apps", "AI & Automation", "E-Commerce", "UI/UX Design", "Custom Software", "Web Development"].map((s, i) => (
-              <span key={i} className="sv-strip-word">{s}<span className="sv-strip-dot" /></span>
-            ))}
-          </div>
-        </div>
-      </motion.header>
+        <Link href="/contact" className="fh-btn">Start a project <span aria-hidden="true">↗</span></Link>
+        <Link href="/pricing" className="fh-ghost">See pricing</Link>
+      </PageHero>
 
       <div className="sv-body">
         {services.map((s, i) => (

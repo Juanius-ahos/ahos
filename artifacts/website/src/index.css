@@ -6,8 +6,8 @@
   --orange-soft: rgba(255, 106, 26, 0.09);
 
   /* Neutral near-black surfaces (editorial, no blue/cosmic cast) */
-  --bg: #0a0a0b;
-  --bg-2: #0e0e10;
+  --bg: #050506;
+  --bg-2: #0b0b0c;
   --bg-3: #141416;
   --bg-card: #111113;
   --bg-card-hover: #161619;

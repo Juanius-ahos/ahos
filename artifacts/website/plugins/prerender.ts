@@ -333,12 +333,12 @@ const ROUTES: Record<string, RouteMeta> = {
 <blockquote><p>"I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!"</p><footer>Yorgo, SpeeAligner.com, Lebanon</footer></blockquote>`,
   },
   "/work/ido-taxi": {
-    title: "Ido Taxi, Case Study | AHOS",
-    description: "How AHOS built Ido Taxi: a web · mobile app · transport project, in the client's own words.",
-    bodyHtml: `<h1>Ido Taxi</h1>
+    title: "I Do Taxi, Case Study | AHOS",
+    description: "How AHOS built I Do Taxi: a web · mobile app · transport project, in the client's own words.",
+    bodyHtml: `<h1>I Do Taxi</h1>
 <p>Web · Mobile App · Transport, 2025</p>
 <section><h2>What we built</h2><p>Web Development, Mobile Apps</p></section>
-<blockquote><p>"AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed."</p><footer>Khalil, Ido Taxi, Lebanon</footer></blockquote>`,
+<blockquote><p>"AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed."</p><footer>Khalil, I Do Taxi, Lebanon</footer></blockquote>`,
   },
 };
 

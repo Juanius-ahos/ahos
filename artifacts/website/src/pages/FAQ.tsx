@@ -5,6 +5,7 @@ import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { FAQSchema } from "../seo/FAQSchema";
 import { faqCategories, allFaqItems } from "../data/faq";
 import { Reveal } from "../components/motion";
+import { PageHero } from "../components/PageHero";
 
 export default function FAQ() {
   const [cat, setCat] = useState(faqCategories[0].category);
@@ -23,15 +24,15 @@ export default function FAQ() {
       <FAQSchema items={allFaqItems} />
 
       <style>{css}</style>
-      <div className="ed-bg" aria-hidden="true" />
 
-      <header className="ed ed-page-hero">
-        <Reveal className="ed-label" y={12}>
-          <span className="ed-label-n">00</span><span className="ed-label-line" /><span className="ed-label-text">Support</span>
-        </Reveal>
-        <Reveal delay={80}><h1 className="ed-h1">No fluff.<br /><em>Straight answers.</em></h1></Reveal>
-        <Reveal delay={160}><p className="ed-lead">Everything people actually ask before they hit "start a project." Can't find it? Email us, a human replies.</p></Reveal>
-      </header>
+      <PageHero
+        crumb="FAQ"
+        kicker="Questions"
+        titleLead="No fluff."
+        titleAccent="Straight answers."
+        lead="Everything people actually ask before they hit start a project. Can’t find it? Email us and a human replies."
+        visual="design"
+      />
 
       <section className="ed ed-sec">
         <div className="faq-grid">

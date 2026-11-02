@@ -30,7 +30,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "ido-taxi",
-    name: "Ido Taxi",
+    name: "I Do Taxi",
     category: "Web · Mobile App · Transport",
     year: "2025",
     url: "https://www.idotaxi.net",
@@ -39,7 +39,7 @@ export const caseStudies: CaseStudy[] = [
     testimonial: {
       text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
       name: "Khalil",
-      role: "Ido Taxi, Lebanon",
+      role: "I Do Taxi, Lebanon",
     },
   },
 ];
