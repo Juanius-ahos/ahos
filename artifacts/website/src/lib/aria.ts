@@ -1,11 +1,10 @@
 import { trackEvent } from "./analytics";
+import { site } from "../site.config";
 
-// Reliable AI backend. Deploy the Cloudflare Worker in /worker (see
-// worker/SETUP.md) and paste its URL here to run ARIA on Google Gemini.
-// While empty, ARIA uses the free Pollinations fallback (flaky; the chat hook
-// retries and shows a graceful "reach us" message when it fails).
-const ARIA_WORKER_URL = "";
-export const API_URL = ARIA_WORKER_URL || "https://text.pollinations.ai/openai";
+// ARIA backend: set integrations.ariaWorkerUrl in site.config.ts (see worker/SETUP.md).
+// While empty, ARIA uses the free fallback; the chat hook retries and shows a
+// "reach us" message when it fails.
+export const API_URL = site.integrations.ariaWorkerUrl || site.integrations.ariaFallbackUrl;
 export const MODEL = "openai";
 
 const IDENTITY = [
@@ -117,10 +116,10 @@ export interface Message {
   content: string;
 }
 
-const W3F_KEY = "840f1d96-d5b1-4659-8a5e-30eae7d9f5db";
+const W3F_KEY = site.integrations.web3formsKey;
 
 function sendPayload(payload: Record<string, unknown>, retries = 2): Promise<boolean> {
-  return fetch("https://api.web3forms.com/submit", {
+  return fetch(site.integrations.web3formsEndpoint, {
     method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload),
   }).then((r) => r.json().then((j) => j.success === true)).catch(() => {
     if (retries > 0) return new Promise((r) => setTimeout(r, 1000 * (3 - retries))).then(() => sendPayload(payload, retries - 1));

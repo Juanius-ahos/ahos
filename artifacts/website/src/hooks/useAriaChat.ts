@@ -46,7 +46,7 @@ export function useAriaChat(options?: { systemPrompt: string; source: string; ma
     setMessages(updated);
     setInput("");
 
-    // Placeholder assistant message — filled by streaming
+    // Placeholder assistant message, filled by streaming
     historyRef.current = [...historyRef.current, { role: "assistant", content: "" }];
     setMessages(historyRef.current);
 

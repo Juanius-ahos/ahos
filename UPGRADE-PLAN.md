@@ -107,7 +107,14 @@ FCP 3.1 s, LCP 5.8 s, TBT 960 ms, Speed Index 18.2 s, CLS 0, TTI 7.5 s. 194 KiB 
 - Add `BreadcrumbList`, per-page `Service`, `CreativeWork` for case studies.
 - Fresh OG image built from type and brand colours (no AI imagery). Gray labelled placeholders wherever a real photo is still needed (team, studio).
 
-## Decisions I need from you
+## Decisions (approved 3 November 2026)
+
+- Plan approved as written.
+- Homepage 3D film: retired.
+- Pricing: per-service "from" pricing with the fixed-quote promise.
+- Review: preview repo `Juanius-ahos/ahos-preview` on GitHub Pages, plus a PR against `main`.
+
+## Decisions asked
 
 1. **Homepage 3D film**: retire it from the homepage (recommended; it is the main reason for Performance 42 and the split identity), or keep a shortened version below the fold.
 2. **Pricing**: keep "$500 standard website" as the lead price, or switch to "from" pricing per service with the fixed-quote promise.
@@ -119,3 +126,47 @@ FCP 3.1 s, LCP 5.8 s, TBT 960 ms, Speed Index 18.2 s, CLS 0, TTI 7.5 s. 194 KiB 
 - `pnpm build` passes on the branch.
 - Mobile Lighthouse 90+ in Performance, Accessibility, Best Practices and SEO on the homepage, a service page and a case study.
 - PR open against `main` (nothing merged or deployed to ahos.xyz until you merge).
+
+## Results (branch `upgrade/agency-level`)
+
+### Mobile Lighthouse, before and after
+
+| Page | Performance | Accessibility | Best Practices | SEO |
+|---|---|---|---|---|
+| Home, live today | 42 | 96 | 100 | 100 |
+| Home, upgrade | **92** | **100** | 100 | 100 |
+| Web development | 95 | 100 | 100 | 100 |
+| Case study (I Do Taxi) | 95 | 100 | 100 | 100 |
+| Services | 95 | 100 | 100 | 100 |
+| Pricing | 97 | 100 | 100 | 100 |
+| FAQ | 96 | 100 | 100 | 100 |
+| Careers | 95 | 100 | 100 | 100 |
+
+Lighthouse 12, mobile preset, Edge headless, local static server with gzip. Home: LCP 3.0 s, TBT 40 ms, CLS 0 (live: LCP 5.8 s, TBT 960 ms).
+
+### What changed
+
+- **One world.** Drafting paper, ink and safety orange across every page. The starfield, orb, globe and 3D film are gone, along with three.js and framer-motion.
+- **Homepage.** The promise is the H1. Offer, two CTAs, proof row and the four real projects all sit in the first viewport. Each project then gets a large browser frame with the real screenshot; its original drawing sketches itself over the live site on scroll and a build line sweeps it away. Page height went from 16,700px to about 9,000px.
+- **Real pre-rendering.** Every route is rendered with React on the server at build time and hydrated, instead of an empty root plus hidden copy. One H1 per page.
+- **One config file.** `artifacts/website/src/site.config.ts` holds every fact, price, project, case study, FAQ, route title, integration key and the GA4 ID. The JSON-LD, sitemap, robots.txt and llms.txt are generated from it by `scripts/prerender.mjs`.
+- **Structured data.** One Organization graph with an offer catalogue and start-from prices; `Service` and `FAQPage` on each service page; `BreadcrumbList` on inner pages; `CreativeWork` with the client review on case studies.
+- **Pricing.** Start-from prices per service, with what every project includes.
+- **Case studies.** Brief, what we built, where it is now, client quote, next study. Each uses its own project imagery.
+- **Motion.** GSAP, ScrollTrigger and Lenis load after first paint: the drawing sweep, counters, the hero dimension line, the process line, reveals and magnetic CTAs. Nothing is hidden before JavaScript, and reduced-motion visitors get the finished page.
+- **Speed.** CSS inlined (6 KB gzip), GA4 loads on first interaction or after five seconds, responsive screenshots (480 to 1440w), 52 MB of unused video removed from `public/`.
+- **Copy rule enforced.** `pnpm check:copy` fails the build on any em dash in source, public files or built HTML.
+- **Brand assets untouched.** Logo, favicon, colours and the three brand typefaces are as they were. The OG image is new, built from type and brand colours only (`pnpm og`).
+
+### Things to check
+
+- Start-from prices come from the existing copy. The old pages disagreed on online stores ($500 in the FAQ, $800 on the pricing page); the upgrade uses $500. Change `from` in `site.config.ts` if that is wrong.
+- The Trustpilot profile link in the proof row is `https://www.trustpilot.com/review/ahos.xyz`, taken from the old site.
+- The contact form, careers form and ARIA still post to the same web3forms key; ARIA still uses the free fallback until `integrations.ariaWorkerUrl` is set.
+
+### Commands
+
+```bash
+pnpm --filter @workspace/website run build          # production build to artifacts/website/dist
+pnpm --filter @workspace/website run build:preview  # review build for /ahos-preview/, noindex, no CNAME
+```

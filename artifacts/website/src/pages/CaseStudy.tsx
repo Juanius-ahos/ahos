@@ -1,103 +1,64 @@
-import { Link, useParams } from "wouter";
+import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { Footer } from "../components/Footer";
-import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
-import { Reveal } from "../components/motion";
-import { caseStudyBySlug } from "../data/caseStudies";
-import { PageHero } from "../components/PageHero";
+import { Close, Frame, PageHeader, Quote, TitleBlock } from "../components/ui";
+import { caseStudies, projectById, type CaseStudy as CS } from "../site.config";
 
-const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
-
-const RENDERS: Record<string, string> = { speealigner: "work/r-speealigner.webp", "ido-taxi": "work/r-idotaxi.webp" };
-
-export default function CaseStudy() {
-  const { slug } = useParams<{ slug: string }>();
-  const study = slug ? caseStudyBySlug(slug) : undefined;
-
-  if (!study) {
-    return (
-      <>
-        <SEOHead title="Case study not found" description="This case study doesn't exist." path="/work" noindex />
-        <div className="ed ed-page-hero" style={{ textAlign: "center" }}>
-          <h1 className="ed-h1">Not found.</h1>
-          <Link href="/" className="ed-link-arrow">Back home →</Link>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+export default function CaseStudy({ c }: { c: CS }) {
+  const p = projectById(c.project);
+  const next = caseStudies[(caseStudies.indexOf(c) + 1) % caseStudies.length];
+  const np = projectById(next.project);
 
   return (
     <>
-      <SEOHead
-        title={`${study.name}, Case Study | AHOS`}
-        description={`How AHOS built ${study.name}: a ${study.category.toLowerCase()} project, in the client's own words.`}
-        path={`/work/${study.slug}`}
-      />
-      <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Work", url: "/" }, { name: study.name, url: `/work/${study.slug}` }]} />
+      <PageHeader crumbs={[{ name: "Home", href: "/" }, { name: "Work", href: "/#work" }, { name: p.name }]} title={c.title} lead={c.lead}
+        aside={<TitleBlock rows={[["Client", p.name], ["What we made", p.what], ["Where", p.where], ["Year", p.year], ["Services", c.services.join(", ")]]} />}>
+        <a href={p.live} className="btn" target="_blank" rel="noopener noreferrer" data-magnetic>Visit {p.liveLabel} <Arrow /></a>
+        <Link href="/contact" className="btn btn-ghost">Start a project like this</Link>
+      </PageHeader>
 
-      <style>{css}</style>
+      <section className="sec" aria-label="The project">
+        <div className="wrap">
+          <div className="cs-shot" style={{ marginTop: 0 }}><Frame p={p} eager draw sizes="(max-width: 1440px) 92vw, 1320px" /></div>
+        </div>
+      </section>
 
-      <PageHero
-        crumb={study.name}
-        kicker={`Case study · ${study.category}`}
-        titleLead={study.name}
-        lead={study.testimonial.text.split(". ")[0] + "."}
-        visual={{ src: asset(RENDERS[study.slug] ?? study.img), alt: `${study.name} on a laptop and phone, designed and built by AHOS` }}
-      >
-        <a href={study.url} target="_blank" rel="noopener noreferrer" className="btn">Visit live site <Arrow /></a>
-        <Link href="/contact" className="lnk">Start a project like this</Link>
-      </PageHero>
+      <section className="sec tone-paper2" aria-labelledby="brief-title">
+        <div className="wrap">
+          <div className="cs-grid">
+            <h2 id="brief-title" className="d d-5">The brief</h2>
+            <p className="lead" style={{ color: "var(--ink)" }}>{c.brief}</p>
+          </div>
+          <div className="cs-grid">
+            <h2 className="d d-5">What we built</h2>
+            <ul className="cs-list">
+              {c.built.map((b) => (
+                <li key={b.name} data-reveal><h3 className="d">{b.name}</h3><p>{b.body}</p></li>
+              ))}
+            </ul>
+          </div>
+          <div className="cs-grid">
+            <h2 className="d d-5">Where it is now</h2>
+            <p className="lead" style={{ color: "var(--ink)" }}>{c.now}</p>
+          </div>
+        </div>
+      </section>
 
-      <section className="ed ed-sec cs-body">
-        <div className="cs-grid">
-          <div>
-            <div className="ed-cap" style={{ marginBottom: 12 }}>What we built</div>
-            <div className="cs-chips">
-              {study.services.map((s) => <span key={s}>{s}</span>)}
+      <Quote text={c.quote.text} name={c.quote.name} role={c.quote.role} link={c.quote.link} />
+
+      <section className="sec" aria-labelledby="next-title">
+        <div className="wrap">
+          <div className="work">
+            <div className="work-media"><Link href={`/work/${next.slug}`}><Frame p={np} sizes="(max-width: 900px) 92vw, 62vw" /></Link></div>
+            <div className="work-text">
+              <span className="dim work-n">Next case study</span>
+              <h2 id="next-title" className="d d-5" style={{ marginBottom: 20 }}>{np.name}</h2>
+              <Link href={`/work/${next.slug}`} className="btn">Read it <Arrow /></Link>
             </div>
           </div>
-          <blockquote className="cs-quote">
-            <p>&ldquo;{study.testimonial.text}&rdquo;</p>
-            <footer>
-              <span className="cs-quote-name">{study.testimonial.name}</span>
-              <span className="cs-quote-role">{study.testimonial.role}</span>
-              {study.testimonial.link && (
-                <a href={study.testimonial.link} target="_blank" rel="noopener noreferrer" className="cs-quote-link">Verified on Trustpilot ↗</a>
-              )}
-            </footer>
-          </blockquote>
         </div>
       </section>
 
-      <section className="ed ed-sec" style={{ borderTop: "1px solid var(--border-soft)", textAlign: "center" }}>
-        <div className="ed-label" style={{ justifyContent: "center" }}><span className="ed-label-n">+</span><span className="ed-label-line" /><span className="ed-label-text">Building something similar?</span></div>
-        <h2 className="ed-h2">Let's build yours next.</h2>
-        <div style={{ marginTop: 24 }}>
-          <Link href="/contact" className="ed-btn ed-btn-lg">Start a project<span>↗</span></Link>
-        </div>
-      </section>
-
-      <Footer />
+      <Close where={`case_${c.slug}`} />
     </>
   );
 }
-
-const css = `
-.cs-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 8px; }
-.cs-shot-wrap { margin-bottom: clamp(40px, 6vw, 72px); }
-.cs-shot { width: 100%; height: auto; border-radius: var(--radius-xl); border: 1px solid var(--border-soft); display: block; }
-.cs-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 5vw, 64px); align-items: start; }
-.cs-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.cs-chips span { padding: 7px 14px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); font-size: 12.5px; font-weight: 600; }
-.cs-quote { border-left: 2px solid var(--orange); padding-left: clamp(20px, 3vw, 32px); margin: 0; }
-.cs-quote p { font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 30px); line-height: 1.4; letter-spacing: -0.01em; color: var(--text); margin-bottom: 20px; }
-.cs-quote footer { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
-.cs-quote-name { font-weight: 700; color: var(--text); }
-.cs-quote-role { color: var(--text-dim); font-size: 14px; }
-.cs-quote-link { color: var(--orange); font-size: 13px; font-weight: 600; }
-
-@media (max-width: 760px) {
-  .cs-grid { grid-template-columns: 1fr; }
-}
-`;

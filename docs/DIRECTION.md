@@ -1,22 +1,18 @@
-# Direction contract (development only, never shipped)
+# Direction (development only, never shipped)
 
-Surface: ahos.xyz marketing site. Mode: Persuade. Code-led (no image generation).
-Process: impeccable new-work + frontend-design + avoid-ai-design, applied by hand (the impeccable launcher is not installed, so no concept-seed roll ran). seed: none (unavailable)
+Surface: ahos.xyz marketing site. Mode: persuade. Code-led, no generated imagery.
 
 THESIS
-AHOS shows its work the way a builder shows a building: as drawings that become the real thing. The page refuses the dark agency template (glow accents, eyebrow labels, card grids, a fade-up on every section).
+AHOS shows its work the way a builder shows a building: as drawings that become the real thing.
 
-OWN-WORLD
-A Beirut construction hoarding wrapped around an architect's drawing set. Safety orange #FF6A1A owns whole fields (committed, about a third of the page). Ink #0A0A0B for type, linework and the two night scenes (the film, the footer). Drafting paper #EFE9DF as the sheet the drawings sit on. 1px ink linework, dimension lines with ticks, title blocks with real project facts. Brand faces (pinned): Space Grotesk for display and lettering, Inter for running text, JetBrains Mono only for measurements and times. Sentence case everywhere. Icons are authored SVG drafting arrows, never Unicode.
-
-STORY
-The visitor watches a product get drawn and built (film), lands on the hoarding that says what AHOS does, sees each real project as its drawing beside the live site, learns the sequence and the timings, reads one client's words, and books a call on the hoarding.
+WORLD
+Drafting paper #EFE9DF as the ground. Ink #0A0A0B for type, linework, the nav, quotes and the footer. Safety orange #FF6A1A owns whole fields (services, closing CTA) and marks dimensions. 1px ink linework, title blocks with real project facts, a faint drawing grid behind headers. Brand faces: Space Grotesk for display, Inter for text, JetBrains Mono only for measurements and times. Sentence case. Icons are authored SVG drafting arrows.
 
 FIRST VIEWPORT
-The live 3D film, full bleed, ink. Headline in cream, no accent word, no label. The chapter numbers stay because Design, Build, Ship, Scale is a real sequence.
+The promise as the H1, one line of offer, two CTAs, the proof row, then the four real projects in browser frames.
 
-FORM
-Drawing set on a hoarding. Signature interaction: on every project sheet, the build line from the film sweeps down as the sheet passes the middle of the viewport, turning the drawing into the live site. One spacing rhythm, sheets vary in density.
+SIGNATURE
+On each project frame the original drawing sketches itself in orange over the live screenshot, then a build line sweeps it away. The work is always visible; the drawing is an enhancement.
 
-FINISH
-unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+RULES
+All facts and copy-level config live in artifacts/website/src/site.config.ts. No em dashes (pnpm check:copy). No AI imagery: labelled gray placeholders where a real photo is missing. Motion loads after first paint and never hides content before it runs.
