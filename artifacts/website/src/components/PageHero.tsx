@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
+import { DeviceCanvas, type Region } from "./DeviceCanvas";
 import "./page-hero.css";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
@@ -20,6 +21,16 @@ interface PageHeroProps {
   children?: ReactNode;
 }
 
+// Devices sit in the space the headline and lead leave free (beside them on wide screens).
+function heroRegion(canvas: HTMLCanvasElement): Region {
+  const c = canvas.getBoundingClientRect();
+  if (window.innerWidth <= 900) return { x: 0, y: 0, w: c.width, h: c.height };
+  const head = canvas.parentElement!;
+  const right = Math.max(...Array.from(head.querySelectorAll(".ph-h1, .ph-lead, .ph-kicker")).map((el) => el.getBoundingClientRect().right));
+  const x = Math.min(c.width * 0.58, right - c.left + 32);
+  return { x, y: 64, w: c.width - x, h: c.height - 64 };
+}
+
 /** Cinematic page opener shared by every inner page, matching the homepage film. */
 export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, loop, children }: PageHeroProps) {
   const custom = typeof visual === "object";
@@ -28,9 +39,7 @@ export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, 
   return (
     <header className={`ph${custom ? " ph-custom" : ""}`}>
       {loop ? (
-        <video className="ph-bg ph-video" data-loop autoPlay muted loop playsInline preload="auto" poster={asset(`loops/${loop}.jpg`)} aria-hidden="true">
-          <source src={asset(`loops/${loop}.mp4`)} type="video/mp4" />
-        </video>
+        <DeviceCanvas scene={loop} className="ph-bg ph-canvas" region={heroRegion} />
       ) : (
         <img className={`ph-bg${custom ? "" : " ph-drift"}`} src={src} srcSet={srcSet} sizes="100vw" alt={custom ? visual.alt : ""} aria-hidden={custom ? undefined : true} fetchPriority="high" />
       )}

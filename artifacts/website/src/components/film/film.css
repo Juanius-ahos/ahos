@@ -1,13 +1,16 @@
 .fh { position: relative; height: 760vh; margin-top: -64px; background: #050506; }
 .fh-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
-.fh-video {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; background: #050506; display: block;
+.fh-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  opacity: 0; transition: opacity .8s ease;
 }
+.fh-canvas.is-ready { opacity: 1; }
+/* no WebGL: a still frame of the studio */
+.fh-nogl .fh-stage { background: radial-gradient(40% 45% at 70% 55%, rgba(255,106,26,0.18), transparent 70%), #050506; }
 /* keeps the copy readable over the film without a visible box */
 .fh-shade {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(5,5,6,0.72) 0%, rgba(5,5,6,0.35) 34%, rgba(5,5,6,0) 52%);
+  background: linear-gradient(90deg, rgba(5,5,6,0.5) 0%, rgba(5,5,6,0) 45%);
 }
 
 .fh-copy {
@@ -96,11 +99,10 @@
   .fh-progress { display: none; }
 }
 
-.fh-idle { transition: opacity .25s linear; }
 /* opening title: a mask wipe line by line, then the kicker and scroll cue */
 .fh-hook .fh-kicker { animation: fh-fade .8s .1s both; }
 .fh-hook .fh-h1 { animation: fh-wipe 1.3s .2s cubic-bezier(.7,0,.2,1) both; }
 .fh-hook .fh-scroll { animation: fh-fade .8s 1.2s both; }
 @keyframes fh-wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(.3em); } to { clip-path: inset(-.2em -.2em -.3em -.2em); transform: none; } }
 @keyframes fh-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .fh-hook .fh-kicker, .fh-hook .fh-h1, .fh-hook .fh-scroll { animation: none; } .fh-idle { display: none; } }
+@media (prefers-reduced-motion: reduce) { .fh-hook .fh-kicker, .fh-hook .fh-h1, .fh-hook .fh-scroll { animation: none; } }

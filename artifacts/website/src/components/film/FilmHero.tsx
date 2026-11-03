@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import "./film.css";
 
@@ -14,83 +14,104 @@ const CHAPTERS = [
   { id: "scale", at: [8.5, 12.5] },
 ] as const;
 
+type Film = Awaited<ReturnType<typeof import("../../three/film").createFilm>>;
+
 export function FilmHero() {
   const rootRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const idleRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const root = rootRef.current, video = videoRef.current;
-    if (!root || !video) return;
-    const portrait = window.matchMedia("(max-aspect-ratio: 1/1)").matches;
-    video.poster = asset(portrait ? "film/poster-port.jpg" : "film/poster-land.jpg");
-    video.src = asset(portrait ? "film/port.mp4" : "film/land.mp4");
-    video.load();
-    const idle = idleRef.current;
-    if (idle) { idle.src = asset(portrait ? "film/idle-port.mp4" : "film/idle-land.mp4"); idle.play().catch(() => {}); }
-
-    let target = 0, shown = -1, raf = 0;
+    const root = rootRef.current, canvas = canvasRef.current;
+    if (!root || !canvas) return;
+    const mobile = window.matchMedia("(max-width: 900px)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const chapters = Array.from(root.querySelectorAll<HTMLElement>("[data-ch]"));
     const bar = root.querySelector<HTMLElement>(".fh-progress i");
+    let film: Film | null = null, raf = 0, disposed = false;
+    let target = 0, shown = -1, visible = true, dirty = true;
+    let dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.6);
+    const frameTimes: number[] = [];
 
+    // the subject lives in the space the copy leaves free
+    const layout = () => {
+      if (!film) return;
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      const portrait = w / h < 1.05;
+      let r;
+      if (portrait) {
+        const bottom = Math.max(...chapters.map((c) => c.getBoundingClientRect().bottom - canvas.getBoundingClientRect().top));
+        const y = Math.min(h * 0.62, bottom + 12);
+        r = { x: 0, y, w, h: h - y };
+      } else {
+        const right = Math.max(...chapters.map((c) => c.getBoundingClientRect().right));
+        const x = Math.min(w * 0.6, right + 24);
+        r = { x, y: 64, w: w - x, h: h - 64 };
+      }
+      film.resize(w * dpr, h * dpr, { x: r.x * dpr, y: r.y * dpr, w: r.w * dpr, h: r.h * dpr });
+      dirty = true;
+    };
     const measure = () => {
       const r = root.getBoundingClientRect();
       const span = r.height - window.innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, span)));
-      target = p * FILM_SECONDS;
+      target = Math.min(1, Math.max(0, -r.top / Math.max(1, span))) * FILM_SECONDS;
     };
-    const tick = () => {
+    const updateCopy = (cur: number) => {
+      chapters.forEach((el, i) => {
+        const [a, b] = CHAPTERS[i].at;
+        const fadeIn = i === 0 ? 1 : Math.min(1, Math.max(0, (cur - a) / 0.35));
+        const fadeOut = i === CHAPTERS.length - 1 ? 1 : Math.min(1, Math.max(0, (b - cur) / 0.35));
+        const o = Math.min(fadeIn, fadeOut);
+        el.style.opacity = String(o);
+        el.style.transform = `translate3d(0, ${(1 - fadeIn) * 28 - (1 - fadeOut) * 18}px, 0)`;
+        el.style.visibility = o > 0.01 ? "visible" : "hidden";
+      });
+      if (bar) bar.style.transform = `scaleY(${cur / FILM_SECONDS})`;
+    };
+
+    const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      // ease toward the scroll position so the scrub feels like a camera, not a slideshow
-      const cur = shown < 0 ? target : shown + (target - shown) * 0.16;
-      if (Math.abs(cur - shown) > 0.004) {
-        shown = cur;
-        if (video.readyState >= 1 && Number.isFinite(video.duration)) {
-          const t = Math.min(video.duration - 0.05, (cur / FILM_SECONDS) * video.duration);
-          if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
-        }
-        chapters.forEach((el, i) => {
-          const [a, b] = CHAPTERS[i].at;
-          const fadeIn = i === 0 ? 1 : Math.min(1, Math.max(0, (cur - a) / 0.35));
-          const fadeOut = i === CHAPTERS.length - 1 ? 1 : Math.min(1, Math.max(0, (b - cur) / 0.35));
-          const o = Math.min(fadeIn, fadeOut);
-          el.style.opacity = String(o);
-          el.style.transform = `translate3d(0, ${(1 - fadeIn) * 28 - (1 - fadeOut) * 18}px, 0)`;
-          el.style.visibility = o > 0.01 ? "visible" : "hidden";
-        });
-        if (bar) bar.style.transform = `scaleY(${cur / FILM_SECONDS})`;
-        // the idle loop owns the frame until the visitor scrolls, then hands over to the scrub
-        if (idle) {
-          const k = Math.min(1, Math.max(0, cur / 0.35));
-          idle.style.opacity = String(1 - k);
-          if (k >= 1 && !idle.paused) idle.pause(); else if (k < 1 && idle.paused) idle.play().catch(() => {});
-        }
+      // ease toward the scroll position so the scrub feels like a camera move
+      const cur = shown < 0 ? target : shown + (target - shown) * 0.14;
+      const moved = Math.abs(cur - shown) > 0.0005;
+      if (moved) { shown = cur; updateCopy(cur); }
+      if (!film || !visible || document.hidden) return;
+      const idle = cur < 0.02 && !reduced;
+      if (!idle && !moved && !dirty) return;
+      const s = performance.now();
+      if (idle) film.renderIdle(now / 1000); else film.render(cur);
+      dirty = false;
+      // keep the frame rate: step resolution down on slow GPUs
+      frameTimes.push(performance.now() - s);
+      if (frameTimes.length >= 40) {
+        const avg = frameTimes.reduce((x, y) => x + y, 0) / frameTimes.length;
+        frameTimes.length = 0;
+        if (avg > 22 && dpr > 0.8) { dpr = Math.max(0.8, dpr - 0.25); layout(); }
       }
     };
-    measure();
+
+    measure(); updateCopy(target);
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; dirty = true; }, { threshold: 0 });
+    io.observe(root);
+    const ro = new ResizeObserver(layout); ro.observe(canvas);
     window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure);
     raf = requestAnimationFrame(tick);
+
+    import("../../three/film").then(({ createFilm }) => createFilm(canvas, { phoneShot: asset("3d/threads-mob.webp"), mobile }))
+      .then((f) => { if (disposed) { f.dispose(); return; } film = f; layout(); setReady(true); })
+      .catch(() => root.classList.add("fh-nogl"));
+
     return () => {
-      cancelAnimationFrame(raf);
+      disposed = true; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect();
       window.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
+      film?.dispose();
     };
   }, []);
 
   return (
     <section className="fh" ref={rootRef} aria-label="How AHOS builds a product">
       <div className="fh-stage">
-        <video
-          ref={videoRef}
-          className="fh-video"
-          muted
-          playsInline
-          preload="auto"
-          poster={asset("film/poster-land.jpg")}
-          aria-hidden="true"
-        />
-        <video ref={idleRef} className="fh-video fh-idle" muted loop playsInline autoPlay preload="auto" aria-hidden="true" />
+        <canvas ref={canvasRef} className={`fh-canvas${ready ? " is-ready" : ""}`} aria-hidden="true" />
         <div className="fh-shade" aria-hidden="true" />
 
         <div className="fh-copy">
