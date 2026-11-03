@@ -1,23 +1,14 @@
 {
-  "name": "AHOS — Digital Product Studio",
+  "name": "AHOS, digital product studio in Beirut",
   "short_name": "AHOS",
-  "description": "Premium websites, custom software, Web3 platforms, AI tools, and brand identities — built to perform.",
-  "start_url": ".",
-  "scope": ".",
+  "description": "Websites, online stores, apps and custom software, drawn and built in Beirut.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#07070f",
-  "theme_color": "#ff751f",
+  "background_color": "#efe9df",
+  "theme_color": "#0a0a0b",
   "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.png", "sizes": "48x48", "type": "image/png" }
   ]
 }
