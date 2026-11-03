@@ -17,8 +17,8 @@ const { render, routes, site, services, caseStudies, projects, faqCategories, ho
 
 // Inline the one stylesheet: it is small, and it saves a round trip before first paint.
 const template = readFileSync(join(DIST, "index.html"), "utf-8").replace(
-  /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/,
-  (_, href) => `<style>${readFileSync(join(DIST, href.slice(1)), "utf-8")}</style>`,
+  /<link rel="stylesheet" crossorigin href="[^"]*\/(assets\/[^"]+\.css)">/,
+  (_, file) => `<style>${readFileSync(join(DIST, file), "utf-8")}</style>`,
 );
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const abs = (p) => `${site.url}${p === "/" ? "/" : p.endsWith("/") || p.includes(".") ? p : p + "/"}`;
