@@ -23,7 +23,8 @@ later(() => {
 
 // GA4 waits for the first interaction, or five seconds, whichever comes first.
 function loadGa() {
-  if (window.gtag || !site.integrations.ga4) return;
+  // the preview build (served under a base path) never reports to the production property
+  if (window.gtag || !site.integrations.ga4 || BASE) return;
   const w = window as Window & { dataLayer?: unknown[] };
   w.dataLayer = w.dataLayer || [];
   const gtag = function () { w.dataLayer!.push(arguments); } as (...args: unknown[]) => void;
