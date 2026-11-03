@@ -8,7 +8,8 @@ const RISE = [
   ".sv-more li", ".st-facts > div", ".st-clock", ".cl-sub", ".cl-ctas", ".wk-also", ".hm-head + *:not(.wk-list):not(.bd-grid):not(.vc-grid):not(.sv-list)",
   ".ed-sec > *", ".faq-grid", ".pr-grid > *", ".cr-quote",
 ].join(",");
-const WIPE = [".hm-h2", ".cl-title", ".st-statement", ".wk-name", ".bd-title", ".sv-name"].join(",");
+// headings are never hidden: they are the first thing a visitor reads
+const WIPE = "";
 const MAGNETIC = ".fh-btn, .nv-cta, .ed-btn";
 
 /** Site-wide motion: scroll reveals, magnetic buttons, in-view video playback. Respects reduced motion. */
@@ -40,7 +41,7 @@ export function MotionLayer() {
         if (r.top < window.innerHeight * 0.92 && r.bottom > 0) el.classList.add("is-in");
         else io!.observe(el);
       };
-      document.querySelectorAll(WIPE).forEach((el) => mark(el, "rv-wipe"));
+      if (WIPE) document.querySelectorAll(WIPE).forEach((el) => mark(el, "rv-wipe"));
       document.querySelectorAll(RISE).forEach((el) => mark(el, "rv"));
 
       // loop videos play only while visible

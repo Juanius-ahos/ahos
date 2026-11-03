@@ -14,6 +14,7 @@ const CHAPTERS = [
   { id: "scale", at: [8.5, 12.5] },
 ] as const;
 
+const whenIdle = () => new Promise<void>((r) => ((window as any).requestIdleCallback ? (window as any).requestIdleCallback(() => r(), { timeout: 1500 }) : setTimeout(r, 300)));
 type Film = Awaited<ReturnType<typeof import("../../three/film").createFilm>>;
 
 export function FilmHero() {
@@ -97,7 +98,7 @@ export function FilmHero() {
     window.addEventListener("scroll", measure, { passive: true });
     raf = requestAnimationFrame(tick);
 
-    import("../../three/film").then(({ createFilm }) => createFilm(canvas, { phoneShot: asset("3d/threads-mob.webp"), mobile }))
+    whenIdle().then(() => import("../../three/film")).then(({ createFilm }) => createFilm(canvas, { phoneShot: asset("3d/threads-mob.webp"), mobile }))
       .then((f) => { if (disposed) { f.dispose(); return; } film = f; layout(); setReady(true); })
       .catch(() => root.classList.add("fh-nogl"));
 

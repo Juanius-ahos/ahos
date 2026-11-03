@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { DeviceScene } from "../three/devices";
 
+const whenIdle = () => new Promise<void>((r) => ((window as any).requestIdleCallback ? (window as any).requestIdleCallback(() => r(), { timeout: 1500 }) : setTimeout(r, 300)));
 export type Region = { x: number; y: number; w: number; h: number };
 
 interface Props {
@@ -52,7 +53,7 @@ export function DeviceCanvas({ scene, className = "", region }: Props) {
     io.observe(canvas);
     const ro = new ResizeObserver(layout); ro.observe(canvas);
     raf = requestAnimationFrame(tick);
-    import("../three/devices").then(({ createDevices }) => createDevices(canvas, { scene, base: import.meta.env.BASE_URL, mobile }))
+    whenIdle().then(() => import("../three/devices")).then(({ createDevices }) => createDevices(canvas, { scene, base: import.meta.env.BASE_URL, mobile }))
       .then((s) => { if (disposed) { s.dispose(); return; } stage = s; layout(); stage.render(0); setReady(true); })
       .catch(() => canvas.classList.add("is-failed"));
     return () => { disposed = true; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); stage?.dispose(); };

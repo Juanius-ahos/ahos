@@ -34,13 +34,6 @@ export function Footer() {
       <footer className="ftx">
         <div className="ed">
           {/* Quiet CTA strip, useful on pages that don't end in a CTA */}
-          <div className="ftx-cta">
-            <span className="ftx-cta-label">Got something to build?</span>
-            <a className="ftx-cta-mail" href="mailto:info@ahos.xyz">
-              info@ahos.xyz <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
           <div className="ftx-top">
             <div className="ftx-brand">
               <Link href="/" className="ftx-wordmark" aria-label="AHOS home">
@@ -108,7 +101,6 @@ export function Footer() {
           </div>
 
           {/* Oversized ghost wordmark, editorial signature */}
-          <div className="ftx-ghost" aria-hidden="true">AHOS</div>
 
           <div className="ftx-bottom">
             <span>© {new Date().getFullYear()} AHOS, Advanced Hybrid Online Systems</span>
@@ -141,7 +133,7 @@ const css = `
 .ftx-wordmark { font-family: var(--font-display); font-size: 30px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); display: inline-block; margin-bottom: 18px; }
 .ftx-wordmark span { color: var(--orange); }
 .ftx-pitch { font-size: 14.5px; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px; }
-.ftx-locality { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text-dim); margin-bottom: 26px; }
+.ftx-locality { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: rgba(239,233,223,0.72); margin-bottom: 26px; }
 .ftx-loc-dot { width: 7px; height: 7px; border-radius: 50%; background: #46d27e; box-shadow: 0 0 0 0 rgba(70,210,126,0.5); animation: ftx-pulse 2.4s infinite; }
 @keyframes ftx-pulse { 0%{box-shadow:0 0 0 0 rgba(70,210,126,0.45);} 70%{box-shadow:0 0 0 7px rgba(70,210,126,0);} 100%{box-shadow:0 0 0 0 rgba(70,210,126,0);} }
 
@@ -152,7 +144,7 @@ const css = `
 .ftx-social:hover .ftx-social-ico { color: var(--orange); border-color: var(--border-hover); }
 .ftx-social-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .ftx-social-txt strong { font-size: 14px; font-weight: 600; color: var(--text); }
-.ftx-social-txt em { font-style: normal; font-size: 11.5px; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ftx-social-txt em { font-style: normal; font-size: 11.5px; color: rgba(239,233,223,0.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ftx-social-go { margin-left: auto; color: var(--text-faint); transition: color 0.25s, transform 0.25s; }
 .ftx-social:hover .ftx-social-go { color: var(--orange); transform: translate(2px, -2px); }
 

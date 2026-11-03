@@ -70,7 +70,7 @@ export function Nav() {
 
       <nav className={`nv ${scrolled ? "is-scrolled" : ""}`}>
         <Link href="/" className="nv-logo" aria-label="AHOS home">
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="AHOS" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="AHOS" width={90} height={30} />
         </Link>
 
         <div className="nv-links">
@@ -195,14 +195,14 @@ const css = `
   flex-shrink: 0;
   position: relative; z-index: 1;
 }
-.nv-logo img { height: 30px; width: auto; display: block; transition: transform 0.3s ease, filter 0.3s ease; filter: drop-shadow(0 0 12px rgba(255,106,26,0.15)); }
+.nv-logo img { height: 30px; width: 90px; aspect-ratio: 3 / 1; display: block; transition: transform 0.3s ease, filter 0.3s ease; filter: drop-shadow(0 0 12px rgba(255,106,26,0.15)); }
 .nv-logo:hover img { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,106,26,0.35)); }
 
 .nv-links { display: flex; align-items: center; gap: 2px; }
 .nv-link {
   position: relative; padding: 7px 16px; border-radius: 999px;
   font-size: 13.5px; font-weight: 500; letter-spacing: 0.02em;
-  color: var(--text-dim); transition: color 0.25s ease, background 0.25s ease;
+  color: rgba(239,233,223,0.78); transition: color 0.25s ease, background 0.25s ease;
 }
 .nv-link::after {
   content: ""; position: absolute; left: 16px; right: 16px; bottom: 2px; height: 1.5px;
@@ -324,7 +324,7 @@ const css = `
 @media (max-width: 420px) {
   .nv-cta:not(.nv-cta-lg) span { display: none; }
   .nv-cta:not(.nv-cta-lg) { padding: 9px 12px; gap: 0; }
-  .nv-logo img { height: 26px; }
+  .nv-logo img { height: 26px; width: 78px; }
 }
 @media (max-width: 360px) {
   .nv { padding: 14px 12px; }

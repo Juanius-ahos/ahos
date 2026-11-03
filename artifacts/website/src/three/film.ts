@@ -9,7 +9,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { warmUp } from "./warm";
 
 export const DURATION = 12;
 const REF_ASPECT = 0.72; // narrowest region the camera path fills without cropping the subject
@@ -32,13 +32,13 @@ const T = { ignite: 0.35, draw0: 1.2, draw1: 3.7, build0: 3.5, build1: 5.5, powe
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(1);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled = false;
 renderer.localClippingEnabled = true;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#050506');
 const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 4000);
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04, 0.1, 100, { size: 128 }).texture;
 scene.environmentIntensity = 0.7;
 const fx = []; // additive objects hidden from the bokeh depth pass
 const texLoader = new THREE.TextureLoader();
@@ -62,6 +62,7 @@ function makeSpark(size = 1) {
   return g;
 }
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ================= STUDIO =================
 const studio = new THREE.Group(); scene.add(studio);
 const studioFog = new THREE.Fog('#050506', 5, 13);
@@ -80,11 +81,11 @@ const cutPlane = new THREE.Plane(V3(0, -1, 0), 0);
 const clip = [cutPlane];
 const phone = new THREE.Group(); phone.position.set(0, PY, 0); studio.add(phone);
 const PW = 0.716, PH = 1.47, PR = 0.112, PD = 0.06;
-const ti = new THREE.MeshPhysicalMaterial({ color: '#9a968f', metalness: 1, roughness: 0.3, clearcoat: 0.5, clearcoatRoughness: 0.2, clippingPlanes: clip, clipShadows: true });
+const ti = new THREE.MeshStandardMaterial({ color: '#9a968f', metalness: 1, roughness: 0.3, clippingPlanes: clip, clipShadows: true });
 const pbody = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(PW - 0.024, PH - 0.024, PR - 0.012), { depth: PD, bevelEnabled: true, bevelThickness: 0.014, bevelSize: 0.012, bevelSegments: 8, curveSegments: 48 }), ti);
 pbody.position.z = -PD / 2; pbody.castShadow = true; phone.add(pbody);
 const FZ = PD / 2 + 0.0145;
-const pfront = new THREE.Mesh(new THREE.ShapeGeometry(rrect(PW - 0.01, PH - 0.01, PR - 0.005), 48), new THREE.MeshPhysicalMaterial({ color: '#050505', roughness: 0.08, clearcoat: 1, clippingPlanes: clip }));
+const pfront = new THREE.Mesh(new THREE.ShapeGeometry(rrect(PW - 0.01, PH - 0.01, PR - 0.005), 48), new THREE.MeshStandardMaterial({ color: '#050505', roughness: 0.08, clippingPlanes: clip }));
 pfront.position.z = FZ + 0.0008; phone.add(pfront);
 const SW = PW - 0.062, SH = PH - 0.062;
 // screen: wireframe UI -> real store, with a top-down wipe and a power-on glow
@@ -112,8 +113,8 @@ island.position.set(0, SH / 2 - 0.05, FZ + 0.002); phone.add(island);
 for (const [x, y, h] of [[PW / 2 + 0.006, 0.28, 0.17], [-PW / 2 - 0.006, 0.36, 0.06], [-PW / 2 - 0.006, 0.2, 0.1]]) { const b = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, h, 6, 12), ti); b.position.set(x, y, 0); phone.add(b); }
 // camera module on the back
 {
-  const glassDark = new THREE.MeshPhysicalMaterial({ color: '#07080a', roughness: 0.05, metalness: 0.2, clearcoat: 1, clippingPlanes: clip });
-  const plateMat = new THREE.MeshPhysicalMaterial({ color: '#8e8a83', metalness: 1, roughness: 0.22, clearcoat: 0.8, clippingPlanes: clip });
+  const glassDark = new THREE.MeshStandardMaterial({ color: '#07080a', roughness: 0.05, metalness: 0.2, clippingPlanes: clip });
+  const plateMat = new THREE.MeshStandardMaterial({ color: '#8e8a83', metalness: 1, roughness: 0.22, clippingPlanes: clip });
   const BZ = -PD / 2 - 0.0145;
   const plate = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(0.3, 0.3, 0.07), { depth: 0.008, bevelEnabled: true, bevelThickness: 0.004, bevelSize: 0.004, bevelSegments: 4, curveSegments: 24 }), plateMat);
   plate.position.set(PW / 2 - 0.2, PH / 2 - 0.2, BZ - 0.012); plate.rotation.y = Math.PI; phone.add(plate);
@@ -135,6 +136,7 @@ for (const [x, y, h] of [[PW / 2 + 0.006, 0.28, 0.17], [-PW / 2 - 0.006, 0.36, 0
   m.position.z = FZ + 0.003; phone.add(m);
 }
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---- the wireframe the spark draws (phone-local coordinates) ----
 // UI blocks echo the real Threads layout so the wire visibly becomes the real screen
 const sx = (u) => (u - 0.5) * SW, sy = (v) => (0.5 - v) * SH, ZW = FZ + 0.006;
@@ -208,9 +210,12 @@ cutGlow.scale.set(0.95, 0.1, 1); studio.add(cutGlow); fx.push(cutGlow);
 const spark = makeSpark(0.03); studio.add(spark);
 spark.userData.halo.material.depthTest = false; spark.userData.halo.renderOrder = 20;
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---- floor, backdrop, AHOS line ----
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.7 }));
-floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; studio.add(floor);
+// soft contact shadow, baked into a texture (no shadow maps to compile or render)
+const blobTex = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d'); const r = g.createRadialGradient(64, 64, 0, 64, 64, 64); r.addColorStop(0, 'rgba(0,0,0,0.85)'); r.addColorStop(0.5, 'rgba(0,0,0,0.35)'); r.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(cv); })();
+const blob = (w, d, x, z, o = 0.8) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, depthWrite: false, opacity: o })); m.rotation.x = -Math.PI / 2; m.position.set(x, 0.002, z); return m; };
+const floorShadow = blob(1.3, 0.55, 0, 0.05, 0.75); studio.add(floorShadow);
 const backdrop = (() => {
   const cv = document.createElement('canvas'); cv.width = cv.height = 512; const g = cv.getContext('2d');
   const r = g.createRadialGradient(256, 250, 0, 256, 256, 256); r.addColorStop(0, 'rgba(66,32,15,1)'); r.addColorStop(0.45, 'rgba(22,12,8,1)'); r.addColorStop(1, 'rgba(5,5,6,1)');
@@ -232,8 +237,8 @@ linePool.frustumCulled = false; studio.add(linePool); fx.push(linePool);
 const lineSpark = makeSpark(0.05); studio.add(lineSpark);
 
 // ---- lights ----
-RectAreaLightUniformsLib.init();
-const softbox = (color, intensity, w, h, pos) => { const l = new THREE.RectAreaLight(color, intensity, w, h); l.position.copy(pos); l.lookAt(0, PY, 0); studio.add(l); return l; };
+// soft spotlights standing in for the studio softboxes (cheap to compile on every GPU)
+const softbox = (color, intensity, w, h, pos) => { const l = new THREE.SpotLight(color, intensity * 0.42, 0, Math.min(1.2, 0.35 + Math.max(w, h) * 0.18), 1, 0); l.position.copy(pos); l.target.position.set(0, PY, 0); studio.add(l, l.target); return l; };
 const keyBox = softbox('#fff4e8', 3.0, 2.4, 2.4, V3(-2.2, PY + 1.8, 3.2));
 const rimO = softbox('#ff6a1a', 9, 0.12, 2.6, V3(1.5, PY + 0.2, -1.4));
 const rimC = softbox('#efe9df', 4, 0.12, 2.6, V3(-1.6, PY + 0.1, -1.2));
@@ -248,6 +253,7 @@ const dust = (() => {
 })();
 studio.add(dust); fx.push(dust);
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ================= EARTH (launch) =================
 const EA = V3(0, 0, -30000), RE = 100;
 const eaSet = new THREE.Group(); eaSet.position.copy(EA); scene.add(eaSet);
@@ -325,6 +331,7 @@ const starGeo = new THREE.BufferGeometry();
 { const r = rng(5), p = new Float32Array(2500 * 3); for (let i = 0; i < 2500; i++) { const u = r() * 2 - 1, th = r() * 6.283, q = Math.sqrt(1 - u * u); p.set([q * Math.cos(th) * 1500, u * 1500, q * Math.sin(th) * 1500], i * 3); } starGeo.setAttribute('position', new THREE.BufferAttribute(p, 3)); }
 eaSet.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ size: 1.6, sizeAttenuation: false, color: new THREE.Color(0.7, 0.68, 0.64), transparent: true, opacity: 0.8 })));
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---------- post ----------
 const rt = new THREE.WebGLRenderTarget(2, 2, { type: THREE.HalfFloatType, samples: mobile ? 0 : 4 });
 const composer = new EffectComposer(renderer, rt);
@@ -488,7 +495,7 @@ function resize(w, h, r) {
 resize(canvas.width || 2, canvas.height || 2, { x: 0, y: 0, w: canvas.width || 2, h: canvas.height || 2 });
 {
   const vis = []; scene.traverse((o) => { vis.push([o, o.visible]); o.visible = true; });
-  renderer.compile(scene, camera);
+  await warmUp(renderer, scene, camera, [bloom, finish, ...composer.passes, composer.copyPass], composer.readBuffer);
   vis.forEach(([o, v]) => (o.visible = v));
 }
 return {

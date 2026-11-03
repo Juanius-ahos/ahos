@@ -7,7 +7,6 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { MotionLayer } from "@/components/MotionLayer";
-import { CornerGlow } from "@/components/CornerGlow";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
@@ -79,7 +78,6 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-        <CornerGlow />
         <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
           <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
           <rect width="100%" height="100%" filter="url(#grain)"/>

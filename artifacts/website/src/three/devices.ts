@@ -8,8 +8,8 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { warmUp } from "./warm";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
 
 export type DeviceScene = "web" | "ecom" | "mobile" | "software" | "ai" | "design" | "jul";
 
@@ -37,14 +37,14 @@ const L = CFG.L;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(1);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled = false;
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#050506');
 const camera = new THREE.PerspectiveCamera(26, 1, 0.05, 100);
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04, 0.1, 100, { size: 128 }).texture;
 scene.environmentIntensity = 0.7;
 try { await Promise.all(['400 30px Inter', '500 30px Inter', '600 30px Inter', '700 30px Inter', '500 20px "JetBrains Mono"'].map((f) => document.fonts.load(f))); } catch {}
-const loadImg = (u) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = u; });
+const loadImg = async (u) => { const i = new Image(); i.src = u; await i.decode(); return i; };
 const [deskImg, mobImg] = CFG.site ? await Promise.all([loadImg(`${base}3d/${CFG.site}-deskfull.webp`), loadImg(`${base}3d/${CFG.site}-mobfull.webp`)]) : [null, null];
 
 function rrect(w, h, r) {
@@ -62,13 +62,14 @@ const sheen = (w, h) => {
   g.fillStyle = gr; g.fillRect(0, 0, 256, 512);
   return new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true, depthWrite: false, toneMapped: false }));
 };
-const glass = new THREE.MeshPhysicalMaterial({ color: '#040405', roughness: 0.06, clearcoat: 1 });
+const glass = new THREE.MeshStandardMaterial({ color: '#040405', roughness: 0.06 });
 const screenTex = (cw, ch) => {
   const cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
   const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 16;
   return { cv, g: cv.getContext('2d'), t };
 };
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---------- laptop ----------
 const alu = new THREE.MeshStandardMaterial({ color: '#4a4947', metalness: 1, roughness: 0.5 });
 const LW = 3.3, LD = 2.25, BT = 0.085, LH = 2.2, LT = 0.05, SW = LW - 0.16, SH = LH - 0.2;
@@ -85,21 +86,22 @@ const lapScr = screenTex(LCW, Math.round(LCW * SH / SW));
   const kt = new THREE.CanvasTexture(cv); kt.colorSpace = THREE.SRGBColorSpace;
   const keys = new THREE.Mesh(new THREE.PlaneGeometry(2.86, 1.06), new THREE.MeshStandardMaterial({ map: kt, roughness: 0.7 }));
   keys.rotation.x = -Math.PI / 2; keys.position.set(0, BT + 0.001, -0.42); laptop.add(keys);
-  const pad = new THREE.Mesh(new THREE.ShapeGeometry(rrect(1.25, 0.74, 0.06), 16), new THREE.MeshPhysicalMaterial({ color: '#3a3937', metalness: 1, roughness: 0.18 }));
+  const pad = new THREE.Mesh(new THREE.ShapeGeometry(rrect(1.25, 0.74, 0.06), 16), new THREE.MeshStandardMaterial({ color: '#3a3937', metalness: 1, roughness: 0.18 }));
   pad.rotation.x = -Math.PI / 2; pad.position.set(0, BT + 0.001, 0.6); laptop.add(pad);
   const hinge = new THREE.Group(); hinge.position.set(0, BT, -LD / 2 + 0.03); laptop.add(hinge);
   const lid = new THREE.Mesh(new RoundedBoxGeometry(LW, LH, LT, 6, 0.024), alu); lid.position.set(0, LH / 2, -LT / 2); lid.castShadow = true; hinge.add(lid);
   const bezel = new THREE.Mesh(new THREE.ShapeGeometry(rrect(LW - 0.03, LH - 0.03, 0.05), 24), new THREE.MeshStandardMaterial({ color: '#050506', roughness: 0.45, envMapIntensity: 0.25 })); bezel.position.set(0, LH / 2, 0.0015); hinge.add(bezel);
   const scr = new THREE.Mesh(planeUV(new THREE.ShapeGeometry(rrect(SW, SH, 0.02), 8), SW, SH), new THREE.MeshBasicMaterial({ map: lapScr.t, toneMapped: false, color: new THREE.Color(0.93, 0.93, 0.93) }));
-  scr.position.set(0, LH / 2 - 0.02, 0.003); hinge.add(scr);
+  scr.position.set(0, LH / 2 - 0.02, 0.003); hinge.add(scr); lapScr.mat = scr.material;
   const ls = sheen(SW, SH); ls.position.set(0, LH / 2 - 0.02, 0.005); hinge.add(ls);
   const notch = new THREE.Mesh(new THREE.ShapeGeometry(rrect(0.34, 0.07, 0.03), 12), new THREE.MeshBasicMaterial({ color: '#000' })); notch.position.set(0, LH - 0.07, 0.004); hinge.add(notch);
   hinge.rotation.x = -0.26;
 }
 laptop.visible = CFG.laptop;
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---------- phones ----------
-const ti = new THREE.MeshPhysicalMaterial({ color: '#9a968f', metalness: 1, roughness: 0.3, clearcoat: 0.5, clearcoatRoughness: 0.2 });
+const ti = new THREE.MeshStandardMaterial({ color: '#9a968f', metalness: 1, roughness: 0.3 });
 const PW = 0.716 * 1.06, PH = 1.47 * 1.06, PR = 0.118, PD = 0.064, PSW = PW - 0.064, PSH = PH - 0.064;
 function makePhone() {
   const phone = new THREE.Group(); scene.add(phone);
@@ -114,7 +116,13 @@ function makePhone() {
   const island = new THREE.Mesh(new THREE.ShapeGeometry(rrect(0.2, 0.058, 0.029), 24), new THREE.MeshBasicMaterial({ color: '#000' })); island.position.set(0, PSH / 2 - 0.052, FZ + 0.002); phone.add(island);
   const ps = sheen(PSW, PSH); ps.position.z = FZ + 0.003; phone.add(ps);
   for (const [x, y, h] of [[PW / 2 + 0.006, 0.3, 0.18], [-PW / 2 - 0.006, 0.38, 0.06], [-PW / 2 - 0.006, 0.21, 0.1]]) { const b = new THREE.Mesh(new THREE.CapsuleGeometry(0.008, h, 6, 12), ti); b.position.set(x, y, 0); phone.add(b); }
-  return { phone, st };
+  // notification card: its own small texture, drawn once, animated as a mesh
+  const noteCv = document.createElement('canvas'); noteCv.width = 780; noteCv.height = 230;
+  const noteTex = new THREE.CanvasTexture(noteCv); noteTex.colorSpace = THREE.SRGBColorSpace;
+  const NH = PSW * 230 / 780;
+  const note = new THREE.Mesh(new THREE.PlaneGeometry(PSW, NH), new THREE.MeshBasicMaterial({ map: noteTex, transparent: true, toneMapped: false, depthWrite: false, opacity: 0 }));
+  note.position.set(0, PSH / 2 - NH / 2 - 0.035, FZ + 0.0028); note.visible = false; phone.add(note);
+  return { phone, st, mat: pscreen.material, note, noteCv, noteTex, NH };
 }
 const P1 = makePhone(), P2 = CFG.twin ? makePhone() : null;
 P1.phone.visible = CFG.phone;
@@ -130,8 +138,13 @@ if (CFG.laptop) {
   P1.phone.position.set(0.25, PH / 2 + 0.08, 0.4); P1.phone.rotation.set(-0.05, -0.3, 0.03);
 }
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---------- floor, backdrop, line, lights ----------
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.75 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+// soft contact shadow, baked into a texture (no shadow maps to compile or render)
+const blobTex = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d'); const r = g.createRadialGradient(64, 64, 0, 64, 64, 64); r.addColorStop(0, 'rgba(0,0,0,0.85)'); r.addColorStop(0.5, 'rgba(0,0,0,0.35)'); r.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(cv); })();
+const blob = (w, d, x, z, o = 0.8) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, depthWrite: false, opacity: o })); m.rotation.x = -Math.PI / 2; m.position.set(x, 0.002, z); return m; };
+if (CFG.laptop) { const sh = blob(4.4, 3.0, 0, 0); laptop.add(sh); }
+for (const P of [P1, P2]) if (P && P.phone.visible !== false) { const sh = blob(1.1, 0.5, P.phone.position.x, P.phone.position.z + 0.05, 0.6); scene.add(sh); }
 {
   const cv = document.createElement('canvas'); cv.width = cv.height = 512; const g = cv.getContext('2d');
   const a = new THREE.Color(CFG.accent).multiplyScalar(0.3);
@@ -146,8 +159,8 @@ scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 500, 0.007, 8, false), ne
 const glowTex = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d'), r = g.createRadialGradient(64, 64, 0, 64, 64, 64); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.18, 'rgba(255,190,140,.85)'); r.addColorStop(0.5, 'rgba(255,106,26,.22)'); r.addColorStop(1, 'rgba(255,106,26,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(cv); })();
 // two signal pulses run the line each loop
 const pulses = [0, 0.5].map(() => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: new THREE.Color(1.8, 1.0, 0.5), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); s.scale.setScalar(0.32); scene.add(s); return s; });
-RectAreaLightUniformsLib.init();
-const soft = (c, i, w, h, p, at = V3(0.2, 0.9, 0)) => { const l = new THREE.RectAreaLight(c, i, w, h); l.position.copy(p); l.lookAt(at); scene.add(l); return l; };
+// soft spotlights standing in for the studio softboxes (cheap to compile on every GPU)
+const soft = (c, i, w, h, p, at = V3(0.2, 0.9, 0)) => { const l = new THREE.SpotLight(c, i * 0.42, 0, Math.min(1.2, 0.35 + Math.max(w, h) * 0.18), 1, 0); l.position.copy(p); l.target.position.copy(at); scene.add(l, l.target); return l; };
 { const fill = new THREE.DirectionalLight('#fff4e8', 0.9); fill.position.set(-3, 3.2, 4); scene.add(fill); }
 const rimO = soft('#ff6a1a', 9, 0.16, 3.2, V3(3.4, 1.3, -1.4));
 soft('#efe9df', 3, 0.16, 3.2, V3(-3.8, 1.3, -1.8));
@@ -161,6 +174,7 @@ const dust = (() => {
 })();
 scene.add(dust);
 
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
 // ---------- post ----------
 const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(2, 2, { type: THREE.HalfFloatType, samples: mobile ? 0 : 4 }));
 composer.setPixelRatio(1);
@@ -181,6 +195,51 @@ void main(){ vec3 col = clamp(texture2D(tDiffuse, vUv).rgb, 0.0, 1.0); col = mix
 composer.addPass(finish);
 
 // ---------- screen content ----------
+// client screenshots: uploaded to the GPU once and scrolled by moving UVs (no per-frame canvas copies)
+const MAXT = Math.min(renderer.capabilities.maxTextureSize, mobile ? 4096 : 16384);
+function imageTexture(img) {
+  let src = img;
+  if (img.height > MAXT) { const k = MAXT / img.height; const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = MAXT; c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); src = c; }
+  const t = new THREE.Texture(src); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; t.needsUpdate = true;
+  t.userData = { w: src.width, h: src.height };
+  return t;
+}
+function scrollTex(tex, screenAspect, depth, u) {
+  const { w, h } = tex.userData;
+  const viewH = w / screenAspect;
+  const maxY = Math.min(h - viewH, w * depth);
+  const y = browse(u) * maxY;
+  tex.repeat.set(1, viewH / h);
+  tex.offset.set(0, 1 - viewH / h - y / h);
+}
+const SCROLLING = !!CFG.site && !CFG.wire;
+let deskTex = null, mobTex1 = null, mobTex2 = null;
+if (SCROLLING) {
+  if (CFG.laptop) { deskTex = imageTexture(deskImg); lapScr.mat.map = deskTex; }
+  mobTex1 = imageTexture(mobImg); P1.mat.map = mobTex1;
+  if (P2) { mobTex2 = mobTex1.clone(); mobTex2.userData = mobTex1.userData; P2.mat.map = mobTex2; }
+}
+// design scene: work from a small crop of the top of the page, not the full screenshot
+const designImg = (() => {
+  if (!CFG.wire || !mobImg) return null;
+  const c = document.createElement('canvas'); c.width = P1.st.cv.width; c.height = P1.st.cv.height;
+  c.getContext('2d').drawImage(mobImg, 0, 0, mobImg.width, mobImg.width * c.height / c.width, 0, 0, c.width, c.height);
+  return c;
+})();
+if (CFG.notify) {
+  const NP = P2 || P1;
+  const g = NP.noteCv.getContext('2d'), [title, body] = CFG.notify, w = 780 - 48, h = 150, x = 24, y = 40;
+  g.clearRect(0, 0, 780, 230);
+  g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 30; g.shadowOffsetY = 10;
+  g.fillStyle = 'rgba(28,28,31,0.96)'; rr(g, x, y, w, h, 34); g.fill(); g.shadowColor = 'transparent';
+  g.fillStyle = '#ff6a1a'; rr(g, x + 24, y + 30, 76, 76, 20); g.fill();
+  g.strokeStyle = '#0a0a0b'; g.lineWidth = 7; g.lineCap = 'round'; g.lineJoin = 'round';
+  g.beginPath(); g.moveTo(x + 46, y + 69); g.lineTo(x + 58, y + 81); g.lineTo(x + 80, y + 55); g.stroke();
+  g.fillStyle = '#efe9df'; g.font = '600 30px Inter'; g.textBaseline = 'middle'; g.fillText(title, x + 124, y + 52);
+  g.fillStyle = 'rgba(239,233,223,0.7)'; g.font = '400 25px Inter'; g.fillText(body, x + 124, y + 96);
+  g.fillStyle = 'rgba(239,233,223,0.45)'; g.font = '400 22px Inter'; g.textAlign = 'right'; g.fillText('now', x + w - 26, y + 52); g.textAlign = 'left';
+  NP.noteTex.needsUpdate = true;
+}
 // browse: hold at top, scroll down, hold, glide back up. Periodic in L.
 function browse(u) {
   if (u < 0.12) return 0;
@@ -358,15 +417,20 @@ const renderFrame = (t) => {
   lastScreen = t;
   if (CFG.dash) { drawDash(lapScr, u, false); drawDash(P1.st, (u + 0.3) % 1, true); }
   else if (CFG.chat) drawChat(P1.st, u);
-  else if (CFG.wire) { drawDesign(P1.st, mobImg, u, 0); drawDesign(P2.st, mobImg, u, 0.5); }
+  else if (CFG.wire) { drawDesign(P1.st, designImg, u, 0); drawDesign(P2.st, designImg, u, 0.5); }
   else {
     const [dd, md] = CFG.depth || [2.6, 4.2];
-    if (CFG.laptop) drawScroll(lapScr, deskImg, dd, u);
-    drawScroll(P1.st, mobImg, md, (u + 0.08) % 1);
-    if (P2) drawScroll(P2.st, mobImg, 3.2, (u + 0.5) % 1);
-    if (CFG.notify) drawNotify(P2 ? P2.st : P1.st, CFG.notify[0], CFG.notify[1], u);
+    if (deskTex) scrollTex(deskTex, SW / SH, dd, u);
+    scrollTex(mobTex1, PSW / PSH, md, (u + 0.08) % 1);
+    if (mobTex2) scrollTex(mobTex2, PSW / PSH, 3.2, (u + 0.5) % 1);
   }
-  lapScr.t.needsUpdate = CFG.laptop; P1.st.t.needsUpdate = true; if (P2) P2.st.t.needsUpdate = true;
+  if (!SCROLLING) { lapScr.t.needsUpdate = CFG.laptop && CFG.dash; P1.st.t.needsUpdate = true; if (P2) P2.st.t.needsUpdate = true; }
+  }
+  // the order notification slides in and out (22% to 62% of the loop)
+  if (CFG.notify) {
+    const NP = P2 || P1, k = sm(0.2, 0.26, u) * (1 - sm(0.6, 0.66, u));
+    NP.note.visible = k > 0.001; NP.note.material.opacity = Math.min(1, k * 1.4);
+    NP.note.position.y = PSH / 2 - NP.NH / 2 - 0.035 + (1 - k) * 0.05;
   }
   // gentle float on phones, periodic
   const f = Math.sin(TAU * u) * 0.025;
@@ -390,6 +454,8 @@ function resize(w, h, r) {
   finish.uniforms.uRes.value.set(W, H);
 }
 resize(canvas.width || 2, canvas.height || 2, { x: 0, y: 0, w: canvas.width || 2, h: canvas.height || 2 });
+await new Promise((r) => setTimeout(r, 0)); // yield: keep the main thread responsive while building
+await warmUp(renderer, scene, camera, [bloom, finish, ...composer.passes, composer.copyPass], composer.readBuffer);
 return {
   render: renderFrame,
   resize,

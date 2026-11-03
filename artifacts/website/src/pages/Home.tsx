@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -102,38 +102,17 @@ const FAQ = [
   },
 ];
 
-// ---------- work: cinematic panels that stack as you scroll ----------
+// ---------- work: large features, live loops of the real sites ----------
 function Work() {
-  const ref = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const root = ref.current;
-    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const cards = Array.from(root.querySelectorAll<HTMLElement>(".wk-card"));
-    let raf = 0;
-    const tick = () => {
-      raf = 0;
-      const vh = window.innerHeight;
-      cards.forEach((c, i) => {
-        const next = cards[i + 1];
-        if (!next) { c.style.setProperty("--k", "0"); return; }
-        // how far the next card has slid over this one (0..1)
-        const k = Math.min(1, Math.max(0, 1 - (next.getBoundingClientRect().top - 96) / (vh * 0.8)));
-        c.style.setProperty("--k", k.toFixed(3));
-      });
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
-    tick();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
-
   return (
-    <section id="work" className="hm-sec wk" ref={ref} aria-labelledby="wk-title">
+    <section id="work" className="hm-sec wk" aria-labelledby="wk-title">
       <div className="hm-wrap">
         <header className="hm-head">
-          <p className="hm-kicker"><span className="hm-rule" />Selected work</p>
-          <h2 id="wk-title" className="hm-h2">Products we designed, built <em>and shipped.</em></h2>
+          <div>
+            <p className="hm-kicker"><span className="hm-rule" />Selected work</p>
+            <h2 id="wk-title" className="hm-h2">Products we designed, built <em>and shipped.</em></h2>
+          </div>
+          <p className="hm-lead">Real businesses, live today. Every one designed and engineered by the same small team, from the first sketch to launch.</p>
         </header>
         <div className="wk-list">
           {WORK.map((w, i) => {
@@ -157,14 +136,14 @@ function Work() {
                 <div className="wk-meta">
                   <span className="wk-idx">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="wk-name">{w.name}</h3>
-                  <p className="wk-kind">{w.kind} · {w.where}</p>
+                  <p className="wk-kind">{w.kind}<br />{w.where}</p>
                   <p className="wk-line">{w.line}</p>
                   <span className="wk-cta">{w.cta} <span aria-hidden="true">{external ? "↗" : "→"}</span></span>
                 </div>
               </>
             );
             return (
-              <article className="wk-card" key={w.name} style={{ zIndex: i + 1 }}>
+              <article className="wk-card" key={w.name}>
                 {external ? (
                   <a className="wk-inner" href={w.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("work_click", { project: w.name })}>{body}</a>
                 ) : (
@@ -189,21 +168,26 @@ function Build() {
     <section className="hm-sec bd" aria-labelledby="bd-title">
       <div className="hm-wrap">
         <header className="hm-head">
-          <p className="hm-kicker"><span className="hm-rule" />What we build</p>
-          <h2 id="bd-title" className="hm-h2">Three things, <em>done properly.</em></h2>
+          <div>
+            <p className="hm-kicker"><span className="hm-rule" />What we build</p>
+            <h2 id="bd-title" className="hm-h2">Three things, <em>done properly.</em></h2>
+          </div>
+          <p className="hm-lead">We stay focused on what we do best, so every project gets senior attention from design through engineering.</p>
         </header>
-        <div className="bd-grid">
+        <ol className="bd-list">
           {BUILD.map((b) => (
-            <div className="bd-item" key={b.n}>
+            <li className="bd-item" key={b.n}>
               <span className="bd-n">{b.n}</span>
               <h3 className="bd-title">{b.title}</h3>
-              <p className="bd-line">{b.line}</p>
-              <ul className="bd-links">
-                {b.links.map(([label, href]) => <li key={href}><Link href={href}>{label} <span aria-hidden="true">→</span></Link></li>)}
-              </ul>
-            </div>
+              <div className="bd-body">
+                <p className="bd-line">{b.line}</p>
+                <ul className="bd-links">
+                  {b.links.map(([label, href]) => <li key={href}><Link href={href}>{label} <span aria-hidden="true">→</span></Link></li>)}
+                </ul>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
@@ -226,14 +210,12 @@ function BeirutClock() {
 function Studio() {
   return (
     <section className="hm-sec st" aria-labelledby="st-title">
-      <div className="hm-wrap st-grid">
-        <div>
-          <p className="hm-kicker"><span className="hm-rule" />The studio</p>
-          <h2 id="st-title" className="st-statement">
-            A small senior team in Beirut. You talk to the people who <em>build your product,</em> from the first call to launch day.
-          </h2>
-          <BeirutClock />
-        </div>
+      <div className="hm-wrap">
+        <p className="hm-kicker"><span className="hm-rule" />The studio</p>
+        <h2 id="st-title" className="st-statement">
+          A small senior team in Beirut. You talk to the people who <em>build your product,</em> from the first call to launch day.
+        </h2>
+        <BeirutClock />
         <dl className="st-facts">
           <div><dt>Since</dt><dd>2023</dd></div>
           <div><dt>Products shipped</dt><dd>50+</dd></div>
