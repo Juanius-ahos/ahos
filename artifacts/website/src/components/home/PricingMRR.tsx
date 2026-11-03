@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Arrow } from "../Arrow";
 import { Reveal } from "../motion";
 
 const tiers = [
@@ -69,7 +70,7 @@ export function PricingMRR() {
                 <li key={f}><span className="pm-check" aria-hidden="true">✓</span>{f}</li>
               ))}
             </ul>
-            <Link href={t.href} className={`pm-cta ${t.flagship ? "pm-cta-solid" : ""}`}>{t.cta} <span aria-hidden="true">↗</span></Link>
+            <Link href={t.href} className={`pm-cta ${t.flagship ? "pm-cta-solid" : ""}`}>{t.cta} <Arrow /></Link>
           </Reveal>
         ))}
       </div>
@@ -82,7 +83,7 @@ export function PricingMRR() {
             <h3 className="pm-mrr-title">We don't hand you the keys and vanish.</h3>
             <p className="pm-mrr-body">Care &amp; growth plans keep your product fast, secure, and improving, hosting, monitoring, updates, and a monthly block of improvements. Most clients stay, because momentum is where the real growth happens.</p>
           </div>
-          <Link href="/contact" className="pm-mrr-cta">Ask about care plans <span aria-hidden="true">→</span></Link>
+          <Link href="/contact" className="pm-mrr-cta">Ask about care plans <Arrow dir="e" /></Link>
         </div>
       </Reveal>
     </section>

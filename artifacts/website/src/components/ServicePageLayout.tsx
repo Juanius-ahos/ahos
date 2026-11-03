@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Arrow } from "./Arrow";
 import { Footer } from "./Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { ServiceSchema } from "../seo/ServiceSchema";
@@ -79,8 +80,8 @@ export function ServicePageLayout(d: ServicePageData) {
       <ServiceSchema name={d.schemaName} description={d.schemaDesc} />
 
       <PageHero crumb={d.crumb} kicker={d.eyebrow} titleLead={d.titleLead} titleAccent={d.titleAccent} lead={d.lead} visual={VISUALS[d.path] ?? "live"} loop={LOOPS[d.path]}>
-        <Link href="/contact" className="fh-btn">Start a project <span aria-hidden="true">↗</span></Link>
-        <Link href="/pricing" className="fh-ghost">See pricing</Link>
+        <Link href="/contact" className="btn">Start a project <Arrow /></Link>
+        <Link href="/pricing" className="lnk">See pricing</Link>
         <ul className="sv-trust">
           {d.trust.map(([strong, rest]) => <li key={strong}><b>{strong}</b> {rest}</li>)}
         </ul>
@@ -135,7 +136,7 @@ export function ServicePageLayout(d: ServicePageData) {
                 <h2 id="sv-proof" className="wk-name">{d.proof.name}</h2>
                 <p className="wk-line">{d.proof.text}</p>
                 {d.proof.quote && <blockquote className="sv-quote">"{d.proof.quote}"<footer>{d.proof.author}</footer></blockquote>}
-                <span className="wk-cta">See the work <span aria-hidden="true">→</span></span>
+                <span className="wk-cta">See the work <Arrow dir="e" /></span>
               </div>
             </Link>
           </div>

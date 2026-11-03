@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Arrow } from "../components/Arrow";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
@@ -91,8 +92,8 @@ export default function Services() {
         visual="live"
         loop="ecom"
       >
-        <Link href="/contact" className="fh-btn">Start a project <span aria-hidden="true">↗</span></Link>
-        <Link href="/pricing" className="fh-ghost">See pricing</Link>
+        <Link href="/contact" className="btn">Start a project <Arrow /></Link>
+        <Link href="/pricing" className="lnk">See pricing</Link>
       </PageHero>
 
       <div className="sv-body">

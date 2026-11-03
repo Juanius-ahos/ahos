@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
-import { MotionConfig, motion } from "framer-motion";
+import { MotionConfig } from "framer-motion";
 import { Nav } from "@/components/Nav";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { Cursor } from "@/components/Cursor";
-import { MotionLayer } from "@/components/MotionLayer";
+import { Curtain } from "@/components/Curtain";
 import { OrganizationSchema } from "@/seo/SEOHead";
 import { retryPendingLeads } from "@/lib/aria";
 import Home from "@/pages/Home";
@@ -40,13 +38,7 @@ function Router() {
   useEffect(() => { window.scrollTo(0, 0); }, [location]);
 
   return (
-    <motion.div
-      key={location}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div key={location}>
       <main id="main-content" style={{ paddingTop: 64 }}>
         <Switch>
           <Route path="/"><ErrorBoundary><Home /></ErrorBoundary></Route>
@@ -67,7 +59,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
-    </motion.div>
+    </div>
   );
 }
 
@@ -78,19 +70,13 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-        <svg className="grain" aria-hidden="true" preserveAspectRatio="none">
-          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
-          <rect width="100%" height="100%" filter="url(#grain)"/>
-        </svg>
         <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease" }}>
           <OrganizationSchema />
           <a href="#main-content" className="skip-link">Skip to content</a>
           <SmoothScroll />
-          <Cursor />
-          <MotionLayer />
-          <ScrollProgress />
           <Nav />
           <Router />
+          <Curtain />
         </div>
       </WouterRouter>
     </MotionConfig>

@@ -25,3 +25,35 @@
 @media (prefers-reduced-motion: reduce) {
   .cl::after { animation: none; }
 }
+
+/* page change: a curtain lifts away, the signal line riding its edge */
+.curtain { position: fixed; inset: 0; z-index: 1200; pointer-events: none; background: #050506; animation: curtain-lift .75s cubic-bezier(.7,0,.2,1) forwards; }
+.curtain span { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, transparent, #ff6a1a 20%, #ffb07a 50%, #ff6a1a 80%, transparent); box-shadow: 0 0 18px 2px rgba(255,106,26,.7); }
+@keyframes curtain-lift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+
+/* light that follows the cursor across cards and rows */
+.lf { position: relative; }
+.lf::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,106,26,.10), transparent 60%);
+  transition: opacity .35s ease;
+}
+.lf:hover::after { opacity: 1; }
+.lf-edge { position: relative; }
+.lf-edge::before {
+  content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255,140,74,.75), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: opacity .35s ease;
+}
+.lf-edge:hover::before { opacity: 1; }
+
+/* buttons: the arrow lifts toward where it's pointing */
+.fh-btn span, .ed-btn span { display: inline-block; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.fh-btn:hover span, .ed-btn:hover span { transform: translate(3px, -3px); }
+.fh-btn { box-shadow: 0 0 0 0 rgba(255,106,26,0); transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background .25s ease; }
+.fh-btn:hover { box-shadow: 0 10px 40px -6px rgba(255,106,26,.55); }
+/* text links: the underline draws in */
+.fh-ghost, .wk-cta, .qa-more { background-image: linear-gradient(var(--orange), var(--orange)); background-size: 0% 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .4s cubic-bezier(.2,.8,.2,1), color .25s ease, border-color .25s ease; }
+.fh-ghost:hover, .wk-inner:hover .wk-cta, .qa-more:hover { background-size: 100% 1px; border-color: transparent; }
+@media (prefers-reduced-motion: reduce) { .curtain { display: none; } }

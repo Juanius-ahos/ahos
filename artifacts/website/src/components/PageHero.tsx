@@ -37,7 +37,7 @@ export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, 
   const src = custom ? visual.src : asset(`visuals/${visual}.webp`);
   const srcSet = custom ? undefined : `${asset(`visuals/${visual}-800.webp`)} 800w, ${asset(`visuals/${visual}.webp`)} 1600w`;
   return (
-    <header className={`ph${custom ? " ph-custom" : ""}`}>
+    <header className={`ph tone-ink${custom ? " ph-custom" : ""}`} data-tone="ink">
       {loop ? (
         <DeviceCanvas scene={loop} className="ph-bg ph-canvas" region={heroRegion} />
       ) : (
@@ -50,8 +50,7 @@ export function PageHero({ crumb, kicker, titleLead, titleAccent, lead, visual, 
             <Link href="/">Home</Link><span aria-hidden="true">/</span><span>{crumb}</span>
           </nav>
         )}
-        <p className="ph-kicker"><span className="ph-rule" />{kicker}</p>
-        <h1 className="ph-h1">{titleLead}{titleAccent && <> <em>{titleAccent}</em></>}</h1>
+        <h1 className="ph-h1">{titleLead}{titleAccent && <> {titleAccent}</>}</h1>
         {lead && <p className="ph-lead">{lead}</p>}
         {children && <div className="ph-ctas">{children}</div>}
       </div>

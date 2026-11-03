@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Arrow } from "../Arrow";
 import { Link } from "wouter";
 import "./film.css";
 
@@ -110,16 +111,15 @@ export function FilmHero() {
   }, []);
 
   return (
-    <section className="fh" ref={rootRef} aria-label="How AHOS builds a product">
+    <section className="fh tone-ink" data-tone="ink" ref={rootRef} aria-label="How AHOS builds a product">
       <div className="fh-stage">
         <canvas ref={canvasRef} className={`fh-canvas${ready ? " is-ready" : ""}`} aria-hidden="true" />
         <div className="fh-shade" aria-hidden="true" />
 
         <div className="fh-copy">
           <div className="fh-ch fh-hook" data-ch="hook">
-            <p className="fh-kicker"><span className="fh-rule" />AHOS · Digital product studio</p>
-            <h1 className="fh-h1">What if you could watch your product <em>being built?</em></h1>
-            <p className="fh-scroll" aria-hidden="true">Scroll</p>
+            <h1 className="fh-h1">What if you could watch your product being built?</h1>
+            <p className="fh-scroll" aria-hidden="true">Scroll to build it</p>
           </div>
 
           <div className="fh-ch" data-ch="design">
@@ -130,23 +130,23 @@ export function FilmHero() {
 
           <div className="fh-ch" data-ch="build">
             <p className="fh-num">02 <span>Build</span></p>
-            <h2 className="fh-h2">Built by the people who <em>designed it.</em></h2>
+            <h2 className="fh-h2">Built by the people who designed it.</h2>
             <p className="fh-p">Design and engineering under one roof. Nothing gets lost in a handoff, and every line of code is yours.</p>
           </div>
 
           <div className="fh-ch" data-ch="ship">
             <p className="fh-num">03 <span>Ship</span></p>
-            <h2 className="fh-h2">Live, fast, and <em>selling.</em></h2>
+            <h2 className="fh-h2">Live, fast, and selling.</h2>
             <p className="fh-p">On screen: Threads Activewear, an online store we designed and built for a sportswear retailer in Beirut.</p>
           </div>
 
           <div className="fh-ch" data-ch="scale">
             <p className="fh-num">04 <span>Scale</span></p>
-            <h2 className="fh-h2">Then the world <em>finds it.</em></h2>
+            <h2 className="fh-h2">Then the world finds it.</h2>
             <p className="fh-p">Search, speed and support after launch, so your product keeps working while you grow. For founders in Beirut, the Gulf, Europe and the US.</p>
             <div className="fh-ctas">
-              <Link href="/contact" className="fh-btn">Book a 30-min call <span aria-hidden="true">↗</span></Link>
-              <a href="#work" className="fh-ghost">See the work</a>
+              <Link href="/contact" className="btn">Book a 30-min call <Arrow /></Link>
+              <a href="#work" className="lnk">See the work</a>
             </div>
           </div>
         </div>

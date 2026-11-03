@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Arrow } from "../components/Arrow";
 import { motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { Testimonials } from "../components/Testimonials";
@@ -96,8 +97,8 @@ export default function Pricing() {
         visual="build"
         loop="web"
       >
-        <Link href="/contact" className="fh-btn">Start your project <span aria-hidden="true">↗</span></Link>
-        <Link href="/faq" className="fh-ghost">Visit FAQ</Link>
+        <Link href="/contact" className="btn">Start your project <Arrow /></Link>
+        <Link href="/faq" className="lnk">Visit FAQ</Link>
       </PageHero>
 
       <section className="ed pr-grid">

@@ -1,4 +1,5 @@
 import { Link, useParams } from "wouter";
+import { Arrow } from "../components/Arrow";
 import { Footer } from "../components/Footer";
 import { SEOHead, BreadcrumbSchema } from "../seo/SEOHead";
 import { Reveal } from "../components/motion";
@@ -44,8 +45,8 @@ export default function CaseStudy() {
         lead={study.testimonial.text.split(". ")[0] + "."}
         visual={{ src: asset(RENDERS[study.slug] ?? study.img), alt: `${study.name} on a laptop and phone, designed and built by AHOS` }}
       >
-        <a href={study.url} target="_blank" rel="noopener noreferrer" className="fh-btn">Visit live site <span aria-hidden="true">↗</span></a>
-        <Link href="/contact" className="fh-ghost">Start a project like this</Link>
+        <a href={study.url} target="_blank" rel="noopener noreferrer" className="btn">Visit live site <Arrow /></a>
+        <Link href="/contact" className="lnk">Start a project like this</Link>
       </PageHero>
 
       <section className="ed ed-sec cs-body">

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Arrow } from "../Arrow";
 import { Link } from "wouter";
 
 const ASSURE = ["Fixed price, in writing", "You own the code", "Live in days, not months"];
@@ -53,7 +54,7 @@ export function HeroAria() {
           <div className="hb-eyebrow"><span className="hb-dot" />Digital product studio · Beirut → Worldwide</div>
           <h1 className="hb-h1">Websites, apps &amp; software that <em>pay for themselves.</em></h1>
           <div className="hb-headline-foot">
-            <Link href="/contact" className="hb-btn">Start a project <span aria-hidden="true">↗</span></Link>
+            <Link href="/contact" className="hb-btn">Start a project <Arrow /></Link>
             <span className="hb-rating"><span className="hb-stars" aria-hidden="true">★★★★★</span> 5.0 on Trustpilot · 50+ shipped</span>
           </div>
         </div>
@@ -90,7 +91,7 @@ export function HeroAria() {
 
           <div className="hb-aria-note">
             <p>ARIA is getting an upgrade. In the meantime, tell us your project directly and a real person replies within 24 hours.</p>
-            <Link href="/contact" className="hb-aria-cta">Tell us your project <span aria-hidden="true">↗</span></Link>
+            <Link href="/contact" className="hb-aria-cta">Tell us your project <Arrow /></Link>
           </div>
         </div>
 

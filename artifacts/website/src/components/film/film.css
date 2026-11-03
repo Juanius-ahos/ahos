@@ -29,13 +29,11 @@
 .fh-ch a { pointer-events: auto; }
 .fh-hook { width: min(760px, 52vw); }
 
-.fh-kicker, .fh-num {
-  display: flex; align-items: center; gap: 14px;
-  font-family: var(--font-mono); font-weight: 500; font-size: 12px;
-  letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange);
-  margin-bottom: 26px;
+.fh-num {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 22px;
+  font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--signal);
 }
-.fh-num span { color: var(--text-dim); }
+.fh-num span { color: rgba(239, 233, 223, 0.78); font-weight: 500; }
 .fh-rule { width: 36px; height: 1px; background: var(--orange); }
 
 .fh-h1 {
@@ -54,10 +52,8 @@
   font-size: clamp(16px, 1.2vw, 18px); line-height: 1.6; color: rgba(239, 233, 223, 0.7);
 }
 .fh-scroll {
-  margin-top: 48px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(239, 233, 223, 0.5);
-  display: flex; align-items: center; gap: 12px;
+  margin-top: 44px; display: flex; align-items: center; gap: 12px;
+  font-size: 14px; color: rgba(239, 233, 223, 0.6);
 }
 .fh-scroll::after {
   content: ""; width: 1px; height: 36px; background: linear-gradient(var(--orange), transparent);
@@ -94,15 +90,14 @@
   .fh-h1 { font-size: clamp(38px, 10.5vw, 60px); }
   .fh-h2 { font-size: clamp(30px, 8.4vw, 46px); }
   .fh-p { margin-top: 14px; font-size: 15px; }
-  .fh-kicker, .fh-num { margin-bottom: 16px; }
+  .fh-num { margin-bottom: 14px; }
   .fh-scroll { margin-top: 24px; }
   .fh-progress { display: none; }
 }
 
 /* opening title: a mask wipe line by line, then the kicker and scroll cue */
-.fh-hook .fh-kicker { animation: fh-fade .8s .1s both; }
 .fh-hook .fh-h1 { animation: fh-wipe 1.3s .2s cubic-bezier(.7,0,.2,1) both; }
 .fh-hook .fh-scroll { animation: fh-fade .8s 1.2s both; }
 @keyframes fh-wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(.3em); } to { clip-path: inset(-.2em -.2em -.3em -.2em); transform: none; } }
 @keyframes fh-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .fh-hook .fh-kicker, .fh-hook .fh-h1, .fh-hook .fh-scroll { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .fh-hook .fh-h1, .fh-hook .fh-scroll { animation: none; } }

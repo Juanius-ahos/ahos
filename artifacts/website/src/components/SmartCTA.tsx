@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Arrow } from "./Arrow";
 import { Link, useLocation } from "wouter";
 
 type CTA = { text: string; btn: string; href: string; external?: boolean };
@@ -59,9 +60,9 @@ export function SmartCTA() {
         </span>
         <span className="scta-col">
           {cta.external ? (
-            <a className="scta-btn" href={cta.href}>{cta.btn} <span aria-hidden="true">↗</span></a>
+            <a className="scta-btn" href={cta.href}>{cta.btn} <Arrow /></a>
           ) : (
-            <Link className="scta-btn" href={cta.href}>{cta.btn} <span aria-hidden="true">↗</span></Link>
+            <Link className="scta-btn" href={cta.href}>{cta.btn} <Arrow /></Link>
           )}
           <button className="scta-x" onClick={() => setDismissed(true)} aria-label="Dismiss">×</button>
         </span>

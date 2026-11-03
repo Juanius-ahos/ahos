@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Arrow } from "./Arrow";
 import { trackEvent } from "../lib/analytics";
 
 const VOICES = [
@@ -52,9 +53,9 @@ export function Closing({ head = "Let's build", accent = "yours.", lead = "Tell 
         <h2 id="cl-title" className="cl-title">{head} <em>{accent}</em></h2>
         <p className="cl-sub">{lead}</p>
         <div className="cl-ctas">
-          <Link href="/contact" className="fh-btn" onClick={() => trackEvent("cta_click", { where })}>Book a 30-min call <span aria-hidden="true">↗</span></Link>
-          <a href="https://wa.me/96170165601" className="fh-ghost" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
-          <a href="mailto:info@ahos.xyz" className="fh-ghost">info@ahos.xyz</a>
+          <Link href="/contact" className="btn" onClick={() => trackEvent("cta_click", { where })}>Book a 30-min call <Arrow /></Link>
+          <a href="https://wa.me/96170165601" className="lnk" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+          <a href="mailto:info@ahos.xyz" className="lnk">info@ahos.xyz</a>
         </div>
       </div>
     </section>

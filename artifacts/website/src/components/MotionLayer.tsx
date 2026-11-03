@@ -58,6 +58,28 @@ export function MotionLayer() {
     return () => { cancelAnimationFrame(raf); io?.disconnect(); cleanupVideo(); };
   }, [location]);
 
+  // cards and rows catch a light that follows the cursor
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const SEL = ".wk-media, .vc-item, .bd-item, .sv-item, .sv-more a, .qa-list details, .sv-promise-grid > div, .nv-panel-item";
+    const EDGE = ".wk-media, .vc-item";
+    const mark = () => {
+      document.querySelectorAll(SEL).forEach((el) => el.classList.add("lf"));
+      document.querySelectorAll(EDGE).forEach((el) => el.classList.add("lf-edge"));
+    };
+    mark();
+    const id = window.setTimeout(mark, 400);
+    const onMove = (e: PointerEvent) => {
+      const el = (e.target as Element | null)?.closest<HTMLElement>(".lf");
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => { clearTimeout(id); window.removeEventListener("pointermove", onMove); };
+  }, [location]);
+
   // magnetic buttons (fine pointers only)
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
