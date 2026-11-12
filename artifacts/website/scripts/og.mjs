@@ -1,26 +1,30 @@
-// Generates public/og.png (1200x630) from type and brand colours only. No generated imagery.
-// Run: node scripts/og.mjs
+// Generates public/og.png (1200x630): the traced AHOS wordmark on graphite, plus the tagline.
+// Vector shapes only, no generated imagery. Run: node scripts/og.mjs
 import sharp from "sharp";
-import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const font = readFileSync(join(ROOT, "public/fonts/space-grotesk-latin-700-normal.woff2")).toString("base64");
-const grid = Array.from({ length: 26 }, (_, i) => `<path d="M${i * 48} 0V630" stroke="#0a0a0b" stroke-opacity=".07"/>`).join("") +
-  Array.from({ length: 14 }, (_, i) => `<path d="M0 ${i * 48}H1200" stroke="#0a0a0b" stroke-opacity=".07"/>`).join("");
+
+// Same shapes as src/components/Mark.tsx (viewBox 8 6 584 190).
+const letters = "M11 17H136V184H95V138H53V184H11ZM53 55V99H95V55ZM149 17H191V82H233V17H275V184H233V118H191V184H149ZM464 17H589V55H506V82H589V184H464V146H548V118H464Z";
+const tiles = [
+  ["#545454", "293,10 385,10 385,52 334,52"],
+  ["#ff751f", "392,11 434,52 434,151 392,110"],
+  ["#545454", "359,149 409,149 451,192 359,192"],
+  ["#ff751f", "310,51 353,93 353,191 310,149"],
+];
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-<defs><style>@font-face{font-family:SG;src:url(data:font/woff2;base64,${font})}text{font-family:SG,Arial,sans-serif;font-weight:700}</style></defs>
-<rect width="1200" height="630" fill="#efe9df"/>${grid}
-<rect y="0" width="1200" height="96" fill="#0a0a0b"/>
-<text x="72" y="300" font-size="104" letter-spacing="-4" fill="#0a0a0b">We draw your product.</text>
-<text x="72" y="410" font-size="104" letter-spacing="-4" fill="#0a0a0b">Then we build it.</text>
-<path d="M72 452H1128M72 444V460M1128 444V460" stroke="#ff6a1a" stroke-width="3"/>
-<rect y="534" width="1200" height="96" fill="#ff6a1a"/>
-<text x="72" y="594" font-size="34" letter-spacing="-1" fill="#0a0a0b">Websites, stores, apps and software. Beirut. ahos.xyz</text>
+<rect width="1200" height="630" fill="#17181b"/>
+<g transform="translate(80 92) scale(1.775)">
+  <path fill="#f2f1ed" fill-rule="evenodd" d="${letters}" transform="translate(-8 -6)"/>
+  <g transform="translate(-8 -6)">${tiles.map(([c, p]) => `<polygon fill="${c}" points="${p}"/>`).join("")}</g>
+</g>
+<text x="80" y="508" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="54" letter-spacing="-1.5" fill="#f2f1ed">Design that sells. Code that holds.</text>
+<text x="80" y="566" font-family="Arial, sans-serif" font-weight="700" font-size="26" fill="#a7a9ae">Websites, stores, apps and AI. Designed and built in Beirut.</text>
+<polygon fill="#ff751f" points="1040,540 1120,540 1140,566 1060,566"/>
 </svg>`;
 
-const logo = await sharp(join(ROOT, "public/logo.png")).resize({ height: 44 }).toBuffer();
-await sharp(Buffer.from(svg)).composite([{ input: logo, left: 72, top: 26 }]).png({ compressionLevel: 9 }).toFile(join(ROOT, "public/og.png"));
+await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toFile(join(ROOT, "public/og.png"));
 console.log("public/og.png written");

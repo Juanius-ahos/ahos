@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import AriaAI from "./pages/AriaAI";
 import NotFound from "./pages/NotFound";
+import Work from "./pages/Work";
 import { BASE, caseStudies, routeFor, services, site } from "./site.config";
 
 /** Keeps title, description and canonical right after client-side navigation. */
@@ -37,6 +38,7 @@ function Routes() {
   return (
     <Switch>
       <Route path="/"><Home /></Route>
+      <Route path="/work"><Work /></Route>
       <Route path="/services"><Services /></Route>
       {services.map((s) => <Route key={s.href} path={s.href}><ServicePage s={s} /></Route>)}
       {caseStudies.map((c) => <Route key={c.slug} path={`/work/${c.slug}`}><CaseStudy c={c} /></Route>)}

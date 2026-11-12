@@ -58,7 +58,7 @@ const faqLd = (items) => ({ "@context": "https://schema.org", "@type": "FAQPage"
 function crumbsLd(r) {
   const items = [{ name: "Home", url: abs("/") }];
   if (services.some((s) => s.href === r.path)) items.push({ name: "Services", url: abs("/services") });
-  if (r.path.startsWith("/work/")) items.push({ name: "Work", url: `${site.url}/#work` });
+  if (r.path.startsWith("/work/")) items.push({ name: "Work", url: abs("/work") });
   if (r.path !== "/") items.push({ name: r.crumb || r.title, url: abs(r.path) });
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })) };
 }
@@ -74,9 +74,10 @@ function pageLd(r) {
   const cs = caseStudies.find((c) => `/work/${c.slug}` === r.path);
   if (cs) {
     const p = projects.find((x) => x.id === cs.project);
-    out.push({ "@context": "https://schema.org", "@type": "CreativeWork", name: `${p.name}: ${p.what}`, headline: cs.title, description: cs.lead, url: abs(r.path), image: `${site.url}/work/${p.shot}.webp`, creator: { "@id": ORG_ID }, dateCreated: p.year, sameAs: p.live, review: { "@type": "Review", reviewBody: cs.quote.text, author: { "@type": "Person", name: cs.quote.name } } });
+    out.push({ "@context": "https://schema.org", "@type": "CreativeWork", name: `${p.name}: ${p.what}`, headline: cs.title, description: cs.lead, url: abs(r.path), image: p.shot ? `${site.url}/work/d-${p.shot}.webp` : `${site.url}${site.ogImage}`, creator: { "@id": ORG_ID }, dateCreated: p.year, url: abs(r.path), ...(p.live.startsWith("http") ? { sameAs: p.live } : {}), keywords: cs.services.join(", "), ...(cs.quote ? { review: { "@type": "Review", reviewBody: cs.quote.text, author: { "@type": "Person", name: cs.quote.name } } } : {}) });
   }
   if (r.path === "/") out.push(faqLd(homeFaq));
+  if (r.path === "/work" || r.path === "/") out.push({ "@context": "https://schema.org", "@type": "ItemList", name: "AHOS case studies", itemListElement: caseStudies.map((c, i) => { const p = projects.find((x) => x.id === c.project); return { "@type": "ListItem", position: i + 1, url: abs(`/work/${c.slug}`), name: `${p.name}: ${p.what}` }; }) });
   if (r.path === "/faq") out.push(faqLd(faqCategories.flatMap((c) => c.items)));
   if (r.path === "/pricing") out.push(faqLd(pricing.faqs));
   return out.map(ld).join("\n    ");
@@ -123,7 +124,14 @@ for (const r of routes) {
   writeFileSync(file, page(r.path, r));
 }
 
-writeFileSync(join(DIST, "404.html"), page("/404", { path: "/404", title: "Page not found | AHOS", description: "This page is not on the drawings.", noindex: true }));
+writeFileSync(join(DIST, "404.html"), page("/404", { path: "/404", title: "Page not found | AHOS", description: "This page does not exist.", noindex: true }));
+
+// Retired URLs keep working: a static page that forwards to the right place.
+for (const [from, to] of [["/work/ido-taxi", "/work"]]) {
+  const file = join(DIST, from.slice(1), "index.html");
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, `<!doctype html><meta charset="utf-8"><title>Moved</title><meta name="robots" content="noindex"><link rel="canonical" href="${abs(to)}"><meta http-equiv="refresh" content="0; url=${to}/"><a href="${to}/">Moved here</a>`);
+}
 
 const today = new Date().toISOString().slice(0, 10);
 writeFileSync(join(DIST, "sitemap.xml"),
@@ -133,7 +141,7 @@ writeFileSync(join(DIST, "sitemap.xml"),
 
 writeFileSync(join(DIST, "robots.txt"),
   `# ${site.name} robots.txt\nUser-agent: *\nAllow: /\n\n# AI assistants and answer engines are welcome to read and cite this site.\n` +
-  ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "PerplexityBot", "Google-Extended", "Applebot-Extended"].map((b) => `User-agent: ${b}\nAllow: /`).join("\n\n") +
+  ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "DuckAssistBot", "MistralAI-User", "meta-externalagent", "CCBot"].map((b) => `User-agent: ${b}\nAllow: /`).join("\n\n") +
   `\n\nSitemap: ${site.url}/sitemap.xml\n`);
 
 writeFileSync(join(DIST, "llms.txt"), [
@@ -147,8 +155,15 @@ writeFileSync(join(DIST, "llms.txt"), [
   "## Services and starting prices",
   ...services.map((s) => `- [${s.label}](${abs(s.href)}): ${s.blurb} From ${money(s.from)}, ${s.timeline.toLowerCase()}.`),
   "",
-  "## Selected work",
-  ...projects.map((p) => `- ${p.name} (${p.what}, ${p.where}): ${p.outcome} ${p.live}`),
+  "## Case studies",
+  ...caseStudies.map((c) => { const p = projects.find((x) => x.id === c.project); return `- [${p.name}](${abs(`/work/${c.slug}`)}) (${p.what}, ${p.where}, ${p.year}): ${p.outcome} Live: ${p.live.startsWith("http") ? p.live : abs(p.live)}`; }),
+  "",
+  "## How AHOS works",
+  ...mod.process.map((s, i) => `${i + 1}. ${s.name} (${s.time.toLowerCase()}): ${s.body}`),
+  "",
+  "## Frequently asked",
+  ...homeFaq.map((f) => `- Q: ${f.q}
+  A: ${f.a}`),
   "",
   "## Pages",
   ...routes.map((r) => `- [${r.crumb || "Home"}](${abs(r.path)}): ${r.description}`),

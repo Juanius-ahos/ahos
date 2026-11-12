@@ -1,12 +1,12 @@
 {
-  "name": "AHOS, digital product studio in Beirut",
+  "name": "AHOS, design and engineering studio in Beirut",
   "short_name": "AHOS",
-  "description": "Websites, online stores, apps and custom software, drawn and built in Beirut.",
+  "description": "Websites, online stores, apps and AI, designed and built in Beirut.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#efe9df",
-  "theme_color": "#0a0a0b",
+  "background_color": "#17181b",
+  "theme_color": "#17181b",
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "/favicon.png", "sizes": "48x48", "type": "image/png" }

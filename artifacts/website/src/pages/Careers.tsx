@@ -40,13 +40,13 @@ export default function Careers() {
           <Head id="val-title" title="No ladders. Just good work." />
           <div className="values">
             {careers.values.map((v, i) => (
-              <div key={v.name} data-reveal><span className="dim">{String(i + 1).padStart(2, "0")}</span><h3 className="d">{v.name}</h3><p>{v.body}</p></div>
+              <div key={v.name}><span className="dim">{String(i + 1).padStart(2, "0")}</span><h3 className="d">{v.name}</h3><p>{v.body}</p></div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="sec tone-paper2" aria-labelledby="roles-title">
+      <section className="sec alt" aria-labelledby="roles-title">
         <div className="wrap">
           <Head id="roles-title" title="Always open to." lead="No fixed openings. If you are very good at one of these, we want to hear from you." />
           <ul className="index">

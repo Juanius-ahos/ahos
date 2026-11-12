@@ -12,14 +12,14 @@ export const site = {
   url: "https://ahos.xyz",
   name: "AHOS",
   legalName: "Advanced Hybrid Online Systems",
-  siteName: "AHOS, digital product studio in Beirut",
-  tagline: "We draw your product. Then we build it.",
+  siteName: "AHOS, design and engineering studio in Beirut",
+  tagline: "Design that sells. Code that holds.",
   summary:
-    "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, custom software and AI automations for founders in Lebanon, the Gulf, Europe and the US.",
+    "AHOS (Advanced Hybrid Online Systems) is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the Gulf, Europe and the US.",
   founded: "2023",
   locale: "en_US",
   lang: "en",
-  themeColor: "#0a0a0b",
+  themeColor: "#17181b",
 
   contact: {
     email: "info@ahos.xyz",
@@ -83,11 +83,11 @@ export const site = {
 /* ------------------------------------------------------------------ */
 
 export const nav = [
-  { href: "/#work", label: "Work", match: "/work" },
+  { href: "/work", label: "Work", match: "/work" },
   { href: "/services", label: "Services", match: "/services" },
   { href: "/pricing", label: "Pricing", match: "/pricing" },
+  { href: "/aria-ai", label: "ARIA", match: "/aria-ai" },
   { href: "/faq", label: "FAQ", match: "/faq" },
-  { href: "/careers", label: "Careers", match: "/careers" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -104,25 +104,63 @@ export interface Project {
   outcome: string;
   live: string;
   liveLabel: string;
-  caseStudy?: string;
-  /** First-screen capture, 1440x900 and 960x600 in /public/work. */
-  shot: string;
-  /** Full-page capture in /public/3d, scrolled inside the frame on desktop. */
-  tall: string;
+  /** Case study path. Every project shown on the site has one. */
+  caseStudy: string;
+  /** Desktop capture: /work/d-{shot}.webp (1440) and d-{shot}-880.webp. Phone capture: /work/m-{shot}.webp. */
+  shot?: string;
+  /** Two flagship projects lead the work section. */
+  flagship?: boolean;
 }
 
 export const projects: Project[] = [
   {
+    id: "issam",
+    name: "Oman with Issam",
+    what: "Multilingual website",
+    where: "Muscat, Oman",
+    year: "2026",
+    outcome: "A private tour guide who speaks twelve languages now has a site that does too, with every tour a WhatsApp message away.",
+    live: "https://omanwithissam.com",
+    liveLabel: "omanwithissam.com",
+    caseStudy: "/work/oman-with-issam",
+    shot: "issam",
+    flagship: true,
+  },
+  {
     id: "threads",
     name: "Threads Activewear",
     what: "Online store",
-    where: "Beirut",
+    where: "Beirut, Lebanon",
     year: "2026",
     outcome: "Original Nike, adidas, On and The North Face, with cash on delivery anywhere in Lebanon in one tap.",
     live: "https://threadsactivewear.com",
     liveLabel: "threadsactivewear.com",
-    shot: "top-threads",
-    tall: "threads-deskfull",
+    caseStudy: "/work/threads-activewear",
+    shot: "threads",
+    flagship: true,
+  },
+  {
+    id: "aria",
+    name: "ARIA",
+    what: "AI assistant",
+    where: "Built for AHOS",
+    year: "2026",
+    outcome: "An AI project advisor that scopes a build, sketches a first preview and hands a warm lead to the team.",
+    live: "/aria-ai",
+    liveLabel: "Talk to ARIA",
+    caseStudy: "/work/aria",
+  },
+  {
+    id: "tavern",
+    name: "The Tavern",
+    what: "Web3 social market",
+    where: "Robinhood Chain",
+    year: "2026",
+    outcome: "The social layer and live market for Robinhood Chain: every launch, trade and conversation in one place.",
+    live: "https://www.tvern.xyz",
+    liveLabel: "tvern.xyz",
+    caseStudy: "/work/the-tavern",
+    shot: "tavern",
   },
   {
     id: "speealigner",
@@ -134,40 +172,24 @@ export const projects: Project[] = [
     live: "https://www.speealigner.com",
     liveLabel: "speealigner.com",
     caseStudy: "/work/speealigner",
-    shot: "top-speealigner",
-    tall: "speealigner-deskfull",
+    shot: "speealigner",
   },
   {
     id: "julsauto",
     name: "Jul's Auto Repair",
-    what: "Website",
+    what: "Local business website",
     where: "Raynham, Massachusetts",
     year: "2025",
-    outcome: "A local service site built around one action: call the shop or get directions in one tap.",
+    outcome: "A local garage site built around one action: call the shop or get directions in one tap.",
     live: "https://julsauto.com",
     liveLabel: "julsauto.com",
-    shot: "top-julsauto",
-    tall: "julsauto-deskfull",
-  },
-  {
-    id: "idotaxi",
-    name: "I Do Taxi",
-    what: "Website and iOS app",
-    where: "Beirut",
-    year: "2025",
-    outcome: "Lebanon's 24/7 taxi service, bookable by app, phone or WhatsApp, with live dispatch behind it.",
-    live: "https://www.idotaxi.net",
-    liveLabel: "idotaxi.net",
-    caseStudy: "/work/ido-taxi",
-    shot: "top-idotaxi",
-    tall: "idotaxi-deskfull",
+    caseStudy: "/work/juls-auto-repair",
+    shot: "julsauto",
   },
 ];
 
 export const alsoBuilt = [
-  { name: "YourProvider", href: "https://www.yourprovider-lb.com" },
   { name: "Aleph", href: "https://www.aleph.com.lb" },
-  { name: "ARIA", href: "/aria-ai" },
 ];
 
 export interface CaseStudy {
@@ -176,19 +198,89 @@ export interface CaseStudy {
   title: string;
   lead: string;
   services: string[];
+  /** Plain facts about the build. Keep these true. */
+  facts: [string, string][];
   brief: string;
   built: { name: string; body: string }[];
   now: string;
-  quote: { text: string; name: string; role: string; link?: string };
+  quote?: { text: string; name: string; role: string; link?: string };
 }
 
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: "oman-with-issam",
+    project: "issam",
+    title: "A tour guide who speaks twelve languages, and a site that keeps up.",
+    lead: "Issam Albalushi, the Languages Ninja, guides private tours across Oman in twelve languages. We gave him a brand-led website that welcomes every traveler in their own language and turns a visit into a WhatsApp conversation.",
+    services: ["Art direction", "Interface design", "Web development", "Multilingual SEO"],
+    facts: [["13", "site languages, Arabic in full right-to-left"], ["65", "pages pre-rendered for search"], ["8", "tours flown on a real satellite map"]],
+    brief:
+      "Travelers find Issam from everywhere: Germany, Russia, China, the Gulf. The site had to greet each of them in their language, show who Issam is in seconds, and make asking for a tour as easy as sending a message.",
+    built: [
+      { name: "A hero with a person in it", body: "Issam stands in front of his own name, with a greeting that changes language as you watch. You know who you are traveling with before you read a word." },
+      { name: "Routes you can fly", body: "Every tour is drawn on real satellite imagery and road data. Scroll, and the camera flies the route from Muscat to the dunes." },
+      { name: "Thirteen languages, done properly", body: "Each locale has its own URLs, its own metadata and full right-to-left Arabic, all pre-rendered so search engines and AI assistants can read every page." },
+      { name: "One way to book", body: "WhatsApp and a short tour request form, on every page. No accounts, no checkout, no friction." },
+    ],
+    now: "The site is live at omanwithissam.com and is the first thing travelers see when they look Issam up.",
+  },
+  {
+    slug: "threads-activewear",
+    project: "threads",
+    title: "An activewear store that moves as fast as its customers.",
+    lead: "Threads sells original Nike, adidas, On and The North Face from Wadi Chahrour, Beirut. We built a store with the energy of the brands on its shelves, and a checkout that works the way Lebanon pays.",
+    services: ["Brand-led design", "E-commerce", "3D and motion", "Local payments"],
+    facts: [["4", "global brands, all original"], ["1 tap", "cash on delivery anywhere in Lebanon"], ["Free", "delivery on orders over $100"]],
+    brief:
+      "Shoppers in Lebanon want proof that what they buy is original, and most of them pay at the door. The store had to look as sharp as a brand flagship and still make cash on delivery the obvious way to order.",
+    built: [
+      { name: "A flagship first screen", body: "A 3D brand stage in Threads green that cycles through each brand with live stock counts, so the first thing you see is what is actually on the shelf." },
+      { name: "Checkout for Lebanon", body: "Cash on delivery all over the country, free delivery over $100, and a WhatsApp button on every page for people who would rather just ask." },
+      { name: "Built for phones", body: "Most orders come from a phone on mobile data, so every page is shaped for one thumb and loads fast on a weak connection." },
+    ],
+    now: "The store is live at threadsactivewear.com, alongside the shop in Wadi Chahrour.",
+  },
+  {
+    slug: "aria",
+    project: "aria",
+    title: "ARIA, an AI advisor that does our first call for us.",
+    lead: "We designed and built ARIA to do what we do on a first call: understand what someone wants to make, point them at the right next step, and pass the details to a real person.",
+    services: ["AI assistant", "Conversation design", "Lead capture", "Serverless backend"],
+    facts: [["24/7", "straight answers about scope, price and timing"], ["Live", "preview of your idea, sketched beside the chat"], ["Queued", "leads resend themselves if the connection drops"]],
+    brief:
+      "Most people who visit a studio site are not ready to book a call. They have a question about scope, price or timing. We wanted them to get a straight answer straight away, and we wanted the team to hear about it.",
+    built: [
+      { name: "A real conversation", body: "ARIA asks what you are building, who it is for and what you need it to do, then gives honest guidance on scope, timeline and the right service." },
+      { name: "A preview on the spot", body: "When it has enough to go on, ARIA sketches a rough first screen of your idea, right next to the chat." },
+      { name: "Leads that reach a person", body: "When you are ready, ARIA hands your details to the team. If the connection drops, it queues the message and sends it the next time you visit." },
+      { name: "A backend that stays up", body: "A small serverless worker with retries and a fallback model, so ARIA answers even when one provider has a bad day." },
+    ],
+    now: "ARIA runs on this site. It is also the starting point for the assistants and WhatsApp flows we build for clients.",
+  },
+  {
+    slug: "the-tavern",
+    project: "tavern",
+    title: "The Tavern, where Robinhood Chain gathers.",
+    lead: "The Tavern is a social network fused with a market terminal, scoped entirely to Robinhood Chain. We designed and built the product that pours every launch, trade and conversation into one live room.",
+    services: ["Product design", "Web3 development", "Real-time data", "Wallet sign-in"],
+    facts: [["Live", "launches, trades and prices off the chain"], ["Gasless", "wallet sign-in, no email or password"], ["1", "chain, no global crypto noise"]],
+    brief:
+      "Traders on a new chain were jumping between explorers, chat groups and charts. The Tavern had to put the market and the conversation in the same place and feel alive the second you land.",
+    built: [
+      { name: "The tape", body: "Every buy and sell on the chain streams live, with a filter that shows only the whales." },
+      { name: "Live launches and markets", body: "New tokens hit the feed the moment they mint, and a screener quotes price, volume and liquidity straight off the pools." },
+      { name: "Social first", body: "Posts, replies, polls and communities, where every $ticker links to its live asset page." },
+      { name: "Your wallet is your account", body: "Gasless sign-in with the wallet you already use. No email, no password." },
+    ],
+    now: "The Tavern is live at tvern.xyz.",
+  },
   {
     slug: "speealigner",
     project: "speealigner",
     title: "A clinic-facing site for a clear aligner lab.",
     lead: "SpeeAligner plans clear aligner treatments for dental clinics. We designed and built the site clinics use to understand the service and send their first case.",
     services: ["Interface design", "Web development", "Technical SEO"],
+    facts: [["3", "lines that say what the lab does"], ["24h", "turnaround, stated where clinics decide"], ["1 tap", "to submit a case, from any page"]],
     brief:
       "Clinics needed to see, in a few seconds, what SpeeAligner does, how fast it turns a case around, and how to submit one. The old route was a phone call and a lot of back and forth.",
     built: [
@@ -205,24 +297,20 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   {
-    slug: "ido-taxi",
-    project: "idotaxi",
-    title: "A taxi business, from a rough idea to an app and a website.",
-    lead: "I Do Taxi runs a 24/7 taxi service in Beirut. We took it from an idea to a live iOS app and a website, with booking, dispatch and payments working together.",
-    services: ["Interface design", "iOS app", "Web development", "Backend and dispatch"],
+    slug: "juls-auto-repair",
+    project: "julsauto",
+    title: "A garage website built around one phone call.",
+    lead: "Jul's Auto Repair is an independent garage in Raynham, Massachusetts. We built a site that gets a driver with a problem on the phone with the shop as fast as possible.",
+    services: ["Web design", "Web development", "Local SEO"],
+    facts: [["1 tap", "to call the shop"], ["1 tap", "to get directions"], ["0", "forms between a driver and a mechanic"]],
     brief:
-      "Passengers book by app, phone or WhatsApp, so every channel had to land in the same place. Drivers needed dispatch that works on the move, and payments had to be secure.",
+      "People look up a garage when something is already wrong. They want to know the shop is real, close and open, and then they want to call.",
     built: [
-      { name: "iOS app", body: "Real-time booking with pickup, drop-off and status, designed for one-handed use on a busy street." },
-      { name: "Dispatch", body: "Bookings from the app, the phone line and WhatsApp reach drivers through one dispatch flow." },
-      { name: "Website", body: "A plain-spoken site that says 24/7 up front and puts WhatsApp booking before any form." },
+      { name: "Call first", body: "The phone number and a directions button sit in the first screen and stay one tap away as you scroll." },
+      { name: "Trust at a glance", body: "A real photo of the shop, the services in plain words and the numbers that matter, without a wall of text." },
+      { name: "Found locally", body: "Clean structure and local business data, so the shop shows up for drivers searching nearby." },
     ],
-    now: "The app is live in the App Store, drivers use dispatch every day, and the passenger base keeps growing.",
-    quote: {
-      text: "AHOS took our taxi business from a rough idea to a polished iOS app and website. Real-time booking, driver dispatch, secure payments, they handled every layer with care. The app is live, our drivers love it, and our passengers keep growing. Exactly what we needed.",
-      name: "Khalil",
-      role: "I Do Taxi, Beirut",
-    },
+    now: "The site is live at julsauto.com and does one job well: it gets the phone ringing.",
   },
 ];
 
@@ -274,7 +362,7 @@ export const services: Service[] = [
       { name: "Web apps and portals", body: "Dashboards, client portals and booking systems: the tools your team and customers open every day. React and Node, with monitoring that keeps them running.", tags: ["Dashboards", "Portals", "Booking"] },
       { name: "Search and speed, built in", body: "Technical SEO, clean structure and Core Web Vitals from the first line, so search engines have every reason to send people your way.", tags: ["Technical SEO", "Core Web Vitals", "Accessibility"] },
     ],
-    proofProject: "speealigner",
+    proofProject: "issam",
     faqs: [
       { q: "How much does a website cost?", a: "Landing pages start at $300 and multi-page company sites at about $500. You get one fixed price in writing after a free call." },
       { q: "How long until my site is live?", a: "A landing page takes about one to two weeks, a full site two to four. Most of it depends on how ready your content is, and we tell you honestly before we start." },
@@ -333,7 +421,6 @@ export const services: Service[] = [
       { name: "Cross-platform", body: "One codebase for both stores with Flutter or React Native, and platform polish where it counts.", tags: ["Flutter", "React Native"] },
       { name: "Backends for mobile", body: "Auth, real-time data and notifications that make the app feel instant, built to grow with it.", tags: ["Auth", "Realtime", "Cloud"] },
     ],
-    proofProject: "idotaxi",
     faqs: [
       { q: "How much does a mobile app cost?", a: "Apps start at $1,000 and scale with features, platforms and backend. You get a fixed quote after a free call." },
       { q: "How long does it take?", a: "Most apps take six to twelve weeks from first drawing to store submission." },
@@ -362,7 +449,7 @@ export const services: Service[] = [
       { name: "Dashboards and internal tools", body: "Admin panels, CRMs and reporting wired into the systems you already use.", tags: ["Admin", "CRM", "Reporting"] },
       { name: "APIs and integrations", body: "REST and GraphQL APIs, webhooks and data sync that connect your payments, CRM and marketing tools into one flow.", tags: ["REST", "GraphQL", "Webhooks"] },
     ],
-    proofProject: "idotaxi",
+    proofProject: "tavern",
     faqs: [
       { q: "How much does custom software cost?", a: "Custom software starts at $1,500 and scales with scope. You get a fixed price after a free call, never an open hourly bill." },
       { q: "How long does it take?", a: "Platforms usually take six to sixteen weeks. We work in milestones, so you use working software throughout." },
@@ -386,6 +473,7 @@ export const services: Service[] = [
     h1: "AI that does the work.",
     lead: "Assistants, automations and WhatsApp flows that answer customers, qualify leads and handle the repetitive jobs, tuned for the task instead of bolted on.",
     problem: "Most AI projects fail because they start with the technology, not the problem. We start with the hours your team is losing.",
+    proofProject: "aria",
     offers: [
       { name: "Assistants and chat", body: "Assistants trained on your business that answer real questions and hand off to a person at the right moment. ARIA on this site is one we built.", tags: ["Assistants", "Lead capture", "Handoff"] },
       { name: "WhatsApp flows", body: "Ordering, booking and support on the channel your customers already use.", tags: ["WhatsApp Business", "Ordering", "Support"] },
@@ -412,8 +500,9 @@ export const services: Service[] = [
       schemaName: "UI/UX Design",
     },
     h1: "Design that is hard to ignore.",
-    lead: "Interfaces, identities and design systems that communicate clearly and convert consistently, drawn so developers can build them without guessing.",
+    lead: "Interfaces, identities and design systems that communicate clearly and convert consistently, specified so developers can build them without guessing.",
     problem: "People decide whether to trust you in the first few seconds, long before they read a word. Design wins or loses that moment.",
+    proofProject: "issam",
     offers: [
       { name: "Interface design", body: "Research, wireframes, high-fidelity screens and prototypes in Figma, with specs ready to build.", tags: ["Research", "Figma", "Prototypes"] },
       { name: "Brand identity and systems", body: "Logo, colour, type and a design system that keeps every screen consistent.", tags: ["Identity", "Design system", "Guidelines"] },
@@ -442,6 +531,7 @@ export const services: Service[] = [
     h1: "Your chain. Our build.",
     lead: "Smart contracts, dapps, token and NFT launches and DeFi interfaces under one roof, audited where it counts and clear where it shows.",
     problem: "In Web3, one unaudited line or one clumsy wallet flow can sink a launch. We sweat both.",
+    proofProject: "tavern",
     offers: [
       { name: "Smart contracts", body: "Tokens, NFTs, DAOs and DeFi logic, gas-optimised and audited before mainnet.", tags: ["ERC-20", "ERC-721", "DAO"] },
       { name: "Dapps and wallets", body: "MetaMask, WalletConnect and on-chain data behind an interface as clean as a modern web app.", tags: ["MetaMask", "WalletConnect"] },
@@ -457,9 +547,10 @@ export const services: Service[] = [
 
 /** The three groups shown on the homepage. */
 export const serviceGroups = [
-  { name: "Websites and online stores", body: "For businesses that need to be found and sell online. Shopify or fully custom, with cash on delivery and WhatsApp ordering where your customers expect it.", time: "1 to 6 weeks", links: ["web-development", "ecommerce-development"] },
-  { name: "Apps and custom software", body: "iOS and Android apps, dashboards and internal tools, shaped around how your business already runs.", time: "6 to 16 weeks", links: ["mobile-app-development", "custom-software", "web3"] },
-  { name: "AI and design", body: "Assistants and WhatsApp flows that handle the repetitive work, and interfaces and identities that make people trust you.", time: "1 to 4 weeks", links: ["ai-development", "ui-ux-design"] },
+  { name: "Websites and online stores", body: "For businesses that need to be found and to sell. Custom or Shopify, fast on a phone, with cash on delivery and WhatsApp ordering where your customers expect them.", time: "1 to 6 weeks", links: ["web-development", "ecommerce-development"] },
+  { name: "Apps and custom software", body: "iOS and Android apps, dashboards, portals and internal tools, shaped around how your business already runs.", time: "6 to 16 weeks", links: ["mobile-app-development", "custom-software"] },
+  { name: "AI and automation", body: "Assistants like ARIA and WhatsApp flows that answer customers, take orders and handle the repetitive work.", time: "2 to 6 weeks", links: ["ai-development"] },
+  { name: "Design, brand and Web3", body: "Interfaces and identities that make people trust you, and Web3 products with an interface people actually understand.", time: "1 to 8 weeks", links: ["ui-ux-design", "web3"] },
 ];
 
 export const pricing = {
@@ -487,13 +578,13 @@ export const pricing = {
 export const process = [
   { name: "A 30-minute call", body: "Free. You tell us what you are building, we ask the questions that shape it.", time: "Day 1" },
   { name: "A plan and a fixed quote", body: "In writing: what we will make, the milestones, the price.", time: "Within 24 hours" },
-  { name: "The drawings", body: "Every screen designed before code is written. You see exactly what you are getting, and sign it off.", time: "1 to 2 weeks" },
-  { name: "The build", body: "Built by the people who drew it, with a working preview at every milestone.", time: "2 to 10 weeks" },
+  { name: "The design", body: "Every screen designed before code is written. You see exactly what you are getting, and sign it off.", time: "1 to 2 weeks" },
+  { name: "The build", body: "Built by the people who designed it, with a working preview at every milestone.", time: "2 to 10 weeks" },
   { name: "Launch", body: "Live, fast and yours: code, designs and content. Then a 30-day warranty.", time: "Launch day" },
 ];
 
 export const homeFaq: QA[] = [
-  { q: "What does AHOS do?", a: "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, custom software and AI automations for founders and businesses in Lebanon, the Gulf, Europe and the US." },
+  { q: "What does AHOS do?", a: "AHOS is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the Gulf, Europe and the US." },
   { q: "How long does it take to build a website or app?", a: "A landing page takes about one to two weeks, a full website or online store two to four weeks, and a mobile app or custom platform usually six to twelve weeks. You get a timeline in writing before work starts." },
   { q: "Do I own the code and design?", a: "Yes. On delivery you own all source code, designs and content. There is no lock-in and no licence you have to keep paying for." },
   { q: "How does pricing work?", a: "Every project gets a fixed quote in writing after a free 30-minute call, with payments split into milestones. There is no hourly billing." },
@@ -507,8 +598,8 @@ export const faqCategories: { name: string; items: QA[] }[] = [
     items: [
       homeFaq[0],
       { q: "Where is AHOS based?", a: "In Beirut, Lebanon. Most projects run remotely, so we work with clients across Lebanon, the Gulf, Europe and the US, in English, Arabic and French." },
-      { q: "What industries do you work with?", a: "Retail and e-commerce, healthcare, transport, local services, restaurants, real estate, finance and SaaS. The process is the same; the drawings are specific to you." },
-      { q: "Who will I work with?", a: "A small senior team. The people who draw your product are the people who build it, and you talk to them directly." },
+      { q: "What industries do you work with?", a: "Retail and e-commerce, healthcare, transport, local services, restaurants, real estate, finance and SaaS. The process is the same; the design is specific to you." },
+      { q: "Who will I work with?", a: "A small senior team. The people who design your product are the people who build it, and you talk to them directly." },
     ],
   },
   {
@@ -590,8 +681,9 @@ const caseRoutes: RouteMeta[] = caseStudies.map((c) => {
 });
 
 export const routes: RouteMeta[] = [
-  { path: "/", title: "AHOS | Websites, Apps and Software for Founders, Built in Beirut", description: "AHOS is a digital product studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps and custom software for founders in Lebanon, the Gulf, Europe and the US. Fixed quotes, and you own the code.", priority: 1 },
+  { path: "/", title: "AHOS | Design and Engineering Studio in Beirut: Websites, Apps and AI", description: "AHOS is a design and engineering studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, AI assistants and custom software for businesses in Lebanon, the Gulf, Europe and the US. Fixed quotes, and you own the code.", priority: 1 },
   { path: "/services", title: "Services | Websites, Stores, Apps, Software and AI | AHOS", description: "Everything AHOS designs and builds in Beirut: websites, online stores, mobile apps, custom software, AI automation, interface design and Web3, each with a start-from price.", crumb: "Services", priority: 0.9 },
+  { path: "/work", title: "Case Studies | Websites, Stores, Apps and AI by AHOS", description: "Case studies from AHOS, a design and engineering studio in Beirut: Oman with Issam, Threads Activewear, ARIA, The Tavern, SpeeAligner and Jul's Auto Repair. What we were asked, what we built and where it is now.", crumb: "Work", priority: 0.9 },
   ...servicesRoutes,
   ...caseRoutes,
   { path: "/pricing", title: "Pricing | Fixed Quotes, Start-From Prices | AHOS Beirut", description: "AHOS pricing: design from $200, websites from $300, stores and AI from $500, apps from $1,000, custom software from $1,500. Every project gets a fixed quote in writing.", crumb: "Pricing", priority: 0.8 },

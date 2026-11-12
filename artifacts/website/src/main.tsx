@@ -16,10 +16,9 @@ function later(fn: () => void) {
   else window.addEventListener("load", run, { once: true });
 }
 
-later(() => {
-  import("./motion/motion").then((m) => m.startMotion()).catch(() => {});
-  retryPendingLeads();
-});
+// Motion starts straight away (it is async and never blocks paint): the hero intro waits for it.
+import("./motion/motion").then((m) => m.startMotion()).catch(() => document.documentElement.classList.remove("js-intro"));
+later(() => retryPendingLeads());
 
 // GA4 waits for the first interaction, or five seconds, whichever comes first.
 function loadGa() {

@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
-import { drawingPaths, W, H } from "./drawings";
 import { asset, site, money, type Project, type QA } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
@@ -15,7 +14,7 @@ export function Proof({ className = "" }: { className?: string }) {
         const suffix = "suffix" in p ? p.suffix : "";
         const inner = (
           <>
-            <b data-count={p.value} data-decimals={decimals} data-suffix={suffix}>{p.value.toFixed(decimals)}{suffix}</b>
+            <b>{p.value.toFixed(decimals)}{suffix}</b>
             <span>{p.label}</span>
           </>
         );
@@ -29,61 +28,69 @@ export function Proof({ className = "" }: { className?: string }) {
   );
 }
 
-/* ---------- browser frame with a real screenshot ---------- */
+/* ---------- screenshots ---------- */
 
-export function Frame({ p, eager = false, sizes = "(max-width: 900px) 90vw, 60vw", draw = false }: { p: Project; eager?: boolean; sizes?: string; draw?: boolean }) {
-  const d = draw ? drawingPaths(p.id) : null;
+/** Desktop capture of a live project in a quiet browser frame. */
+export function Shot({ p, eager = false, sizes = "(max-width: 900px) 92vw, 64vw" }: { p: Project; eager?: boolean; sizes?: string }) {
+  if (!p.shot) return <AriaVisual />;
   return (
-    <div className="frame" data-sweep={draw ? "" : undefined}>
-      <div className="frame-bar" aria-hidden="true"><i /><i /><i /><span>{p.liveLabel}</span></div>
-      <div className="frame-view">
-        <img
-          src={asset(`/work/${p.shot}-640.webp`)}
-          srcSet={[480, 640, 960].map((w) => `${asset(`/work/${p.shot}-${w}.webp`)} ${w}w`).concat(`${asset(`/work/${p.shot}.webp`)} 1440w`).join(", ")}
-          sizes={sizes}
-          width={1440}
-          height={900}
-          alt={`${p.name} home page, designed and built by AHOS`}
-          loading={eager ? "eager" : "lazy"}
-          decoding="async"
-        />
-        {d && (
-          <>
-            <div className="draw-veil" />
-            <svg className="draw" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
-              <path className="dl" d={d.light} />
-              <path className="dh" d={d.heavy} />
-              {d.notes.map((n, i) => (
-                <g className="dn" key={i}>
-                  <path d={n.path} />
-                  <circle cx={n.dot[0]} cy={n.dot[1]} r="6" />
-                  <text x={n.label[0]} y={n.label[1]} textAnchor={n.anchor}>{n.text}</text>
-                </g>
-              ))}
-            </svg>
-            <div className="build-line" />
-          </>
-        )}
+    <div className="shot">
+      <div className="shot-bar" aria-hidden="true"><i /><i /><i /><span>{p.liveLabel}</span></div>
+      <img
+        src={asset(`/work/d-${p.shot}-880.webp`)}
+        srcSet={`${asset(`/work/d-${p.shot}-880.webp`)} 880w, ${asset(`/work/d-${p.shot}.webp`)} 1440w`}
+        sizes={sizes}
+        width={1440}
+        height={900}
+        alt={`${p.name}, ${p.what.toLowerCase()} designed and built by AHOS`}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+      />
+    </div>
+  );
+}
+
+/** Phone capture of a live project. */
+export function Phone({ p, eager = false }: { p: Project; eager?: boolean }) {
+  if (!p.shot) return null;
+  return (
+    <div className="phone">
+      <img src={asset(`/work/m-${p.shot}.webp`)} width={390} height={844} alt={`${p.name} on a phone`} loading={eager ? "eager" : "lazy"} decoding="async" />
+    </div>
+  );
+}
+
+/** ARIA has no external site, so it gets a drawn conversation instead of a screenshot. */
+export function AriaVisual() {
+  return (
+    <div className="aria-vis" role="img" aria-label="A conversation with ARIA, the AI project advisor AHOS built">
+      <div className="aria-vis-top" aria-hidden="true"><b>ARIA</b><span>Project advisor</span></div>
+      <div className="aria-vis-msgs" aria-hidden="true">
+        <p className="a">Hi, I'm ARIA. What are you building?</p>
+        <p className="u">An online store for my clothing brand in Beirut.</p>
+        <p className="a">Nice. Will most people pay by card, or cash on delivery?</p>
+        <p className="u">Mostly cash on delivery, and WhatsApp orders.</p>
+        <p className="a">Then a custom store with COD and WhatsApp ordering fits. Usually 2 to 6 weeks. Want me to sketch a first screen?</p>
       </div>
     </div>
   );
 }
 
-/* ---------- drafting title block (facts box) ---------- */
+/* ---------- facts list ---------- */
 
-export function TitleBlock({ rows }: { rows: [string, ReactNode][] }) {
+export function Specs({ rows }: { rows: [string, ReactNode][] }) {
   return (
-    <dl className="tblock">
+    <dl className="specs">
       {rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
     </dl>
   );
 }
 
-/* ---------- labelled gray placeholder (no generated imagery) ---------- */
+/* ---------- labelled placeholder (no generated imagery) ---------- */
 
 export function Placeholder({ label, ratio }: { label: string; ratio?: string }) {
   return (
-    <div className="ph-box" role="img" aria-label={`Placeholder: ${label}`} style={ratio ? { aspectRatio: ratio } : undefined}>
+    <div className="ph-box" role="img" aria-label={label} style={ratio ? { aspectRatio: ratio } : undefined}>
       <span>{label}</span>
     </div>
   );
@@ -109,14 +116,14 @@ export function PageHeader({ crumbs, title, lead, children, aside, proof = false
   return (
     <header className="ph">
       <div className={`wrap ph-in${aside ? "" : " solo"}`}>
-        <div>
+        <div className="ph-main">
           <Crumbs items={crumbs} />
-          <h1 className={`d ${typeof title === "string" && title.length > 30 ? "d-6" : "d-7"}`}>{title}</h1>
+          <h1 className="d d-6" data-split>{title}</h1>
           {lead && <p className="lead">{lead}</p>}
           {children && <div className="acts">{children}</div>}
           {proof && <Proof />}
         </div>
-        {aside && <div data-reveal>{aside}</div>}
+        {aside && <div className="ph-aside">{aside}</div>}
       </div>
     </header>
   );
@@ -128,7 +135,7 @@ export function Head({ id, title, lead, as = "h2" }: { id?: string; title: React
   const T = as;
   return (
     <header className="head">
-      <T id={id} className="d d-6">{title}</T>
+      <T id={id} className="d d-5">{title}</T>
       {lead && <p className="lead">{lead}</p>}
     </header>
   );
@@ -153,9 +160,9 @@ export function FaqList({ items, openFirst = false }: { items: QA[]; openFirst?:
 
 export function Quote({ text, name, role, link }: { text: string; name: string; role: string; link?: string }) {
   return (
-    <section className="sec quote tone-ink" aria-label="What a client says">
+    <section className="sec quote" aria-label="What a client says">
       <figure className="wrap">
-        <blockquote data-reveal>{text}</blockquote>
+        <blockquote>{text}</blockquote>
         <figcaption>
           <span><b>{name}</b>, {role}</span>
           {link && <a className="lnk" href={link} target="_blank" rel="noopener noreferrer">Read it on Trustpilot</a>}
@@ -188,17 +195,17 @@ export function useBeirut() {
 export function Close({ title = "Tell us what you're building.", where }: { title?: string; where: string }) {
   const clock = useBeirut();
   return (
-    <section className="sec close tone-signal" aria-labelledby="close-title">
+    <section className="sec close" aria-labelledby="close-title">
       <div className="wrap">
-        <h2 id="close-title" className="d d-7" data-reveal>{title}</h2>
+        <h2 id="close-title" className="d d-6">{title}</h2>
         <p className="lead">
           A real person replies within {site.contact.replyWithin} with a plan and a fixed quote.
-          {clock && <> It is {clock.time} in Beirut, {clock.atDesk ? "and we are at our desks." : "so expect us first thing in the morning."}</>}
+          {clock && <> It is <span className="clock">{clock.time}</span> in Beirut, {clock.atDesk ? "and we are at our desks." : "so expect us first thing in the morning."}</>}
         </p>
         <ul className="ways">
-          <li><Link href="/contact" onClick={() => trackEvent("cta_click", { where: `${where}_call` })}><span className="d">Book a 30-minute call</span><span className="how">Free, no obligation</span><Arrow size={24} /></Link></li>
-          <li><a href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where })}><span className="d">WhatsApp us</span><span className="how">{site.contact.phone}</span><Arrow size={24} /></a></li>
-          <li><a href={`mailto:${site.contact.email}`} onClick={() => trackEvent("email_click", { where })}><span className="d">Write to us</span><span className="how">{site.contact.email}</span><Arrow size={24} /></a></li>
+          <li><Link href="/contact" onClick={() => trackEvent("cta_click", { where: `${where}_call` })}><span className="way-t">Book a 30-minute call</span><span className="how">Free, no obligation</span><Arrow size={22} /></Link></li>
+          <li><a href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where })}><span className="way-t">WhatsApp us</span><span className="how">{site.contact.phone}</span><Arrow size={22} /></a></li>
+          <li><a href={`mailto:${site.contact.email}`} onClick={() => trackEvent("email_click", { where })}><span className="way-t">Write to us</span><span className="how">{site.contact.email}</span><Arrow size={22} /></a></li>
         </ul>
       </div>
     </section>

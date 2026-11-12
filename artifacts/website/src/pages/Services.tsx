@@ -8,7 +8,7 @@ export default function Services() {
     <>
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "Services" }]}
-        title="Everything we draw and build."
+        title="Everything we design and build."
         lead="Seven kinds of work, one team. Pick the closest match; the 30-minute call sorts out the rest."
         proof
       >
@@ -22,7 +22,7 @@ export default function Services() {
           <div className="index-head" aria-hidden="true"><span>Service</span><span>What it is</span><span>Starts at</span></div>
           <ul className="index">
             {services.map((s) => (
-              <li key={s.href} className="index-row has-link" data-reveal>
+              <li key={s.href} className="index-row has-link">
                 <h3 className="d">{s.label}</h3>
                 <div>
                   <p className="body">{s.blurb}</p>
@@ -36,12 +36,12 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="sec tone-paper2" aria-labelledby="how-title">
+      <section className="sec alt" aria-labelledby="how-title">
         <div className="wrap">
           <Head id="how-title" title="Same process, every service." lead={pricing.promise} />
           <ol className="index">
             {process.map((s, i) => (
-              <li key={s.name} className="index-row" data-reveal>
+              <li key={s.name} className="index-row">
                 <h3 className="d"><span className="dim" style={{ marginRight: 14 }}>{i + 1}</span>{s.name}</h3>
                 <p className="body">{s.body}</p>
                 <div className="meta"><span className="dim">{s.time}</span></div>
