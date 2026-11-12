@@ -2,13 +2,12 @@
  * Motion layer. Loaded right after hydration, never blocking first paint.
  * Every page renders complete without it; motion only enhances what is there.
  *
- * The one loud moment is the hero: the four tiles of the AHOS "O" drop into
- * place with a squash-and-bounce, a click anywhere in the hero throws a burst
- * of tiles with real gravity (Physics2D), and clicking a big tile knocks it
- * out of the logo before it drops back in. Everything else is quiet.
+ * Kept deliberately quiet: the four tiles of the AHOS "O" land once on load,
+ * headlines rise in, screenshots open as they scroll into view. Nothing to
+ * wait for, nothing in the way of reading or getting in touch.
  *
  * Hooks, all by data attribute:
- *   [data-hero]          hero section: intro, debris, knockable tiles, scroll scatter
+ *   [data-hero]          hero section: the logo tiles land once
  *   [data-split]         headline lines rise out of a mask on load (SplitText)
  *   [data-reveal-tile]   screenshot opens from a logo-tile parallelogram as it scrolls in
  *   [data-float]         phone drifts up a little against the screenshot
@@ -35,13 +34,12 @@ export async function startMotion() {
   const root = document.documentElement;
   if (reduced()) { root.classList.remove("js-intro"); return; }
   try {
-    const [{ gsap: g }, { ScrollTrigger: st }, { SplitText: split }, { ScrambleTextPlugin }, { DrawSVGPlugin }, { Physics2DPlugin }, { CustomEase }, { CustomBounce }, { default: Lenis }] = await Promise.all([
+    const [{ gsap: g }, { ScrollTrigger: st }, { SplitText: split }, { ScrambleTextPlugin }, { DrawSVGPlugin }, { CustomEase }, { CustomBounce }, { default: Lenis }] = await Promise.all([
       import("gsap"),
       import("gsap/ScrollTrigger"),
       import("gsap/SplitText"),
       import("gsap/ScrambleTextPlugin"),
       import("gsap/DrawSVGPlugin"),
-      import("gsap/Physics2DPlugin"),
       import("gsap/CustomEase"),
       import("gsap/CustomBounce"),
       import("lenis"),
@@ -49,7 +47,7 @@ export async function startMotion() {
     gsap = g;
     ScrollTrigger = st;
     SplitText = split;
-    gsap.registerPlugin(st, split, ScrambleTextPlugin, DrawSVGPlugin, Physics2DPlugin, CustomEase, CustomBounce);
+    gsap.registerPlugin(st, split, ScrambleTextPlugin, DrawSVGPlugin, CustomEase, CustomBounce);
     CustomBounce.create("tileBounce", { strength: 0.45, squash: 2.2, squashID: "tileSquash", endAtStart: false });
 
     lenis = new Lenis({ lerp: 0.12, smoothWheel: true, anchors: { offset: -80 } } as ConstructorParameters<typeof Lenis>[0]);
@@ -90,83 +88,8 @@ function bind() {
 
     splitHeadlines(intro);
     hero();
-    builds();
     reveals();
     peeks();
-  });
-}
-
-/* ---------------------------------------------------------------- */
-/* the build floor: AHOS tiles assemble each flagship's real screen  */
-/* ---------------------------------------------------------------- */
-
-function builds() {
-  const g = gsap!;
-  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
-  const mobile = window.innerWidth < 860;
-  const cols = mobile ? 8 : 14;
-  const rows = mobile ? 5 : 9;
-
-  g.utils.toArray<HTMLElement>("[data-build]").forEach((sec) => {
-    const pin = sec.querySelector<HTMLElement>(".build-pin");
-    const canvas = sec.querySelector<HTMLElement>(".build-canvas");
-    const img = canvas?.querySelector("img");
-    const phone = sec.querySelector<HTMLElement>(".build-phone");
-    const side = sec.querySelector<HTMLElement>(".build-side");
-    if (!pin || !canvas || !img || !side) return;
-
-    // one tile per slice of the real screenshot
-    const layer = document.createElement("div");
-    layer.className = "build-tiles";
-    layer.setAttribute("aria-hidden", "true");
-    const src = `url("${base}${canvas.dataset.src}")`;
-    const tiles: HTMLElement[] = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const t = document.createElement("i");
-        t.style.cssText = `left:${(c / cols) * 100}%;top:${(r / rows) * 100}%;width:${100 / cols}%;height:${100 / rows}%;background-image:${src};background-size:${cols * 100}% ${rows * 100}%;background-position:${(c / (cols - 1)) * 100}% ${(r / (rows - 1)) * 100}%`;
-        layer.appendChild(t);
-        tiles.push(t);
-      }
-    }
-    canvas.appendChild(layer);
-    cleanups.push(() => layer.remove());
-
-    // a running count of tiles laid, above the build log
-    const count = document.createElement("p");
-    count.className = "build-count";
-    count.setAttribute("aria-hidden", "true");
-    side.querySelector(".build-log")?.before(count);
-    cleanups.push(() => count.remove());
-    const total = tiles.length;
-
-    const logs = g.utils.toArray<HTMLElement>(sec.querySelectorAll(".build-log li"));
-    const vw = window.innerWidth, vh = window.innerHeight;
-    const ASSEMBLE = 2.2;
-
-    const tl = g.timeline({
-      defaults: { ease: "power3.out" },
-      scrollTrigger: { trigger: sec, pin, start: "top top", end: mobile ? "+=150%" : "+=210%", scrub: 0.7, anticipatePin: 1 },
-      onUpdate: () => {
-        const laid = Math.round(g.utils.clamp(0, 1, tl.time() / ASSEMBLE) * total);
-        count.textContent = laid >= total ? `${total} of ${total} tiles laid` : `laying tiles ${laid} of ${total}`;
-      },
-    });
-
-    tl.set(img, { opacity: 0 }, 0)
-      .fromTo(tiles,
-        { x: () => g.utils.random(-0.85, 0.85) * vw, y: () => g.utils.random(-0.9, 0.9) * vh, rotation: () => g.utils.random(-220, 220), scale: () => g.utils.random(0.2, 0.7), opacity: 0 },
-        { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1, stagger: { amount: ASSEMBLE - 1, from: "random" } },
-        0)
-      .to(img, { opacity: 1, duration: 0.25, ease: "none" }, ASSEMBLE)
-      .to(layer, { opacity: 0, duration: 0.2, ease: "none" }, ASSEMBLE + 0.15);
-    if (phone) tl.fromTo(phone, { yPercent: 70, rotation: 10, opacity: 0 }, { yPercent: 0, rotation: 0, opacity: 1, duration: 0.6 }, ASSEMBLE - 0.1);
-    logs.forEach((li, i) => {
-      const done = li.classList.contains("build-done");
-      const at = done ? ASSEMBLE + 0.35 : 0.15 + (i / Math.max(1, logs.length - 1)) * (ASSEMBLE - 0.3);
-      tl.fromTo(li, { opacity: 0.22, x: -8 }, { opacity: 1, x: 0, duration: 0.15, ease: "none" }, at);
-    });
-    tl.to({}, { duration: 0.5 }); // hold the finished screen for a moment before moving on
   });
 }
 
@@ -183,10 +106,9 @@ function splitHeadlines(intro: boolean) {
       SplitText!.create(el, {
         type: "lines",
         mask: "lines",
-        linesClass: "split-line-in",
         autoSplit: true,
         onSplit(self) {
-          return g.from(self.lines, { yPercent: 115, duration: 1.15, ease: "expo.out", stagger: 0.09, delay: intro ? 0.1 : 0.05 });
+          return g.from(self.lines, { yPercent: 115, duration: 1.1, ease: "expo.out", stagger: 0.08, delay: intro ? 0.1 : 0.05 });
         },
       });
     });
@@ -194,112 +116,21 @@ function splitHeadlines(intro: boolean) {
 }
 
 /* ---------------------------------------------------------------- */
-/* hero: tiles with physics                                          */
+/* hero: the four logo tiles land once on load, quietly              */
 /* ---------------------------------------------------------------- */
-
-const DEBRIS_COLORS = ["var(--orange)", "var(--orange)", "var(--tile-gray-ui)", "var(--fg)"];
-let debrisLayer: HTMLDivElement | null = null;
-let debrisCount = 0;
-
-function throwDebris(x: number, y: number, n: number) {
-  const g = gsap!;
-  if (!debrisLayer || !debrisLayer.isConnected) {
-    debrisLayer = document.createElement("div");
-    debrisLayer.className = "debris";
-    debrisLayer.setAttribute("aria-hidden", "true");
-    document.body.appendChild(debrisLayer);
-  }
-  const count = Math.min(n, 140 - debrisCount);
-  for (let i = 0; i < count; i++) {
-    const bit = document.createElement("i");
-    const s = g.utils.random(0.55, 1.5);
-    bit.style.background = DEBRIS_COLORS[i % DEBRIS_COLORS.length];
-    debrisLayer.appendChild(bit);
-    debrisCount++;
-    g.set(bit, { x, y, scale: s, rotation: g.utils.random(0, 360) });
-    g.to(bit, {
-      duration: g.utils.random(1.6, 2.6),
-      physics2D: { velocity: g.utils.random(380, 1050), angle: g.utils.random(-160, -20), gravity: 1700 },
-      rotation: `+=${g.utils.random(-900, 900)}`,
-      onComplete: () => { bit.remove(); debrisCount--; },
-    });
-  }
-}
 
 function hero() {
   const g = gsap!;
   const section = document.querySelector<HTMLElement>("[data-hero]");
   if (!section) return;
-  const svg = section.querySelector<SVGSVGElement>(".mark");
   const tiles = g.utils.toArray<SVGPolygonElement>(section.querySelectorAll("[data-tile]"));
-  const groups = g.utils.toArray<SVGGElement>(section.querySelectorAll(".tile-g"));
-  if (!svg || tiles.length !== 4) return;
-
-  // intro: the four tiles fall into the logo, one after another, and squash on landing
+  if (tiles.length !== 4) return;
   g.set(tiles, { transformOrigin: "50% 100%" });
-  const intro = g.timeline({ delay: 0.25 });
+  const tl = g.timeline({ delay: 0.2 });
   tiles.forEach((t, i) => {
-    const at = i * 0.16;
-    intro.fromTo(t, { y: -640, rotation: g.utils.random(-50, 50), opacity: 1 }, { y: 0, rotation: 0, duration: 1.25, ease: "tileBounce" }, at);
-    intro.fromTo(t, { scaleX: 1, scaleY: 1 }, { scaleX: 1.22, scaleY: 0.78, duration: 1.25, ease: "tileSquash" }, at);
+    tl.fromTo(t, { y: -120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "tileBounce" }, i * 0.1);
+    tl.fromTo(t, { scaleX: 1, scaleY: 1 }, { scaleX: 1.08, scaleY: 0.92, duration: 0.9, ease: "tileSquash" }, i * 0.1);
   });
-  // the meta row scrambles in once the logo has landed
-  section.querySelectorAll<HTMLElement>(".hero-meta dd").forEach((dd, i) => {
-    if (i === 3) return; // the live clock is React's
-    const text = dd.textContent || "";
-    intro.to(dd, { duration: 0.9, scrambleText: { text, chars: "AHOS0123456789", speed: 0.6 } }, 1.0 + i * 0.12);
-  });
-
-  // a click anywhere in the hero throws tiles with real gravity
-  on(section, "pointerdown", (e) => {
-    const target = e.target as Element;
-    if (target.closest("a, button, input, textarea")) return;
-    const tile = target.closest<SVGPolygonElement>("[data-tile]");
-    if (tile) { knock(tile, e.clientX); throwDebris(e.clientX, e.clientY, 8); return; }
-    throwDebris(e.clientX, e.clientY, window.innerWidth < 700 ? 10 : 16);
-  });
-
-  // click a big tile: it gets knocked out of the logo, then drops back in
-  function knock(tile: SVGPolygonElement, clientX: number) {
-    if (tile.dataset.busy) return;
-    tile.dataset.busy = "1";
-    const box = tile.getBoundingClientRect();
-    const left = clientX < box.left + box.width / 2;
-    g.timeline({ onComplete: () => { delete tile.dataset.busy; } })
-      .to(tile, {
-        duration: 1.1,
-        physics2D: { velocity: g.utils.random(260, 340), angle: left ? g.utils.random(-70, -50) : g.utils.random(-130, -110), gravity: 900 },
-        rotation: left ? g.utils.random(120, 300) : g.utils.random(-300, -120),
-        ease: "none",
-      })
-      .set(tile, { x: 0, y: -640, rotation: g.utils.random(-40, 40), scaleX: 1, scaleY: 1 }, "+=0.35")
-      .to(tile, { y: 0, rotation: 0, duration: 1.2, ease: "tileBounce" })
-      .to(tile, { scaleX: 1.22, scaleY: 0.78, duration: 1.2, ease: "tileSquash" }, "<");
-  }
-
-  // scroll: the logo comes apart as the hero leaves
-  const scatter = [
-    { x: -38, y: -52, rotation: -24 },
-    { x: 56, y: -26, rotation: 22 },
-    { x: 44, y: 64, rotation: 16 },
-    { x: -54, y: 36, rotation: -18 },
-  ];
-  groups.forEach((grp, i) => {
-    g.to(grp, { ...scatter[i], ease: "none", transformOrigin: "50% 50%", scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: 0.6 } });
-  });
-
-  // the mark leans toward the pointer
-  if (finePointer()) {
-    const xTo = g.quickTo(svg, "x", { duration: 0.8, ease: "power3" });
-    const yTo = g.quickTo(svg, "y", { duration: 0.8, ease: "power3" });
-    const rTo = g.quickTo(svg, "rotation", { duration: 0.8, ease: "power3" });
-    on(section, "pointermove", (e) => {
-      const r = section.getBoundingClientRect();
-      const nx = (e.clientX - r.left) / r.width - 0.5;
-      const ny = (e.clientY - r.top) / r.height - 0.5;
-      xTo(nx * 28); yTo(ny * 22); rTo(nx * 4);
-    });
-  }
 }
 
 /* ---------------------------------------------------------------- */

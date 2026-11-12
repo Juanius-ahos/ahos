@@ -26,6 +26,8 @@ export const site = {
     phone: "+961 70 165 601",
     phoneE164: "+96170165601",
     whatsapp: "https://wa.me/96170165601",
+    /** Opens WhatsApp with a ready-written first message. Used by every "Message us" button. */
+    whatsappHello: `https://wa.me/96170165601?text=${encodeURIComponent("Hi AHOS, I'd like to talk about a project.")}`,
     replyWithin: "24 hours",
     timeZone: "Asia/Beirut",
     /** Hours when someone is usually at a desk, Beirut time (24h). */

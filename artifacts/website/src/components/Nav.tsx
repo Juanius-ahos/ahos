@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Arrow } from "./Arrow";
 import { Logo } from "./Mark";
+import { WhatsAppIcon } from "./ui";
 import { asset, nav, services, site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
@@ -73,13 +74,17 @@ export function Nav() {
           </nav>
           <div className="nav-end">
             <ThemeToggle />
-            <Link href="/contact" className="btn btn-sm nav-cta" onClick={() => trackEvent("cta_click", { where: "nav" })}>Start a project</Link>
+            <a href={site.contact.whatsappHello} className="btn btn-sm btn-wa nav-cta" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where: "nav" })}><WhatsAppIcon size={18} /> WhatsApp us</a>
             <button className="nav-menu" aria-expanded={open} aria-controls="menu" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
               <span />
             </button>
           </div>
         </div>
       </header>
+      {/* phones: WhatsApp is always one thumb away */}
+      <a href={site.contact.whatsappHello} className="wa-bar" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where: "mobile_bar" })}>
+        <WhatsAppIcon size={22} /> Message us on WhatsApp
+      </a>
       <div id="menu" ref={sheetRef} className={`sheet${open ? " is-open" : ""}`} aria-hidden={!open}>
         <nav aria-label="Mobile">
           {[{ href: "/", label: "Home" }, ...nav, { href: "/careers", label: "Careers" }, { href: "/contact", label: "Contact" }].map((l) => (
