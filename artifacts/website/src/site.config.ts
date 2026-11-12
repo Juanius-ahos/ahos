@@ -110,6 +110,8 @@ export interface Project {
   shot?: string;
   /** Two flagship projects lead the work section. */
   flagship?: boolean;
+  /** Flagships only: the build log shown while the homepage assembles the screenshot. Keep these true. */
+  buildLog?: string[];
 }
 
 export const projects: Project[] = [
@@ -125,6 +127,7 @@ export const projects: Project[] = [
     caseStudy: "/work/oman-with-issam",
     shot: "issam",
     flagship: true,
+    buildLog: ["Greeting travelers in 13 languages", "Flipping Arabic to right-to-left", "Flying 8 tour routes over satellite maps", "Pre-rendering 65 pages for search", "Putting WhatsApp on every page"],
   },
   {
     id: "threads",
@@ -138,6 +141,7 @@ export const projects: Project[] = [
     caseStudy: "/work/threads-activewear",
     shot: "threads",
     flagship: true,
+    buildLog: ["Staging each brand on a 3D stand", "Showing live stock per brand", "Cash on delivery, all over Lebanon", "Free delivery over $100", "Shaping every page for one thumb"],
   },
   {
     id: "aria",

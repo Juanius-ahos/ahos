@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
 import { Mark } from "../components/Mark";
-import { Close, FaqList, Phone, Quote, Shot, useBeirut } from "../components/ui";
-import { alsoBuilt, caseStudies, homeFaq, process, projects, serviceBySlug, serviceGroups, site } from "../site.config";
+import { Close, FaqList, Phone, Quote, useBeirut } from "../components/ui";
+import { alsoBuilt, asset, caseStudies, homeFaq, process, projects, serviceBySlug, serviceGroups, site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
 export default function Home() {
@@ -53,23 +53,40 @@ export default function Home() {
         </div>
 
         {flagships.map((p) => (
-          <article key={p.id} className="flag" aria-labelledby={`flag-${p.id}`}>
-            <div className="wrap">
-              <h3 id={`flag-${p.id}`} className="flag-name"><Link href={p.caseStudy}>{p.name}</Link></h3>
-              <div className="flag-media">
-                <div className="flag-shot" data-reveal-tile><Link href={p.caseStudy} tabIndex={-1} aria-hidden="true"><Shot p={p} sizes="(max-width: 900px) 92vw, 72vw" /></Link></div>
-                <div className="flag-phone" data-float><Phone p={p} /></div>
-              </div>
-              <div className="flag-foot">
-                <dl className="flag-facts">
-                  <div><dt>What we made</dt><dd>{p.what}</dd></div>
-                  <div><dt>Where</dt><dd>{p.where}</dd></div>
-                  <div><dt>Year</dt><dd>{p.year}</dd></div>
-                </dl>
-                <p className="flag-out">{p.outcome}</p>
-                <div className="acts">
-                  <Link href={p.caseStudy} className="btn">Read the case study <Arrow /></Link>
-                  <a href={p.live} className="lnk" target="_blank" rel="noopener noreferrer">Visit {p.liveLabel}</a>
+          <article key={p.id} className="build" data-build aria-labelledby={`flag-${p.id}`}>
+            <div className="build-pin">
+              <div className="wrap build-in">
+                <div className="build-stage">
+                  <div className="shot build-frame">
+                    <div className="shot-bar" aria-hidden="true"><i /><i /><i /><span>{p.liveLabel}</span></div>
+                    <div className="build-canvas" data-src={`/work/d-${p.shot}.webp`}>
+                      <img
+                        src={asset(`/work/d-${p.shot}-880.webp`)}
+                        srcSet={`${asset(`/work/d-${p.shot}-880.webp`)} 880w, ${asset(`/work/d-${p.shot}.webp`)} 1440w`}
+                        sizes="(max-width: 900px) 92vw, 62vw"
+                        width={1440}
+                        height={900}
+                        alt={`${p.name}, ${p.what.toLowerCase()} designed and built by AHOS`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </div>
+                  <div className="build-phone"><Phone p={p} /></div>
+                </div>
+                <div className="build-side">
+                  <h3 id={`flag-${p.id}`} className="build-name"><Link href={p.caseStudy}>{p.name}</Link></h3>
+                  <p className="build-meta">{p.what}, {p.where}, {p.year}</p>
+                  {p.buildLog && (
+                    <ol className="build-log" aria-label="What we built">
+                      {p.buildLog.map((line) => <li key={line}>{line}</li>)}
+                      <li className="build-done">Shipped. Live at {p.liveLabel}</li>
+                    </ol>
+                  )}
+                  <div className="acts">
+                    <Link href={p.caseStudy} className="btn">Read the case study <Arrow /></Link>
+                    <a href={p.live} className="lnk" target="_blank" rel="noopener noreferrer">Visit the site</a>
+                  </div>
                 </div>
               </div>
             </div>

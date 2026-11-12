@@ -90,8 +90,83 @@ function bind() {
 
     splitHeadlines(intro);
     hero();
+    builds();
     reveals();
     peeks();
+  });
+}
+
+/* ---------------------------------------------------------------- */
+/* the build floor: AHOS tiles assemble each flagship's real screen  */
+/* ---------------------------------------------------------------- */
+
+function builds() {
+  const g = gsap!;
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const mobile = window.innerWidth < 860;
+  const cols = mobile ? 8 : 14;
+  const rows = mobile ? 5 : 9;
+
+  g.utils.toArray<HTMLElement>("[data-build]").forEach((sec) => {
+    const pin = sec.querySelector<HTMLElement>(".build-pin");
+    const canvas = sec.querySelector<HTMLElement>(".build-canvas");
+    const img = canvas?.querySelector("img");
+    const phone = sec.querySelector<HTMLElement>(".build-phone");
+    const side = sec.querySelector<HTMLElement>(".build-side");
+    if (!pin || !canvas || !img || !side) return;
+
+    // one tile per slice of the real screenshot
+    const layer = document.createElement("div");
+    layer.className = "build-tiles";
+    layer.setAttribute("aria-hidden", "true");
+    const src = `url("${base}${canvas.dataset.src}")`;
+    const tiles: HTMLElement[] = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const t = document.createElement("i");
+        t.style.cssText = `left:${(c / cols) * 100}%;top:${(r / rows) * 100}%;width:${100 / cols}%;height:${100 / rows}%;background-image:${src};background-size:${cols * 100}% ${rows * 100}%;background-position:${(c / (cols - 1)) * 100}% ${(r / (rows - 1)) * 100}%`;
+        layer.appendChild(t);
+        tiles.push(t);
+      }
+    }
+    canvas.appendChild(layer);
+    cleanups.push(() => layer.remove());
+
+    // a running count of tiles laid, above the build log
+    const count = document.createElement("p");
+    count.className = "build-count";
+    count.setAttribute("aria-hidden", "true");
+    side.querySelector(".build-log")?.before(count);
+    cleanups.push(() => count.remove());
+    const total = tiles.length;
+
+    const logs = g.utils.toArray<HTMLElement>(sec.querySelectorAll(".build-log li"));
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const ASSEMBLE = 2.2;
+
+    const tl = g.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: { trigger: sec, pin, start: "top top", end: mobile ? "+=150%" : "+=210%", scrub: 0.7, anticipatePin: 1 },
+      onUpdate: () => {
+        const laid = Math.round(g.utils.clamp(0, 1, tl.time() / ASSEMBLE) * total);
+        count.textContent = laid >= total ? `${total} of ${total} tiles laid` : `laying tiles ${laid} of ${total}`;
+      },
+    });
+
+    tl.set(img, { opacity: 0 }, 0)
+      .fromTo(tiles,
+        { x: () => g.utils.random(-0.85, 0.85) * vw, y: () => g.utils.random(-0.9, 0.9) * vh, rotation: () => g.utils.random(-220, 220), scale: () => g.utils.random(0.2, 0.7), opacity: 0 },
+        { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1, stagger: { amount: ASSEMBLE - 1, from: "random" } },
+        0)
+      .to(img, { opacity: 1, duration: 0.25, ease: "none" }, ASSEMBLE)
+      .to(layer, { opacity: 0, duration: 0.2, ease: "none" }, ASSEMBLE + 0.15);
+    if (phone) tl.fromTo(phone, { yPercent: 70, rotation: 10, opacity: 0 }, { yPercent: 0, rotation: 0, opacity: 1, duration: 0.6 }, ASSEMBLE - 0.1);
+    logs.forEach((li, i) => {
+      const done = li.classList.contains("build-done");
+      const at = done ? ASSEMBLE + 0.35 : 0.15 + (i / Math.max(1, logs.length - 1)) * (ASSEMBLE - 0.3);
+      tl.fromTo(li, { opacity: 0.22, x: -8 }, { opacity: 1, x: 0, duration: 0.15, ease: "none" }, at);
+    });
+    tl.to({}, { duration: 0.5 }); // hold the finished screen for a moment before moving on
   });
 }
 

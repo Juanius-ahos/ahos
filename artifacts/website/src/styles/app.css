@@ -306,6 +306,42 @@ main { display: block; }
   .flag-name { font-size: clamp(2.4rem, 11.5vw, 5rem); font-stretch: 120%; }
 }
 
+/* ---------- the build floor: tiles assemble a flagship's real screen ---------- */
+
+.build + .build { border-top: 1px solid var(--rule); }
+.build { overflow-x: clip; }
+.build-pin { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 48px; overflow-x: clip; }
+.build-in { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); gap: 32px 4vw; align-items: center; }
+.build-stage { position: relative; }
+.build-frame { position: relative; }
+.build-canvas { position: relative; overflow: visible; }
+.build-canvas img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+.build-tiles { position: absolute; inset: 0; pointer-events: none; }
+.build-tiles i { position: absolute; background-repeat: no-repeat; will-change: transform, opacity; box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.25); }
+.build-phone { position: absolute; right: -3%; bottom: -10%; width: 22%; z-index: 2; }
+.build-name { font-family: var(--f-d); font-weight: 830; font-stretch: 125%; font-size: clamp(2rem, 0.5rem + 2.5vw, 3.75rem); line-height: 0.9; letter-spacing: -0.045em; }
+.build-name a { transition: color 0.3s; }
+.build-name a:hover { color: var(--accent-text); }
+.build-meta { margin-top: 14px; color: var(--fg-2); }
+.build-count { margin-top: 28px; font-size: var(--t-0); color: var(--accent-text); font-weight: 600; font-variant-numeric: tabular-nums; min-height: 1.5em; }
+.build-log { margin-top: 10px; border-top: 1px solid var(--rule); counter-reset: log; }
+.build-log li { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 0.9375rem; }
+.build-log li::before { content: ""; flex: none; width: 12px; height: 6px; background: var(--orange); clip-path: polygon(0 0, 70% 0, 100% 100%, 30% 100%); transform: translateY(-2px); }
+.build-log .build-done { color: var(--accent-text); font-weight: 700; }
+.build-side .acts { margin-top: 28px; }
+@media (max-width: 1020px) {
+  .build-in { grid-template-columns: 1fr; }
+  .build-pin { padding-block: 84px 32px; }
+  .build-phone { width: 24%; right: 2%; bottom: -14%; }
+  .build-name { font-size: clamp(2rem, 9vw, 3.5rem); font-stretch: 120%; }
+  .build-count { margin-top: 16px; }
+  .build-log li { padding: 6px 0; font-size: 0.875rem; }
+}
+@media (max-width: 640px) {
+  .build-log li:nth-child(n+4):not(.build-done) { display: none; }
+  .build-side .acts { margin-top: 18px; }
+}
+
 .more-title { font: 600 var(--t-1)/1 var(--f-t); color: var(--fg-3); margin: clamp(56px, 7vw, 112px) 0 16px; }
 .more { border-top: 1px solid var(--rule); }
 .more-row { border-bottom: 1px solid var(--rule); position: relative; }
