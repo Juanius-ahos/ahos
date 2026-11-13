@@ -65,10 +65,7 @@ export function Founder() {
           <Kicker>The founder</Kicker>
           <h2 id="founder-title" className="d d-5">The person you will talk to.</h2>
           <p className="founder-p">
-            I'm Jean Paul, the founder of AHOS. I started as a freelancer, building for Web3 projects while I still had a full-time job.
-          </p>
-          <p className="founder-p">
-            My day jobs were in systems and operations. I have led teams of up to 25 people, run security-system installations across more than 60 retail sites, and built a company's in-house CRM and ERP. I earned my BBA in Management Information Systems at the Arts, Sciences &amp; Technology University in Lebanon while working full time, and in 2026 I added an ISO/IEC 42001 certificate in AI management systems.
+            I'm Jean Paul, the founder of AHOS. I started as a freelancer, building for Web3 projects while I still had a full-time job and was studying Management Information Systems.
           </p>
           <p className="founder-p">
             Along the way I met people who worked the same way, and in 2023 we founded AHOS together. We went from individual freelancers to a team that designs, builds and ships together. Our different jobs merged into one studio.
