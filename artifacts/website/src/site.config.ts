@@ -253,7 +253,7 @@ export const caseStudies: CaseStudy[] = [
         { v: "12", l: "languages, each with its own pages" },
       ],
       note: "Mobile Lighthouse, measured 13 November 2026.",
-      need: "a real result, such as tour requests since launch. GA4 is not live on omanwithissam.com yet",
+      need: "a real result, such as tour requests since launch",
     },
   },
   {
