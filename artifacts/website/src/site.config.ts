@@ -57,12 +57,13 @@ export const site = {
   ],
   twitter: "@ahos_xyz",
 
-  /** Proof shown in heroes and the studio strip. Keep these true. */
+  /** Proof shown in the hero proof bar and page headers. Keep these true. */
   proof: [
-    { value: 50, suffix: "+", label: "products shipped" },
-    { value: 5.0, decimals: 1, label: "on Trustpilot", href: "https://www.trustpilot.com/review/ahos.xyz" },
-    { value: 24, suffix: "h", label: "to a first reply" },
-    { value: 100, suffix: "%", label: "code ownership" },
+    { value: "100+", label: "projects delivered" },
+    { value: "LB US EU OM", label: "clients in Lebanon, the US, Europe and Oman" },
+    { value: "5 stars", label: "in a client review on Trustpilot", href: "https://www.trustpilot.com/review/ahos.xyz" },
+    { value: "30 days", label: "warranty on every build" },
+    { value: "100%", label: "yours: code, design and content" },
   ],
   warranty: "30-day warranty on every build",
 
@@ -210,6 +211,15 @@ export interface CaseStudy {
   built: { name: string; body: string }[];
   now: string;
   quote?: { text: string; name: string; role: string; link?: string };
+  /** The short version shown on the homepage. Only true, checkable facts. */
+  story?: {
+    problem: string;
+    built: string[];
+    results: { v: string; l: string }[];
+    note?: string;
+    /** What we still need from the owner before a real business result can be shown. */
+    need?: string;
+  };
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -229,6 +239,21 @@ export const caseStudies: CaseStudy[] = [
       { name: "One way to book", body: "WhatsApp and a short tour request form, on every page. No accounts, no checkout, no friction." },
     ],
     now: "The site is live at omanwithissam.com and is the first thing travelers see when they look Issam up.",
+    story: {
+      problem: "Travelers find Issam from everywhere, and each one expects to be greeted in their own language.",
+      built: [
+        "A hero with Issam in it, greeting you in a new language as you watch.",
+        "Eight tours drawn on real satellite imagery, so you can fly each route.",
+        "Thirteen languages with their own addresses, Arabic in full right-to-left.",
+      ],
+      results: [
+        { v: "94", l: "mobile Lighthouse performance" },
+        { v: "100", l: "accessibility, best practices and SEO" },
+        { v: "13", l: "languages, each with its own pages" },
+      ],
+      note: "Mobile Lighthouse, measured 13 November 2026.",
+      need: "a real result, such as tour requests since launch. GA4 is not live on omanwithissam.com yet",
+    },
   },
   {
     slug: "threads-activewear",

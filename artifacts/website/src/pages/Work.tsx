@@ -9,7 +9,7 @@ export default function Work() {
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "Work" }]}
         title="Case studies."
-        lead={`Six live products, each with the story of how it was made. Over 50 shipped since ${site.founded}; these are the ones our clients are happy for us to show.`}
+        lead={`Six live products, each with the story of how it was made. More than 100 delivered since ${site.founded}; these are the ones our clients are happy for us to show.`}
       />
       <section className="sec" aria-label="All case studies">
         <div className="wrap">

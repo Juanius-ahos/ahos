@@ -10,11 +10,9 @@ export function Proof({ className = "" }: { className?: string }) {
   return (
     <ul className={`proof ${className}`}>
       {site.proof.map((p) => {
-        const decimals = "decimals" in p ? p.decimals : 0;
-        const suffix = "suffix" in p ? p.suffix : "";
         const inner = (
           <>
-            <b>{p.value.toFixed(decimals)}{suffix}</b>
+            <b>{p.value}</b>
             <span>{p.label}</span>
           </>
         );

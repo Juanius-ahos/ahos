@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { Mark } from "../components/Mark";
 import { FaqList, Quote, Shot, WhatsAppIcon, useBeirut } from "../components/ui";
-import { alsoBuilt, caseStudies, homeFaq, money, process, projects, serviceBySlug, serviceGroups, site } from "../site.config";
+import { Button, CaseStory, DeviceScene, Kicker, ProofBar, WhatsAppCta } from "../components/kit";
+import { alsoBuilt, caseStudies, homeFaq, money, process, projectById, projects, serviceBySlug, serviceGroups, site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
 /**
@@ -13,40 +13,37 @@ export default function Home() {
   const clock = useBeirut();
   const yorgo = caseStudies.find((c) => c.quote)?.quote;
   const wa = (where: string) => () => trackEvent("whatsapp_click", { where });
-  const trustpilot = site.proof.find((p) => "href" in p && p.href);
 
   return (
     <>
       {/* ---------- hero ---------- */}
-      <section className="hero" aria-labelledby="hero-title" data-hero>
-        <div className="wrap hero-grid">
-          <div className="hero-copy">
-            <h1 id="hero-title" className="hero-h1" data-split>Websites, apps and AI that make your business look as good as it is.</h1>
-            <p className="lead hero-lead">
-              AHOS is a design and engineering studio in Beirut. One senior team designs and builds it, the price is fixed before we start, and everything we make is yours.
-            </p>
+      <section className="hero2 grain" aria-labelledby="hero-title" data-hero>
+        <div className="wrap hero2-grid">
+          <div className="hero2-copy">
+            <Kicker>Design and engineering studio in Beirut</Kicker>
+            <h1 id="hero-title" className="hero2-h1">Design that sells. Code that holds.</h1>
+            <p className="lead hero2-lead">Websites, online stores, bots and AI for businesses that want to look as good as they are.</p>
             <div className="acts">
-              <a href={site.contact.whatsappHello} className="btn btn-wa" target="_blank" rel="noopener noreferrer" onClick={wa("hero")}>
-                <WhatsAppIcon /> Message us on WhatsApp
-              </a>
-              <a href="#work" className="btn btn-ghost">See our work</a>
+              <WhatsAppCta where="hero" size="lg" />
+              <Button href="#work" variant="outline" size="lg" magnetic={false}>See our work</Button>
             </div>
-            <p className="hero-reply">
+            <p className="hero2-reply">
               <span className={`dot${clock?.atDesk ? " on" : ""}`} aria-hidden="true" />
               {clock ? (clock.atDesk ? `We're at our desks in Beirut (${clock.time}). Expect a reply today.` : `It's ${clock.time} in Beirut. We reply first thing in the morning.`) : `A real person replies within ${site.contact.replyWithin}.`}
             </p>
           </div>
-          <div className="hero-mark" aria-hidden="true"><Mark tiles /></div>
+          <div className="hero2-vis"><DeviceScene eager /></div>
         </div>
-        <div className="wrap">
-          <ul className="trust">
-            <li><b>50+</b><span>products shipped since {site.founded}</span></li>
-            <li>{trustpilot && "href" in trustpilot ? <a href={trustpilot.href} target="_blank" rel="noopener noreferrer"><b>5.0</b><span>on Trustpilot</span></a> : <><b>5.0</b><span>on Trustpilot</span></>}</li>
-            <li><b>Fixed</b><span>price, in writing, before we start</span></li>
-            <li><b>100%</b><span>yours: code, design and content</span></li>
-          </ul>
-        </div>
+        <span className="scroll-cue" aria-hidden="true">Scroll</span>
       </section>
+
+      {/* ---------- proof bar ---------- */}
+      <div className="wrap"><ProofBar /></div>
+
+      {/* ---------- featured case study ---------- */}
+      {caseStudies.filter((c) => c.story).map((c, i) => (
+        <CaseStory key={c.slug} id={i === 0 ? "work" : undefined} c={c} p={projectById(c.project)} no={String(i + 1).padStart(2, "0")} />
+      ))}
 
       {/* ---------- services with prices ---------- */}
       <section id="services" className="sec svc-sec" aria-labelledby="svc-title">
@@ -79,7 +76,7 @@ export default function Home() {
       </section>
 
       {/* ---------- work ---------- */}
-      <section id="work" className="sec" aria-labelledby="work-title">
+      <section id="all-work" className="sec" aria-labelledby="work-title">
         <div className="wrap">
           <header className="head head-split">
             <h2 id="work-title" className="d d-5">Work that's live and earning.</h2>
