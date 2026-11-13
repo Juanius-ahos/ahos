@@ -3,6 +3,7 @@ import App from "./App";
 import { BASE, site } from "./site.config";
 import { retryPendingLeads } from "./lib/aria";
 import "./styles/app.css";
+import "./styles/kit.css";
 
 const root = document.getElementById("root")!;
 const path = window.location.pathname.slice(BASE.length).replace(/\/+$/, "") || "/";
@@ -16,8 +17,10 @@ function later(fn: () => void) {
   else window.addEventListener("load", run, { once: true });
 }
 
-// Motion starts straight away (it is async and never blocks paint): the hero intro waits for it.
-import("./motion/motion").then((m) => m.startMotion()).catch(() => document.documentElement.classList.remove("js-intro"));
+// Motion is downloaded straight away (async, never blocks paint) but starts only once React has
+// hydrated the page, because it rewrites headlines and React must see the HTML it rendered.
+const hydrated = new Promise<void>((resolve) => window.addEventListener("ahos:hydrated", () => resolve(), { once: true }));
+Promise.all([import("./motion/motion"), hydrated]).then(([m]) => m.startMotion()).catch(() => document.documentElement.classList.remove("js-intro"));
 later(() => retryPendingLeads());
 
 // GA4 waits for the first interaction, or five seconds, whichever comes first.

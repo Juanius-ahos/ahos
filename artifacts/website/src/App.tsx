@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
@@ -14,6 +14,19 @@ import AriaAI from "./pages/AriaAI";
 import NotFound from "./pages/NotFound";
 import Work from "./pages/Work";
 import { BASE, caseStudies, routeFor, services, site } from "./site.config";
+
+/** The component kit preview exists only under `pnpm dev`; the build never includes it. */
+const Kit = import.meta.env.DEV ? lazy(() => import("./pages/Kit")) : null;
+
+/**
+ * Tells main.tsx the first render has been committed. The motion layer rewrites
+ * headlines (SplitText), so it must not start until React has hydrated them,
+ * or React sees HTML it did not render and throws error 418.
+ */
+function Hydrated() {
+  useEffect(() => { window.dispatchEvent(new Event("ahos:hydrated")); }, []);
+  return null;
+}
 
 /** Keeps title, description and canonical right after client-side navigation. */
 function HeadSync() {
@@ -47,6 +60,7 @@ function Routes() {
       <Route path="/contact"><Contact /></Route>
       <Route path="/careers"><Careers /></Route>
       <Route path="/aria-ai"><AriaAI /></Route>
+      {Kit ? [<Route key="kit" path="/kit"><Suspense fallback={null}><Kit /></Suspense></Route>] : []}
       <Route><NotFound /></Route>
     </Switch>
   );
@@ -62,6 +76,7 @@ export default function App({ ssrPath }: { ssrPath?: string }) {
       </main>
       <Footer />
       <HeadSync />
+      <Hydrated />
     </Router>
   );
 }
