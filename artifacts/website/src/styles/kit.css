@@ -35,7 +35,7 @@
 
 /* ---------- kicker and section header ---------- */
 
-.kicker { display: inline-flex; align-items: center; gap: 12px; font: 500 0.75rem/1 var(--f-m); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text); }
+.kicker { display: inline-flex; align-items: center; gap: 12px; font: 500 0.75rem/1.5 var(--f-m); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text); }
 .kicker::before { content: ""; width: 24px; height: 1px; background: currentColor; flex: none; }
 .kicker span { opacity: 0.6; }
 
@@ -127,6 +127,10 @@ a.stat:hover .stat-v { color: var(--accent-text); }
   96% { opacity: 0; z-index: 3; }
   100% { opacity: 1; z-index: 2; }
 }
+.scene-3d { position: absolute; inset: -8% -10% -12% -10%; z-index: 3; opacity: 0; transition: opacity 0.9s ease; pointer-events: none; }
+.scene-3d-in { position: absolute; inset: 0; }
+.scene.is-3d .scene-3d { opacity: 1; }
+.scene.is-3d .laptop, .scene.is-3d .phone-d { opacity: 0; transition: opacity 0.9s ease; animation: none; }
 @keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 @media (prefers-reduced-motion: reduce) {
   .laptop, .phone-d, .scr-fade, .scroll-cue::after { animation: none; }

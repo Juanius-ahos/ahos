@@ -1,8 +1,10 @@
-import { useEffect, useState, type InputHTMLAttributes, type ReactNode } from "react";
+import { Suspense, useCallback, useEffect, useState, type ChangeEvent, type ComponentType, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
-import { Shot, WhatsAppIcon } from "./ui";
-import { BASE, asset, money, projects, site, type CaseStudy, type Project, type Service } from "../site.config";
+import { Need, Shot, WhatsAppIcon } from "./ui";
+
+export { Need };
+import { asset, money, projects, site, type CaseStudy, type Project, type Service } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
 /**
@@ -129,37 +131,29 @@ export function Testimonial({ text, name, role, link }: { text: string; name: st
 
 /* ---------- Form field ---------- */
 
-type FieldProps = { id: string; label: string; hint?: string; error?: string; textarea?: boolean; options?: string[] } & Omit<InputHTMLAttributes<HTMLInputElement>, "id">;
+type FieldChange = (e: ChangeEvent<HTMLInputElement & HTMLSelectElement & HTMLTextAreaElement>) => void;
+type FieldProps = { id: string; label: string; hint?: string; error?: string; textarea?: boolean; options?: string[]; value?: string; onChange?: FieldChange } & Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "value" | "onChange">;
 
-export function Field({ id, label, hint, error, textarea, options, ...rest }: FieldProps) {
+export function Field({ id, label, hint, error, textarea, options, value, onChange, ...rest }: FieldProps) {
   const describedBy = error ? `${id}-e` : hint ? `${id}-h` : undefined;
   const common = { id, "aria-invalid": error ? true : undefined, "aria-describedby": describedBy };
+  const state = value === undefined ? {} : { value, onChange };
   return (
     <div className={`field${error ? " has-error" : ""}`}>
       <label htmlFor={id}>{label}</label>
       {options ? (
-        <select {...common} defaultValue="">
+        <select {...common} {...(value === undefined ? { defaultValue: "" } : state)}>
           <option value="" disabled>Choose one</option>
           {options.map((o) => <option key={o}>{o}</option>)}
         </select>
       ) : textarea ? (
-        <textarea {...common} rows={4} />
+        <textarea {...common} rows={4} {...state} />
       ) : (
-        <input {...common} {...rest} />
+        <input {...common} {...rest} {...state} />
       )}
       {error ? <p className="field-e" id={`${id}-e`}>{error}</p> : hint ? <p className="field-h" id={`${id}-h`}>{hint}</p> : null}
     </div>
   );
-}
-
-/* ---------- Placeholder for what only the owner can supply ---------- */
-
-const SHOW_NEED = import.meta.env.DEV || BASE !== "";
-
-/** Marks content that only JeanPaul can supply. Shown in dev and preview builds, never on the live site. */
-export function Need({ children }: { children: ReactNode }) {
-  if (!SHOW_NEED) return null;
-  return <span className="need" data-need="">[NEED FROM JEANPAUL: {children}]</span>;
 }
 
 /* ---------- Devices ---------- */
@@ -192,13 +186,45 @@ export function DeviceScene({ ids = SCENE_ORDER, eager = false, className = "" }
     return () => { window.clearTimeout(timer); window.removeEventListener("load", start); };
   }, [canCycle]);
 
+  // The 3D version: only on a capable desktop, only after load, never for reduced motion.
+  const [Scene3D, setScene3D] = useState<ComponentType<{ ids: string[]; onReady: () => void }> | null>(null);
+  const [ready3d, setReady3d] = useState(false);
+  const onReady3d = useCallback(() => setReady3d(true), []);
+  useEffect(() => {
+    if (!eager || !canCycle) return;
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
+    const capable =
+      window.innerWidth >= 1024 &&
+      window.matchMedia("(pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      (nav.hardwareConcurrency || 4) >= 4 &&
+      (nav.deviceMemory === undefined || nav.deviceMemory >= 4) &&
+      !nav.connection?.saveData;
+    if (!capable) return;
+    let cancelled = false;
+    let timer = 0;
+    const start = () => {
+      timer = window.setTimeout(() => {
+        import("./Hero3D").then((m) => { if (!cancelled) setScene3D(() => m.default); }).catch(() => {});
+      }, 2000);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => { cancelled = true; window.clearTimeout(timer); window.removeEventListener("load", start); };
+  }, [eager, canCycle]);
+
   const cycle = canCycle && live;
   const shown = cycle ? list : list.slice(0, 1);
   const timing = (i: number) => (cycle ? { animationDelay: `${-(((n - i) % n) * HOLD)}s`, animationDuration: `${n * HOLD}s` } : undefined);
   const first = list[0];
   return (
-    <div className={`scene ${className}`} role="img" aria-label={`${first ? first.name : "Client"} and other sites built by AHOS, shown on a laptop and a phone`}>
+    <div className={`scene${ready3d ? " is-3d" : ""} ${className}`} role="img" aria-label={`${first ? first.name : "Client"} and other sites built by AHOS, shown on a laptop and a phone`}>
       <div className="scene-glow" aria-hidden="true" />
+      {Scene3D && (
+        <div className="scene-3d" aria-hidden="true">
+          <Suspense fallback={null}><Scene3D ids={list.map((p) => p.id)} onReady={onReady3d} /></Suspense>
+        </div>
+      )}
       <div className="laptop" aria-hidden="true">
         <div className="laptop-lid">
           <div className="laptop-screen">
@@ -246,12 +272,12 @@ export function DeviceScene({ ids = SCENE_ORDER, eager = false, className = "" }
 
 /* ---------- Case study story (homepage) ---------- */
 
-export function CaseStory({ c, p, no, id }: { c: CaseStudy; p: Project; no: string; id?: string }) {
+export function CaseStory({ c, p, no, id, flip = false }: { c: CaseStudy; p: Project; no: string; id?: string; flip?: boolean }) {
   const s = c.story;
   if (!s) return null;
   return (
     <section id={id} className="story grain" aria-labelledby={`story-${p.id}`}>
-      <div className="wrap story-in">
+      <div className={`wrap story-in${flip ? " is-flip" : ""}`}>
         <div className="story-copy">
           <Kicker>Case study {no} <span aria-hidden="true">/</span> {p.where}</Kicker>
           <h2 id={`story-${p.id}`} className="d d-5 story-name">{p.name}</h2>

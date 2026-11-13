@@ -1,0 +1,135 @@
+/* ==========================================================================
+   sections.css: the homepage sections that are bigger than one kit component.
+   Tokens from app.css, primitives from kit.css.
+   ========================================================================== */
+
+/* ---------- story: sticky device on desktop, mirrored on every second one ---------- */
+
+@media (min-width: 1021px) {
+  .story-vis { position: sticky; top: 14vh; align-self: start; }
+  .story-in.is-flip { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  .story-in.is-flip .story-vis { order: -1; }
+}
+.story + .story { border-top: 1px solid var(--rule); }
+
+/* ---------- outcome cards ---------- */
+
+.oc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.oc { display: flex; flex-direction: column; gap: 22px; padding: clamp(24px, 2.8vw, 40px); border-radius: 16px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--rule); transition: box-shadow 0.3s var(--ease), transform 0.4s var(--spring); }
+.oc:hover { box-shadow: inset 0 0 0 1px var(--fg-3), 0 24px 60px -34px var(--glow); transform: translateY(-3px); }
+.oc-n { font: 600 var(--t-4)/1.05 var(--f-d); letter-spacing: -0.04em; }
+.oc-b { color: var(--fg-2); max-width: 34em; margin-top: -8px; }
+.oc .svc-f { padding-block: 18px; }
+.oc .lnk { margin-top: auto; align-self: start; }
+.oc-more { margin-top: 32px; }
+@media (max-width: 860px) { .oc-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .oc, .oc:hover { transition: none; transform: none; } }
+
+/* ---------- how we work: five steps on one progress line ---------- */
+
+.pl-steps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 28px; padding-top: 46px; }
+.pl-steps::before, .pl-steps::after { content: ""; position: absolute; left: 0; right: 0; top: 14px; height: 2px; }
+.pl-steps::before { background: var(--rule); }
+.pl-steps::after { background: var(--orange); transform-origin: left; box-shadow: 0 0 18px var(--glow); }
+@supports (animation-timeline: view()) {
+  .pl-steps::after { transform: scaleX(0); animation: pl-fill linear both; animation-timeline: view(); animation-range: entry 25% cover 55%; }
+}
+@keyframes pl-fill { to { transform: scaleX(1); } }
+@keyframes pl-fill-y { to { transform: scaleY(1); } }
+.pl-steps li { position: relative; }
+.pl-n { position: absolute; top: -46px; left: 0; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 2px var(--orange); font: 600 0.8125rem/1 var(--f-m); color: var(--accent-text); }
+.pl-steps h3 { font: 600 var(--t-2)/1.2 var(--f-d); letter-spacing: -0.03em; margin-bottom: 10px; }
+.pl-steps p { color: var(--fg-2); font-size: 0.9375rem; }
+.pl-t { display: inline-block; margin-top: 14px; font: 500 0.75rem/1 var(--f-m); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3); }
+.pl-badge { display: inline-flex; align-items: center; gap: 10px; margin-top: 44px; padding: 12px 18px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--orange); color: var(--accent-text); font: 600 0.9375rem/1 var(--f-t); }
+@media (max-width: 1020px) {
+  .pl-steps { grid-template-columns: 1fr; gap: 34px; padding: 0 0 0 52px; }
+  .pl-steps::before, .pl-steps::after { left: 14px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+  .pl-steps::after { transform-origin: top; }
+  @supports (animation-timeline: view()) { .pl-steps::after { transform: scaleY(0); animation-name: pl-fill-y; } }
+  .pl-n { top: 0; left: -52px; }
+}
+@media (prefers-reduced-motion: reduce) { .pl-steps::after { animation: none !important; transform: none !important; } }
+
+/* ---------- founder ---------- */
+
+.founder-in { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px 6vw; align-items: center; }
+.founder-photo { position: relative; max-width: 440px; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule), 0 40px 90px -40px rgba(0, 0, 0, 0.8), 0 0 80px -30px var(--glow); }
+.founder-photo img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.founder-copy .d { margin: 22px 0 24px; }
+.founder-p { color: var(--fg-2); font-size: var(--t-2); line-height: 1.55; max-width: 34em; margin-bottom: 16px; text-wrap: pretty; }
+.founder-copy .need { margin-top: 8px; }
+.founder-sign { display: flex; flex-direction: column; gap: 4px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--rule); max-width: 20em; }
+.founder-sign b { font: 600 var(--t-2)/1.1 var(--f-d); letter-spacing: -0.02em; }
+.founder-sign span { font: 500 0.75rem/1 var(--f-m); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); }
+@media (max-width: 860px) { .founder-in { grid-template-columns: 1fr; } .founder-photo { max-width: 320px; } }
+
+/* ---------- testimonials ---------- */
+
+.tst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px; align-items: start; }
+.tst-need { display: flex; align-items: center; }
+.tst-grid .tst { background: var(--bg); }
+
+/* ---------- lab ---------- */
+
+.lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.lab-card { display: grid; gap: 14px; }
+.lab-v { width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 14px; background: #050506; box-shadow: 0 0 0 1px var(--rule), 0 30px 70px -36px rgba(0, 0, 0, 0.9); }
+.lab-card figcaption { display: grid; gap: 4px; }
+.lab-card figcaption b { font: 600 var(--t-2)/1.2 var(--f-d); letter-spacing: -0.03em; }
+.lab-card figcaption span { color: var(--fg-2); font-size: 0.9375rem; }
+.lab-link { display: grid; gap: 14px; color: inherit; }
+.lab-link-v { position: relative; display: grid; place-items: center; aspect-ratio: 9 / 16; border-radius: 14px; background: radial-gradient(70% 60% at 50% 40%, rgba(255, 106, 26, 0.28), transparent 70%), var(--bg-2); box-shadow: 0 0 0 1px var(--rule), 0 30px 70px -36px rgba(0, 0, 0, 0.9); transition: box-shadow 0.3s var(--ease), transform 0.4s var(--spring); }
+.lab-link:hover .lab-link-v { box-shadow: 0 0 0 1px var(--orange), 0 30px 70px -30px var(--glow); transform: translateY(-3px); }
+.lab-link-v i { width: 64px; height: 64px; border-radius: 50%; background: var(--orange); clip-path: none; position: relative; }
+.lab-link-v i::after { content: ""; position: absolute; left: 26px; top: 20px; border-left: 20px solid var(--orange-ink); border-top: 12px solid transparent; border-bottom: 12px solid transparent; }
+.lab-link-t { display: grid; gap: 4px; }
+.lab-link-t b { font: 600 var(--t-2)/1.2 var(--f-d); letter-spacing: -0.03em; }
+.lab-link-t span { color: var(--fg-2); font-size: 0.9375rem; }
+.lab-slot { align-content: center; justify-items: start; aspect-ratio: 9 / 16; padding: 24px; border-radius: 14px; box-shadow: inset 0 0 0 1px var(--rule); background: var(--bg-2); }
+.lab-follow { margin-top: 32px; }
+@media (max-width: 860px) { .lab-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .lab-grid > :nth-child(3) { grid-column: 1 / -1; } .lab-link-v, .lab-slot { aspect-ratio: 16 / 9; } }
+@media (max-width: 520px) { .lab-grid { gap: 12px; } .lab-card figcaption b { font-size: 1rem; } }
+
+/* ---------- free website check ---------- */
+
+.check { background: radial-gradient(60% 80% at 10% 20%, rgba(255, 106, 26, 0.08), transparent 70%), var(--bg); border-top: 1px solid var(--rule); }
+.check-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px 6vw; align-items: start; }
+.check-copy .d { margin: 22px 0 22px; }
+.check-list { display: grid; gap: 12px; margin-top: 28px; }
+.check-list li { position: relative; padding-left: 26px; color: var(--fg-2); }
+.check-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 12px; height: 6px; background: var(--orange); clip-path: polygon(0 0, 70% 0, 100% 100%, 30% 100%); }
+.check-form { display: grid; gap: 18px; padding: clamp(22px, 3vw, 36px); border-radius: 18px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--rule), 0 40px 90px -50px rgba(0, 0, 0, 0.9); }
+.check-form .btn { justify-self: start; }
+.check-done { font-size: 0.9375rem; color: var(--fg-2); }
+@media (max-width: 860px) { .check-in { grid-template-columns: 1fr; } .check-form .btn { width: 100%; justify-content: center; } }
+
+/* ---------- after the stories, and the closing cta ---------- */
+
+.more-work { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; padding-top: 36px; border-top: 1px solid var(--rule); }
+.more-work-also { color: var(--fg-2); max-width: 46em; }
+.close-need { margin-top: 24px; }
+
+/* ---------- render only what is near the screen ---------- */
+/* Off-screen sections skip style, layout and paint until the visitor scrolls close. The sizes are
+   honest estimates of each section so anchors and the scrollbar stay put. */
+
+.story { content-visibility: auto; contain-intrinsic-size: auto 1100px; }
+.more-work { content-visibility: auto; contain-intrinsic-size: auto 140px; }
+#services { content-visibility: auto; contain-intrinsic-size: auto 1500px; }
+#how { content-visibility: auto; contain-intrinsic-size: auto 560px; }
+.founder { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.tst-section { content-visibility: auto; contain-intrinsic-size: auto 560px; }
+.lab { content-visibility: auto; contain-intrinsic-size: auto 960px; }
+.check { content-visibility: auto; contain-intrinsic-size: auto 760px; }
+#faq { content-visibility: auto; contain-intrinsic-size: auto 760px; }
+.close { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.foot { content-visibility: auto; contain-intrinsic-size: auto 760px; }
+@media (max-width: 1020px) {
+  .story { contain-intrinsic-size: auto 1500px; }
+  #services { contain-intrinsic-size: auto 2300px; }
+  #how { contain-intrinsic-size: auto 1200px; }
+  .founder { contain-intrinsic-size: auto 1000px; }
+  .lab { contain-intrinsic-size: auto 1500px; }
+  .check { contain-intrinsic-size: auto 1000px; }
+}

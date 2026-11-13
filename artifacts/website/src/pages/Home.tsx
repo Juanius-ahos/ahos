@@ -1,23 +1,28 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { FaqList, Quote, Shot, WhatsAppIcon, useBeirut } from "../components/ui";
-import { Button, CaseStory, DeviceScene, Kicker, ProofBar, WhatsAppCta } from "../components/kit";
-import { alsoBuilt, caseStudies, homeFaq, money, process, projectById, projects, serviceBySlug, serviceGroups, site } from "../site.config";
-import { trackEvent } from "../lib/analytics";
+import { Defer } from "../components/Defer";
+import { Close, FaqList, useBeirut } from "../components/ui";
+import { Button, CaseStory, DeviceScene, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
+import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WorkMore } from "../components/sections";
+import { caseStudies, homeFaq, outcomes, projectById, site } from "../site.config";
+
+/** The four case studies told in full on the homepage. The rest live on /work. */
+const FEATURED = ["oman-with-issam", "threads-activewear", "speealigner", "juls-auto-repair"];
 
 /**
  * Homepage. One job: get the right people to message us on WhatsApp.
- * Short on purpose: hero with proof, services with prices, the work, how it goes, one quote, a few answers, contact.
+ * Order: hero, proof, work as stories, services by outcome, how we work, the founder,
+ * client words, the lab, the free check, answers, contact.
  */
 export default function Home() {
   const clock = useBeirut();
-  const yorgo = caseStudies.find((c) => c.quote)?.quote;
-  const wa = (where: string) => () => trackEvent("whatsapp_click", { where });
+  const featured = FEATURED.map((slug) => caseStudies.find((c) => c.slug === slug)!).filter((c) => c?.story);
+  const quotes = caseStudies.flatMap((c) => (c.quote ? [c.quote] : []));
 
   return (
     <>
       {/* ---------- hero ---------- */}
-      <section className="hero2 grain" aria-labelledby="hero-title" data-hero>
+      <section className="hero2 grain" aria-labelledby="hero-title">
         <div className="wrap hero2-grid">
           <div className="hero2-copy">
             <Kicker>Design and engineering studio in Beirut</Kicker>
@@ -40,118 +45,65 @@ export default function Home() {
       {/* ---------- proof bar ---------- */}
       <div className="wrap"><ProofBar /></div>
 
-      {/* ---------- featured case study ---------- */}
-      {caseStudies.filter((c) => c.story).map((c, i) => (
-        <CaseStory key={c.slug} id={i === 0 ? "work" : undefined} c={c} p={projectById(c.project)} no={String(i + 1).padStart(2, "0")} />
+      {/* ---------- selected work, as stories ---------- */}
+      {featured.map((c, i) => (
+        <Defer key={c.slug}>
+          <CaseStory id={i === 0 ? "work" : undefined} c={c} p={projectById(c.project)} no={String(i + 1).padStart(2, "0")} flip={i % 2 === 1} />
+        </Defer>
       ))}
+      <Defer><WorkMore /></Defer>
 
-      {/* ---------- services with prices ---------- */}
-      <section id="services" className="sec svc-sec" aria-labelledby="svc-title">
+      {/* ---------- services by outcome ---------- */}
+      <Defer>
+      <section id="services" className="sec" aria-labelledby="svc-title">
         <div className="wrap">
-          <header className="head head-split">
-            <h2 id="svc-title" className="d d-5">What we build, and what it costs.</h2>
-            <p className="lead">Every project gets a fixed quote after a free call. These are the starting points.</p>
-          </header>
-          <ul className="cards">
-            {serviceGroups.map((g) => {
-              const items = g.links.map((slug) => serviceBySlug(slug)!);
-              const from = Math.min(...items.map((s) => s.from));
-              return (
-                <li key={g.name} className="card">
-                  <h3 className="card-name">{g.name}</h3>
-                  <p className="card-body">{g.body}</p>
-                  <dl className="card-facts">
-                    <div><dt>From</dt><dd>{money(from)}</dd></div>
-                    <div><dt>Timeline</dt><dd>{g.time}</dd></div>
-                  </dl>
-                  <div className="card-links">
-                    {items.map((s) => <Link key={s.slug} href={s.href} className="lnk">{s.label}</Link>)}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          <p className="more-note">Not sure which one you need? <a className="lnk" href={site.contact.whatsappHello} target="_blank" rel="noopener noreferrer" onClick={wa("services")}>Ask us on WhatsApp</a> or see the full <Link href="/pricing" className="lnk">pricing</Link>.</p>
+          <SectionHeader id="svc-title" kicker="Services" title="What we build, and what it costs." lead="Every project gets a fixed quote in writing after a free call. These are the starting points." />
+          <div className="oc-grid">
+            {outcomes.map((o) => <OutcomeCard key={o.id} o={o} />)}
+          </div>
+          <p className="oc-more"><Link href="/services" className="lnk">See every service, with prices and what is included <Arrow /></Link></p>
         </div>
       </section>
+      </Defer>
 
-      {/* ---------- work ---------- */}
-      <section id="all-work" className="sec" aria-labelledby="work-title">
+      {/* ---------- how we work ---------- */}
+      <Defer>
+      <section id="how" className="sec alt" aria-labelledby="how-title">
         <div className="wrap">
-          <header className="head head-split">
-            <h2 id="work-title" className="d d-5">Work that's live and earning.</h2>
-            <p className="lead">Real businesses, real sites. Each one has a short case study: what they needed, what we built, where it is now.</p>
-          </header>
-          <ul className="wgrid">
-            {projects.map((p) => (
-              <li key={p.id} className={p.flagship ? "wcard is-big" : "wcard"}>
-                <Link href={p.caseStudy} className="wcard-link">
-                  <div className="wcard-media"><Shot p={p} sizes={p.flagship ? "(max-width: 900px) 92vw, 46vw" : "(max-width: 900px) 92vw, 30vw"} /></div>
-                  <div className="wcard-text">
-                    <h3 className="wcard-name">{p.name}</h3>
-                    <p className="wcard-what">{p.what}, {p.where}</p>
-                    <p className="wcard-out">{p.outcome}</p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="more-note">Also built by us: {alsoBuilt.map((a, i) => <span key={a.name}>{i > 0 && ", "}<a className="lnk" href={a.href} target="_blank" rel="noopener noreferrer">{a.name}</a></span>)}, and many more our clients keep private.</p>
+          <SectionHeader id="how-title" kicker="How we work" title="Five steps, the same every time." lead="From the first call to launch day you always know what happens next." />
+          <ProcessLine />
         </div>
       </section>
+      </Defer>
 
-      {/* ---------- process ---------- */}
-      <section className="sec alt" aria-labelledby="proc-title">
-        <div className="wrap">
-          <header className="head head-split">
-            <h2 id="proc-title" className="d d-5">How it works.</h2>
-            <p className="lead">Five steps, the same every time, so you always know what happens next.</p>
-          </header>
-          <ol className="steps5">
-            {process.map((s, i) => (
-              <li key={s.name}>
-                <span className="steps5-n" aria-hidden="true">{i + 1}</span>
-                <h3>{s.name}</h3>
-                <p>{s.body}</p>
-                <span className="steps5-t">{s.time}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      {/* ---------- the founder ---------- */}
+      <Defer><Founder /></Defer>
 
-      {yorgo && <Quote {...yorgo} />}
+      {/* ---------- testimonials ---------- */}
+      <Defer><Testimonials items={quotes} /></Defer>
 
-      {/* ---------- FAQ ---------- */}
-      <section className="sec" aria-labelledby="faq-title">
+      {/* ---------- the lab ---------- */}
+      <Defer><Lab /></Defer>
+
+      {/* ---------- free website check ---------- */}
+      <Defer><FreeCheck where="home" /></Defer>
+
+      {/* ---------- faq ---------- */}
+      <Defer>
+      <section id="faq" className="sec" aria-labelledby="faq-title">
         <div className="wrap qa-grid">
           <header>
-            <h2 id="faq-title" className="d d-5">Quick answers.</h2>
-            <Link href="/faq" className="lnk" style={{ marginTop: 20, display: "inline-block" }}>All questions</Link>
+            <Kicker>Answers</Kicker>
+            <h2 id="faq-title" className="d d-5" style={{ marginTop: 22 }}>Quick answers.</h2>
+            <Link href="/faq" className="lnk" style={{ marginTop: 20, display: "inline-flex" }}>All questions <Arrow /></Link>
           </header>
-          <FaqList items={homeFaq.slice(1, 5)} openFirst />
+          <FaqList items={homeFaq} openFirst />
         </div>
       </section>
+      </Defer>
 
-      {/* ---------- contact ---------- */}
-      <section className="sec wa-close" aria-labelledby="close-title">
-        <div className="wrap wa-close-in">
-          <div>
-            <h2 id="close-title" className="d d-6">Tell us what you're building.</h2>
-            <p className="lead">Send a WhatsApp message. A real person on the team replies within {site.contact.replyWithin}, usually much sooner, with next steps and a fixed quote.</p>
-          </div>
-          <div className="wa-close-acts">
-            <a href={site.contact.whatsappHello} className="btn btn-wa btn-lg" target="_blank" rel="noopener noreferrer" onClick={wa("close")}>
-              <WhatsAppIcon /> Message us on WhatsApp
-            </a>
-            <p className="wa-alt">
-              <span>{site.contact.phone}</span>
-              <a className="lnk" href={`mailto:${site.contact.email}`} onClick={() => trackEvent("email_click", { where: "home_close" })}>{site.contact.email}</a>
-              <Link href="/contact" className="lnk">Book a call <Arrow /></Link>
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* ---------- final cta ---------- */}
+      <Defer><Close where="home" /></Defer>
     </>
   );
 }

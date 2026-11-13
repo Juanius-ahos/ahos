@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
-import { asset, site, money, type Project, type QA } from "../site.config";
+import { BASE, asset, site, money, type Project, type QA } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
 /* ---------- proof row ---------- */
@@ -92,6 +92,16 @@ export function Placeholder({ label, ratio }: { label: string; ratio?: string })
       <span>{label}</span>
     </div>
   );
+}
+
+/* ---------- marker for what only the owner can supply ---------- */
+
+const SHOW_NEED = import.meta.env.DEV || BASE !== "";
+
+/** Marks content that only JeanPaul can supply. Shown in dev and preview builds, never on the live site. */
+export function Need({ children }: { children: ReactNode }) {
+  if (!SHOW_NEED) return null;
+  return <span className="need" data-need="">[NEED FROM JEANPAUL: {children}]</span>;
 }
 
 /* ---------- breadcrumbs ---------- */
@@ -206,7 +216,9 @@ export function Close({ title = "Tell us what you're building.", where }: { titl
         <ul className="ways">
           <li><Link href="/contact" onClick={() => trackEvent("cta_click", { where: `${where}_call` })}><span className="way-t">Book a 30-minute call</span><span className="how">Free, no obligation</span><Arrow size={22} /></Link></li>
           <li><a href={`mailto:${site.contact.email}`} onClick={() => trackEvent("email_click", { where })}><span className="way-t">Write to us</span><span className="how">{site.contact.email}</span><Arrow size={22} /></a></li>
+          <li><a href={`tel:${site.contact.phoneE164}`} onClick={() => trackEvent("phone_click", { where })}><span className="way-t">Call us</span><span className="how">{site.contact.phone}</span><Arrow size={22} /></a></li>
         </ul>
+        <p className="close-need"><Need>your booking link (Cal.com, Calendly or similar), to replace the contact page behind Book a call</Need></p>
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { BASE, site } from "./site.config";
 import { retryPendingLeads } from "./lib/aria";
 import "./styles/app.css";
 import "./styles/kit.css";
+import "./styles/sections.css";
 
 const root = document.getElementById("root")!;
 const path = window.location.pathname.slice(BASE.length).replace(/\/+$/, "") || "/";
@@ -17,13 +18,31 @@ function later(fn: () => void) {
   else window.addEventListener("load", run, { once: true });
 }
 
-// Motion is downloaded straight away (async, never blocks paint) but starts only once React has
-// hydrated the page, because it rewrites headlines and React must see the HTML it rendered.
+// Motion starts once React has hydrated, because it rewrites headlines and React must see the HTML it
+// rendered. A page whose first screen has a headline intro starts it straight away. A page with no
+// scripted motion at all (the homepage) never loads GSAP: smooth scrolling runs on Lenis alone, once
+// the browser has settled, so the first paint and the first taps are never in its way.
+const HOOKS = "[data-split],[data-reveal-tile],[data-float],[data-draw],[data-more],[data-hero]";
+const scripted = !!document.querySelector(HOOKS);
+const needsIntro = !!document.querySelector("[data-split]");
 const hydrated = new Promise<void>((resolve) => window.addEventListener("ahos:hydrated", () => resolve(), { once: true }));
-Promise.all([import("./motion/motion"), hydrated]).then(([m]) => m.startMotion()).catch(() => document.documentElement.classList.remove("js-intro"));
-later(() => retryPendingLeads());
+const settled = () => new Promise<void>((resolve) => {
+  if (needsIntro) return resolve();
+  const go = () => window.setTimeout(resolve, 1500);
+  if (document.readyState === "complete") go();
+  else window.addEventListener("load", go, { once: true });
+});
+if (scripted) {
+  hydrated.then(settled).then(() => import("./motion/motion")).then((m) => m.startMotion()).catch(() => document.documentElement.classList.remove("js-intro"));
+} else {
+  document.documentElement.classList.remove("js-intro");
+  hydrated.then(settled).then(() => import("./motion/lenis")).then((m) => m.startLenis()).catch(() => {});
+}
+// sections hydrated later (see Defer) get their motion hooks re-read
+window.addEventListener("ahos:refresh", () => { if (scripted) import("./motion/motion").then((m) => m.refreshMotion()).catch(() => {}); });
+import("./motion/magnetic").then((m) => m.startMagnetic()).catch(() => {});
 
-// GA4 waits for the first interaction, or five seconds, whichever comes first.
+// GA4 waits for the first interaction, or twelve seconds, whichever comes first.
 function loadGa() {
   // the preview build (served under a base path) never reports to the production property
   if (window.gtag || !site.integrations.ga4 || BASE) return;
@@ -41,4 +60,4 @@ function loadGa() {
 const events = ["pointerdown", "keydown", "scroll", "touchstart"] as const;
 const onFirst = () => { events.forEach((e) => window.removeEventListener(e, onFirst)); loadGa(); };
 events.forEach((e) => window.addEventListener(e, onFirst, { once: true, passive: true }));
-later(() => setTimeout(loadGa, 5000));
+later(() => setTimeout(loadGa, 12000));

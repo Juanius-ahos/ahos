@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Logo } from "./Mark";
-import { projects, services, site } from "../site.config";
+import { asset, projects, services, site } from "../site.config";
 
 export function Footer() {
   return (
@@ -13,6 +13,9 @@ export function Footer() {
             <ul>
               <li><Link href="/work">Work</Link></li>
               <li><Link href="/services">Services</Link></li>
+              <li><a href={asset("/#how")}>How we work</a></li>
+              <li><a href={asset("/#about")}>About</a></li>
+              <li><a href={asset("/#lab")}>Lab</a></li>
               <li><Link href="/pricing">Pricing</Link></li>
               <li><Link href="/aria-ai">ARIA</Link></li>
               <li><Link href="/faq">FAQ</Link></li>
@@ -40,7 +43,7 @@ export function Footer() {
         <Logo className="foot-logo" title={`${site.name}, ${site.legalName}`} />
         <div className="foot-bot">
           <span>&copy; {new Date().getFullYear()} {site.name}, {site.legalName}</span>
-          <span>Designed and built in Beirut</span>
+          <span>{site.tagline}</span>
           <a href="#top" className="lnk">Back to top</a>
         </div>
       </div>

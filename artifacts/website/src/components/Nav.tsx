@@ -69,7 +69,9 @@ export function Nav() {
           </Link>
           <nav className="nav-links" aria-label="Main">
             {nav.map((l) => (
-              <Link key={l.href} href={l.href} aria-current={isActive(location, l.match) ? "page" : undefined}>{l.label}</Link>
+              l.href.includes("#")
+                ? <a key={l.href} href={asset(l.href)}>{l.label}</a>
+                : <Link key={l.href} href={l.href} aria-current={isActive(location, l.match) ? "page" : undefined}>{l.label}</Link>
             ))}
           </nav>
           <div className="nav-end">
@@ -87,7 +89,7 @@ export function Nav() {
       </a>
       <div id="menu" ref={sheetRef} className={`sheet${open ? " is-open" : ""}`} aria-hidden={!open}>
         <nav aria-label="Mobile">
-          {[{ href: "/", label: "Home" }, ...nav, { href: "/careers", label: "Careers" }, { href: "/contact", label: "Contact" }].map((l) => (
+          {[{ href: "/", label: "Home" }, ...nav, { href: "/pricing", label: "Pricing" }, { href: "/aria-ai", label: "ARIA" }, { href: "/careers", label: "Careers" }, { href: "/contact", label: "Contact" }].map((l) => (
             <a key={l.href} href={asset(l.href)} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>{l.label}<Arrow size={20} /></a>
           ))}
         </nav>
