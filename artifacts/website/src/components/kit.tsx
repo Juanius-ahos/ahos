@@ -77,7 +77,7 @@ export function ProofBar() {
   return (
     <ul className="proofbar" aria-label="Why trust AHOS">
       {site.proof.map((p) => (
-        <li key={p.label}><Stat value={p.value} label={p.label} href={"href" in p ? p.href : undefined} /></li>
+        <li key={p.label}><Stat value={p.value} label={p.label} /></li>
       ))}
     </ul>
   );
@@ -117,13 +117,12 @@ export function CaseCard({ p }: { p: Project }) {
   );
 }
 
-export function Testimonial({ text, name, role, link }: { text: string; name: string; role: string; link?: string }) {
+export function Testimonial({ text, name, role }: { text: string; name: string; role: string }) {
   return (
     <figure className="tst">
       <blockquote>{text}</blockquote>
       <figcaption>
         <span><b>{name}</b>, {role}</span>
-        {link && <a className="lnk" href={link} target="_blank" rel="noopener noreferrer">Read it on Trustpilot</a>}
       </figcaption>
     </figure>
   );

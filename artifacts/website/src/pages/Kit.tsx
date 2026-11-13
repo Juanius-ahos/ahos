@@ -71,7 +71,7 @@ export default function Kit() {
         <div className="kit-row" style={{ gap: 56 }}>
           <Stat value="100+" label="projects delivered" />
           <Stat value="30 days" label="warranty on every build" />
-          <Stat value="5 stars" label="in a client review on Trustpilot" href="https://www.trustpilot.com/review/ahos.xyz" />
+          <Stat value="30 days" label="warranty on every build" />
         </div>
         <div style={{ marginTop: 40 }}><ProofBar /></div>
       </div></section>

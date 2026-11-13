@@ -9,19 +9,12 @@ import { trackEvent } from "../lib/analytics";
 export function Proof({ className = "" }: { className?: string }) {
   return (
     <ul className={`proof ${className}`}>
-      {site.proof.map((p) => {
-        const inner = (
-          <>
-            <b>{p.value}</b>
-            <span>{p.label}</span>
-          </>
-        );
-        return (
-          <li key={p.label}>
-            {"href" in p && p.href ? <a href={p.href} target="_blank" rel="noopener noreferrer">{inner}</a> : inner}
-          </li>
-        );
-      })}
+      {site.proof.map((p) => (
+        <li key={p.label}>
+          <b>{p.value}</b>
+          <span>{p.label}</span>
+        </li>
+      ))}
     </ul>
   );
 }
@@ -166,14 +159,13 @@ export function FaqList({ items, openFirst = false }: { items: QA[]; openFirst?:
 
 /* ---------- quote ---------- */
 
-export function Quote({ text, name, role, link }: { text: string; name: string; role: string; link?: string }) {
+export function Quote({ text, name, role }: { text: string; name: string; role: string }) {
   return (
     <section className="sec quote" aria-label="What a client says">
       <figure className="wrap">
         <blockquote>{text}</blockquote>
         <figcaption>
           <span><b>{name}</b>, {role}</span>
-          {link && <a className="lnk" href={link} target="_blank" rel="noopener noreferrer">Read it on Trustpilot</a>}
         </figcaption>
       </figure>
     </section>
@@ -208,7 +200,7 @@ export function Close({ title = "Tell us what you're building.", where }: { titl
         <h2 id="close-title" className="d d-6">{title}</h2>
         <p className="lead">
           A real person replies within {site.contact.replyWithin} with a plan and a fixed quote.
-          {clock && <> It is <span className="clock">{clock.time}</span> in Beirut, {clock.atDesk ? "and we are at our desks." : "so expect us first thing in the morning."}</>}
+          {clock && <> It is <span className="clock">{clock.time}</span> in Beirut, {clock.atDesk ? "and we are online." : "so expect us first thing in the morning."}</>}
         </p>
         <div className="acts">
           <a href={site.contact.whatsappHello} className="btn btn-wa btn-lg" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where })}><WhatsAppIcon /> Message us on WhatsApp</a>

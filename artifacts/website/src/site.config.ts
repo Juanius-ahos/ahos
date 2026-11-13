@@ -34,17 +34,13 @@ export const site = {
     deskHours: [9, 21] as [number, number],
   },
 
+  /** AHOS works remotely. City and country only: no street address, no map pin, no opening hours. */
   address: {
-    street: "Beirut Digital District",
     city: "Beirut",
     region: "Beirut",
     country: "LB",
     countryName: "Lebanon",
-    lat: 33.8938,
-    lng: 35.5018,
   },
-
-  hours: { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
 
   areasServed: ["Lebanon", "Oman", "United States", "Europe"],
   areasLine: "Lebanon, the US, Europe and Oman",
@@ -61,7 +57,6 @@ export const site = {
   proof: [
     { value: "100+", label: "projects delivered" },
     { value: "LB US EU OM", label: "clients in Lebanon, the US, Europe and Oman" },
-    { value: "5 stars", label: "in a client review on Trustpilot", href: "https://www.trustpilot.com/review/ahos.xyz" },
     { value: "30 days", label: "warranty on every build" },
     { value: "100%", label: "yours: code, design and content" },
   ],
@@ -358,7 +353,6 @@ export const caseStudies: CaseStudy[] = [
       text: "I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
       name: "Yorgo",
       role: "SpeeAligner, Lebanon",
-      link: "https://www.trustpilot.com/reviews/69ea9b17ea057c732e8d4c18",
     },
   },
   {
@@ -666,7 +660,6 @@ export const pricing = {
     { name: "Milestone payments", body: "Usually half up front and half at launch. Larger builds split into three." },
     { name: "You own everything", body: "Code, designs and content are yours on delivery. No licence to keep paying." },
     { name: "30-day warranty", body: "Anything that breaks in the first 30 days after launch, we fix at no cost." },
-    { name: "Hosting at cost", body: "We set it up for you. Ongoing hosting usually runs $5 to $15 a month." },
     { name: "Care plans", body: "Updates, monitoring and a monthly block of improvements, if you want them." },
   ],
   faqs: [
@@ -697,7 +690,7 @@ const qaOwn: QA = { q: "Do I own the code and design?", a: "Yes. On delivery you
 const qaPrice: QA = { q: "How much does a website cost in Lebanon?", a: `Websites start at ${fromOf("web-development")} and online stores at ${fromOf("ecommerce-development")}. Design starts at ${fromOf("ui-ux-design")}, AI tools at ${fromOf("ai-development")}, mobile apps at ${fromOf("mobile-app-development")}, custom software at ${fromOf("custom-software")} and Web3 at ${fromOf("web3")}. Every project gets one fixed price in writing after a free 30-minute call, so there are no surprises.` };
 const qaRemote: QA = { q: "Can you work with clients outside Lebanon?", a: "Yes. Most of our work runs remotely, with clients in Lebanon, the US, Europe and Oman. We work in English, Arabic and French." };
 const qaPay: QA = { q: "How do payments work?", a: "In milestones, usually half up front and half at launch. Larger builds split into three payments. There is no hourly billing." };
-const qaAfter: QA = { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements." };
+const qaAfter: QA = { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover updates, monitoring and a monthly block of improvements." };
 const qaLang: QA = { q: "Which languages do you work in?", a: "English, Arabic and French. We also build multilingual sites with right-to-left Arabic: omanwithissam.com runs in 12 languages." };
 
 /** The homepage FAQ. */
@@ -710,7 +703,7 @@ export const faqCategories: { name: string; items: QA[] }[] = [
       qaWhat,
       { q: "Where is AHOS based?", a: "In Beirut, Lebanon. Most projects run remotely, so we work with clients in Lebanon, the US, Europe and Oman, in English, Arabic and French." },
       { q: "What industries do you work with?", a: "Retail and e-commerce, healthcare, transport, local services, restaurants, real estate, finance and SaaS. The process is the same; the design is specific to you." },
-      { q: "Who will I work with?", a: "A small senior team. The people who design your product are the people who build it, and you talk to them directly." },
+      { q: "Who will I work with?", a: "A team of designers, engineers, AI engineers and animators. The people who design your product are the people who build it, and you talk to them directly." },
     ],
   },
   {
@@ -796,7 +789,7 @@ export const routes: RouteMeta[] = [
   { path: "/pricing", title: "Pricing | Fixed Quotes, Start-From Prices | AHOS Beirut", description: "AHOS pricing: design from $200, websites from $300, stores and AI from $500, apps from $1,000, custom software from $1,500. Every project gets a fixed quote in writing.", crumb: "Pricing", priority: 0.8 },
   { path: "/faq", title: "FAQ | Timelines, Pricing and Ownership | AHOS", description: "Straight answers about working with AHOS: timelines, fixed pricing, code ownership, support after launch and working with clients outside Lebanon.", crumb: "FAQ", priority: 0.7 },
   { path: "/contact", title: "Start a Project | Book a 30-Minute Call | AHOS", description: "Tell AHOS what you are building. A real person replies within 24 hours with a plan and a fixed quote. WhatsApp, email or a 30-minute call.", crumb: "Contact", priority: 0.8 },
-  { path: "/careers", title: "Careers | Join a Small Senior Studio in Beirut | AHOS", description: "AHOS hires rarely and well. Developers, designers and engineers who would rather own a hard problem than be handed an easy one.", crumb: "Careers", priority: 0.5 },
+  { path: "/careers", title: "Careers | Build With the AHOS Team | AHOS", description: "AHOS hires rarely and well. Developers, designers and engineers who would rather own a hard problem than be handed an easy one.", crumb: "Careers", priority: 0.5 },
   { path: "/aria-ai", title: "ARIA | AI Project Advisor | AHOS", description: "Talk to ARIA, the AI project advisor AHOS designed and built. Describe what you want to make and get honest guidance on scope, timeline and next steps.", crumb: "ARIA", priority: 0.6 },
 ];
 

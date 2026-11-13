@@ -65,12 +65,15 @@ export function Founder() {
           <Kicker>The founder</Kicker>
           <h2 id="founder-title" className="d d-5">The person you will talk to.</h2>
           <p className="founder-p">
-            I'm Jean Paul, the founder of AHOS. We are a design and engineering studio in Beirut, and since {site.founded} we have delivered more than 100 projects for clients in Lebanon, the US, Europe and Oman.
+            I'm Jean Paul, the founder of AHOS. I started as a freelancer, building for Web3 projects while I still had a full-time job.
           </p>
           <p className="founder-p">
-            I lead a small senior team. The people who design your product are the people who build it, and you talk to them directly.
+            Along the way I met people who worked the same way, and together we founded AHOS. We went from individual freelancers to a team that designs, builds and ships together. Our different jobs merged into one studio.
           </p>
-          <p><Need>your own words on why AHOS exists, 3 to 5 lines. Rough is fine, I will only polish the wording</Need></p>
+          <p className="founder-p">
+            Today that team includes designers, engineers, AI engineers and animators. We have delivered more than 100 projects for clients in Lebanon, the US, Europe and Oman, and the goal is still the same: the best results at the best price.
+          </p>
+          <p><Need>your background and education: degree and university, past roles or companies, years in the field. Two or three facts, I will fold them into the second paragraph</Need></p>
           <p className="founder-sign"><b>Jean Paul</b><span>Founder, AHOS</span></p>
         </div>
       </div>
@@ -80,8 +83,7 @@ export function Founder() {
 
 /* ---------- testimonials ---------- */
 
-export function Testimonials({ items }: { items: { text: string; name: string; role: string; link?: string }[] }) {
-  const trustpilot = site.proof.find((p) => "href" in p && p.href);
+export function Testimonials({ items }: { items: { text: string; name: string; role: string }[] }) {
   return (
     <section className="sec alt tst-section" aria-labelledby="tst-title">
       <div className="wrap">
@@ -90,7 +92,6 @@ export function Testimonials({ items }: { items: { text: string; name: string; r
             <Kicker>What clients say</Kicker>
             <h2 id="tst-title" className="d d-5">In their words.</h2>
           </div>
-          {trustpilot && "href" in trustpilot && <p className="lead"><a className="lnk" href={trustpilot.href} target="_blank" rel="noopener noreferrer">See our Trustpilot profile <Arrow /></a></p>}
         </header>
         <div className="tst-grid">
           {items.map((t) => <Testimonial key={t.name} {...t} />)}

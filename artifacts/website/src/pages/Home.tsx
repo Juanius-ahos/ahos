@@ -34,7 +34,7 @@ export default function Home() {
             </div>
             <p className="hero2-reply">
               <span className={`dot${clock?.atDesk ? " on" : ""}`} aria-hidden="true" />
-              {clock ? (clock.atDesk ? `We're at our desks in Beirut (${clock.time}). Expect a reply today.` : `It's ${clock.time} in Beirut. We reply first thing in the morning.`) : `A real person replies within ${site.contact.replyWithin}.`}
+              {clock ? (clock.atDesk ? `We're online (${clock.time} Beirut time). Expect a reply today.` : `It's ${clock.time} in Beirut. We reply first thing in the morning.`) : `A real person replies within ${site.contact.replyWithin}.`}
             </p>
           </div>
           <div className="hero2-vis"><DeviceScene eager /></div>

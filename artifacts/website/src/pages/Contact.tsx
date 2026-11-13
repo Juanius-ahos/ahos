@@ -49,7 +49,7 @@ export default function Contact() {
             <h1 id="ct-title" className="d d-6">Tell us what you're building.</h1>
             <p className="lead" style={{ marginTop: 24, color: "var(--ink)" }}>
               A real person replies within {site.contact.replyWithin} with a plan and a fixed quote.
-              {clock && <> It is {clock.time} in Beirut{clock.atDesk ? ", and we are at our desks." : ", so expect us first thing in the morning."}</>}
+              {clock && <> It is {clock.time} in Beirut{clock.atDesk ? ", and we are online." : ", so expect us first thing in the morning."}</>}
             </p>
             <div className="contact-ways" style={{ marginTop: 40 }}>
               <a href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where: "contact" })}><span>WhatsApp, fastest</span><b>{site.contact.phone}</b></a>
