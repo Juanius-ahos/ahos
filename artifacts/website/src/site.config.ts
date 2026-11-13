@@ -77,9 +77,9 @@ export const site = {
     ariaFallbackUrl: "https://text.pollinations.ai/openai",
   },
 
-  /** The Lab strip. The wifi reel lives on Instagram: paste its link into url and the tile goes live. */
+  /** The Lab strip. The wifi reel plays as a loop and links to the full reel on Instagram. */
   lab: {
-    wifiReel: { url: "https://www.instagram.com/p/DfB7fRSJYJI/", title: "You've been living inside this your whole life" },
+    wifiReel: { url: "https://www.instagram.com/p/DfB7fRSJYJI/", title: "What if you could see Wi-Fi?" },
   },
 
   ogImage: "/og.png",
@@ -136,7 +136,7 @@ export const projects: Project[] = [
     caseStudy: "/work/oman-with-issam",
     shot: "issam",
     flagship: true,
-    buildLog: ["Greeting travelers in 13 languages", "Flipping Arabic to right-to-left", "Flying 8 tour routes over satellite maps", "Pre-rendering 65 pages for search", "Putting WhatsApp on every page"],
+    buildLog: ["Greeting travelers in 12 languages", "Flipping Arabic to right-to-left", "Flying 8 tour routes over satellite maps", "Pre-rendering 108 pages for search", "Putting WhatsApp on every page"],
   },
   {
     id: "threads",
@@ -235,13 +235,13 @@ export const caseStudies: CaseStudy[] = [
     title: "A tour guide who speaks twelve languages, and a site that keeps up.",
     lead: "Issam Albalushi, the Languages Ninja, guides private tours across Oman in twelve languages. We gave him a brand-led website that welcomes every traveler in their own language and turns a visit into a WhatsApp conversation.",
     services: ["Art direction", "Interface design", "Web development", "Multilingual SEO"],
-    facts: [["13", "site languages, Arabic in full right-to-left"], ["65", "pages pre-rendered for search"], ["8", "tours flown on a real satellite map"]],
+    facts: [["12", "site languages, Arabic in full right-to-left"], ["108", "pages in the sitemap, one set per language"], ["8", "tours flown on a real satellite map"]],
     brief:
       "Travelers find Issam from everywhere: Germany, Russia, China, the Gulf. The site had to greet each of them in their language, show who Issam is in seconds, and make asking for a tour as easy as sending a message.",
     built: [
       { name: "A hero with a person in it", body: "Issam stands in front of his own name, with a greeting that changes language as you watch. You know who you are traveling with before you read a word." },
       { name: "Routes you can fly", body: "Every tour is drawn on real satellite imagery and road data. Scroll, and the camera flies the route from Muscat to the dunes." },
-      { name: "Thirteen languages, done properly", body: "Each locale has its own URLs, its own metadata and full right-to-left Arabic, all pre-rendered so search engines and AI assistants can read every page." },
+      { name: "Twelve languages, done properly", body: "Each locale has its own URLs, its own metadata and full right-to-left Arabic, all pre-rendered so search engines and AI assistants can read every page." },
       { name: "One way to book", body: "WhatsApp and a short tour request form, on every page. No accounts, no checkout, no friction." },
     ],
     now: "The site is live at omanwithissam.com and is the first thing travelers see when they look Issam up.",
@@ -250,12 +250,12 @@ export const caseStudies: CaseStudy[] = [
       built: [
         "A hero with Issam in it, greeting you in a new language as you watch.",
         "Eight tours drawn on real satellite imagery, so you can fly each route.",
-        "Thirteen languages with their own addresses, Arabic in full right-to-left.",
+        "Twelve languages with their own addresses, Arabic in full right-to-left.",
       ],
       results: [
         { v: "94", l: "mobile Lighthouse performance" },
         { v: "100", l: "accessibility, best practices and SEO" },
-        { v: "13", l: "languages, each with its own pages" },
+        { v: "12", l: "languages, each with its own pages" },
       ],
       note: "Mobile Lighthouse, measured 13 November 2026.",
       need: "a real result, such as tour requests since launch. GA4 is not live on omanwithissam.com yet",
@@ -304,7 +304,7 @@ export const caseStudies: CaseStudy[] = [
       { name: "A real conversation", body: "ARIA asks what you are building, who it is for and what you need it to do, then gives honest guidance on scope, timeline and the right service." },
       { name: "A preview on the spot", body: "When it has enough to go on, ARIA sketches a rough first screen of your idea, right next to the chat." },
       { name: "Leads that reach a person", body: "When you are ready, ARIA hands your details to the team. If the connection drops, it queues the message and sends it the next time you visit." },
-      { name: "A backend that stays up", body: "A small serverless worker with retries and a fallback model, so ARIA answers even when one provider has a bad day." },
+      { name: "A backend that stays up", body: "If the model has a bad moment, ARIA retries. If it still cannot answer, it hands you WhatsApp and email instead of leaving you at a dead end." },
     ],
     now: "ARIA runs on this site. It is also the starting point for the assistants and WhatsApp flows we build for clients.",
   },
@@ -698,7 +698,7 @@ const qaPrice: QA = { q: "How much does a website cost in Lebanon?", a: `Website
 const qaRemote: QA = { q: "Can you work with clients outside Lebanon?", a: "Yes. Most of our work runs remotely, with clients in Lebanon, the US, Europe and Oman. We work in English, Arabic and French." };
 const qaPay: QA = { q: "How do payments work?", a: "In milestones, usually half up front and half at launch. Larger builds split into three payments. There is no hourly billing." };
 const qaAfter: QA = { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements." };
-const qaLang: QA = { q: "Which languages do you work in?", a: "English, Arabic and French. We also build multilingual sites with right-to-left Arabic: omanwithissam.com runs in 13 languages." };
+const qaLang: QA = { q: "Which languages do you work in?", a: "English, Arabic and French. We also build multilingual sites with right-to-left Arabic: omanwithissam.com runs in 12 languages." };
 
 /** The homepage FAQ. */
 export const homeFaq: QA[] = [qaTime, qaOwn, qaPrice, qaRemote, qaPay, qaAfter, qaLang];

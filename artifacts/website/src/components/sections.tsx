@@ -119,9 +119,10 @@ export function LoopVideo({ src, poster, label }: { src: string; poster: string;
   );
 }
 
-const REELS = [
+const REELS: { src: string; poster: string; title: string; note: string; label: string; href?: string }[] = [
   { src: "/lab/geo-reel.mp4", poster: "/lab/geo-reel.webp", title: "Is AI recommending your business?", note: "A GEO explainer with a 3D phone", label: "Muted loop: a 3D phone asks an AI assistant which web agency in Beirut to hire" },
   { src: "/lab/particles-reel.mp4", poster: "/lab/particles-reel.webp", title: "Connect. Build.", note: "Particles that turn into a structure", label: "Muted loop: particles connect into a lattice, a 3D motion piece" },
+  { src: "/lab/wifi-reel.mp4", poster: "/lab/wifi-reel.webp", title: "What if you could see Wi-Fi?", note: "A 3D what-if: the waves your router sends", label: "Muted loop: a 3D router sends out orange waves, asking what if you could see Wi-Fi", href: site.lab.wifiReel.url },
 ];
 
 export function Lab() {
@@ -140,10 +141,13 @@ export function Lab() {
           {REELS.map((r) => (
             <figure key={r.src} className="lab-card">
               <LoopVideo src={r.src} poster={r.poster} label={r.label} />
-              <figcaption><b>{r.title}</b><span>{r.note}</span></figcaption>
+              <figcaption>
+                <b>{r.title}</b>
+                <span>{r.note}</span>
+                {r.href && <a className="lnk lab-full" href={r.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("cta_click", { where: "lab_wifi_reel" })}>Watch the full reel on Instagram <Arrow /></a>}
+              </figcaption>
             </figure>
           ))}
-          <LabLinkTile />
         </div>
         {ig && (
           <p className="lab-follow">
@@ -152,18 +156,6 @@ export function Lab() {
         )}
       </div>
     </section>
-  );
-}
-
-/** The wifi reel is on Instagram, so it opens there. Until the link is set, only dev and preview builds show a marked slot. */
-function LabLinkTile() {
-  const { url, title } = site.lab.wifiReel;
-  if (!url) return <div className="lab-card lab-slot"><Need>the Instagram link to the wifi reel, and a still from it for the tile</Need></div>;
-  return (
-    <a className="lab-card lab-link" href={url} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("cta_click", { where: "lab_wifi_reel" })}>
-      <span className="lab-link-v" aria-hidden="true"><i /></span>
-      <span className="lab-link-t"><b>{title}</b><span>A what-if reel about wifi. Watch on Instagram.</span></span>
-    </a>
   );
 }
 
