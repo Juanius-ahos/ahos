@@ -52,7 +52,7 @@ const LEAD_CAPTURE = [
 const AHOS_INFO = [
   "# AHOS INFO",
   "Services: websites, mobile apps, SaaS platforms, Web3/DeFi, AI tools, e-commerce, brand design.",
-  "Timeline: landing 1-2w, sites 2-4w, apps 4-10w, SaaS 6-16w, Web3/AI 6-20w.",
+  "Timeline: landing 1-2w, sites 2-4w, stores 2-6w, apps 6-12w, software 6-16w, AI 2-6w, Web3 scoped on the call.",
   "Process: fixed-price quotes, milestone payments, 100% code ownership, 30-day post-launch support.",
   "Contact: info@ahos.xyz | Telegram: @ahos_studio",
 ].join("\n");

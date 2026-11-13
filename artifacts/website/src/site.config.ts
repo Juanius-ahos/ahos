@@ -15,7 +15,7 @@ export const site = {
   siteName: "AHOS, design and engineering studio in Beirut",
   tagline: "Design that sells. Code that holds.",
   summary:
-    "AHOS (Advanced Hybrid Online Systems) is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the Gulf, Europe and the US.",
+    "AHOS (Advanced Hybrid Online Systems) is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the US, Europe and Oman.",
   founded: "2023",
   locale: "en_US",
   lang: "en",
@@ -46,8 +46,8 @@ export const site = {
 
   hours: { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
 
-  areasServed: ["Lebanon", "United Arab Emirates", "Saudi Arabia", "United States", "Europe"],
-  areasLine: "Lebanon, the Gulf, Europe and the US",
+  areasServed: ["Lebanon", "Oman", "United States", "Europe"],
+  areasLine: "Lebanon, the US, Europe and Oman",
   languages: ["English", "Arabic", "French"],
 
   socials: [
@@ -77,6 +77,11 @@ export const site = {
     ariaFallbackUrl: "https://text.pollinations.ai/openai",
   },
 
+  /** The Lab strip. The wifi reel lives on Instagram: paste its link into url and the tile goes live. */
+  lab: {
+    wifiReel: { url: "https://www.instagram.com/p/DfB7fRSJYJI/", title: "You've been living inside this your whole life" },
+  },
+
   ogImage: "/og.png",
   logo: "/logo.png",
 } as const;
@@ -88,8 +93,9 @@ export const site = {
 export const nav = [
   { href: "/work", label: "Work", match: "/work" },
   { href: "/services", label: "Services", match: "/services" },
-  { href: "/pricing", label: "Pricing", match: "/pricing" },
-  { href: "/aria-ai", label: "ARIA", match: "/aria-ai" },
+  { href: "/#how", label: "How we work", match: "/#how" },
+  { href: "/#about", label: "About", match: "/#about" },
+  { href: "/#lab", label: "Lab", match: "/#lab" },
   { href: "/faq", label: "FAQ", match: "/faq" },
 ];
 
@@ -270,6 +276,20 @@ export const caseStudies: CaseStudy[] = [
       { name: "Built for phones", body: "Most orders come from a phone on mobile data, so every page is shaped for one thumb and loads fast on a weak connection." },
     ],
     now: "The store is live at threadsactivewear.com, alongside the shop in Wadi Chahrour.",
+    story: {
+      problem: "Shoppers in Lebanon want proof that what they buy is original, and most of them pay at the door.",
+      built: [
+        "A 3D brand stage on the first screen, with live stock counts.",
+        "Cash on delivery all over Lebanon, and free delivery over $100.",
+        "Every page shaped for one thumb on mobile data.",
+      ],
+      results: [
+        { v: "4", l: "global brands, all original" },
+        { v: "1 tap", l: "cash on delivery anywhere in Lebanon" },
+        { v: "Free", l: "delivery on orders over $100" },
+      ],
+      need: "a real result, such as orders a month since launch",
+    },
   },
   {
     slug: "aria",
@@ -320,6 +340,20 @@ export const caseStudies: CaseStudy[] = [
       { name: "Fast on any connection", body: "Static pages, sized images and clean structure, so it loads quickly on clinic Wi-Fi and ranks for the searches that matter." },
     ],
     now: "The client runs the site comfortably on their own, and clinics reach submission without a phone call first.",
+    story: {
+      problem: "Clinics needed to see in a few seconds what SpeeAligner does, how fast it turns a case around, and how to submit one.",
+      built: [
+        "One promise in three lines on the first screen.",
+        "Case submission one tap away on every page.",
+        "Static pages and sized images, fast on clinic Wi-Fi.",
+      ],
+      results: [
+        { v: "3", l: "lines that say what the lab does" },
+        { v: "24h", l: "turnaround, stated where clinics decide" },
+        { v: "1 tap", l: "to submit a case, from any page" },
+      ],
+      need: "a real result, such as cases submitted since launch",
+    },
     quote: {
       text: "I'm grateful for the team at AHOS, they did an amazing job building my website. Highly professional, neat work, amazing prices, and they reply fast. Kudos!",
       name: "Yorgo",
@@ -342,6 +376,20 @@ export const caseStudies: CaseStudy[] = [
       { name: "Found locally", body: "Clean structure and local business data, so the shop shows up for drivers searching nearby." },
     ],
     now: "The site is live at julsauto.com and does one job well: it gets the phone ringing.",
+    story: {
+      problem: "People look up a garage when something is already wrong. They want to know the shop is real, close and open, and then they want to call.",
+      built: [
+        "The phone number and a directions button in the first screen, one tap away as you scroll.",
+        "A real photo of the shop and the services in plain words.",
+        "Clean structure and local business data, so nearby drivers find it.",
+      ],
+      results: [
+        { v: "1 tap", l: "to call the shop" },
+        { v: "1 tap", l: "to get directions" },
+        { v: "0", l: "forms between a driver and a mechanic" },
+      ],
+      need: "a real result, such as calls a month since launch",
+    },
   },
 ];
 
@@ -382,7 +430,7 @@ export const services: Service[] = [
     group: "web",
     seo: {
       title: "Web Development Company in Lebanon | Custom Websites | AHOS",
-      description: "AHOS designs and builds custom websites in Beirut, Lebanon: fast, search-ready and easy to update. Fixed quote, and you own the code. Serving the Gulf, Europe and the US.",
+      description: "AHOS designs and builds custom websites in Beirut, Lebanon: fast, search-ready and easy to update. Fixed quote, and you own the code. Serving Lebanon, the US, Europe and Oman.",
       schemaName: "Web Development",
     },
     h1: "Websites that earn their keep.",
@@ -494,7 +542,7 @@ export const services: Service[] = [
     short: "AI",
     blurb: "Assistants and WhatsApp flows that take repetitive work off your team.",
     from: 500,
-    timeline: "Scoped on the call",
+    timeline: "2 to 6 weeks",
     group: "ai",
     seo: {
       title: "AI Development Company in Lebanon | AI and Automation | AHOS",
@@ -576,12 +624,39 @@ export const services: Service[] = [
   },
 ];
 
-/** The three groups shown on the homepage. */
-export const serviceGroups = [
-  { name: "Websites and online stores", body: "For businesses that need to be found and to sell. Custom or Shopify, fast on a phone, with cash on delivery and WhatsApp ordering where your customers expect them.", time: "1 to 6 weeks", links: ["web-development", "ecommerce-development"] },
-  { name: "Apps and custom software", body: "iOS and Android apps, dashboards, portals and internal tools, shaped around how your business already runs.", time: "6 to 16 weeks", links: ["mobile-app-development", "custom-software"] },
-  { name: "AI and automation", body: "Assistants like ARIA and WhatsApp flows that answer customers, take orders and handle the repetitive work.", time: "2 to 6 weeks", links: ["ai-development"] },
-  { name: "Design, brand and Web3", body: "Interfaces and identities that make people trust you, and Web3 products with an interface people actually understand.", time: "1 to 8 weeks", links: ["ui-ux-design", "web3"] },
+/** The four outcome cards on the homepage. Price and timeline are read from the service each card maps to. */
+export interface Outcome { id: string; title: string; body: string; service: string; included: string[]; need?: string }
+
+export const outcomes: Outcome[] = [
+  {
+    id: "found",
+    title: "Get found on Google",
+    body: "Most customers look you up before they call. We make sure what they find is your site, your Google listing and answers that AI assistants can quote.",
+    service: "web-development",
+    included: ["Technical SEO and Core Web Vitals, built in", "Google Business Profile set up and linked", "Pages written so AI assistants can read and cite you"],
+    need: "a standalone price for SEO, Google Business Profile and GEO, if you sell them without a website",
+  },
+  {
+    id: "sell",
+    title: "Sell online 24/7",
+    body: "A store that takes orders around the clock, with the ways your customers actually pay: card, cash on delivery or a WhatsApp message.",
+    service: "ecommerce-development",
+    included: ["Shopify, WooCommerce or a custom store", "Cash on delivery, local payments and WhatsApp ordering", "Migration from your current store without losing rankings"],
+  },
+  {
+    id: "reply",
+    title: "Automate your replies",
+    body: "Assistants and WhatsApp or Telegram flows that answer customers, take orders and handle the repetitive work while your team does the rest.",
+    service: "ai-development",
+    included: ["Assistants like ARIA that answer and qualify leads", "WhatsApp and Telegram flows for orders and bookings", "Workflow automation instead of copy and paste"],
+  },
+  {
+    id: "premium",
+    title: "Look premium",
+    body: "People judge you in the first few seconds. We design the interface and the brand, and add 3D and motion content that makes you look as good as you are.",
+    service: "ui-ux-design",
+    included: ["Interface design and prototypes in Figma", "Brand identity and design systems", "3D visuals, motion and social content"],
+  },
 ];
 
 export const pricing = {
@@ -609,26 +684,31 @@ export const pricing = {
 export const process = [
   { name: "A 30-minute call", body: "Free. You tell us what you are building, we ask the questions that shape it.", time: "Day 1" },
   { name: "A plan and a fixed quote", body: "In writing: what we will make, the milestones, the price.", time: "Within 24 hours" },
-  { name: "The design", body: "Every screen designed before code is written. You see exactly what you are getting, and sign it off.", time: "1 to 2 weeks" },
-  { name: "The build", body: "Built by the people who designed it, with a working preview at every milestone.", time: "2 to 10 weeks" },
+  { name: "The design", body: "Every screen designed before code is written. You see exactly what you are getting, and sign it off.", time: "Before any code" },
+  { name: "The build", body: "Built by the people who designed it, with a working preview at every milestone.", time: "As set in your quote" },
   { name: "Launch", body: "Live, fast and yours: code, designs and content. Then a 30-day warranty.", time: "Launch day" },
 ];
 
-export const homeFaq: QA[] = [
-  { q: "What does AHOS do?", a: "AHOS is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the Gulf, Europe and the US." },
-  { q: "How long does it take to build a website or app?", a: "A landing page takes about one to two weeks, a full website or online store two to four weeks, and a mobile app or custom platform usually six to twelve weeks. You get a timeline in writing before work starts." },
-  { q: "Do I own the code and design?", a: "Yes. On delivery you own all source code, designs and content. There is no lock-in and no licence you have to keep paying for." },
-  { q: "How does pricing work?", a: "Every project gets a fixed quote in writing after a free 30-minute call, with payments split into milestones. There is no hourly billing." },
-  { q: "Can you work with clients outside Lebanon?", a: "Yes. Most of our work runs remotely, with clients across Lebanon, the Gulf, Europe and the United States. We work in English, Arabic and French." },
-  { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements." },
-];
+const fromOf = (slug: string) => `$${services.find((x) => x.slug === slug)!.from.toLocaleString("en-US")}`;
+
+const qaWhat: QA = { q: "What does AHOS do?", a: "AHOS is a design and engineering studio in Beirut, Lebanon. One team designs and builds websites, online stores, mobile apps, custom software, AI assistants and Web3 products for businesses in Lebanon, the US, Europe and Oman." };
+const qaTime: QA = { q: "How long does it take to build a website or app?", a: "A landing page takes about one to two weeks, a full website two to four, and an online store two to six. A mobile app usually takes six to twelve weeks and custom software six to sixteen. You get the timeline in writing before work starts." };
+const qaOwn: QA = { q: "Do I own the code and design?", a: "Yes. On delivery you own all source code, designs and content. There is no lock-in and no licence you have to keep paying for." };
+const qaPrice: QA = { q: "How much does a website cost in Lebanon?", a: `Websites start at ${fromOf("web-development")} and online stores at ${fromOf("ecommerce-development")}. Design starts at ${fromOf("ui-ux-design")}, AI tools at ${fromOf("ai-development")}, mobile apps at ${fromOf("mobile-app-development")}, custom software at ${fromOf("custom-software")} and Web3 at ${fromOf("web3")}. Every project gets one fixed price in writing after a free 30-minute call, so there are no surprises.` };
+const qaRemote: QA = { q: "Can you work with clients outside Lebanon?", a: "Yes. Most of our work runs remotely, with clients in Lebanon, the US, Europe and Oman. We work in English, Arabic and French." };
+const qaPay: QA = { q: "How do payments work?", a: "In milestones, usually half up front and half at launch. Larger builds split into three payments. There is no hourly billing." };
+const qaAfter: QA = { q: "What happens after launch?", a: "Every build includes a 30-day warranty. After that, care plans cover hosting, updates, monitoring and a monthly block of improvements." };
+const qaLang: QA = { q: "Which languages do you work in?", a: "English, Arabic and French. We also build multilingual sites with right-to-left Arabic: omanwithissam.com runs in 13 languages." };
+
+/** The homepage FAQ. */
+export const homeFaq: QA[] = [qaTime, qaOwn, qaPrice, qaRemote, qaPay, qaAfter, qaLang];
 
 export const faqCategories: { name: string; items: QA[] }[] = [
   {
     name: "The studio",
     items: [
-      homeFaq[0],
-      { q: "Where is AHOS based?", a: "In Beirut, Lebanon. Most projects run remotely, so we work with clients across Lebanon, the Gulf, Europe and the US, in English, Arabic and French." },
+      qaWhat,
+      { q: "Where is AHOS based?", a: "In Beirut, Lebanon. Most projects run remotely, so we work with clients in Lebanon, the US, Europe and Oman, in English, Arabic and French." },
       { q: "What industries do you work with?", a: "Retail and e-commerce, healthcare, transport, local services, restaurants, real estate, finance and SaaS. The process is the same; the design is specific to you." },
       { q: "Who will I work with?", a: "A small senior team. The people who design your product are the people who build it, and you talk to them directly." },
     ],
@@ -636,7 +716,7 @@ export const faqCategories: { name: string; items: QA[] }[] = [
   {
     name: "Projects and timelines",
     items: [
-      homeFaq[1],
+      qaTime,
       { q: "Do you build online stores?", a: "Yes, on Shopify, WooCommerce or a custom platform, with cash on delivery, local payment gateways and WhatsApp ordering where your customers expect them." },
       { q: "Are your sites fast and mobile-friendly?", a: "Yes. We design for phones first and build for Core Web Vitals, accessibility and search from the first line of code." },
       { q: "Can you redesign an existing site?", a: "Yes. We audit what you have, keep what works, and move your content and URLs across without losing rankings." },
@@ -645,19 +725,15 @@ export const faqCategories: { name: string; items: QA[] }[] = [
   },
   {
     name: "Pricing and ownership",
-    items: [
-      homeFaq[3],
-      { q: "What are your starting prices?", a: "Design from $200, websites from $300, online stores and AI tools from $500, mobile apps from $1,000, custom software from $1,500 and Web3 from $2,500. Your quote is fixed after the call." },
-      homeFaq[2],
-      homeFaq[5],
-    ],
+    items: [qaPrice, qaPay, qaOwn, qaAfter],
   },
   {
     name: "Getting started",
     items: [
       { q: "How do I start?", a: "Book a 30-minute call, send a WhatsApp, or write to info@ahos.xyz. A real person replies within 24 hours with next steps." },
       { q: "How fast do you reply?", a: "Within 24 hours on working days, often within a few hours. If it is urgent, say so and we will prioritise it." },
-      homeFaq[4],
+      qaRemote,
+      qaLang,
     ],
   },
 ];
@@ -712,7 +788,7 @@ const caseRoutes: RouteMeta[] = caseStudies.map((c) => {
 });
 
 export const routes: RouteMeta[] = [
-  { path: "/", title: "AHOS | Design and Engineering Studio in Beirut: Websites, Apps and AI", description: "AHOS is a design and engineering studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, AI assistants and custom software for businesses in Lebanon, the Gulf, Europe and the US. Fixed quotes, and you own the code.", priority: 1 },
+  { path: "/", title: "AHOS | Design and Engineering Studio in Beirut: Websites, Apps and AI", description: "AHOS is a design and engineering studio in Beirut, Lebanon. We design and build websites, online stores, mobile apps, AI assistants and custom software for businesses in Lebanon, the US, Europe and Oman. Fixed quotes, and you own the code.", priority: 1 },
   { path: "/services", title: "Services | Websites, Stores, Apps, Software and AI | AHOS", description: "Everything AHOS designs and builds in Beirut: websites, online stores, mobile apps, custom software, AI automation, interface design and Web3, each with a start-from price.", crumb: "Services", priority: 0.9 },
   { path: "/work", title: "Case Studies | Websites, Stores, Apps and AI by AHOS", description: "Case studies from AHOS, a design and engineering studio in Beirut: Oman with Issam, Threads Activewear, ARIA, The Tavern, SpeeAligner and Jul's Auto Repair. What we were asked, what we built and where it is now.", crumb: "Work", priority: 0.9 },
   ...servicesRoutes,
