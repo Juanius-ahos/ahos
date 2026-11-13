@@ -23,6 +23,12 @@
   font-display: swap;
 }
 
+/* Metric-matched fallbacks: while a font loads, the system font is stretched to the same size and
+   line box, so nothing moves when the real font arrives. Values from @capsizecss/metrics. */
+@font-face { font-family: "Space Grotesk Fallback"; src: local("Arial"), local("Helvetica"), local("Liberation Sans"); size-adjust: 109.69%; ascent-override: 89.71%; descent-override: 26.62%; line-gap-override: 0%; }
+@font-face { font-family: "Inter Fallback"; src: local("Arial"), local("Helvetica"), local("Liberation Sans"); size-adjust: 107.12%; ascent-override: 90.44%; descent-override: 22.52%; line-gap-override: 0%; }
+@font-face { font-family: "JetBrains Mono Fallback"; src: local("Courier New"), local("Liberation Mono"); size-adjust: 99.98%; ascent-override: 102.02%; descent-override: 30%; line-gap-override: 0%; }
+
 :root {
   /* brand */
   --orange: #ff6a1a;
@@ -44,9 +50,9 @@
   --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
   color-scheme: dark;
 
-  --f-d: "Space Grotesk", "Arial Black", system-ui, sans-serif;
-  --f-t: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-m: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --f-d: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+  --f-t: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-m: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* type scale, fluid */
   --t-0: 0.8125rem;

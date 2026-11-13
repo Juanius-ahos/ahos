@@ -25,6 +25,9 @@ let ScrollTrigger: ST | null = null;
 let SplitText: Split | null = null;
 let lenis: LenisType | null = null;
 let ctx: ReturnType<Gsap["context"]> | null = null;
+/** Everything the motion layer looks for. A page with none of these never loads GSAP. */
+export const HOOKS = "[data-split],[data-reveal-tile],[data-float],[data-draw],[data-more],[data-hero]";
+
 const cleanups: (() => void)[] = [];
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,6 +53,7 @@ export async function startMotion() {
     gsap.registerPlugin(st, split, ScrambleTextPlugin, DrawSVGPlugin, CustomEase, CustomBounce);
     CustomBounce.create("tileBounce", { strength: 0.45, squash: 2.2, squashID: "tileSquash", endAtStart: false });
 
+    (window as Window & { __ahosStopLenis?: () => void }).__ahosStopLenis?.(); // the homepage runs Lenis on its own; hand over
     lenis = new Lenis({ lerp: 0.12, smoothWheel: true, anchors: { offset: -80 } } as ConstructorParameters<typeof Lenis>[0]);
     lenis.on("scroll", st.update);
     gsap.ticker.add((t) => lenis?.raf(t * 1000));
@@ -64,9 +68,20 @@ export async function startMotion() {
 
 /** Re-scan the page after a client-side route change. */
 export function rebindMotion() {
-  if (!gsap) return;
+  if (!gsap) {
+    // first visit to a page with scripted motion after landing on one without (the homepage)
+    if (document.querySelector(HOOKS)) startMotion();
+    return;
+  }
   unbind();
   lenis?.scrollTo(0, { immediate: true });
+  requestAnimationFrame(() => { bind(); ScrollTrigger?.refresh(); });
+}
+
+/** Re-scan after a section was re-rendered in place. Unlike rebindMotion it keeps the scroll position. */
+export function refreshMotion() {
+  if (!gsap) return;
+  unbind();
   requestAnimationFrame(() => { bind(); ScrollTrigger?.refresh(); });
 }
 
