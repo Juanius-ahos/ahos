@@ -68,6 +68,7 @@
 
 .tst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px; align-items: start; }
 .tst-need { display: flex; align-items: center; }
+.tst-need:empty { display: none; } /* the placeholder renders nothing on the live site: do not keep a grid cell for it */
 .tst-grid .tst { background: var(--bg); }
 
 /* ---------- lab ---------- */

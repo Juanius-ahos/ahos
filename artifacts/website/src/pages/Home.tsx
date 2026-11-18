@@ -4,7 +4,7 @@ import { Defer } from "../components/Defer";
 import { Close, FaqList, useBeirut } from "../components/ui";
 import { Button, CaseStory, DeviceScene, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
 import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WorkMore } from "../components/sections";
-import { caseStudies, homeFaq, outcomes, projectById, site } from "../site.config";
+import { caseStudies, clientReviews, homeFaq, outcomes, projectById, site } from "../site.config";
 
 /** The four case studies told in full on the homepage. The rest live on /work. */
 const FEATURED = ["oman-with-issam", "threads-activewear", "speealigner", "juls-auto-repair"];
@@ -17,7 +17,7 @@ const FEATURED = ["oman-with-issam", "threads-activewear", "speealigner", "juls-
 export default function Home() {
   const clock = useBeirut();
   const featured = FEATURED.map((slug) => caseStudies.find((c) => c.slug === slug)!).filter((c) => c?.story);
-  const quotes = caseStudies.flatMap((c) => (c.quote ? [c.quote] : []));
+  const quotes = [...clientReviews, ...caseStudies.flatMap((c) => (c.quote ? [c.quote] : []))];
 
   return (
     <>

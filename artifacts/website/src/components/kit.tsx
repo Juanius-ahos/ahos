@@ -119,7 +119,7 @@ export function CaseCard({ p }: { p: Project }) {
 
 export function Testimonial({ text, name, role }: { text: string; name: string; role: string }) {
   return (
-    <figure className="tst">
+    <figure className={text.length > 150 ? "tst tst-long" : "tst"}>
       <blockquote>{text}</blockquote>
       <figcaption>
         <span><b>{name}</b>, {role}</span>

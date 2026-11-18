@@ -387,6 +387,19 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
+/**
+ * Client reviews that are not tied to a case study. The client's own words, cut with an
+ * ellipsis where trimmed and never reworded (only capital letters fixed). No link to a
+ * reviewer's private profile.
+ */
+export const clientReviews: { text: string; name: string; role: string }[] = [
+  {
+    text: "You guys made my journey very easy, you literally made my website like I want exactly. … AHOS are very affordable! They made my fully customised and interactive and automated e-commerce website at the best price in the market after I asked in Lebanon and UAE.",
+    name: "Charbel Khoury",
+    role: "online store client, Google review",
+  },
+];
+
 /* ------------------------------------------------------------------ */
 /* Services and pricing                                                */
 /* ------------------------------------------------------------------ */
