@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { Close, Crumbs, Phone, Quote, Shot, Specs } from "../components/ui";
-import { caseStudies, projectById, type CaseStudy as CS } from "../site.config";
+import { CountUp } from "../components/kit";
+import { Close, Crumbs, PageBackdrop, Phone, Quote, Shot, Specs } from "../components/ui";
+import { asset, caseStudies, projectById, type CaseStudy as CS } from "../site.config";
 
 export default function CaseStudy({ c }: { c: CS }) {
   const p = projectById(c.project);
@@ -11,7 +12,9 @@ export default function CaseStudy({ c }: { c: CS }) {
 
   return (
     <>
-      <header className="cs-hero">
+      <header className="cs-hero fx-dark grain">
+        {p.shot && <div className="cs-amb" aria-hidden="true" style={{ backgroundImage: `url(${asset(`/work/h-${p.shot}-640.webp`)})` }} />}
+        <PageBackdrop />
         <div className="wrap">
           <Crumbs items={[{ name: "Home", href: "/" }, { name: "Work", href: "/work" }, { name: p.name }]} />
           <p className="cs-name">{p.name}</p>
@@ -43,7 +46,7 @@ export default function CaseStudy({ c }: { c: CS }) {
       <section className="sec cs-facts-sec" aria-label="In short">
         <div className="wrap">
           <ul className="cs-facts">
-            {c.facts.map(([v, l]) => <li key={l}><b>{v}</b><span>{l}</span></li>)}
+            {c.facts.map(([v, l]) => <li key={l}><b><CountUp text={v} /></b><span>{l}</span></li>)}
           </ul>
         </div>
       </section>

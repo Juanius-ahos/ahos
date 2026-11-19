@@ -5,7 +5,7 @@
  *  - once an element has appeared its attribute is removed, so it goes back to its own hover styles.
  * Reduced motion skips it entirely. The styles are in styles/fx.css.
  */
-const TARGETS = ".sec .sh, .oc, .svc, .tst, .lab-card, .founder-copy, .founder-photo, .where-item, .where-globe, .check-copy, .check-form, .qa-grid > header, .cc, .foot-logo, .proof, .ways";
+const TARGETS = ".sec .sh, .oc, .svc, .tst, .lab-card, .founder-copy, .founder-photo, .where-item, .where-globe, .check-copy, .check-form, .qa-grid > header, .cc, .foot-logo, .proof, .ways, .cx, .wacc, .band, .faq-tools, .cs-facts, .cs-grid";
 const EVENTS = ["scroll", "wheel", "touchmove", "keydown"] as const;
 
 export function startReveal() {

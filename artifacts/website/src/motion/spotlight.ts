@@ -2,7 +2,7 @@
  * Cursor spotlight on cards: one delegated listener writes the pointer position into two CSS
  * variables on the card under it, and the glow itself is pure CSS (styles/fx.css). Fine pointers only.
  */
-const CARDS = ".oc, .svc, .tst, .check-form";
+const CARDS = ".oc, .svc, .tst, .check-form, .spot";
 
 export function startSpotlight() {
   if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;

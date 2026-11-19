@@ -126,19 +126,19 @@ const REELS: { src: string; poster: string; title: string; note: string; label: 
   { src: "/lab/wifi-reel.mp4", poster: "/lab/wifi-reel.webp", title: "What if you could see Wi-Fi?", note: "A 3D what-if: the waves your router sends", label: "Muted loop: a 3D router sends out orange waves, asking what if you could see Wi-Fi", href: site.lab.wifiReel.url },
 ];
 
-export function Lab() {
+export function Lab({ bare = false }: { bare?: boolean }) {
   const ig = site.socials.find((s) => s.label === "Instagram");
   return (
-    <section id="lab" className="sec lab grain fx-host fx-dark" aria-labelledby="lab-title">
+    <section id="lab" className="sec lab grain fx-host fx-dark" {...(bare ? { "aria-label": "The reels" } : { "aria-labelledby": "lab-title" })}>
       <FxLayer kind="glyph" />
       <div className="wrap">
-        <header className="sh sh-split">
+        {!bare && <header className="sh sh-split">
           <div>
             <Kicker>The Lab</Kicker>
             <h2 id="lab-title" className="d d-5">Motion and 3D, made in house.</h2>
           </div>
           <p className="lead">The reels we make for ourselves. Same team, same tools we use on your site.</p>
-        </header>
+        </header>}
         <div className="lab-grid">
           {REELS.map((r) => (
             <figure key={r.src} className="lab-card">

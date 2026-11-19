@@ -1,8 +1,11 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
+import { Icon } from "../components/Icons";
 import { Mark } from "../components/Mark";
+import { ServiceCard } from "../components/cards";
+import { ProcessLine } from "../components/sections";
 import { Close, FaqList, Shot, Head, PageHeader, Quote, fromPrice } from "../components/ui";
-import { caseStudies, process, projectById, services, type Service } from "../site.config";
+import { caseStudies, projectById, services, type Service } from "../site.config";
 
 export default function ServicePage({ s }: { s: Service }) {
   const proof = s.proofProject ? projectById(s.proofProject) : undefined;
@@ -16,9 +19,10 @@ export default function ServicePage({ s }: { s: Service }) {
         title={s.h1}
         lead={s.lead}
         aside={proof ? <Shot p={proof} eager sizes="(max-width: 900px) 92vw, 44vw" /> : <div className="ph-mark"><Mark /></div>}
+        word={s.short.split(" ")[0]}
       >
         <Link href="/contact" className="btn" data-magnetic>Book a 30-minute call <Arrow /></Link>
-        <span className="small"><b style={{ color: "var(--ink)" }}>{fromPrice(s.from)}</b>, {s.timeline.toLowerCase()}</span>
+        <span className="small"><b style={{ color: "var(--fg)" }}>{fromPrice(s.from)}</b>, {s.timeline.toLowerCase()}</span>
       </PageHeader>
 
       <section className="sec statement signal" aria-label="Why it matters">
@@ -30,15 +34,19 @@ export default function ServicePage({ s }: { s: Service }) {
       <section className="sec" aria-labelledby="offers-title">
         <div className="wrap">
           <Head id="offers-title" title="What we build." lead="Each one designed screen by screen, signed off by you, then built by the people who designed it." />
-          <ul className="index">
+          <div className="of-grid">
             {s.offers.map((o, i) => (
-              <li key={o.name} className="index-row">
-                <h3 className="d"><span className="dim" style={{ marginRight: 14 }}>{String(i + 1).padStart(2, "0")}</span>{o.name}</h3>
-                <p className="body">{o.body}</p>
-                <p className="tags meta" style={{ marginTop: 0 }}>{o.tags.map((t) => <span key={t}>{t}</span>)}</p>
-              </li>
+              <article key={o.name} className="cx spot">
+                <div className="cx-top">
+                  <span className="cx-ico"><Icon name={s.slug} /></span>
+                  <span className="cx-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <h3>{o.name}</h3>
+                <p className="cx-body">{o.body}</p>
+                <p className="tags">{o.tags.map((t) => <span key={t}>{t}</span>)}</p>
+              </article>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
@@ -62,15 +70,7 @@ export default function ServicePage({ s }: { s: Service }) {
       <section className="sec" aria-labelledby="proc-title">
         <div className="wrap">
           <Head id="proc-title" title="How it goes." lead="A free call, a fixed quote within 24 hours, designs you sign off, then the build." />
-          <ol className="index">
-            {process.map((p, i) => (
-              <li key={p.name} className="index-row">
-                <h3 className="d"><span className="dim" style={{ marginRight: 14 }}>{i + 1}</span>{p.name}</h3>
-                <p className="body">{p.body}</p>
-                <div className="meta"><span className="dim">{p.time}</span></div>
-              </li>
-            ))}
-          </ol>
+          <ProcessLine />
         </div>
       </section>
 
@@ -84,16 +84,9 @@ export default function ServicePage({ s }: { s: Service }) {
       <section className="sec" aria-labelledby="rel-title">
         <div className="wrap">
           <h2 id="rel-title" className="d d-5" style={{ marginBottom: 32 }}>Often paired with</h2>
-          <ul className="index">
-            {related.map((r) => (
-              <li key={r.href} className="index-row has-link">
-                <h3 className="d">{r.label}</h3>
-                <p className="body">{r.blurb}</p>
-                <div className="meta"><b>{fromPrice(r.from)}</b></div>
-                <Link href={r.href} className="row-link" aria-label={r.label} />
-              </li>
-            ))}
-          </ul>
+          <div className="rel-grid">
+            {related.map((r) => <ServiceCard key={r.href} s={r} size="small" />)}
+          </div>
         </div>
       </section>
 

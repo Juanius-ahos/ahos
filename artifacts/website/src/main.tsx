@@ -6,6 +6,7 @@ import "./styles/app.css";
 import "./styles/kit.css";
 import "./styles/sections.css";
 import "./styles/fx.css";
+import "./styles/pages.css";
 
 const root = document.getElementById("root")!;
 const path = window.location.pathname.slice(BASE.length).replace(/\/+$/, "") || "/";

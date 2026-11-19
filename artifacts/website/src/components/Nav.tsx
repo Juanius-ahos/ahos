@@ -77,6 +77,8 @@ export function Nav() {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 24);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      document.documentElement.style.setProperty("--sp", String(max > 0 ? Math.min(1, y / max) : 0));
       if (Math.abs(y - last) > 8) { setHidden(y > last && y > 500); last = y; }
     };
     onScroll();

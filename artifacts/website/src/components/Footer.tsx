@@ -14,8 +14,9 @@ export function Footer() {
               <li><Link href="/work">Work</Link></li>
               <li><Link href="/services">Services</Link></li>
               <li><a href={asset("/#how")}>How we work</a></li>
-              <li><a href={asset("/#about")}>About</a></li>
-              <li><a href={asset("/#lab")}>Lab</a></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/lab">Lab</Link></li>
+              <li><Link href="/free-website-check">Free website check</Link></li>
               <li><Link href="/pricing">Pricing</Link></li>
               <li><Link href="/aria-ai">ARIA</Link></li>
               <li><Link href="/faq">FAQ</Link></li>

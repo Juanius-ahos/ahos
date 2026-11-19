@@ -89,8 +89,8 @@ export const nav = [
   { href: "/work", label: "Work", match: "/work" },
   { href: "/services", label: "Services", match: "/services" },
   { href: "/#how", label: "How we work", match: "/#how" },
-  { href: "/#about", label: "About", match: "/#about" },
-  { href: "/#lab", label: "Lab", match: "/#lab" },
+  { href: "/about", label: "About", match: "/about" },
+  { href: "/lab", label: "Lab", match: "/lab" },
   { href: "/faq", label: "FAQ", match: "/faq" },
 ];
 
@@ -816,6 +816,9 @@ export const routes: RouteMeta[] = [
   { path: "/faq", title: "FAQ | Timelines, Pricing and Ownership | AHOS", description: "Straight answers about working with AHOS: timelines, fixed pricing, code ownership, support after launch and working with clients outside Lebanon.", crumb: "FAQ", priority: 0.7 },
   { path: "/contact", title: "Start a Project | Book a 30-Minute Call | AHOS", description: "Tell AHOS what you are building. A real person replies within 24 hours with a plan and a fixed quote. WhatsApp, email or a 30-minute call.", crumb: "Contact", priority: 0.8 },
   { path: "/careers", title: "Careers | Build With the AHOS Team | AHOS", description: "AHOS hires rarely and well. Developers, designers and engineers who would rather own a hard problem than be handed an easy one.", crumb: "Careers", priority: 0.5 },
+  { path: "/about", title: "About AHOS | A Remote Studio of Designers, Engineers and Animators", description: "AHOS began as freelancers and became a studio in 2023: designers, engineers, AI engineers and animators building and shipping together. More than 100 projects for clients in Lebanon, the US, Europe and Oman.", crumb: "About", priority: 0.7 },
+  { path: "/lab", title: "The Lab | Motion and 3D Reels Made In House | AHOS", description: "The motion and 3D reels AHOS makes for itself: a 3D phone explaining AI search, particles that build into a structure, and a router that shows you the Wi-Fi. Same team, same tools we use on your site.", crumb: "Lab", priority: 0.5 },
+  { path: "/free-website-check", title: "Free Website Check | A Real Person Reviews Your Site | AHOS", description: "Send AHOS your website or Instagram link. A real person replies on WhatsApp with the 3 things costing you customers. Free, no account, no email form.", crumb: "Free website check", priority: 0.8 },
   { path: "/aria-ai", title: "ARIA | AI Project Advisor | AHOS", description: "Talk to ARIA, the AI project advisor AHOS designed and built. Describe what you want to make and get honest guidance on scope, timeline and next steps.", crumb: "ARIA", priority: 0.6 },
 ];
 

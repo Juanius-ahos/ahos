@@ -114,9 +114,15 @@ export function Crumbs({ items }: { items: { name: string; href?: string }[] }) 
 
 /* ---------- page header ---------- */
 
-export function PageHeader({ crumbs, title, lead, children, aside, proof = false }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean }) {
+/**
+ * The header every inner page opens with. It is a dark band in both themes: a slow orange aurora, a
+ * faint grid that fades out, grain, and (optionally) one huge outlined word behind the text. All of it
+ * is CSS, so it costs no script and no WebGL. `word` is decorative; `tone` moves the glow.
+ */
+export function PageHeader({ crumbs, title, lead, children, aside, proof = false, word, tone = "right" }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; word?: string; tone?: "right" | "left" | "center" }) {
   return (
-    <header className="ph">
+    <header className={`ph fx-dark grain ph-${tone}`}>
+      <PageBackdrop word={word} />
       <div className={`wrap ph-in${aside ? "" : " solo"}`}>
         <div className="ph-main">
           <Crumbs items={crumbs} />
@@ -128,6 +134,19 @@ export function PageHeader({ crumbs, title, lead, children, aside, proof = false
         {aside && <div className="ph-aside">{aside}</div>}
       </div>
     </header>
+  );
+}
+
+/** The aurora, grid and outlined word behind a page header. Decorative. */
+export function PageBackdrop({ word }: { word?: string }) {
+  return (
+    <div className="ph-bg" aria-hidden="true">
+      <i className="ph-blob ph-b1" />
+      <i className="ph-blob ph-b2" />
+      <i className="ph-blob ph-b3" />
+      <i className="ph-grid" />
+      {word && <b className="ph-word">{word}</b>}
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef } from "react";
+import { Suspense, lazy, useEffect, useRef, type ReactNode } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
@@ -13,6 +13,9 @@ import Careers from "./pages/Careers";
 import AriaAI from "./pages/AriaAI";
 import NotFound from "./pages/NotFound";
 import Work from "./pages/Work";
+import About from "./pages/About";
+import LabPage from "./pages/LabPage";
+import FreeCheckPage from "./pages/FreeCheckPage";
 import { BASE, caseStudies, routeFor, services, site } from "./site.config";
 
 /** The component kit preview exists only under `pnpm dev`; the build never includes it. */
@@ -47,6 +50,18 @@ function HeadSync() {
   return null;
 }
 
+/**
+ * Gives each page a short rise-in when a visitor navigates. The first page load is never animated,
+ * so the content a visitor (or a speed test) lands on is painted at once.
+ */
+function RouteFade({ children }: { children: ReactNode }) {
+  const [loc] = useLocation();
+  const first = useRef(true);
+  const fade = !first.current;
+  useEffect(() => { first.current = false; }, [loc]);
+  return <div key={loc} className={fade ? "route-in" : undefined}>{children}</div>;
+}
+
 function Routes() {
   return (
     <Switch>
@@ -60,6 +75,9 @@ function Routes() {
       <Route path="/contact"><Contact /></Route>
       <Route path="/careers"><Careers /></Route>
       <Route path="/aria-ai"><AriaAI /></Route>
+      <Route path="/about"><About /></Route>
+      <Route path="/lab"><LabPage /></Route>
+      <Route path="/free-website-check"><FreeCheckPage /></Route>
       {Kit ? [<Route key="kit" path="/kit"><Suspense fallback={null}><Kit /></Suspense></Route>] : []}
       <Route><NotFound /></Route>
     </Switch>
@@ -72,7 +90,7 @@ export default function App({ ssrPath }: { ssrPath?: string }) {
       <a href="#main" className="skip">Skip to content</a>
       <Nav />
       <main id="main">
-        <Routes />
+        <RouteFade><Routes /></RouteFade>
       </main>
       <Footer />
       <HeadSync />

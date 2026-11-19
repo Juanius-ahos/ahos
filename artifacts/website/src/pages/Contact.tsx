@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Crumbs, useBeirut } from "../components/ui";
+import { Crumbs, PageBackdrop, useBeirut } from "../components/ui";
 import { Arrow } from "../components/Arrow";
 import { services, site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
@@ -41,13 +41,14 @@ export default function Contact() {
   }
 
   return (
-    <section className="ph" aria-labelledby="ct-title">
+    <section className="ph fx-dark grain ph-left" aria-labelledby="ct-title">
+      <PageBackdrop word="Hello" />
       <div className="wrap" style={{ position: "relative" }}>
         <Crumbs items={[{ name: "Home", href: "/" }, { name: "Contact" }]} />
         <div className="contact-grid">
           <div>
             <h1 id="ct-title" className="d d-6">Tell us what you're building.</h1>
-            <p className="lead" style={{ marginTop: 24, color: "var(--ink)" }}>
+            <p className="lead" style={{ marginTop: 24, color: "var(--fg)" }}>
               A real person replies within {site.contact.replyWithin} with a plan and a fixed quote.
               {clock && <> It is {clock.time} in Beirut{clock.atDesk ? ", and we are online." : ", so expect us first thing in the morning."}</>}
             </p>
