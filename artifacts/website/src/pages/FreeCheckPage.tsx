@@ -18,14 +18,14 @@ export default function FreeCheckPage() {
         crumbs={[{ name: "Home", href: "/" }, { name: "Free website check" }]}
         title={<>A free website check, <Hl>by a person</Hl>.</>}
         lead="Send us your website or Instagram link and we will tell you the 3 things costing you customers. No email form, no account, no strings."
-        bg="rays"
+        bg="arcs"
       />
       <Defer>
         <section className="sec" aria-label="How it works">
           <div className="wrap">
             <div className="fc-steps">
               {STEPS.map((s, i) => (
-                <Spotlight asChild color="var(--primary)" size={340}><article key={s.name} className="cx">
+                <Spotlight key={s.name} asChild color="var(--primary)" size={340}><article className="cx">
                   <div className="cx-top"><span className="cx-ico"><Icon name={s.icon} /></span><span className="cx-no">{String(i + 1).padStart(2, "0")}</span></div>
                   <h3>{s.name}</h3>
                   <p className="cx-body">{s.body}</p>

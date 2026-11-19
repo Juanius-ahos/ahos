@@ -25,7 +25,7 @@ export default function Faq() {
         crumbs={[{ name: "Home", href: "/" }, { name: "FAQ" }]}
         title={<>Straight <Hl>answers</Hl>.</>}
         lead="Timelines, prices, ownership and what happens after launch. If yours is not here, ask us; a person replies within 24 hours."
-        bg="aurora"
+        bg="glyph"
       >
         <Link href="/contact" className="btn">Ask us directly <Arrow /></Link>
       </PageHeader>

@@ -18,6 +18,7 @@
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 @source "../components/corsair";
 @source "../components/backdrop";
+@source "../components/home";
 
 /* The animation tokens and keyframes the components declare. */
 @import "./corsair.css";

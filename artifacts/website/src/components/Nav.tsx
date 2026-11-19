@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Arrow } from "./Arrow";
+import { RollText } from "@/components/corsair/roll-text";
 import { Logo } from "./Mark";
 import { WhatsAppIcon } from "./ui";
 import { asset, nav, services, site } from "../site.config";
@@ -69,8 +70,8 @@ export function Nav() {
           <nav className="nav-links" aria-label="Main">
             {nav.map((l) => (
               l.href.includes("#")
-                ? <a key={l.href} href={asset(l.href)}>{l.label}</a>
-                : <Link key={l.href} href={l.href} aria-current={isActive(location, l.match) ? "page" : undefined}>{l.label}</Link>
+                ? <a key={l.href} href={asset(l.href)} className="group"><RollText>{l.label}</RollText></a>
+                : <Link key={l.href} href={l.href} className="group" aria-current={isActive(location, l.match) ? "page" : undefined}><RollText>{l.label}</RollText></Link>
             ))}
           </nav>
           <div className="nav-end">

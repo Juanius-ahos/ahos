@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Aurora } from "@/components/corsair/aurora";
 import { Grain } from "@/components/corsair/grain";
 import { Particles } from "@/components/corsair/particles";
+import { FxLayer } from "@/components/fx/FxLayer";
 
 /**
  * The background behind a page header or a section. Every kind is a real component from Corsair UI
@@ -16,7 +17,8 @@ const LightRays = lazy(() => import("@/components/corsair/light-rays").then((m) 
 const WarpGradient = lazy(() => import("@/components/corsair/warp-gradient").then((m) => ({ default: m.WarpGradient })));
 const Topography = lazy(() => import("@/components/corsair/topography").then((m) => ({ default: m.Topography })));
 
-export type BackdropKind = "aurora" | "rays" | "warp" | "topography" | "particles";
+/** "arcs" (Chrome Arcs) and "glyph" (the glyph field) are the two components the site owner chose from 21st.dev. */
+export type BackdropKind = "aurora" | "rays" | "warp" | "topography" | "particles" | "arcs" | "glyph";
 
 const ORANGE = "#ff6a1a";
 
@@ -47,6 +49,8 @@ export function Backdrop({ kind = "aurora" }: { kind?: BackdropKind }) {
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden="true">
       <Aurora className="absolute inset-0" colors={[ORANGE, "#ffb27a", "#8a3208"]} intensity={kind === "aurora" ? 0.5 : 0.24} duration={24} />
+      {kind === "arcs" && <FxLayer kind="arcs" />}
+      {kind === "glyph" && <FxLayer kind="glyph" />}
       {desktop && kind === "particles" && <Particles count={56} className="text-primary/80" />}
       {ready && kind === "rays" && (
         <Suspense fallback={null}><LightRays colors={[ORANGE, "#ffd9b8"]} /></Suspense>

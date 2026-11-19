@@ -1,10 +1,12 @@
 import { Link } from "wouter";
+import { Backdrop } from "./backdrop/Backdrop";
 import { Logo } from "./Mark";
 import { asset, projects, services, site } from "../site.config";
 
 export function Footer() {
   return (
-    <footer className="foot">
+    <footer className="foot bg-host fx-host fx-dark">
+      <Backdrop kind="glyph" />
       <div className="wrap">
         <div className="foot-grid">
           <p className="foot-line">A design and engineering studio in Beirut. One team designs and builds websites, apps, AI and Web3 for businesses in {site.areasLine}.</p>

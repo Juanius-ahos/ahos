@@ -13,7 +13,7 @@ export default function CaseStudy({ c }: { c: CS }) {
 
   return (
     <>
-      <header className="cs-hero fx-dark bg-host">
+      <header className="cs-hero fx-dark bg-host fx-host">
         {p.shot && <div className="cs-amb" aria-hidden="true" style={{ backgroundImage: `url(${asset(`/work/h-${p.shot}-640.webp`)})` }} />}
         <Backdrop kind="aurora" />
         <div className="wrap">

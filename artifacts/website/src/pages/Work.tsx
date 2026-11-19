@@ -56,7 +56,7 @@ export default function Work() {
         crumbs={[{ name: "Home", href: "/" }, { name: "Work" }]}
         title={<>Work you can <Hl>click</Hl>.</>}
         lead={`Six live products, each with the story of how it was made. More than 100 delivered since ${site.founded}; these are the ones our clients are happy for us to show.`}
-        bg="rays"
+        bg="arcs"
       />
       <section className="sec" aria-label="All case studies">
         <div className="wrap">

@@ -1,7 +1,9 @@
 import { Suspense, useCallback, useEffect, useState, type ChangeEvent, type ComponentType, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
+import { Magnetic } from "@/components/corsair/magnetic";
 import { NumberTicker } from "@/components/corsair/number-ticker";
+import { RollText } from "@/components/corsair/roll-text";
 import { Need, Shot, WhatsAppIcon } from "./ui";
 
 export { Need };
@@ -30,22 +32,28 @@ type ButtonProps = {
 };
 
 export function Button({ variant = "primary", size = "md", href, external, type = "button", onClick, magnetic = true, disabled, className = "", children }: ButtonProps) {
-  const cls = ["btn", variant === "outline" && "btn-ghost", size === "lg" && "btn-lg", size === "sm" && "btn-sm", className].filter(Boolean).join(" ");
-  const inner = <>{children}{variant === "primary" && <Arrow />}</>;
-  const mag = magnetic ? { "data-magnetic": "" } : {};
+  const cls = ["btn", "group", variant === "outline" && "btn-ghost", size === "lg" && "btn-lg", size === "sm" && "btn-sm", className].filter(Boolean).join(" ");
+  const label = typeof children === "string" ? <RollText>{children}</RollText> : children;
+  const inner = <>{label}{variant === "primary" && <Arrow />}</>;
+  let el: ReactNode;
   if (href && (external || href.startsWith("#") || href.startsWith("mailto:"))) {
-    return <a className={cls} href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} onClick={onClick} {...mag}>{inner}</a>;
+    el = <a className={cls} href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} onClick={onClick}>{inner}</a>;
+  } else if (href) {
+    el = <Link className={cls} href={href} onClick={onClick}>{inner}</Link>;
+  } else {
+    el = <button className={cls} type={type} onClick={onClick} disabled={disabled}>{inner}</button>;
   }
-  if (href) return <Link className={cls} href={href} onClick={onClick} {...mag}>{inner}</Link>;
-  return <button className={cls} type={type} onClick={onClick} disabled={disabled} {...mag}>{inner}</button>;
+  return magnetic ? <Magnetic>{el}</Magnetic> : <>{el}</>;
 }
 
-/** The WhatsApp button: one tap into a ready-written first message. */
+/** The WhatsApp button: one tap into a ready-written first message. The label rolls on hover and the button leans towards the pointer (both real Corsair UI components). */
 export function WhatsAppCta({ where, size = "md", children = "Message us on WhatsApp" }: { where: string; size?: "md" | "lg"; children?: ReactNode }) {
   return (
-    <a href={site.contact.whatsappHello} className={`btn btn-wa${size === "lg" ? " btn-lg" : ""}`} target="_blank" rel="noopener noreferrer" data-magnetic="" onClick={() => trackEvent("whatsapp_click", { where })}>
-      <WhatsAppIcon /> {children}
-    </a>
+    <Magnetic>
+      <a href={site.contact.whatsappHello} className={`btn btn-wa group${size === "lg" ? " btn-lg" : ""}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where })}>
+        <WhatsAppIcon /> {typeof children === "string" ? <RollText>{children}</RollText> : children}
+      </a>
+    </Magnetic>
   );
 }
 

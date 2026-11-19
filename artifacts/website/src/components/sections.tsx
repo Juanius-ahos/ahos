@@ -34,26 +34,7 @@ export function OutcomeCard({ o }: { o: Outcome }) {
 
 /* ---------- how we work: five steps on one progress line ---------- */
 
-export function ProcessLine() {
-  return (
-    <div className="pl">
-      <ol className="pl-steps">
-        {process.map((s, i) => (
-          <li key={s.name} style={{ ["--i" as string]: i }}>
-            <span className="pl-n" aria-hidden="true">{i + 1}</span>
-            <h3>{s.name}</h3>
-            <p>{s.body}</p>
-            <span className="pl-t">{s.time}</span>
-          </li>
-        ))}
-      </ol>
-      <p className="pl-badge">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3Z" /><path d="M9 12l2 2 4-4" /></svg>
-        30-day warranty on every build
-      </p>
-    </div>
-  );
-}
+export { ProcessLine } from "./home/ProcessBeam";
 
 /* ---------- founder ---------- */
 

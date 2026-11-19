@@ -24,7 +24,7 @@ export default function About() {
         crumbs={[{ name: "Home", href: "/" }, { name: "About" }]}
         title={<>Freelancers who became a <Hl>studio</Hl>.</>}
         lead={`We started as individual freelancers with day jobs. Today AHOS is a team of designers, engineers, AI engineers and animators that builds and ships together, for clients in ${site.areasLine}.`}
-        bg="aurora"
+        bg="arcs"
       >
         <Link href="/contact" className="btn" data-magnetic>Talk to us <Arrow /></Link>
         <Link href="/work" className="btn btn-ghost">See our work</Link>
@@ -66,7 +66,7 @@ export default function About() {
             <Head id="team-title" title="One team, four crafts." lead="You do not hand your project from agency to agency. The people who design it are the people who build it." />
             <div className="disc-grid">
               {DISCIPLINES.map((d) => (
-                <Spotlight asChild color="var(--primary)" size={340}><article key={d.name} className="cx">
+                <Spotlight key={d.name} asChild color="var(--primary)" size={340}><article className="cx">
                   <span className="cx-ico"><Icon name={d.icon} /></span>
                   <h3>{d.name}</h3>
                   <p className="cx-body">{d.body}</p>

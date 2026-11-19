@@ -189,3 +189,12 @@
 .ph .lead { color: color-mix(in srgb, var(--fg) 84%, transparent); max-width: 34em; }
 .ph .crumbs { color: color-mix(in srgb, var(--fg) 60%, transparent); }
 @media (max-width: 900px) { .ph::after { background: linear-gradient(180deg, rgba(10, 10, 11, 0.7), rgba(10, 10, 11, 0.55) 60%, rgba(10, 10, 11, 0.85)); } }
+
+/* ---------- homepage hero: readable first, like the page headers ---------- */
+.hero2::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, rgba(10, 10, 11, 0.9) 0%, rgba(10, 10, 11, 0.66) 40%, rgba(10, 10, 11, 0.12) 78%, transparent 100%), linear-gradient(0deg, rgba(10, 10, 11, 0.5), transparent 30%); }
+@media (max-width: 900px) { .hero2::after { background: linear-gradient(180deg, rgba(10, 10, 11, 0.72), rgba(10, 10, 11, 0.5) 60%, rgba(10, 10, 11, 0.85)); } }
+
+/* The homepage case-study scene is the longest block on the page. Its heading stays in the first layout; the scene itself
+   (the pinned stage and four stories) is skipped until it is near the screen. Sized to the real height so the page does not jump. */
+#work [data-slot="scroll-scene"] { content-visibility: auto; contain-intrinsic-size: auto 3200px; }
+@media (max-width: 1023px) { #work [data-slot="scroll-scene"] { contain-intrinsic-size: auto 4460px; } }

@@ -22,53 +22,9 @@ export function Proof({ className = "" }: { className?: string }) {
   );
 }
 
-/* ---------- screenshots ---------- */
+/* ---------- screenshots: the real BrowserFrame and PhoneFrame (components/home/Frames.tsx) ---------- */
 
-/** Desktop capture of a live project in a quiet browser frame. */
-export function Shot({ p, eager = false, sizes = "(max-width: 900px) 92vw, 64vw" }: { p: Project; eager?: boolean; sizes?: string }) {
-  if (!p.shot) return <AriaVisual />;
-  return (
-    <div className="shot">
-      <div className="shot-bar" aria-hidden="true"><i /><i /><i /><span>{p.liveLabel}</span></div>
-      <img
-        src={asset(`/work/d-${p.shot}-880.webp`)}
-        srcSet={`${asset(`/work/d-${p.shot}-880.webp`)} 880w, ${asset(`/work/d-${p.shot}.webp`)} 1440w`}
-        sizes={sizes}
-        width={1440}
-        height={900}
-        alt={`${p.name}, ${p.what.toLowerCase()} designed and built by AHOS`}
-        loading={eager ? "eager" : "lazy"}
-        decoding="async"
-      />
-    </div>
-  );
-}
-
-/** Phone capture of a live project. */
-export function Phone({ p, eager = false }: { p: Project; eager?: boolean }) {
-  if (!p.shot) return null;
-  return (
-    <div className="phone">
-      <img src={asset(`/work/m-${p.shot}.webp`)} width={390} height={844} alt={`${p.name} on a phone`} loading={eager ? "eager" : "lazy"} decoding="async" />
-    </div>
-  );
-}
-
-/** ARIA has no external site, so it gets a drawn conversation instead of a screenshot. */
-export function AriaVisual() {
-  return (
-    <div className="aria-vis" role="img" aria-label="A conversation with ARIA, the AI project advisor AHOS built">
-      <div className="aria-vis-top" aria-hidden="true"><b>ARIA</b><span>Project advisor</span></div>
-      <div className="aria-vis-msgs" aria-hidden="true">
-        <p className="a">Hi, I'm ARIA. What are you building?</p>
-        <p className="u">An online store for my clothing brand in Beirut.</p>
-        <p className="a">Nice. Will most people pay by card, or cash on delivery?</p>
-        <p className="u">Mostly cash on delivery, and WhatsApp orders.</p>
-        <p className="a">Then a custom store with COD and WhatsApp ordering fits. Usually 2 to 6 weeks. Want me to sketch a first screen?</p>
-      </div>
-    </div>
-  );
-}
+export { Shot, Phone, AriaVisual } from "./home/Frames";
 
 /* ---------- facts list ---------- */
 
@@ -123,7 +79,7 @@ export function Crumbs({ items }: { items: { name: string; href?: string }[] }) 
  */
 export function PageHeader({ crumbs, title, lead, children, aside, proof = false, bg = "aurora" }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; bg?: BackdropKind }) {
   return (
-    <header className="ph fx-dark bg-host">
+    <header className="ph fx-dark bg-host fx-host">
       <Backdrop kind={bg} />
       <div className={`wrap ph-in${aside ? "" : " solo"}`}>
         <div className="ph-main">

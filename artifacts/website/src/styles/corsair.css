@@ -17,6 +17,13 @@
   --animate-particles-up: particles-up 14s linear infinite;
   --animate-particles-down: particles-down 14s linear infinite;
   --animate-grain: grain 0.8s steps(1) infinite;
+  --animate-path-beam: path-beam 1.2s ease-in-out both;
+  --animate-path-beam-progress: path-beam-progress linear both;
+  --animate-scroll-scene-progress: scroll-scene-progress linear both;
+  --animate-parallax: parallax linear both;
+  --animate-scroll-background: scroll-background linear both;
+  --animate-shimmer-text: shimmer-text 3s linear infinite;
+  --animate-wave-text: wave-text 3.75s linear both;
 }
 
 @keyframes aurora {
@@ -165,5 +172,68 @@
   }
   90% {
     transform: translate3d(-10%, 10%, 0);
+  }
+}
+
+@keyframes path-beam {
+  from {
+    stroke-dashoffset: var(--path-beam-length, 0.2);
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes path-beam-progress {
+  from {
+    --path-beam-progress: 0;
+  }
+  to {
+    --path-beam-progress: 1;
+  }
+}
+
+@keyframes scroll-scene-progress {
+  from {
+    --scroll-scene-progress: 0;
+  }
+  to {
+    --scroll-scene-progress: 1;
+  }
+}
+
+@keyframes parallax {
+  from {
+    transform: translate3d(0, var(--parallax-offset, 0px), 0);
+  }
+  to {
+    transform: translate3d(0, calc(var(--parallax-offset, 0px) * -1), 0);
+  }
+}
+
+@keyframes scroll-background {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer-text {
+  from {
+    background-position-x: var(--shimmer-text-from);
+  }
+  to {
+    background-position-x: var(--shimmer-text-to);
+  }
+}
+
+@keyframes wave-text {
+  from {
+    --wave-text-offset: -25;
+  }
+  to {
+    --wave-text-offset: 200;
   }
 }

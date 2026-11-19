@@ -12,7 +12,7 @@ import { ProcessLine } from "../components/sections";
 import { Close, FaqList, Shot, Head, PageHeader, Quote, fromPrice } from "../components/ui";
 import { caseStudies, projectById, services, type Service } from "../site.config";
 
-const BG: Record<string, BackdropKind> = { "web-development": "aurora", "ecommerce-development": "rays", "mobile-app-development": "aurora", "custom-software": "topography", "ai-development": "particles", "ui-ux-design": "aurora", web3: "warp" };
+const BG: Record<string, BackdropKind> = { "web-development": "arcs", "ecommerce-development": "rays", "mobile-app-development": "glyph", "custom-software": "topography", "ai-development": "glyph", "ui-ux-design": "arcs", web3: "warp" };
 
 export default function ServicePage({ s }: { s: Service }) {
   const proof = s.proofProject ? projectById(s.proofProject) : undefined;
@@ -46,7 +46,7 @@ export default function ServicePage({ s }: { s: Service }) {
             <Head id="offers-title" title="What we build." lead="Each one designed screen by screen, signed off by you, then built by the people who designed it." />
             <div className="of-grid">
               {s.offers.map((o, i) => (
-                <Spotlight asChild color="var(--primary)" size={340}><article key={o.name} className="cx">
+                <Spotlight key={o.name} asChild color="var(--primary)" size={340}><article className="cx">
                   <div className="cx-top">
                     <span className="cx-ico"><Icon name={s.slug} /></span>
                     <span className="cx-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>

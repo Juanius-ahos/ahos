@@ -1,8 +1,11 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
 import { Defer } from "../components/Defer";
-import { Close, FaqList, useBeirut } from "../components/ui";
-import { Button, CaseStory, DeviceScene, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
+import { Backdrop } from "../components/backdrop/Backdrop";
+import { FeaturedWork } from "../components/home/FeaturedWork";
+import { HeroVisual } from "../components/home/HeroVisual";
+import { Close, FaqList, Hl, useBeirut } from "../components/ui";
+import { Button, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
 import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WhereWeWork, WorkMore } from "../components/sections";
 import { Marquee } from "../components/Marquee";
 import { caseStudies, clientReviews, homeFaq, outcomes, projectById, services, site } from "../site.config";
@@ -23,11 +26,12 @@ export default function Home() {
   return (
     <>
       {/* ---------- hero ---------- */}
-      <section className="hero2 grain" aria-labelledby="hero-title">
+      <section className="hero2 bg-host fx-host fx-dark" aria-labelledby="hero-title">
+        <Backdrop kind="arcs" />
         <div className="wrap hero2-grid">
           <div className="hero2-copy">
             <Kicker>Design and engineering studio in Beirut</Kicker>
-            <h1 id="hero-title" className="hero2-h1">Design that sells. Code that holds.</h1>
+            <h1 id="hero-title" className="hero2-h1">Design that <Hl>sells</Hl>. Code that <Hl>holds</Hl>.</h1>
             <p className="lead hero2-lead">Websites, online stores, bots and AI for businesses that want to look as good as they are.</p>
             <div className="acts">
               <WhatsAppCta where="hero" size="lg" />
@@ -38,7 +42,7 @@ export default function Home() {
               {clock ? (clock.atDesk ? `We're online (${clock.time} Beirut time). Expect a reply today.` : `It's ${clock.time} in Beirut. We reply first thing in the morning.`) : `A real person replies within ${site.contact.replyWithin}.`}
             </p>
           </div>
-          <div className="hero2-vis"><DeviceScene eager /></div>
+          <div className="hero2-vis"><HeroVisual /></div>
         </div>
         <span className="scroll-cue" aria-hidden="true">Scroll</span>
       </section>
@@ -47,12 +51,8 @@ export default function Home() {
       <div className="wrap"><ProofBar /></div>
       <Marquee items={services.map((s) => s.label)} />
 
-      {/* ---------- selected work, as stories ---------- */}
-      {featured.map((c, i) => (
-        <Defer key={c.slug}>
-          <CaseStory id={i === 0 ? "work" : undefined} c={c} p={projectById(c.project)} no={String(i + 1).padStart(2, "0")} flip={i % 2 === 1} />
-        </Defer>
-      ))}
+      {/* ---------- selected work: one scrollytelling scene ---------- */}
+      <Defer><FeaturedWork items={featured.map((c) => ({ c, p: projectById(c.project) }))} /></Defer>
       <Defer><WorkMore /></Defer>
 
       {/* ---------- where we work ---------- */}
@@ -60,7 +60,8 @@ export default function Home() {
 
       {/* ---------- services by outcome ---------- */}
       <Defer>
-      <section id="services" className="sec" aria-labelledby="svc-title">
+      <section id="services" className="sec bg-host fx-host fx-dark" aria-labelledby="svc-title">
+        <Backdrop kind="glyph" />
         <div className="wrap">
           <SectionHeader id="svc-title" kicker="Services" title="What we build, and what it costs." lead="Every project gets a fixed quote in writing after a free call. These are the starting points." />
           <div className="oc-grid">
@@ -73,7 +74,8 @@ export default function Home() {
 
       {/* ---------- how we work ---------- */}
       <Defer>
-      <section id="how" className="sec alt" aria-labelledby="how-title">
+      <section id="how" className="sec alt bg-host fx-host fx-dark" aria-labelledby="how-title">
+        <Backdrop kind="aurora" />
         <div className="wrap">
           <SectionHeader id="how-title" kicker="How we work" title="Five steps, the same every time." lead="From the first call to launch day you always know what happens next." />
           <ProcessLine />
