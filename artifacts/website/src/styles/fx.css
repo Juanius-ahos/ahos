@@ -43,3 +43,66 @@
   color: var(--fg);
 }
 :root[data-theme="light"] .fx-dark.grain::after { display: block; }
+
+/* ---------- where we work: the globe ---------- */
+
+.where { background: var(--bg); border-top: 1px solid var(--rule); content-visibility: auto; contain-intrinsic-size: auto 760px; }
+.where-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px 5vw; align-items: center; }
+.where-copy .d { margin-top: 22px; }
+.where-copy .lead { margin-top: 22px; max-width: 32em; }
+.where-list { margin-top: 36px; border-top: 1px solid var(--rule); }
+.where-item { display: grid; grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr) auto; gap: 8px 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--rule); color: var(--fg); transition: padding 0.35s var(--ease), background 0.35s; }
+.where-item:hover, .where-item:focus-visible { padding-left: 14px; }
+.where-n { font: 600 var(--t-3)/1.1 var(--f-d); letter-spacing: -0.025em; }
+.where-d { color: var(--fg-2); font-size: 0.9375rem; }
+.where-item svg { color: var(--orange); }
+.where-globe { position: relative; width: 100%; max-width: 640px; aspect-ratio: 1; justify-self: center; }
+/* until the globe is drawn (and where WebGL is off) there is a quiet orange disc, so the box never looks empty */
+.where-globe::before { content: ""; position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(circle at 38% 34%, rgba(255, 106, 26, 0.22), rgba(255, 106, 26, 0.05) 55%, transparent 72%), radial-gradient(circle, #121214 60%, transparent 61%); box-shadow: 0 0 120px -30px rgba(255, 106, 26, 0.35); }
+.globe-host { position: absolute; inset: 0; animation: fx-in 1.1s var(--ease) both; }
+@media (prefers-reduced-motion: reduce) { .globe-host { animation: none; } }
+@media (max-width: 900px) {
+  .where-in { grid-template-columns: 1fr; }
+  .where-globe { order: -1; max-width: 420px; }
+  .where-item { grid-template-columns: minmax(0, 1fr) auto; }
+  .where-d { grid-column: 1; grid-row: 2; }
+  .where-item svg { grid-column: 2; grid-row: 1 / 3; }
+}
+
+/* ---------- counting figures ---------- */
+
+.cu { display: inline-grid; }
+.cu > * { grid-area: 1 / 1; }
+.cu-live { font-variant-numeric: tabular-nums; }
+
+/* ---------- cursor spotlight on cards (src/motion/spotlight.ts) ---------- */
+
+.oc, .svc, .tst, .check-form { position: relative; isolation: isolate; }
+.oc::before, .svc::before, .tst::before, .check-form::before,
+.oc::after, .svc::after, .tst::after, .check-form::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.4s var(--ease); }
+.oc::before, .svc::before, .tst::before, .check-form::before { z-index: -1; background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 106, 26, 0.13), transparent 65%); }
+.oc::after, .svc::after, .tst::after, .check-form::after {
+  padding: 1px; background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 132, 68, 0.9), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+@media (hover: hover) and (pointer: fine) {
+  .oc:hover::before, .svc:hover::before, .tst:hover::before, .check-form:hover::before,
+  .oc:hover::after, .svc:hover::after, .tst:hover::after, .check-form:hover::after { opacity: 1; }
+}
+
+/* ---------- reveal on scroll (src/motion/reveal.ts) ---------- */
+
+[data-rv="wait"] { opacity: 0; transform: translateY(26px); }
+[data-rv="in"] { opacity: 1; transform: none; transition: opacity 0.9s var(--ease) var(--rv-d, 0ms), transform 0.9s var(--ease) var(--rv-d, 0ms); }
+
+/* ---------- the footer wordmark ---------- */
+
+.foot-logo:hover .logo-ink { fill: var(--orange); }
+
+/* ---------- navigation: the sliding pill (components/Nav.tsx) ---------- */
+
+.nav-links { position: relative; }
+.nav-links a { z-index: 1; }
+.nav-pill { position: absolute; top: 50%; left: 0; height: 34px; margin-top: -17px; border-radius: 999px; background: rgba(255, 106, 26, 0.13); box-shadow: inset 0 0 0 1px rgba(255, 106, 26, 0.28); opacity: 0; pointer-events: none; transition: transform 0.4s var(--ease), width 0.4s var(--ease), opacity 0.25s; }
+@media (prefers-reduced-motion: reduce) { .nav-pill { transition: opacity 0.2s; } }

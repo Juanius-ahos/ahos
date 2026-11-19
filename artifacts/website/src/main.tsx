@@ -42,6 +42,10 @@ if (scripted) {
 // sections hydrated later (see Defer) get their motion hooks re-read
 window.addEventListener("ahos:refresh", () => { if (scripted) import("./motion/motion").then((m) => m.refreshMotion()).catch(() => {}); });
 import("./motion/magnetic").then((m) => m.startMagnetic()).catch(() => {});
+hydrated.then(() => later(() => {
+  import("./motion/spotlight").then((m) => m.startSpotlight()).catch(() => {});
+  import("./motion/reveal").then((m) => m.startReveal()).catch(() => {});
+}));
 
 // GA4 waits for the first interaction, or twelve seconds, whichever comes first.
 function loadGa() {

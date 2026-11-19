@@ -400,6 +400,19 @@ export const clientReviews: { text: string; name: string; role: string }[] = [
   },
 ];
 
+/**
+ * Where the clients are, for the globe. Locations are country level on purpose: the Europe marker is
+ * a regional point, not a client address. Only places with real work behind them link to a case study.
+ */
+export const whereWeWork = {
+  places: [
+    { id: "lb", label: "Lebanon", note: "Home base. Threads Activewear and SpeeAligner are here.", href: "/work", location: [33.89, 35.5] as [number, number], home: true },
+    { id: "om", label: "Oman", note: "Oman with Issam, private tours from Muscat.", href: "/work/oman-with-issam", location: [23.59, 58.41] as [number, number] },
+    { id: "us", label: "United States", note: "Jul's Auto Repair, in Massachusetts.", href: "/work/juls-auto-repair", location: [41.94, -71.04] as [number, number] },
+    { id: "eu", label: "Europe", note: "Clients across the continent.", href: undefined as string | undefined, location: [47.5, 11] as [number, number] },
+  ],
+};
+
 /* ------------------------------------------------------------------ */
 /* Services and pricing                                                */
 /* ------------------------------------------------------------------ */

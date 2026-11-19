@@ -118,6 +118,9 @@ importers:
       '@react-three/fiber':
         specifier: ^9.8.2
         version: 9.8.2(@types/react@19.2.14)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.187.0)
+      cobe:
+        specifier: ^2.0.1
+        version: 2.0.1
       gsap:
         specifier: ^3.12.7
         version: 3.15.0
@@ -622,6 +625,9 @@ packages:
 
   caniuse-lite@1.0.30001792:
     resolution: {integrity: sha512-hVLMUZFgR4JJ6ACt1uEESvQN1/dBVqPAKY0hgrV70eN3391K6juAfTjKZLKvOMsx8PxA7gsY1/tLMMTcfFLLpw==}
+
+  cobe@2.0.1:
+    resolution: {integrity: sha512-aaa6vcIlaC8C1SF50LDH0Anybo/EAXnrxqe+bwvr4+YUtZydqjeBjTTD7ziCCkbRrRGSns3I3F6cZsf3W+L+ag==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1473,6 +1479,8 @@ snapshots:
       three: 0.187.0
 
   caniuse-lite@1.0.30001792: {}
+
+  cobe@2.0.1: {}
 
   convert-source-map@2.0.0: {}
 

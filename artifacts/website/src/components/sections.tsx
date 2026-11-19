@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
-import { Field, Kicker, Need, Testimonial } from "./kit";
-import { asset, money, process, projects, serviceBySlug, site, alsoBuilt, type Outcome } from "../site.config";
+import { Field, Kicker, Need, SectionHeader, Testimonial } from "./kit";
+import { asset, money, process, projects, serviceBySlug, site, alsoBuilt, whereWeWork, type Outcome } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 import { FxLayer } from "./fx/FxLayer";
 
@@ -232,5 +232,65 @@ export function WorkMore() {
       </p>
       <Link href="/work" className="btn btn-ghost" data-magnetic="">See all work</Link>
     </div>
+  );
+}
+
+/* ---------- where we work: the globe ---------- */
+
+const GlobeCanvas = lazy(() => import("./fx/GlobeCanvas"));
+
+/**
+ * A globe with a row per place. The globe loads only near the screen, never on data saver, and stays
+ * still on touch, weak devices and reduced motion. The list is the real content: it works without WebGL.
+ */
+export function WhereWeWork() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mount, setMount] = useState(false);
+  const [still, setStill] = useState(false);
+  const [focus, setFocus] = useState<string | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (!el || typeof window.WebGLRenderingContext === "undefined" || nav.connection?.saveData) return;
+    setStill(window.matchMedia("(pointer: coarse)").matches || (navigator.hardwareConcurrency || 4) < 4 || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setMount(true); io.disconnect(); } }, { rootMargin: "300px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const points = whereWeWork.places.map((p) => ({ id: p.id, location: p.location, home: "home" in p && p.home ? true : undefined }));
+
+  return (
+    <section id="where" className="sec where grain fx-dark" aria-labelledby="where-title">
+      <div className="wrap where-in">
+        <div className="where-copy">
+          <Kicker>Where we work</Kicker>
+          <h2 id="where-title" className="d d-5">Remote, so you can be anywhere.</h2>
+          <p className="lead">We work remotely and build for clients in {site.areasLine}, in {site.languages.slice(0, -1).join(", ")} and {site.languages[site.languages.length - 1]}.</p>
+          <ul className="where-list" onMouseLeave={() => setFocus(null)}>
+            {whereWeWork.places.map((p) => {
+              const inner = (
+                <>
+                  <span className="where-n">{p.label}</span>
+                  <span className="where-d">{p.note}</span>
+                  {p.href ? <Arrow size={18} /> : <span />}
+                </>
+              );
+              return (
+                <li key={p.id}>
+                  {p.href
+                    ? <Link href={p.href} className="where-item" onMouseEnter={() => setFocus(p.id)} onFocus={() => setFocus(p.id)} onBlur={() => setFocus(null)}>{inner}</Link>
+                    : <div className="where-item" tabIndex={0} onMouseEnter={() => setFocus(p.id)} onFocus={() => setFocus(p.id)} onBlur={() => setFocus(null)}>{inner}</div>}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div ref={ref} className="where-globe" aria-hidden="true">
+          {mount && <Suspense fallback={null}><GlobeCanvas points={points} focus={focus} still={still} /></Suspense>}
+        </div>
+      </div>
+    </section>
   );
 }

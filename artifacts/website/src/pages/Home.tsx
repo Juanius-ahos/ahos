@@ -3,7 +3,7 @@ import { Arrow } from "../components/Arrow";
 import { Defer } from "../components/Defer";
 import { Close, FaqList, useBeirut } from "../components/ui";
 import { Button, CaseStory, DeviceScene, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
-import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WorkMore } from "../components/sections";
+import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WhereWeWork, WorkMore } from "../components/sections";
 import { caseStudies, clientReviews, homeFaq, outcomes, projectById, site } from "../site.config";
 
 /** The four case studies told in full on the homepage. The rest live on /work. */
@@ -52,6 +52,9 @@ export default function Home() {
         </Defer>
       ))}
       <Defer><WorkMore /></Defer>
+
+      {/* ---------- where we work ---------- */}
+      <Defer><WhereWeWork /></Defer>
 
       {/* ---------- services by outcome ---------- */}
       <Defer>

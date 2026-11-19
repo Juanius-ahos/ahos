@@ -36,6 +36,41 @@ export function Nav() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const linksRef = useRef<HTMLElement>(null);
+  const [reading, setReading] = useState<string | null>(null);
+  const [hoverBox, setHoverBox] = useState<{ x: number; w: number } | null>(null);
+  const [restBox, setRestBox] = useState<{ x: number; w: number } | null>(null);
+
+  // On the homepage, the link of the section that is on screen right now.
+  useEffect(() => {
+    if (location !== "/") { setReading(null); return; }
+    const els = nav.filter((l) => l.href.startsWith("/#")).map((l) => document.getElementById(l.href.slice(2))).filter((el): el is HTMLElement => !!el);
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { const id = `/#${e.target.id}`; setReading((r) => (e.isIntersecting ? id : r === id ? null : r)); });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [location]);
+
+  // Where the sliding pill rests: under this page's link, or under the section being read.
+  useEffect(() => {
+    const measure = () => {
+      const root = linksRef.current;
+      const a = root?.querySelector<HTMLElement>('a[aria-current="page"]') ?? (reading ? root?.querySelector<HTMLElement>(`a[data-nav="${reading}"]`) : null);
+      setRestBox(a ? { x: a.offsetLeft, w: a.offsetWidth } : null);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    document.fonts?.ready.then(measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [location, reading]);
+
+  const hoverTo = (e: { target: EventTarget | null }) => {
+    const a = (e.target as HTMLElement | null)?.closest("a");
+    setHoverBox(a ? { x: a.offsetLeft, w: a.offsetWidth } : null);
+  };
+  const box = hoverBox ?? restBox;
 
   useEffect(() => {
     let last = window.scrollY;
@@ -67,10 +102,19 @@ export function Nav() {
           <Link href="/" className="nav-logo" aria-label={`${site.name} home`}>
             <Logo title={site.name} />
           </Link>
-          <nav className="nav-links" aria-label="Main">
+          <nav
+            ref={linksRef}
+            className="nav-links"
+            aria-label="Main"
+            onPointerOver={(e) => { if (e.pointerType !== "touch") hoverTo(e); }}
+            onFocus={hoverTo}
+            onPointerLeave={() => setHoverBox(null)}
+            onBlur={() => setHoverBox(null)}
+          >
+            <span className="nav-pill" aria-hidden="true" style={box ? { transform: `translateX(${box.x}px)`, width: box.w, opacity: 1 } : undefined} />
             {nav.map((l) => (
               l.href.includes("#")
-                ? <a key={l.href} href={asset(l.href)}>{l.label}</a>
+                ? <a key={l.href} href={asset(l.href)} data-nav={l.href}>{l.label}</a>
                 : <Link key={l.href} href={l.href} aria-current={isActive(location, l.match) ? "page" : undefined}>{l.label}</Link>
             ))}
           </nav>
