@@ -1,4 +1,5 @@
 import { Hero } from "../components/home/Hero";
+import { RecentWork } from "../components/home/RecentWork";
 import { WhatWeBuild } from "../components/home/WhatWeBuild";
 import { Close } from "../components/ui";
 import { ProofBar, SectionHeader } from "../components/kit";
@@ -18,6 +19,7 @@ export default function Home() {
     <>
       <Hero />
       <div className="wrap"><ProofBar /></div>
+      <RecentWork />
       <WhatWeBuild />
       <section id="how" className="sec alt" aria-labelledby="how-title">
         <div className="wrap">

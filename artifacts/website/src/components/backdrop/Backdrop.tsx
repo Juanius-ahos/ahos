@@ -43,14 +43,15 @@ function useDesktop() {
   return yes;
 }
 
-export function Backdrop({ kind = "aurora" }: { kind?: BackdropKind }) {
+/** `strong` is for a first screen that has no picture: the glyph field carries it, so the field is clearer and the orange glow quieter. */
+export function Backdrop({ kind = "aurora", strong = false }: { kind?: BackdropKind; strong?: boolean }) {
   const desktop = useDesktop();
   const ready = useAfterLoad() && desktop;
   return (
     <div className="bd pointer-events-none absolute inset-0" aria-hidden="true">
-      <Aurora className="absolute inset-0" colors={[ORANGE, "#ffb27a", "#8a3208"]} intensity={kind === "aurora" ? 0.5 : 0.24} duration={24} />
+      <Aurora className="absolute inset-0" colors={[ORANGE, "#ffb27a", "#8a3208"]} intensity={kind === "aurora" ? 0.5 : strong ? 0.1 : 0.24} duration={24} />
       {kind === "arcs" && <FxLayer kind="arcs" />}
-      {kind === "glyph" && <FxLayer kind="glyph" />}
+      {kind === "glyph" && <FxLayer kind="glyph" haze={strong ? 0.34 : undefined} />}
       {desktop && kind === "particles" && <Particles count={56} className="text-primary/80" />}
       {ready && kind === "rays" && (
         <Suspense fallback={null}><LightRays colors={[ORANGE, "#ffd9b8"]} /></Suspense>

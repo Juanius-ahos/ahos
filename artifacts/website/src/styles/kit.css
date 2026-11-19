@@ -65,36 +65,16 @@ a.stat:hover .stat-v { color: var(--accent-text); }
 
 /* ---------- hero ---------- */
 
-/* The glyph field of the footer, behind the whole first screen. */
-.hero3 { position: relative; padding: clamp(96px, 12.5vh, 132px) 0 calc(var(--seam) + 8px); overflow: clip; }
-.hero3-h1 { font: 600 clamp(3.05rem, 0.2rem + 8.4vw, 8rem)/0.9 var(--f-d); letter-spacing: -0.05em; text-wrap: balance; }
-.hero3-l { display: block; }
-/* the full stop is the AHOS tile, the slanted block of the logo's O */
-.hero3-stop { display: inline-block; width: 0.19em; height: 0.31em; margin-left: 0.07em; overflow: hidden; color: transparent; background: var(--orange); clip-path: polygon(0 0, 74% 0, 100% 100%, 26% 100%); user-select: none; }
-.hero3-row { display: grid; grid-template-columns: minmax(0, 32em) auto; justify-content: space-between; align-items: end; gap: 28px 56px; margin-top: clamp(24px, 4vh, 40px); }
-.hero3-lead { margin: 0; font-size: clamp(1.0625rem, 0.95rem + 0.45vw, 1.3125rem); color: var(--fg); }
-.hero3-act { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; }
-.hero3-reel { position: relative; margin-top: clamp(32px, 5vh, 52px); --cut: clamp(26px, 3.6vw, 56px); }
-.reel-i { position: relative; display: block; flex: none; width: clamp(290px, 36vw, 560px); color: var(--fg); text-decoration: none; transition: transform 0.5s var(--ease); }
-.reel-i:hover, .reel-i:focus-visible { transform: translateY(-8px); }
-/* each site is cut to the logo's geometry: 45 degree corners at top right and bottom left, like the slabs of the O */
-.reel-t { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut))); }
-.reel-t img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.7s var(--ease); }
-.reel-i:hover .reel-t img, .reel-i:focus-visible .reel-t img { transform: scale(1.04); }
-.reel-go { position: absolute; left: calc(var(--cut) + 6px); bottom: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; background: var(--orange); color: var(--orange-ink); font: 600 0.8125rem/1 var(--f-t); opacity: 0; transform: translateY(6px); transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px)); }
-.reel-i:hover .reel-go, .reel-i:focus-visible .reel-go { opacity: 1; transform: none; }
-.reel-c { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 14px 0 0 var(--cut); }
-.reel-c b { font: 600 1.125rem/1.2 var(--f-d); letter-spacing: -0.02em; }
-.reel-c span { color: var(--fg-2); font-size: 0.875rem; text-align: right; }
-@media (max-width: 1100px) {
-  .hero3-row { grid-template-columns: 1fr; }
-}
-@media (max-width: 520px) {
-  .hero3-act .btn { width: 100%; justify-content: center; }
-  .reel-c { flex-direction: column; gap: 2px; }
-  .reel-c span { text-align: left; }
-  .reel-go { display: none; }
-}
+/* The glyph field of the footer fills the first screen; the sentence sits on it. */
+.hero3 { position: relative; display: flex; align-items: center; min-height: min(100svh, 860px); padding: clamp(112px, 16vh, 150px) 0 calc(var(--seam) + 8px); overflow: clip; }
+.hero3 > .wrap { flex: 1; }
+.hero3-h1 { max-width: 13.5em; font: 600 clamp(2.35rem, 1rem + 4.3vw, 5rem)/1.04 var(--f-d); letter-spacing: -0.035em; text-wrap: balance; }
+.hero3-lead { margin: clamp(28px, 4vh, 40px) 0 0; max-width: 33em; font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem); color: var(--fg); }
+.hero3-svc { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: clamp(22px, 3vh, 30px) 0 0; padding: 0; list-style: none; font: 500 0.9375rem/1.4 var(--f-t); }
+.hero3-svc a { color: var(--fg-2); text-decoration: none; transition: color 0.25s var(--ease); }
+.hero3-svc a:hover, .hero3-svc a:focus-visible { color: var(--accent-text); }
+.hero3-act { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: clamp(28px, 4vh, 40px); }
+@media (max-width: 520px) { .hero3-act .btn { width: 100%; justify-content: center; } }
 
 /* ---------- device scene: a laptop and a phone, lit from one side ---------- */
 

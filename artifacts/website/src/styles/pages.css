@@ -206,3 +206,19 @@
   .svc-b { grid-column: 1 / -1; order: 3; }
   .svc-a { display: none; }
 }
+
+/* ---------- homepage: recent work ---------- */
+.rw-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+.rw-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 44px) clamp(20px, 2.4vw, 36px); margin: clamp(28px, 4vw, 52px) 0 0; padding: 0; list-style: none; }
+.rw-card { display: block; color: var(--fg); text-decoration: none; }
+.rw-img { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 14px; background: var(--bg-2); }
+.rw-img img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.7s var(--ease); }
+.rw-card:hover .rw-img img, .rw-card:focus-visible .rw-img img { transform: scale(1.035); }
+.rw-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding-top: 16px; }
+.rw-meta b { font: 600 clamp(1.125rem, 1rem + 0.5vw, 1.4rem)/1.2 var(--f-d); letter-spacing: -0.02em; }
+.rw-meta span { color: var(--fg-2); font-size: 0.9375rem; text-align: right; }
+@media (max-width: 720px) {
+  .rw-grid { grid-template-columns: 1fr; }
+  .rw-meta { flex-direction: column; gap: 2px; }
+  .rw-meta span { text-align: left; }
+}

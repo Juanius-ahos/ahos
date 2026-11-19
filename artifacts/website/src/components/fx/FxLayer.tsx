@@ -34,7 +34,7 @@ function profile(): Profile | null {
 /** Outer and inner fringes of the chrome streaks: AHOS orange outside, a deeper amber inside. */
 const ARC_TINT: [string, string] = ["#ff6a1a", "#ff8a3d"];
 
-export function FxLayer({ kind }: { kind: Kind }) {
+export function FxLayer({ kind, haze = 0.17 }: { kind: Kind; haze?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [prof, setProf] = useState<Profile | null>(null);
   const [mount, setMount] = useState(false);
@@ -64,7 +64,7 @@ export function FxLayer({ kind }: { kind: Kind }) {
           {kind === "arcs" ? (
             <Arcs tint={ARC_TINT} speed={prof.still ? 0 : 0.8} interactive={prof.interactive} pixelRatio={1.5} host=".fx-host" label="" />
           ) : (
-            <Glyph glowColor="#efe9df" shapeColor="#ff6a1a" fontSize={11} haze={0.17} interactive={prof.interactive} still={prof.still} pixelRatio={1.5} host=".fx-host" />
+            <Glyph glowColor="#efe9df" shapeColor="#ff6a1a" fontSize={11} haze={haze} interactive={prof.interactive} still={prof.still} pixelRatio={1.5} host=".fx-host" />
           )}
         </Suspense>
       )}
