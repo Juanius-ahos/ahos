@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Arrow } from "./Arrow";
 import { BASE, asset, site, money, type Project, type QA } from "../site.config";
 import { trackEvent } from "../lib/analytics";
+import { FxLayer } from "./fx/FxLayer";
 
 /* ---------- proof row ---------- */
 
@@ -195,7 +196,8 @@ export function useBeirut() {
 export function Close({ title = "Tell us what you're building.", where }: { title?: string; where: string }) {
   const clock = useBeirut();
   return (
-    <section className="sec close" aria-labelledby="close-title">
+    <section className="sec close grain fx-host fx-dark" aria-labelledby="close-title">
+      <FxLayer kind="arcs" />
       <div className="wrap">
         <h2 id="close-title" className="d d-6">{title}</h2>
         <p className="lead">

@@ -4,6 +4,7 @@ import { Arrow } from "./Arrow";
 import { Field, Kicker, Need, Testimonial } from "./kit";
 import { asset, money, process, projects, serviceBySlug, site, alsoBuilt, type Outcome } from "../site.config";
 import { trackEvent } from "../lib/analytics";
+import { FxLayer } from "./fx/FxLayer";
 
 /** Homepage sections that are bigger than a single kit component. */
 
@@ -128,7 +129,8 @@ const REELS: { src: string; poster: string; title: string; note: string; label: 
 export function Lab() {
   const ig = site.socials.find((s) => s.label === "Instagram");
   return (
-    <section id="lab" className="sec lab grain" aria-labelledby="lab-title">
+    <section id="lab" className="sec lab grain fx-host fx-dark" aria-labelledby="lab-title">
+      <FxLayer kind="glyph" />
       <div className="wrap">
         <header className="sh sh-split">
           <div>
