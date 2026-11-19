@@ -160,7 +160,7 @@
 
 .bg-host { position: relative; isolation: isolate; overflow: hidden; }
 .bg-host > .wrap { position: relative; z-index: 1; }
-.ph { padding: clamp(136px, 14vw, 212px) 0 clamp(64px, 8vw, 116px); border-bottom: 1px solid var(--rule); }
+.ph { padding: clamp(136px, 14vw, 212px) 0 clamp(64px, 8vw, 116px); }
 .ph h1 { margin-top: 28px; }
 .ph .lead { margin-top: 28px; }
 .hl { color: var(--accent-text); }
@@ -168,7 +168,7 @@
 
 /* ---------- the services band: the real Marquee, set in our display face ---------- */
 
-.mq { border-block: 1px solid var(--rule); padding-block: clamp(18px, 2.4vw, 30px); content-visibility: auto; contain-intrinsic-size: auto 120px; }
+.mq { padding-block: clamp(18px, 2.4vw, 30px); content-visibility: auto; contain-intrinsic-size: auto 120px; }
 .mq-w { display: inline-flex; align-items: center; gap: clamp(28px, 3.4vw, 56px); white-space: nowrap; font: 600 clamp(2.2rem, 1.2rem + 3.6vw, 5rem)/1 var(--f-d); letter-spacing: -0.045em; color: var(--fg); }
 .mq-w.is-out { color: transparent; -webkit-text-stroke: 1.2px var(--fg-3); }
 .mq-w i { flex: none; width: 16px; height: 16px; background: var(--orange); clip-path: polygon(0 0, 70% 0, 100% 100%, 30% 100%); }

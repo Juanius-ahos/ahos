@@ -38,9 +38,27 @@
 /* While it runs, the sections let it through. On the dark theme the bands that stay dark are the page colour anyway,
    so they simply become see-through; on the light theme they stay solid and keep their own backdrops. The alternate
    sections keep a tint so the rhythm of the page stays. Cards and forms keep their own surface. */
-html.has-glyph:not([data-theme="light"]) .fx-dark:not(.hero3),
-html.has-glyph:not([data-theme="light"]) .where { background-color: transparent; }
-html.has-glyph .alt:not(.fx-dark), html.has-glyph .svc-sec:not(.fx-dark) { background-color: color-mix(in srgb, var(--bg-2) 62%, transparent); }
+/* ---------- seams: nothing on this page ends in a hard edge ---------- */
+/* Backdrops dissolve at their top and bottom, bands fade in and out of the page colour, and the page itself carries
+   one soft glow down its whole length (see body in app.css), so each section is a place in one scene, not a block. */
+:root { --seam: clamp(56px, 7vw, 112px); --seam-mask: linear-gradient(180deg, transparent 0, #000 24%, #000 76%, transparent 100%); }
+.bd, .fx-layer { -webkit-mask-image: var(--seam-mask); mask-image: var(--seam-mask); }
+.bd .fx-layer { -webkit-mask-image: none; mask-image: none; }
+.fx-dark:first-child > .bd { -webkit-mask-image: linear-gradient(180deg, #000 0, #000 76%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 76%, transparent 100%); }
+.foot > .bd { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 32%); mask-image: linear-gradient(180deg, transparent 0, #000 32%); }
+@media (min-width: 1100px) { .fx-arcs { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 26%), var(--seam-mask); mask-image: linear-gradient(90deg, transparent 0, #000 26%), var(--seam-mask); -webkit-mask-composite: source-in; mask-composite: intersect; } }
+/* the bands that stay dark in both themes: on the dark theme they are the page colour, so they let the page show through */
+html:not([data-theme="light"]) .fx-dark { background-color: transparent; }
+html:not([data-theme="light"]) .where { background-color: transparent; }
+/* the hero owns the global glyph layer's place on the first screen; it fades into the page at its foot */
+html.has-glyph:not([data-theme="light"]) .hero3 { background: linear-gradient(180deg, var(--bg) calc(100% - var(--seam)), transparent 100%); }
+/* on the light theme they are dark bands in a light page: fade them in and out instead of cutting */
+:root[data-theme="light"] .fx-dark { background: linear-gradient(180deg, transparent 0, var(--bg) var(--seam), var(--bg) calc(100% - var(--seam)), transparent 100%); }
+:root[data-theme="light"] .fx-dark:first-child { background: linear-gradient(180deg, var(--bg) calc(100% - var(--seam)), transparent 100%); }
+:root[data-theme="light"] .close.fx-dark { background: linear-gradient(180deg, transparent 0, var(--bg) var(--seam)); }
+:root[data-theme="light"] .foot.fx-dark { background: var(--bg); }
+/* alternate sections are a tone that rises out of the page and sinks back into it */
+.alt:not(.fx-dark), .svc-sec:not(.fx-dark) { background: linear-gradient(180deg, transparent 0, color-mix(in srgb, var(--bg-2) 86%, transparent) var(--seam), color-mix(in srgb, var(--bg-2) 86%, transparent) calc(100% - var(--seam)), transparent 100%); }
 /* the footer's own glyph layer is for the light theme, where the footer is a dark band; on the dark theme the page layer covers it */
 html.has-glyph:not([data-theme="light"]) .foot .fx-layer { display: none; }
 
@@ -60,7 +78,7 @@ html.has-glyph:not([data-theme="light"]) .foot .fx-layer { display: none; }
 
 /* ---------- where we work: the globe ---------- */
 
-.where { background: var(--bg); border-top: 1px solid var(--rule); content-visibility: auto; contain-intrinsic-size: auto 760px; }
+.where { background: var(--bg); content-visibility: auto; contain-intrinsic-size: auto 760px; }
 .where-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px 5vw; align-items: center; }
 .where-copy .d { margin-top: 22px; }
 .where-copy .lead { margin-top: 22px; max-width: 32em; }

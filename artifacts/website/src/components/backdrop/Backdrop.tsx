@@ -47,7 +47,7 @@ export function Backdrop({ kind = "aurora" }: { kind?: BackdropKind }) {
   const desktop = useDesktop();
   const ready = useAfterLoad() && desktop;
   return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div className="bd pointer-events-none absolute inset-0" aria-hidden="true">
       <Aurora className="absolute inset-0" colors={[ORANGE, "#ffb27a", "#8a3208"]} intensity={kind === "aurora" ? 0.5 : 0.24} duration={24} />
       {kind === "arcs" && <FxLayer kind="arcs" />}
       {kind === "glyph" && <FxLayer kind="glyph" />}
