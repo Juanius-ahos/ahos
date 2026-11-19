@@ -18,7 +18,7 @@ export default function FreeCheckPage() {
         crumbs={[{ name: "Home", href: "/" }, { name: "Free website check" }]}
         title={<>A free website check, <Hl>by a person</Hl>.</>}
         lead="Send us your website or Instagram link and we will tell you the 3 things costing you customers. No email form, no account, no strings."
-        bg="arcs"
+        bg="ascii" shape="eclipse"
       />
       <Defer>
         <section className="sec" aria-label="How it works">

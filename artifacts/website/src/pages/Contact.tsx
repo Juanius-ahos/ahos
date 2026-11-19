@@ -43,7 +43,7 @@ export default function Contact() {
 
   return (
     <section className="ph fx-dark bg-host fx-host" aria-labelledby="ct-title">
-      <Backdrop kind="arcs" />
+      <Backdrop kind="ascii" shape="eclipse" />
       <div className="wrap" style={{ position: "relative" }}>
         <Crumbs items={[{ name: "Home", href: "/" }, { name: "Contact" }]} />
         <div className="contact-grid">

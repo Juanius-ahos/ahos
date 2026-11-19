@@ -16,7 +16,7 @@ export default function Services() {
         title={<>Everything we design and <Hl>build</Hl>.</>}
         lead="Seven kinds of work, one team. Pick the closest match; the 30-minute call sorts out the rest."
         proof
-        bg="glyph"
+        bg="ascii" shape="eclipse"
       >
         <Link href="/contact" className="btn" data-magnetic>Book a 30-minute call <Arrow /></Link>
         <Link href="/pricing" className="btn btn-ghost">See pricing</Link>

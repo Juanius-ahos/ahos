@@ -12,7 +12,7 @@ import { services, site } from "../../site.config";
 export function Hero() {
   return (
     <section className="hero3 bg-host fx-host fx-dark" aria-labelledby="hero-title">
-      <Backdrop kind="glyph" strong />
+      <Backdrop kind="glyph" strong art="eclipse" />
       <div className="wrap">
         <h1 id="hero-title" className="hero3-h1">One team designs and builds your website, store, app or AI.</h1>
         <p className="lead hero3-lead">AHOS is a design and engineering studio in Beirut, working with businesses in {site.areasLine}. A fixed quote in writing, and you own what we build.</p>

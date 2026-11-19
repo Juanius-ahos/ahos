@@ -4,6 +4,7 @@ import { Arrow } from "./Arrow";
 import { Magnetic } from "@/components/corsair/magnetic";
 import { NumberTicker } from "@/components/corsair/number-ticker";
 import { RollText } from "@/components/corsair/roll-text";
+import { ScrambleText } from "@/components/corsair/scramble-text";
 import { Need, Shot, WhatsAppIcon } from "./ui";
 
 export { Need };
@@ -59,8 +60,9 @@ export function WhatsAppCta({ where, size = "md", children = "Message us on What
 
 /* ---------- Labels and headers ---------- */
 
+/** The small label above a heading. A plain-text label decodes out of ASCII noise as it scrolls into view (the real ScrambleText from Corsair UI); the text is real either way. */
 export function Kicker({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <span className={`kicker ${className}`}>{children}</span>;
+  return <span className={`kicker ${className}`}>{typeof children === "string" ? <ScrambleText trigger="in-view" speed={28} characters=".:-=+*#%@/<>01" className="font-[inherit] tracking-[inherit]">{children}</ScrambleText> : children}</span>;
 }
 
 export function SectionHeader({ id, kicker, title, lead, as: T = "h2", split = true }: { id?: string; kicker?: ReactNode; title: ReactNode; lead?: ReactNode; as?: "h1" | "h2"; split?: boolean }) {

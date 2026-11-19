@@ -1,67 +1,35 @@
-import { lazy, Suspense, useEffect, useState } from "react";
 import { Aurora } from "@/components/corsair/aurora";
 import { Grain } from "@/components/corsair/grain";
-import { Particles } from "@/components/corsair/particles";
 import { FxLayer } from "@/components/fx/FxLayer";
+import { RbLayer } from "@/components/fx/RbLayer";
+import type { GradientASCIIShape } from "@/components/rb/GradientASCII";
 
 /**
- * The background behind a page header or a section. Every kind is a real component from Corsair UI
- * (https://21st.dev/@kevingirelli, MIT), used as published; this file only chooses one and sets the
- * AHOS colours. Aurora is always underneath as a soft glow. The three WebGL2 kinds (light rays, warp
- * gradient, topography) and the particles run only on a wide screen with a mouse, load as separate
- * chunks and start once the page has finished loading, so they never compete with the first paint and
- * never run down a phone. Phones keep the Aurora glow, held still (see pages.css). Each pauses off screen and draws one still frame for
- * reduced motion, and falls back to plain CSS where WebGL2 is missing (their own behaviour).
+ * The background behind a page header or a section. One family, in the AHOS colours (black, orange, cream):
+ *   glyph   a field of characters that drifts and answers the mouse (Animate UI, from 21st.dev): the footer and the first screen;
+ *   ascii   an orange gradient drawn in characters, in four shapes (React Bits, free): page headers;
+ *   letters a field of glitching letters (React Bits, free): the technical pages;
+ *   arcs    the chrome streaks (Chrome Arcs, from 21st.dev): the closing call to action;
+ *   aurora  only a quiet CSS glow, which is also what a phone gets for every kind.
+ * Under every kind sits the Aurora glow and the grain. The WebGL kinds run only on a wide screen with a mouse, load
+ * as separate chunks and start when the section is near, so they never compete with the first paint and never run
+ * down a phone. Each fades out at its top and bottom (see "seams" in styles/fx.css), so no section ends in a hard edge.
  */
-const LightRays = lazy(() => import("@/components/corsair/light-rays").then((m) => ({ default: m.LightRays })));
-const WarpGradient = lazy(() => import("@/components/corsair/warp-gradient").then((m) => ({ default: m.WarpGradient })));
-const Topography = lazy(() => import("@/components/corsair/topography").then((m) => ({ default: m.Topography })));
-
-/** "arcs" (Chrome Arcs) and "glyph" (the glyph field) are the two components the site owner chose from 21st.dev. */
-export type BackdropKind = "aurora" | "rays" | "warp" | "topography" | "particles" | "arcs" | "glyph";
+export type BackdropKind = "aurora" | "glyph" | "ascii" | "letters" | "arcs";
+export type { GradientASCIIShape };
 
 const ORANGE = "#ff6a1a";
 
-/** True once the page has loaded and a moment has passed. */
-function useAfterLoad(ms = 1600) {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    let t = 0;
-    const start = () => { t = window.setTimeout(() => setReady(true), ms); };
-    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
-    return () => { window.clearTimeout(t); window.removeEventListener("load", start); };
-  }, [ms]);
-  return ready;
-}
-
-/** A wide screen, a mouse and enough cores: the only place the shader backgrounds run. */
-function useDesktop() {
-  const [yes, setYes] = useState(false);
-  useEffect(() => {
-    setYes(window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches && (navigator.hardwareConcurrency || 4) >= 4);
-  }, []);
-  return yes;
-}
-
-/** `strong` is for a first screen that has no picture: the glyph field carries it, so the field is clearer and the orange glow quieter. */
-export function Backdrop({ kind = "aurora", strong = false }: { kind?: BackdropKind; strong?: boolean }) {
-  const desktop = useDesktop();
-  const ready = useAfterLoad() && desktop;
+/** `strong` is for a first screen that has no picture: the glyph field carries it, so the field is clearer and the orange glow quieter. `art` adds the ASCII eclipse on top of another kind, as on the first screen. */
+export function Backdrop({ kind = "aurora", shape = "eclipse", strong = false, art }: { kind?: BackdropKind; shape?: GradientASCIIShape; strong?: boolean; art?: GradientASCIIShape }) {
   return (
     <div className="bd pointer-events-none absolute inset-0" aria-hidden="true">
       <Aurora className="absolute inset-0" colors={[ORANGE, "#ffb27a", "#8a3208"]} intensity={kind === "aurora" ? 0.5 : strong ? 0.1 : 0.24} duration={24} />
       {kind === "arcs" && <FxLayer kind="arcs" />}
       {kind === "glyph" && <FxLayer kind="glyph" haze={strong ? 0.34 : undefined} />}
-      {desktop && kind === "particles" && <Particles count={56} className="text-primary/80" />}
-      {ready && kind === "rays" && (
-        <Suspense fallback={null}><LightRays colors={[ORANGE, "#ffd9b8"]} /></Suspense>
-      )}
-      {ready && kind === "warp" && (
-        <Suspense fallback={null}><WarpGradient preset="tide" colors={["#0a0a0b", "#22100a", "#6b2a0a"]} grain={0.2} /></Suspense>
-      )}
-      {ready && kind === "topography" && (
-        <Suspense fallback={null}><Topography color={ORANGE} density={0.55} opacity={0.32} pointer /></Suspense>
-      )}
+      {kind === "ascii" && <RbLayer kind="ascii" shape={shape} />}
+      {kind === "letters" && <RbLayer kind="letters" />}
+      {art && kind !== "ascii" && <RbLayer kind="ascii" shape={art} />}
       <Grain opacity={0.1} />
     </div>
   );

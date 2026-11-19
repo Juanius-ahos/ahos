@@ -16,7 +16,7 @@ export default function AriaAI() {
         crumbs={[{ name: "Home", href: "/" }, { name: "ARIA" }]}
         title="ARIA, our AI project advisor."
         lead="We designed and built ARIA to do what we do on a first call: understand what you want to make, and point you at the right next step. Try it."
-        bg="topography"
+        bg="letters"
       />
       <section className="sec" aria-label="Chat with ARIA">
         <div className="wrap">

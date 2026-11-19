@@ -112,8 +112,6 @@
 
 .cs-hero { position: relative; overflow: hidden; }
 .cs-hero > .wrap { position: relative; z-index: 1; }
-.cs-amb { position: absolute; inset: -12%; z-index: 0; background-size: cover; background-position: center; filter: blur(64px) saturate(1.5); opacity: 0.42; transform: scale(1.1); pointer-events: none; }
-.cs-hero::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(180deg, rgba(10, 10, 11, 0.35), rgba(10, 10, 11, 0.55) 55%, rgba(10, 10, 11, 0.92)); }
 .cs-hero .ph-bg { z-index: 0; }
 .cs-name { color: var(--orange); }
 .cs-facts li b { font-family: var(--f-m); color: var(--orange); }

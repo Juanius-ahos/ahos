@@ -14,8 +14,7 @@ export default function CaseStudy({ c }: { c: CS }) {
   return (
     <>
       <header className="cs-hero fx-dark bg-host fx-host">
-        {p.shot && <div className="cs-amb" aria-hidden="true" style={{ backgroundImage: `url(${asset(`/work/h-${p.shot}-640.webp`)})` }} />}
-        <Backdrop kind="aurora" />
+        <Backdrop kind="ascii" shape="eclipse" />
         <div className="wrap">
           <Crumbs items={[{ name: "Home", href: "/" }, { name: "Work", href: "/work" }, { name: p.name }]} />
           <p className="cs-name">{p.name}</p>

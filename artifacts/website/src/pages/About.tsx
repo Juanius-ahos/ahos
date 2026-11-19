@@ -24,7 +24,7 @@ export default function About() {
         crumbs={[{ name: "Home", href: "/" }, { name: "About" }]}
         title={<>Freelancers who became a <Hl>studio</Hl>.</>}
         lead={`We started as individual freelancers with day jobs. Today AHOS is a team of designers, engineers, AI engineers and animators that builds and ships together, for clients in ${site.areasLine}.`}
-        bg="arcs"
+        bg="ascii" shape="eclipse"
       >
         <Link href="/contact" className="btn" data-magnetic>Talk to us <Arrow /></Link>
         <Link href="/work" className="btn btn-ghost">See our work</Link>
