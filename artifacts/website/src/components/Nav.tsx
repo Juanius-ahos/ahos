@@ -36,12 +36,14 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [bar, setBar] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let last = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 24);
+      setBar(y > window.innerHeight * 0.7); // the phone bar waits until the first screen has had its own button
       if (Math.abs(y - last) > 8) { setHidden(y > last && y > 500); last = y; }
     };
     onScroll();
@@ -84,7 +86,7 @@ export function Nav() {
         </div>
       </header>
       {/* phones: WhatsApp is always one thumb away */}
-      <a href={site.contact.whatsappHello} className="wa-bar" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where: "mobile_bar" })}>
+      <a href={site.contact.whatsappHello} className={`wa-bar${bar ? " is-on" : ""}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("whatsapp_click", { where: "mobile_bar" })}>
         <WhatsAppIcon size={22} /> Message us on WhatsApp
       </a>
       <div id="menu" ref={sheetRef} className={`sheet${open ? " is-open" : ""}`} aria-hidden={!open}>

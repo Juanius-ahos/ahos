@@ -265,7 +265,9 @@ main { display: block; }
     position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 45;
     display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border-radius: 999px;
     background: #25d366; color: #052e16; font-weight: 700; box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+    visibility: hidden; transform: translateY(calc(100% + 24px)); transition: transform 0.4s var(--ease), visibility 0s 0.4s;
   }
+  .wa-bar.is-on { visibility: visible; transform: none; transition: transform 0.4s var(--ease); }
   body { padding-bottom: 78px; }
   .nav-cta { display: none; }
 }

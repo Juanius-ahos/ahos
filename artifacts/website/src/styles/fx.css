@@ -38,7 +38,7 @@
 /* While it runs, the sections let it through. On the dark theme the bands that stay dark are the page colour anyway,
    so they simply become see-through; on the light theme they stay solid and keep their own backdrops. The alternate
    sections keep a tint so the rhythm of the page stays. Cards and forms keep their own surface. */
-html.has-glyph:not([data-theme="light"]) .fx-dark,
+html.has-glyph:not([data-theme="light"]) .fx-dark:not(.hero3),
 html.has-glyph:not([data-theme="light"]) .where { background-color: transparent; }
 html.has-glyph .alt:not(.fx-dark), html.has-glyph .svc-sec:not(.fx-dark) { background-color: color-mix(in srgb, var(--bg-2) 62%, transparent); }
 /* the footer's own glyph layer is for the light theme, where the footer is a dark band; on the dark theme the page layer covers it */

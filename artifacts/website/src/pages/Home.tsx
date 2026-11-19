@@ -1,116 +1,32 @@
-import { Link } from "wouter";
-import { Arrow } from "../components/Arrow";
-import { Defer } from "../components/Defer";
-import { Backdrop } from "../components/backdrop/Backdrop";
-import { FeaturedWork } from "../components/home/FeaturedWork";
-import { HeroVisual } from "../components/home/HeroVisual";
-import { Close, FaqList, Hl, useBeirut } from "../components/ui";
-import { Button, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
-import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WhereWeWork, WorkMore } from "../components/sections";
-import { Marquee } from "../components/Marquee";
-import { caseStudies, clientReviews, homeFaq, outcomes, projectById, services, site } from "../site.config";
-
-/** The four case studies told in full on the homepage. The rest live on /work. */
-const FEATURED = ["oman-with-issam", "threads-activewear", "speealigner", "juls-auto-repair"];
+import { Hero } from "../components/home/Hero";
+import { WhatWeBuild } from "../components/home/WhatWeBuild";
+import { Close } from "../components/ui";
+import { ProofBar, SectionHeader } from "../components/kit";
+import { ProcessLine, Testimonials } from "../components/sections";
+import { caseStudies, clientReviews } from "../site.config";
 
 /**
- * Homepage. One job: get the right people to message us on WhatsApp.
- * Order: hero, proof, work as stories, services by outcome, how we work, the founder,
- * client words, the lab, the free check, answers, contact.
+ * Homepage. One job: say what we do, show it, and get the right people to message us.
+ * Five short screens: the hero with the work running under it, the proof, what we build with prices,
+ * how a project goes, what clients say, and the message box. Everything longer (the case studies, the
+ * founder, the lab, the free check, the questions) has its own page and is one click away.
  */
 export default function Home() {
-  const clock = useBeirut();
-  const featured = FEATURED.map((slug) => caseStudies.find((c) => c.slug === slug)!).filter((c) => c?.story);
-  const quotes = [...clientReviews, ...caseStudies.flatMap((c) => (c.quote ? [c.quote] : []))];
+  const quotes = [...clientReviews, ...caseStudies.flatMap((c) => (c.quote ? [c.quote] : []))].slice(0, 2);
 
   return (
     <>
-      {/* ---------- hero ---------- */}
-      <section className="hero2 bg-host fx-host fx-dark" aria-labelledby="hero-title">
-        <Backdrop kind="arcs" />
-        <div className="wrap hero2-grid">
-          <div className="hero2-copy">
-            <Kicker>Design and engineering studio in Beirut</Kicker>
-            <h1 id="hero-title" className="hero2-h1">Design that <Hl>sells</Hl>. Code that <Hl>holds</Hl>.</h1>
-            <p className="lead hero2-lead">Websites, online stores, bots and AI for businesses that want to look as good as they are.</p>
-            <div className="acts">
-              <WhatsAppCta where="hero" size="lg" />
-              <Button href="#work" variant="outline" size="lg" magnetic={false}>See our work</Button>
-            </div>
-            <p className="hero2-reply">
-              <span className={`dot${clock?.atDesk ? " on" : ""}`} aria-hidden="true" />
-              {clock ? (clock.atDesk ? `We're online (${clock.time} Beirut time). Expect a reply today.` : `It's ${clock.time} in Beirut. We reply first thing in the morning.`) : `A real person replies within ${site.contact.replyWithin}.`}
-            </p>
-          </div>
-          <div className="hero2-vis"><HeroVisual /></div>
-        </div>
-        <span className="scroll-cue" aria-hidden="true">Scroll</span>
-      </section>
-
-      {/* ---------- proof bar ---------- */}
+      <Hero />
       <div className="wrap"><ProofBar /></div>
-      <Marquee items={services.map((s) => s.label)} />
-
-      {/* ---------- selected work: one scrollytelling scene ---------- */}
-      <Defer><FeaturedWork items={featured.map((c) => ({ c, p: projectById(c.project) }))} /></Defer>
-      <Defer><WorkMore /></Defer>
-
-      {/* ---------- where we work ---------- */}
-      <Defer><WhereWeWork /></Defer>
-
-      {/* ---------- services by outcome ---------- */}
-      <Defer>
-      <section id="services" className="sec bg-host fx-host fx-dark" aria-labelledby="svc-title">
-        <Backdrop kind="glyph" />
+      <WhatWeBuild />
+      <section id="how" className="sec alt" aria-labelledby="how-title">
         <div className="wrap">
-          <SectionHeader id="svc-title" kicker="Services" title="What we build, and what it costs." lead="Every project gets a fixed quote in writing after a free call. These are the starting points." />
-          <div className="oc-grid">
-            {outcomes.map((o) => <OutcomeCard key={o.id} o={o} />)}
-          </div>
-          <p className="oc-more"><Link href="/services" className="lnk">See every service, with prices and what is included <Arrow /></Link></p>
-        </div>
-      </section>
-      </Defer>
-
-      {/* ---------- how we work ---------- */}
-      <Defer>
-      <section id="how" className="sec alt bg-host fx-host fx-dark" aria-labelledby="how-title">
-        <Backdrop kind="aurora" />
-        <div className="wrap">
-          <SectionHeader id="how-title" kicker="How we work" title="Five steps, the same every time." lead="From the first call to launch day you always know what happens next." />
+          <SectionHeader id="how-title" title="Five steps, the same every time." />
           <ProcessLine />
         </div>
       </section>
-      </Defer>
-
-      {/* ---------- the founder ---------- */}
-      <Defer><Founder /></Defer>
-
-      {/* ---------- testimonials ---------- */}
-      <Defer><Testimonials items={quotes} /></Defer>
-
-      {/* ---------- the lab ---------- */}
-      <Defer><Lab /></Defer>
-
-      {/* ---------- free website check ---------- */}
-      <Defer><FreeCheck where="home" /></Defer>
-
-      {/* ---------- faq ---------- */}
-      <Defer>
-      <section id="faq" className="sec" aria-labelledby="faq-title">
-        <div className="wrap qa-grid">
-          <header>
-            <Kicker>Answers</Kicker>
-            <h2 id="faq-title" className="d d-5" style={{ marginTop: 22 }}>Quick answers.</h2>
-            <Link href="/faq" className="lnk" style={{ marginTop: 20, display: "inline-flex" }}>All questions <Arrow /></Link>
-          </header>
-          <FaqList items={homeFaq} openFirst />
-        </div>
-      </section>
-      </Defer>
-
-      {/* ---------- final cta ---------- */}
-      <Defer><Close where="home" /></Defer>
+      <Testimonials items={quotes} />
+      <Close where="home" />
     </>
   );
 }
