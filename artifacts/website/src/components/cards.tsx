@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/corsair/reveal";
+import { Spotlight } from "@/components/corsair/spotlight";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
 import { Icon } from "./Icons";
@@ -9,7 +11,7 @@ import { money, type Service } from "../site.config";
  */
 export function ServiceCard({ s, no, wide = false, size = "full" }: { s: Service; no?: number; wide?: boolean; size?: "full" | "small" }) {
   return (
-    <article className={`cx spot${wide ? " is-wide" : ""}`}>
+    <Reveal asChild><Spotlight asChild color="var(--primary)" size={340}><article className={`cx${wide ? " is-wide" : ""}`}>
       <div className="cx-top">
         <span className="cx-ico"><Icon name={s.slug} /></span>
         {no !== undefined && <span className="cx-no" aria-hidden="true">{String(no).padStart(2, "0")}</span>}
@@ -22,14 +24,14 @@ export function ServiceCard({ s, no, wide = false, size = "full" }: { s: Service
         <div className="cx-time">{s.timeline} <Arrow className="cx-arrow" /></div>
       </div>
       <Link href={s.href} className="cx-link" aria-label={`${s.label}, from ${money(s.from)}`} />
-    </article>
+    </article></Spotlight></Reveal>
   );
 }
 
 /** A pricing card: the same data, led by the number. */
 export function PriceCard({ s }: { s: Service }) {
   return (
-    <article className="cx spot">
+    <Reveal asChild><Spotlight asChild color="var(--primary)" size={340}><article className="cx">
       <div className="cx-top">
         <span className="cx-ico"><Icon name={s.slug} /></span>
         <span className="cx-no">{s.timeline}</span>
@@ -43,6 +45,6 @@ export function PriceCard({ s }: { s: Service }) {
         <span className="cx-time"><Arrow className="cx-arrow" /></span>
       </div>
       <Link href={s.href} className="cx-link" aria-label={`${s.label}, from ${money(s.from)}`} />
-    </article>
+    </article></Spotlight></Reveal>
   );
 }

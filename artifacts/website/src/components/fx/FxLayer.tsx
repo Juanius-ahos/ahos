@@ -5,7 +5,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
  * with the class `fx-host`. It costs nothing until it matters:
  *   - the shader code is a separate chunk, fetched only when the section is within 300 px of the screen;
  *   - never on data-saver, never without WebGL (the CSS backdrop stays);
- *   - phones and weak devices (touch, or fewer than 4 cores) get one still frame, no loop;
+ *   - phones and weak devices (touch, or fewer than 4 cores) never start it at all;
  *   - reduced motion gets the still frame too (the components check it themselves).
  * The layer is decorative: hidden from assistive tech and from pointer events. The pointer is
  * tracked over the `.fx-host` section so the effect still reacts under the page content.
@@ -23,7 +23,9 @@ function profile(): Profile | null {
   if (nav.connection?.saveData) return null;
   const touch = window.matchMedia("(pointer: coarse)").matches;
   const weak = (navigator.hardwareConcurrency || 4) < 4;
-  return { still: touch || weak, interactive: !touch };
+  // Phones, tablets and weak devices get the plain CSS backdrop: even one still frame means compiling a shader.
+  if (touch || weak) return null;
+  return { still: false, interactive: true };
 }
 
 /** Outer and inner fringes of the chrome streaks: AHOS orange outside, a deeper amber inside. */

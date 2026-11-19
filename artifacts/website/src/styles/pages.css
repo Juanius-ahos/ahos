@@ -2,35 +2,7 @@
    Inner pages. Loaded after fx.css. Everything here is plain CSS, no script.
    ========================================================================== */
 
-/* ---------- page header: aurora, grid, outlined word ---------- */
-
-.ph { position: relative; overflow: hidden; padding: clamp(136px, 14vw, 212px) 0 clamp(64px, 8vw, 116px); border-bottom: 1px solid var(--rule); }
-.ph > .wrap { position: relative; z-index: 1; }
-.ph-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.ph-blob { position: absolute; border-radius: 50%; will-change: transform; animation: ph-drift 24s ease-in-out infinite alternate; }
-.ph-b1 { width: 72vmax; height: 72vmax; right: -24vmax; top: -38vmax; background: radial-gradient(circle, rgba(255, 106, 26, 0.34) 0%, rgba(255, 106, 26, 0.12) 36%, transparent 66%); }
-.ph-b2 { width: 58vmax; height: 58vmax; left: -30vmax; bottom: -50vmax; background: radial-gradient(circle, rgba(255, 150, 70, 0.17), transparent 62%); animation-duration: 30s; animation-delay: -9s; }
-.ph-b3 { width: 40vmax; height: 40vmax; right: 14vmax; bottom: -44vmax; background: radial-gradient(circle, rgba(239, 233, 223, 0.07), transparent 62%); animation-duration: 36s; animation-delay: -16s; }
-@keyframes ph-drift { to { transform: translate3d(-5vmax, 4vmax, 0) scale(1.1); } }
-.ph-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(239, 233, 223, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 233, 223, 0.055) 1px, transparent 1px); background-size: 72px 72px; -webkit-mask-image: radial-gradient(80% 90% at 74% 16%, #000 0%, transparent 72%); mask-image: radial-gradient(80% 90% at 74% 16%, #000 0%, transparent 72%); }
-.ph-word { position: absolute; right: -1vw; bottom: -0.12em; font: 700 clamp(8rem, 25vw, 27rem)/0.8 var(--f-d); letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1.5px rgba(239, 233, 223, 0.085); white-space: nowrap; user-select: none; }
-.ph-left .ph-b1 { right: auto; left: -24vmax; }
-.ph-left .ph-grid { -webkit-mask-image: radial-gradient(80% 90% at 26% 16%, #000 0%, transparent 72%); mask-image: radial-gradient(80% 90% at 26% 16%, #000 0%, transparent 72%); }
-.ph-left .ph-word { right: auto; left: -1vw; }
-.ph-center .ph-b1 { right: 50%; margin-right: -36vmax; }
-@media (prefers-reduced-motion: reduce) { .ph-blob { animation: none; } }
-.ph h1 { margin-top: 28px; }
-.ph .lead { margin-top: 28px; }
-.hl { color: var(--accent-text); }
-.ph-aside .shot, .ph-aside .specs { box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06); }
-
 /* ---------- shared card language ---------- */
-
-.spot { position: relative; isolation: isolate; }
-.spot::before, .spot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.4s var(--ease); }
-.spot::before { z-index: -1; background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 106, 26, 0.13), transparent 65%); }
-.spot::after { padding: 1px; background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 132, 68, 0.9), transparent 70%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
-@media (hover: hover) and (pointer: fine) { .spot:hover::before, .spot:hover::after { opacity: 1; } }
 
 .cx { display: flex; flex-direction: column; gap: 18px; padding: clamp(24px, 2.6vw, 36px); border-radius: 18px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--rule); transition: transform 0.45s var(--ease), box-shadow 0.45s; }
 .cx:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px var(--fg-3), 0 28px 70px -40px var(--glow); }
@@ -179,7 +151,41 @@
 .route-in { animation: route-in 0.55s var(--ease) both; }
 @keyframes route-in { from { opacity: 0; transform: translateY(14px); } }
 @media (prefers-reduced-motion: reduce) { .route-in { animation: none; } }
-.nav::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, var(--orange), #ffb27a); transform: scaleX(var(--sp, 0)); transform-origin: left; opacity: 0.9; pointer-events: none; }
 .nf-page > .wrap { position: relative; z-index: 1; }
 .nf-page .tags a { display: inline-block; }
 @media (max-width: 900px) { .wacc-shade { background: linear-gradient(180deg, rgba(10, 10, 11, 0) 20%, rgba(10, 10, 11, 0.78) 52%, rgba(10, 10, 11, 0.97) 100%); } }
+
+
+/* ---------- page header (the backgrounds are the real components in components/backdrop) ---------- */
+
+.bg-host { position: relative; isolation: isolate; overflow: hidden; }
+.bg-host > .wrap { position: relative; z-index: 1; }
+.ph { padding: clamp(136px, 14vw, 212px) 0 clamp(64px, 8vw, 116px); border-bottom: 1px solid var(--rule); }
+.ph h1 { margin-top: 28px; }
+.ph .lead { margin-top: 28px; }
+.hl { color: var(--accent-text); }
+.ph-aside .shot, .ph-aside .specs { box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06); }
+
+/* ---------- the services band: the real Marquee, set in our display face ---------- */
+
+.mq { border-block: 1px solid var(--rule); padding-block: clamp(18px, 2.4vw, 30px); content-visibility: auto; contain-intrinsic-size: auto 120px; }
+.mq-w { display: inline-flex; align-items: center; gap: clamp(28px, 3.4vw, 56px); white-space: nowrap; font: 600 clamp(2.2rem, 1.2rem + 3.6vw, 5rem)/1 var(--f-d); letter-spacing: -0.045em; color: var(--fg); }
+.mq-w.is-out { color: transparent; -webkit-text-stroke: 1.2px var(--fg-3); }
+.mq-w i { flex: none; width: 16px; height: 16px; background: var(--orange); clip-path: polygon(0 0, 70% 0, 100% 100%, 30% 100%); }
+
+/* the free-check form sits inside the animated border now: keep only its shadow */
+.check-form { box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.9); }
+
+/* ---------- phones and touch screens: the Aurora glow stays, held still ----------
+   The component's own animation is left alone on desktop; here it is simply not started. */
+@media (max-width: 1023px), (pointer: coarse) {
+  [data-slot="aurora-lights"] > span { animation: none !important; }
+}
+
+/* ---------- readable first ----------
+   Whatever is moving behind a page header, the words sit on a calm, dark area: a scrim from the left
+   (where the text is) fading out to the right (where the background shows), and a brighter lead. */
+.ph::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, rgba(10, 10, 11, 0.9) 0%, rgba(10, 10, 11, 0.72) 38%, rgba(10, 10, 11, 0.28) 72%, transparent 100%), linear-gradient(0deg, rgba(10, 10, 11, 0.55), transparent 35%); }
+.ph .lead { color: color-mix(in srgb, var(--fg) 84%, transparent); max-width: 34em; }
+.ph .crumbs { color: color-mix(in srgb, var(--fg) 60%, transparent); }
+@media (max-width: 900px) { .ph::after { background: linear-gradient(180deg, rgba(10, 10, 11, 0.7), rgba(10, 10, 11, 0.55) 60%, rgba(10, 10, 11, 0.85)); } }

@@ -1,7 +1,8 @@
+import { Defer } from "../components/Defer";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { Close, PageHeader } from "../components/ui";
+import { Close, PageHeader, Hl } from "../components/ui";
 import { CountUp } from "../components/kit";
 import { alsoBuilt, asset, projects, site } from "../site.config";
 
@@ -15,7 +16,7 @@ function WorkAccordion() {
     <ul className="wacc" role="list">
       {projects.map((p, i) => (
         <li key={p.id} className={`wacc-item${on === i ? " is-on" : ""}`} onMouseEnter={() => setOn(i)}>
-          <Link href={p.caseStudy} className="wacc-link" aria-label={`${p.name}, case study`} onFocus={() => setOn(i)}>
+          <Link href={p.caseStudy} className="wacc-link" onFocus={() => setOn(i)}>
             {p.shot ? (
               <span className="wacc-img">
                 <img
@@ -53,9 +54,9 @@ export default function Work() {
     <>
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "Work" }]}
-        title={<>Work you can <span className="hl">click</span>.</>}
+        title={<>Work you can <Hl>click</Hl>.</>}
         lead={`Six live products, each with the story of how it was made. More than 100 delivered since ${site.founded}; these are the ones our clients are happy for us to show.`}
-        word="Work"
+        bg="rays"
       />
       <section className="sec" aria-label="All case studies">
         <div className="wrap">
@@ -69,7 +70,9 @@ export default function Work() {
           <p className="more-note">Also built by us: {alsoBuilt.map((a) => <a key={a.name} className="lnk" href={a.href} target="_blank" rel="noopener noreferrer">{a.name}</a>)}.</p>
         </div>
       </section>
-      <Close where="work" />
+      <Defer>
+        <Close where="work" />
+      </Defer>
     </>
   );
 }

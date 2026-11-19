@@ -1,12 +1,12 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { PageBackdrop } from "../components/ui";
+import { Backdrop } from "../components/backdrop/Backdrop";
 import { services } from "../site.config";
 
 export default function NotFound() {
   return (
-    <section className="sec nf-page fx-dark grain">
-      <PageBackdrop />
+    <section className="sec nf-page fx-dark bg-host">
+      <Backdrop kind="particles" />
       <div className="wrap nf">
         <p className="nf-num" aria-hidden="true">404</p>
         <h1 className="d d-5">This page does not exist.</h1>

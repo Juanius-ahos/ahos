@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, type ReactNode } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
+import { ScrollProgress } from "@/components/corsair/scroll-progress";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
@@ -88,6 +89,7 @@ export default function App({ ssrPath }: { ssrPath?: string }) {
   return (
     <Router base={BASE} ssrPath={ssrPath ? `${BASE}${ssrPath}` : undefined}>
       <a href="#main" className="skip">Skip to content</a>
+      <ScrollProgress />
       <Nav />
       <main id="main">
         <RouteFade><Routes /></RouteFade>

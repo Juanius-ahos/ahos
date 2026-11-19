@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
 import { CountUp } from "../components/kit";
-import { Close, Crumbs, PageBackdrop, Phone, Quote, Shot, Specs } from "../components/ui";
+import { Backdrop } from "../components/backdrop/Backdrop";
+import { Close, Crumbs, Phone, Quote, Shot, Specs } from "../components/ui";
 import { asset, caseStudies, projectById, type CaseStudy as CS } from "../site.config";
 
 export default function CaseStudy({ c }: { c: CS }) {
@@ -12,9 +13,9 @@ export default function CaseStudy({ c }: { c: CS }) {
 
   return (
     <>
-      <header className="cs-hero fx-dark grain">
+      <header className="cs-hero fx-dark bg-host">
         {p.shot && <div className="cs-amb" aria-hidden="true" style={{ backgroundImage: `url(${asset(`/work/h-${p.shot}-640.webp`)})` }} />}
-        <PageBackdrop />
+        <Backdrop kind="aurora" />
         <div className="wrap">
           <Crumbs items={[{ name: "Home", href: "/" }, { name: "Work", href: "/work" }, { name: p.name }]} />
           <p className="cs-name">{p.name}</p>

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
 import { Lab } from "../components/sections";
-import { Close, PageHeader, WhatsAppIcon } from "../components/ui";
+import { Close, PageHeader, WhatsAppIcon, Hl } from "../components/ui";
 import { site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 
@@ -10,10 +10,9 @@ export default function LabPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "Lab" }]}
-        title={<>Motion and 3D, <span className="hl">made in house</span>.</>}
+        title={<>Motion and 3D, <Hl>made in house</Hl>.</>}
         lead="The reels we make for ourselves. Same team, same tools we use on your site."
-        word="Lab"
-        tone="left"
+        bg="warp"
       />
       <Lab bare />
       <section className="sec alt" aria-labelledby="lab-cta">

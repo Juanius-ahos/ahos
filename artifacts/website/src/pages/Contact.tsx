@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Crumbs, PageBackdrop, useBeirut } from "../components/ui";
+import { Backdrop } from "../components/backdrop/Backdrop";
+import { Crumbs, useBeirut } from "../components/ui";
 import { Arrow } from "../components/Arrow";
 import { services, site } from "../site.config";
 import { trackEvent } from "../lib/analytics";
@@ -41,8 +42,8 @@ export default function Contact() {
   }
 
   return (
-    <section className="ph fx-dark grain ph-left" aria-labelledby="ct-title">
-      <PageBackdrop word="Hello" />
+    <section className="ph fx-dark bg-host" aria-labelledby="ct-title">
+      <Backdrop kind="aurora" />
       <div className="wrap" style={{ position: "relative" }}>
         <Crumbs items={[{ name: "Home", href: "/" }, { name: "Contact" }]} />
         <div className="contact-grid">

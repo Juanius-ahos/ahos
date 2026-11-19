@@ -1,6 +1,8 @@
+import { Defer } from "../components/Defer";
+import { Spotlight } from "@/components/corsair/spotlight";
 import { Icon } from "../components/Icons";
 import { FreeCheck } from "../components/sections";
-import { Close, PageHeader } from "../components/ui";
+import { Close, PageHeader, Hl } from "../components/ui";
 import { site } from "../site.config";
 
 const STEPS = [
@@ -14,25 +16,31 @@ export default function FreeCheckPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "Free website check" }]}
-        title={<>A free website check, <span className="hl">by a person</span>.</>}
+        title={<>A free website check, <Hl>by a person</Hl>.</>}
         lead="Send us your website or Instagram link and we will tell you the 3 things costing you customers. No email form, no account, no strings."
-        word="Free"
+        bg="rays"
       />
-      <section className="sec" aria-label="How it works">
-        <div className="wrap">
-          <div className="fc-steps">
-            {STEPS.map((s, i) => (
-              <article key={s.name} className="cx spot">
-                <div className="cx-top"><span className="cx-ico"><Icon name={s.icon} /></span><span className="cx-no">{String(i + 1).padStart(2, "0")}</span></div>
-                <h3>{s.name}</h3>
-                <p className="cx-body">{s.body}</p>
-              </article>
-            ))}
+      <Defer>
+        <section className="sec" aria-label="How it works">
+          <div className="wrap">
+            <div className="fc-steps">
+              {STEPS.map((s, i) => (
+                <Spotlight asChild color="var(--primary)" size={340}><article key={s.name} className="cx">
+                  <div className="cx-top"><span className="cx-ico"><Icon name={s.icon} /></span><span className="cx-no">{String(i + 1).padStart(2, "0")}</span></div>
+                  <h3>{s.name}</h3>
+                  <p className="cx-body">{s.body}</p>
+                </article></Spotlight>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-      <FreeCheck where="free_check_page" />
-      <Close where="free_check" />
+        </section>
+      </Defer>
+      <Defer>
+        <FreeCheck where="free_check_page" />
+      </Defer>
+      <Defer>
+        <Close where="free_check" />
+      </Defer>
     </>
   );
 }

@@ -42,9 +42,14 @@ function start() {
   else window.addEventListener("load", go, { once: true });
 }
 
+/** True once the first page has been hydrated. A Defer that mounts after that (a client-side navigation) has no
+ *  server HTML to keep, so it shows its content at once instead of waiting for idle time. */
+let hydrated = false;
+if (typeof window !== "undefined") window.addEventListener("ahos:hydrated", () => { hydrated = true; }, { once: true });
+
 export function Defer({ children }: { children: ReactNode }) {
   const server = typeof window === "undefined";
-  const [active, setActive] = useState(server);
+  const [active, setActive] = useState(server || hydrated);
   const activate = useCallback(() => setActive(true), []);
 
   useEffect(() => {

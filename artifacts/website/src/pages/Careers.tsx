@@ -31,7 +31,7 @@ export default function Careers() {
 
   return (
     <>
-      <PageHeader crumbs={[{ name: "Home", href: "/" }, { name: "Careers" }]} title={careers.h1} lead={careers.lead} word="Join" tone="left">
+      <PageHeader crumbs={[{ name: "Home", href: "/" }, { name: "Careers" }]} title={careers.h1} lead={careers.lead} bg="particles">
         <a href="#apply" className="btn">Apply <Arrow dir="s" /></a>
       </PageHeader>
 

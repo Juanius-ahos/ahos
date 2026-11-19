@@ -1,7 +1,8 @@
+import { Defer } from "../components/Defer";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
-import { Close, FaqList, PageHeader } from "../components/ui";
+import { Close, FaqList, PageHeader, Hl } from "../components/ui";
 import { faqCategories } from "../site.config";
 
 export default function Faq() {
@@ -22,10 +23,9 @@ export default function Faq() {
     <>
       <PageHeader
         crumbs={[{ name: "Home", href: "/" }, { name: "FAQ" }]}
-        title={<>Straight <span className="hl">answers</span>.</>}
+        title={<>Straight <Hl>answers</Hl>.</>}
         lead="Timelines, prices, ownership and what happens after launch. If yours is not here, ask us; a person replies within 24 hours."
-        word="FAQ"
-        tone="left"
+        bg="aurora"
       >
         <Link href="/contact" className="btn">Ask us directly <Arrow /></Link>
       </PageHeader>
@@ -59,7 +59,9 @@ export default function Faq() {
           </div>
         </div>
       </section>
-      <Close where="faq" />
+      <Defer>
+        <Close where="faq" />
+      </Defer>
     </>
   );
 }

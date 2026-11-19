@@ -4,7 +4,8 @@ import { Defer } from "../components/Defer";
 import { Close, FaqList, useBeirut } from "../components/ui";
 import { Button, CaseStory, DeviceScene, Kicker, ProofBar, SectionHeader, WhatsAppCta } from "../components/kit";
 import { Founder, FreeCheck, Lab, OutcomeCard, ProcessLine, Testimonials, WhereWeWork, WorkMore } from "../components/sections";
-import { caseStudies, clientReviews, homeFaq, outcomes, projectById, site } from "../site.config";
+import { Marquee } from "../components/Marquee";
+import { caseStudies, clientReviews, homeFaq, outcomes, projectById, services, site } from "../site.config";
 
 /** The four case studies told in full on the homepage. The rest live on /work. */
 const FEATURED = ["oman-with-issam", "threads-activewear", "speealigner", "juls-auto-repair"];
@@ -44,6 +45,7 @@ export default function Home() {
 
       {/* ---------- proof bar ---------- */}
       <div className="wrap"><ProofBar /></div>
+      <Marquee items={services.map((s) => s.label)} />
 
       {/* ---------- selected work, as stories ---------- */}
       {featured.map((c, i) => (

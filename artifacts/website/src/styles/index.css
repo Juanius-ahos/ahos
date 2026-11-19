@@ -1,0 +1,83 @@
+/* ==========================================================================
+   One stylesheet. The site's own CSS keeps its place in the "site" layer, and Tailwind's utilities sit
+   above it, so the 21st.dev components (written with Tailwind classes) work as published.
+   Preflight (Tailwind's reset) is deliberately not imported, and Tailwind scans only the folder of
+   ported components, so nothing in the existing site changes.
+   ========================================================================== */
+
+@layer theme, site, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+
+@import "./app.css" layer(site);
+@import "./kit.css" layer(site);
+@import "./sections.css" layer(site);
+@import "./fx.css" layer(site);
+@import "./pages.css" layer(site);
+
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "../components/corsair";
+@source "../components/backdrop";
+
+/* The animation tokens and keyframes the components declare. */
+@import "./corsair.css";
+
+/* The colour names the components use (Corsair UI's own theme map), pointed at the AHOS tokens. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-field: var(--field);
+  --color-ring: var(--ring);
+  --radius-sm: max(0px, calc(var(--radius) - 4px));
+  --radius-md: max(0px, calc(var(--radius) - 2px));
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ... and their values: the AHOS tokens. They are set on :root and on every dark island, so the
+   components follow the light and dark themes and the always-dark sections. */
+@layer site {
+  :root, .fx-dark {
+    --radius: 0.75rem;
+    --background: var(--bg);
+    --foreground: var(--fg);
+    --card: var(--bg-2);
+    --card-foreground: var(--fg);
+    --popover: var(--bg-2);
+    --popover-foreground: var(--fg);
+    --primary: var(--orange);
+    --primary-foreground: var(--orange-ink);
+    --secondary: var(--bg-3);
+    --secondary-foreground: var(--fg);
+    --muted: var(--bg-3);
+    --muted-foreground: var(--fg-2);
+    --accent: var(--bg-3);
+    --accent-foreground: var(--fg);
+    --destructive: #ef4444;
+    --destructive-foreground: #0a0a0a;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --border: var(--rule);
+    --input: var(--rule);
+    --field: var(--bg-2);
+    --ring: var(--orange);
+  }
+}

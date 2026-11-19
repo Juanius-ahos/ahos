@@ -2,11 +2,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import { BASE, site } from "./site.config";
 import { retryPendingLeads } from "./lib/aria";
-import "./styles/app.css";
-import "./styles/kit.css";
-import "./styles/sections.css";
-import "./styles/fx.css";
-import "./styles/pages.css";
+import "./styles/index.css";
 
 const root = document.getElementById("root")!;
 const path = window.location.pathname.slice(BASE.length).replace(/\/+$/, "") || "/";
@@ -43,10 +39,6 @@ if (scripted) {
 // sections hydrated later (see Defer) get their motion hooks re-read
 window.addEventListener("ahos:refresh", () => { if (scripted) import("./motion/motion").then((m) => m.refreshMotion()).catch(() => {}); });
 import("./motion/magnetic").then((m) => m.startMagnetic()).catch(() => {});
-hydrated.then(() => later(() => {
-  import("./motion/spotlight").then((m) => m.startSpotlight()).catch(() => {});
-  import("./motion/reveal").then((m) => m.startReveal()).catch(() => {});
-}));
 
 // GA4 waits for the first interaction, or twelve seconds, whichever comes first.
 function loadGa() {

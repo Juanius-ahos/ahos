@@ -1,3 +1,5 @@
+import { AnimatedBorder } from "@/components/corsair/animated-border";
+import { Spotlight } from "@/components/corsair/spotlight";
 import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
@@ -13,7 +15,7 @@ import { FxLayer } from "./fx/FxLayer";
 export function OutcomeCard({ o }: { o: Outcome }) {
   const s = serviceBySlug(o.service)!;
   return (
-    <article className="oc">
+    <Spotlight asChild color="var(--primary)" size={340}><article className="oc">
       <h3 className="oc-n">{o.title}</h3>
       <p className="oc-b">{o.body}</p>
       <dl className="svc-f">
@@ -26,7 +28,7 @@ export function OutcomeCard({ o }: { o: Outcome }) {
       </div>
       {o.need && <p><Need>{o.need}</Need></p>}
       <Link href={s.href} className="lnk">Explore {s.label} <Arrow /></Link>
-    </article>
+    </article></Spotlight>
   );
 }
 
@@ -205,6 +207,7 @@ export function FreeCheck({ where = "home" }: { where?: string }) {
             <li>No email form and no account. Your message goes straight to us.</li>
           </ul>
         </div>
+        <AnimatedBorder className="rounded-[18px]" contentClassName="rounded-[17px]" duration={7}>
         <form className="check-form" onSubmit={submit} noValidate>
           <Field id="fc-name" label="Your name" placeholder="Jane Doe" autoComplete="name" value={v.name} onChange={set("name")} error={err.name} />
           <Field id="fc-link" label="Website or Instagram link" placeholder="https://yourbusiness.com or @yourbusiness" autoComplete="url" value={v.link} onChange={set("link")} error={err.link} />
@@ -213,6 +216,7 @@ export function FreeCheck({ where = "home" }: { where?: string }) {
           <button className="btn btn-lg" type="submit" data-magnetic="">Send it on WhatsApp <Arrow /></button>
           {url && <p className="check-done" role="status">WhatsApp should have opened with your message ready to send. If it did not, <a className="lnk" href={url} target="_blank" rel="noopener noreferrer">open it here</a>.</p>}
         </form>
+        </AnimatedBorder>
       </div>
     </section>
   );

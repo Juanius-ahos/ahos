@@ -4,6 +4,8 @@ import { Arrow } from "./Arrow";
 import { BASE, asset, site, money, type Project, type QA } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 import { FxLayer } from "./fx/FxLayer";
+import { Backdrop, type BackdropKind } from "./backdrop/Backdrop";
+import { HighlightText } from "@/components/corsair/highlight-text";
 
 /* ---------- proof row ---------- */
 
@@ -115,18 +117,18 @@ export function Crumbs({ items }: { items: { name: string; href?: string }[] }) 
 /* ---------- page header ---------- */
 
 /**
- * The header every inner page opens with. It is a dark band in both themes: a slow orange aurora, a
- * faint grid that fades out, grain, and (optionally) one huge outlined word behind the text. All of it
- * is CSS, so it costs no script and no WebGL. `word` is decorative; `tone` moves the glow.
+ * The header every inner page opens with: a dark band in both themes with a real background from
+ * Corsair UI behind it (see components/backdrop). The headline is plain text with no script, so
+ * inner pages do not load the animation library for it.
  */
-export function PageHeader({ crumbs, title, lead, children, aside, proof = false, word, tone = "right" }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; word?: string; tone?: "right" | "left" | "center" }) {
+export function PageHeader({ crumbs, title, lead, children, aside, proof = false, bg = "aurora" }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; bg?: BackdropKind }) {
   return (
-    <header className={`ph fx-dark grain ph-${tone}`}>
-      <PageBackdrop word={word} />
+    <header className="ph fx-dark bg-host">
+      <Backdrop kind={bg} />
       <div className={`wrap ph-in${aside ? "" : " solo"}`}>
         <div className="ph-main">
           <Crumbs items={crumbs} />
-          <h1 className="d d-6" data-split>{title}</h1>
+          <h1 className="d d-6">{title}</h1>
           {lead && <p className="lead">{lead}</p>}
           {children && <div className="acts">{children}</div>}
           {proof && <Proof />}
@@ -137,17 +139,9 @@ export function PageHeader({ crumbs, title, lead, children, aside, proof = false
   );
 }
 
-/** The aurora, grid and outlined word behind a page header. Decorative. */
-export function PageBackdrop({ word }: { word?: string }) {
-  return (
-    <div className="ph-bg" aria-hidden="true">
-      <i className="ph-blob ph-b1" />
-      <i className="ph-blob ph-b2" />
-      <i className="ph-blob ph-b3" />
-      <i className="ph-grid" />
-      {word && <b className="ph-word">{word}</b>}
-    </div>
-  );
+/** The accent word in a headline: orange, with a hand-drawn line drawn under it as it appears. */
+export function Hl({ children }: { children: ReactNode }) {
+  return <HighlightText variant="scribble" className="hl" markerClassName="text-primary" delay={350}>{children}</HighlightText>;
 }
 
 /* ---------- section head ---------- */

@@ -1,6 +1,7 @@
-import { Suspense, useCallback, useEffect, useRef, useState, type ChangeEvent, type ComponentType, type InputHTMLAttributes, type ReactNode } from "react";
+import { Suspense, useCallback, useEffect, useState, type ChangeEvent, type ComponentType, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "wouter";
 import { Arrow } from "./Arrow";
+import { NumberTicker } from "@/components/corsair/number-ticker";
 import { Need, Shot, WhatsAppIcon } from "./ui";
 
 export { Need };
@@ -74,40 +75,14 @@ export function Stat({ value, label, href }: { value: ReactNode; label: ReactNod
 }
 
 /**
- * A figure that counts up once, when it first scrolls into view. The real text is always in the
- * page (and is what assistive tech reads); the count is a visual layer on top, skipped for reduced motion.
+ * A figure that counts up when it scrolls into view. The count is the real NumberTicker from Corsair UI
+ * (https://21st.dev/@kevingirelli); this only splits a figure like "100+" or "30 days" into the number
+ * and the text after it.
  */
 export function CountUp({ text }: { text: string }) {
   const m = /^(\d+)(.*)$/.exec(text);
-  const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState<number | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!m || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const target = +m[1];
-    let raf = 0;
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      const t0 = performance.now();
-      const tick = (now: number) => {
-        const k = Math.min(1, (now - t0) / 1400);
-        setN(k < 1 ? Math.round(target * (1 - Math.pow(1 - k, 3))) : null);
-        if (k < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    }, { threshold: 0.7, rootMargin: "0px 0px -18% 0px" }); // counts once the figures are well inside the screen, not at its very edge
-    io.observe(el);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
   if (!m) return <>{text}</>;
-  return (
-    <span ref={ref} className="cu">
-      <span className="cu-final" style={n === null ? undefined : { opacity: 0 }}>{text}</span>
-      {n !== null && <span className="cu-live" aria-hidden="true">{n}{m[2]}</span>}
-    </span>
-  );
+  return <><NumberTicker value={+m[1]} trigger="in-view" once duration={1400} />{m[2]}</>;
 }
 
 export function ProofBar() {
