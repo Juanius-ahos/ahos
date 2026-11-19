@@ -198,3 +198,7 @@
    (the pinned stage and four stories) is skipped until it is near the screen. Sized to the real height so the page does not jump. */
 #work [data-slot="scroll-scene"] { content-visibility: auto; contain-intrinsic-size: auto 3200px; }
 @media (max-width: 1023px) { #work [data-slot="scroll-scene"] { contain-intrinsic-size: auto 4460px; } }
+
+/* The stories of the homepage scene get room above and below, so on a screen just wide enough to pin the stage
+   the last button of one story never touches the first line of the next. */
+#work [data-slot="scroll-scene-step"] { padding-block: clamp(2rem, 6vh, 4.5rem); }

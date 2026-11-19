@@ -17,6 +17,9 @@ const Glyph = lazy(() => import("./GlyphField"));
 type Kind = "arcs" | "glyph";
 type Profile = { still: boolean; interactive: boolean };
 
+/** True where the shader backgrounds may run: WebGL present, no data saver, a mouse and at least four cores. */
+export function canRunShaders() { return profile() !== null; }
+
 function profile(): Profile | null {
   if (typeof window === "undefined" || typeof window.WebGLRenderingContext === "undefined") return null;
   const nav = navigator as Navigator & { connection?: { saveData?: boolean } };

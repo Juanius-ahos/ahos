@@ -5,7 +5,9 @@
 //   - no Tailwind: sizing is inline or in styles/fx.css;
 //   - the glyphs are drawn in JetBrains Mono, the site's mono face;
 //   - `still` draws one frame and stops, for phones and weak devices;
-//   - `host` tracks the pointer over a named ancestor, because page content sits on top of the canvas.
+//   - `host` tracks the pointer over a named ancestor, because page content sits on top of the canvas;
+//     `host="window"` tracks it over the whole page, for the fixed site-wide layer;
+//   - `fps` caps the draw rate (the site-wide layer runs at 30).
 
 import * as React from "react";
 
@@ -148,6 +150,8 @@ export type GlyphFieldProps = Omit<React.ComponentProps<"div">, "ref"> & {
   pixelRatio?: number;
   /** CSS selector of an ancestor to track the pointer on, instead of this element. */
   host?: string;
+  /** Highest draw rate. Default: every frame the browser offers. */
+  fps?: number;
 };
 
 function compile(gl: WebGLRenderingContext, type: number, source: string) {
@@ -278,6 +282,7 @@ export function GlyphField({
   still = false,
   pixelRatio = 2,
   host,
+  fps,
   className,
   style,
   children,
@@ -464,15 +469,17 @@ export function GlyphField({
     if (!playing) return;
     let raf = 0;
     let last = performance.now();
+    const gap = fps ? 1000 / fps - 2 : 0;
     const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (now - last < gap) return;
       timeRef.current += Math.min(now - last, 64);
       last = now;
       drawRef.current(timeRef.current, true);
-      raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [playing]);
+  }, [playing, fps]);
 
   const move = (clientX: number, clientY: number) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -496,7 +503,7 @@ export function GlyphField({
   // Track the pointer over an ancestor (the page section) when one is named.
   React.useEffect(() => {
     if (!live || !host) return;
-    const el = containerRef.current?.closest<HTMLElement>(host);
+    const el: EventTarget | null | undefined = host === "window" ? window : containerRef.current?.closest<HTMLElement>(host);
     if (!el) return;
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "touch") move(e.clientX, e.clientY);
@@ -504,11 +511,11 @@ export function GlyphField({
     const onDown = (e: PointerEvent) => {
       if (e.pointerType !== "touch") press(e.clientX, e.clientY);
     };
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove as EventListener);
+    el.addEventListener("pointerdown", onDown as EventListener);
     return () => {
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove as EventListener);
+      el.removeEventListener("pointerdown", onDown as EventListener);
     };
   }, [live, host]);
 

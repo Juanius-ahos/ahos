@@ -3,6 +3,7 @@ import { Route, Router, Switch, useLocation } from "wouter";
 import { ScrollProgress } from "@/components/corsair/scroll-progress";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
+import { GlobalGlyph } from "./components/fx/GlobalGlyph";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
 import ServicePage from "./pages/Service";
@@ -89,6 +90,7 @@ export default function App({ ssrPath }: { ssrPath?: string }) {
   return (
     <Router base={BASE} ssrPath={ssrPath ? `${BASE}${ssrPath}` : undefined}>
       <a href="#main" className="skip">Skip to content</a>
+      <GlobalGlyph />
       <ScrollProgress />
       <Nav />
       <main id="main">
