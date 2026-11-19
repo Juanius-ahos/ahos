@@ -4,7 +4,7 @@ import { Arrow } from "./Arrow";
 import { BASE, asset, site, money, type Project, type QA } from "../site.config";
 import { trackEvent } from "../lib/analytics";
 import { FxLayer } from "./fx/FxLayer";
-import { Backdrop, type BackdropKind, type GradientASCIIShape } from "./backdrop/Backdrop";
+import { Backdrop, type BackdropKind } from "./backdrop/Backdrop";
 import { HighlightText } from "@/components/corsair/highlight-text";
 
 /* ---------- proof row ---------- */
@@ -77,10 +77,10 @@ export function Crumbs({ items }: { items: { name: string; href?: string }[] }) 
  * Corsair UI behind it (see components/backdrop). The headline is plain text with no script, so
  * inner pages do not load the animation library for it.
  */
-export function PageHeader({ crumbs, title, lead, children, aside, proof = false, bg = "ascii", shape }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; bg?: BackdropKind; shape?: GradientASCIIShape }) {
+export function PageHeader({ crumbs, title, lead, children, aside, proof = false, bg = "glyph" }: { crumbs: { name: string; href?: string }[]; title: ReactNode; lead?: ReactNode; children?: ReactNode; aside?: ReactNode; proof?: boolean; bg?: BackdropKind }) {
   return (
     <header className="ph fx-dark bg-host fx-host">
-      <Backdrop kind={bg} shape={shape} />
+      <Backdrop kind={bg} />
       <div className={`wrap ph-in${aside ? "" : " solo"}`}>
         <div className="ph-main">
           <Crumbs items={crumbs} />

@@ -6,7 +6,7 @@ import { services } from "../site.config";
 export default function NotFound() {
   return (
     <section className="sec nf-page fx-dark bg-host">
-      <Backdrop kind="letters" />
+      <Backdrop kind="glyph" />
       <div className="wrap nf">
         <p className="nf-num" aria-hidden="true">404</p>
         <h1 className="d d-5">This page does not exist.</h1>

@@ -6,22 +6,10 @@ import { Link } from "wouter";
 import { Arrow } from "../components/Arrow";
 import { Icon } from "../components/Icons";
 import { Mark } from "../components/Mark";
-import type { BackdropKind, GradientASCIIShape } from "../components/backdrop/Backdrop";
 import { ServiceCard } from "../components/cards";
 import { ProcessLine } from "../components/sections";
 import { Close, FaqList, Shot, Head, PageHeader, Quote, fromPrice } from "../components/ui";
 import { caseStudies, projectById, services, type Service } from "../site.config";
-
-/** Each service has its own face in the one ASCII family: a shape of the gradient, or the glitching letters for the technical ones. */
-const BG: Record<string, { bg: BackdropKind; shape?: GradientASCIIShape }> = {
-  "web-development": { bg: "ascii", shape: "eclipse" },
-  "ecommerce-development": { bg: "ascii", shape: "eclipse" },
-  "mobile-app-development": { bg: "ascii", shape: "eclipse" },
-  "custom-software": { bg: "letters" },
-  "ai-development": { bg: "letters" },
-  "ui-ux-design": { bg: "ascii", shape: "eclipse" },
-  web3: { bg: "letters" },
-};
 
 export default function ServicePage({ s }: { s: Service }) {
   const proof = s.proofProject ? projectById(s.proofProject) : undefined;
@@ -35,8 +23,7 @@ export default function ServicePage({ s }: { s: Service }) {
         title={s.h1}
         lead={s.lead}
         aside={proof ? <TiltScroll timeline="root" flatBelow="md"><Shot p={proof} eager sizes="(max-width: 900px) 92vw, 44vw" /></TiltScroll> : <div className="ph-mark"><Mark /></div>}
-        bg={BG[s.slug]?.bg}
-        shape={BG[s.slug]?.shape}
+        bg="glyph"
       >
         <Link href="/contact" className="btn" data-magnetic>Book a 30-minute call <Arrow /></Link>
         <span className="small"><b style={{ color: "var(--fg)" }}>{fromPrice(s.from)}</b>, {s.timeline.toLowerCase()}</span>

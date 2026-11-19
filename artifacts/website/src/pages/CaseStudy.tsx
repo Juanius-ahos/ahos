@@ -14,7 +14,7 @@ export default function CaseStudy({ c }: { c: CS }) {
   return (
     <>
       <header className="cs-hero fx-dark bg-host fx-host">
-        <Backdrop kind="ascii" shape="eclipse" />
+        <Backdrop kind="glyph" />
         <div className="wrap">
           <Crumbs items={[{ name: "Home", href: "/" }, { name: "Work", href: "/work" }, { name: p.name }]} />
           <p className="cs-name">{p.name}</p>

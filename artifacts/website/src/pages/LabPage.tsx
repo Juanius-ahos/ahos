@@ -12,7 +12,7 @@ export default function LabPage() {
         crumbs={[{ name: "Home", href: "/" }, { name: "Lab" }]}
         title={<>Motion and 3D, <Hl>made in house</Hl>.</>}
         lead="The reels we make for ourselves. Same team, same tools we use on your site."
-        bg="letters"
+        bg="glyph"
       />
       <Lab bare />
       <section className="sec alt" aria-labelledby="lab-cta">

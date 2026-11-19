@@ -15,7 +15,7 @@ export default function Pricing() {
         title={<>Start-from prices. <Hl>Fixed</Hl> quotes.</>}
         lead={pricing.promise}
         aside={<Specs rows={[["Lowest start", money(Math.min(...services.map((s) => s.from)))], ["Quote", "Fixed, in writing"], ["Payments", "Milestones"], ["First reply", `Within ${site.contact.replyWithin}`], ["After launch", site.warranty]]} />}
-        bg="ascii" shape="eclipse"
+        bg="glyph"
       >
         <Link href="/contact" className="btn" data-magnetic>Get your fixed quote <Arrow /></Link>
         <a href="#included" className="lnk">What every project includes</a>
